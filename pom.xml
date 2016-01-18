@@ -42,6 +42,12 @@
 			<artifactId>manerfan-common-utils-logger</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		
+		<dependency><!-- srpingbased -->
+			<groupId>com.manerfan.common.utils</groupId>
+			<artifactId>manerfan-common-utils-springbased</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
 		<dependency><!-- spring-core -->
 			<groupId>org.springframework</groupId>
