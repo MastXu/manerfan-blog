@@ -37,6 +37,11 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency><!-- logger -->
+			<groupId>com.manerfan.common.utils</groupId>
+			<artifactId>manerfan-common-utils-logger</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
 		<dependency><!-- spring-core -->
 			<groupId>org.springframework</groupId>
@@ -101,12 +106,28 @@
 
 		<!-- JSTL -->
 		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
+			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<!-- fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>blog</finalName>
+		<plugins>
+			<plugin><!-- 生成WAR包 -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<version>3.0</version>
+					<warName>blog</warName>
+					<warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory> <!-- This is where you place your JSP files. -->
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

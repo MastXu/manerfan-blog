@@ -1,4 +1,6 @@
 .project
 .classpath
 .settings
+.idea
 target
+src/main/webapp/view/plugins/
