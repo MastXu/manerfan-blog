@@ -33,8 +33,14 @@ public class CacheInterceptorHandler extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
+        if (null == modelAndView) {
+            return;
+        }
+        
         if (request.getParameterMap().containsKey("debug")) {
             // debug 模式
+            modelAndView.addObject("cache", false);
+        } else {
             modelAndView.addObject("cache", true);
         }
     }

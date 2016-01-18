@@ -9,7 +9,7 @@
 <html <c:if test="${cache}">manifest="cache.manifest"</c:if> >
 
     <head>
-        <title>Editor</title>
+        <title>Markdown 编辑器</title>
         <link rel="canonical" href="http://www.manerfan.com/">
         <link rel="icon" href="<c:url value="/view/images/editor/stackedit-32.ico" />" type="image/x-icon">
         <link rel="icon" sizes="192x192" href="<c:url value="/view/images/editor/logo-highres.png" />" >
@@ -25,13 +25,10 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="msvalidate.01" content="5E47EE6F67B069C17E3CDD418351A612">
         <script>
-            // 配置Require Config
-            // Use ?debug to serve original JavaScript files instead of minified
-            /*window.baseDir = 'view';
-            window.require = {
-                baseUrl: window.baseDir,
-                deps: ['js/main']
-            };*/
+            window.debug = false;
+            if (!/(\?|&)debug($|&)/.test(location.search)) {
+                window.debug = true;
+            }
         </script>
         <script src="<c:url value="/view/js/require.js" />"></script>
         <script src="<c:url value="/view/js/main.js" />"></script>
