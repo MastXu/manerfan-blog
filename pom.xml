@@ -42,12 +42,14 @@
 			<artifactId>manerfan-common-utils-logger</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		
+
 		<dependency><!-- srpingbased -->
 			<groupId>com.manerfan.common.utils</groupId>
 			<artifactId>manerfan-common-utils-springbased</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		
+		<!-- spring framework -->
 
 		<dependency><!-- spring-core -->
 			<groupId>org.springframework</groupId>
@@ -95,6 +97,7 @@
 		</dependency>
 
 		<!-- JSON -->
+		
 		<dependency><!-- jackson-core -->
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -121,6 +124,35 @@
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 		</dependency>
+
+		<!-- security -->
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
+		
+		<!-- jdbc -->
+		<dependency><!-- hibernatebased -->
+			<groupId>com.manerfan.common.utils</groupId>
+			<artifactId>manerfan-common-utils-hibernatebased</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
