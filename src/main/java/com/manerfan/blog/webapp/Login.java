@@ -15,32 +15,33 @@
  */
 package com.manerfan.blog.webapp;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * <pre>欢迎页</pre>
+ * <pre>登陆</pre>
  *
- * @author ManerFan 2016年1月18日
+ * @author ManerFan 2016年1月21日
  */
 @Controller
-@RequestMapping("/")
-public class Editor {
+@RequestMapping("/login")
+public class Login {
 
     @RequestMapping
-    public ModelAndView landing() {
-        return new ModelAndView("editor/landing");
-    }
+    public ModelAndView login(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView("login");
 
-    @RequestMapping("/editor")
-    public ModelAndView editor() {
-        return new ModelAndView("editor/editor");
-    }
-    
-    @RequestMapping("/viewer")
-    public ModelAndView viewer() {
-        return new ModelAndView("editor/viewer");
-    }
+        if (request.getParameterMap().containsKey("error")) {
+            mv.addObject("error", "用户名或密码错误");
+        }
 
+        if (request.getParameterMap().containsKey("logout")) {
+            mv.addObject("msg", "您已成功退出系统");
+        }
+
+        return mv;
+    }
 }

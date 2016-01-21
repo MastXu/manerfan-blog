@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/security
+      http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- 目前角色分 ADMIN USER ANONYMOUS 三种 -->
+
+    <http security="none" pattern="/" />
+    <http security="none" pattern="/*.manifest" />
+    <http security="none" pattern="/login" />
+    <http security="none" pattern="/view/**" />
+    
+	<http auto-config="true">
+		<!-- 登陆
+		  login-page                  登陆地址
+		  login-processing-url        验证地址，默认/j-spring-security-check
+		  username-parameter          用户名参数
+		  password-parameter          密码参数
+		  default-target-url          登陆后默认跳转的页面
+		  authentication-failure-url  登陆失败后跳转的页面
+		 -->
+        <form-login login-page="/login"
+         login-processing-url="/login-check" 
+         username-parameter="username"
+         password-parameter="password"
+         default-target-url="/"
+         authentication-failure-url="/login?error" />
+         
+        <!-- 登出 -->
+        <logout logout-url="/logout" logout-success-url="/login?logout" />
+         
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		
+		<csrf disabled="true"/> <!-- 搞不定csrf，先禁用 -->
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>

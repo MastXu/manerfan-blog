@@ -26,7 +26,7 @@
         <meta name="msvalidate.01" content="5E47EE6F67B069C17E3CDD418351A612">
         <script>
             window.debug = false;
-            if (!/(\?|&)debug($|&)/.test(location.search)) {
+            if (/(\?|&)debug($|&)/.test(location.search)) {
                 window.debug = true;
             }
         </script>

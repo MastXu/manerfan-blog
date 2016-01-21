@@ -22,9 +22,9 @@ catch (e) {
 /*window.viewerMode = /(^| )viewer($| )/.test(document.body.className);*/
 
 // Keep the theme in a global variable
-var themeModule = "less!style/editor/themes/default";
+var themeModule = "css!style/themes/default";
 if (!!window.debug) {
-    themeModule = "css!style/editor/default";
+    themeModule = "less!style/themes/default";
 }
 
 // RequireJS entry point. By requiring synchronizer, publisher, sharing and

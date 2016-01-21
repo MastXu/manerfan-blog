@@ -39,10 +39,10 @@ requirejs.config({
      * 如果仍然没有找到，那么requirejs会报错。
      */
     paths: {
-        jquery: 'plugins/jquery/jquery',
+        jquery: 'plugins/jquery/dist/jquery',
         underscore: 'plugins/underscore/underscore',
         crel: 'plugins/crel/crel',
-        jgrowl: 'plugins/jgrowl/jquery.jgrowl',
+        jgrowl: 'plugins/jGrowl/jquery.jgrowl',
         mousetrap: 'plugins/mousetrap/mousetrap',
         'mousetrap-record': 'plugins/mousetrap/plugins/record/mousetrap-record',
         toMarkdown: 'plugins/to-markdown/src/to-markdown',
@@ -96,6 +96,10 @@ requirejs.config({
         waitForImages: 'plugins/waitForImages/dist/jquery.waitforimages',
         MathJax: 'plugins/MathJax/MathJax',
         alertify: 'plugins/alertify.js/lib/alertify'
+        
+        /* 以下为自定义 */
+        
+        
     },
 
     /**

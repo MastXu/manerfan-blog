@@ -20,8 +20,8 @@
     <meta name="author" content="ManerFan">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="msvalidate.01" content="5E47EE6F67B069C17E3CDD418351A612">
-    <link rel="stylesheet" href="<c:url value="/view/style/editor/default.css" />" >
-    <script src="<c:url value="/view/plugins/jquery/jquery.min.js" />"></script>
+    <link rel="stylesheet" href="<c:url value="/view/style/themes/default.css" />" >
+    <script src="<c:url value="/view/plugins/jquery/dist/jquery.min.js" />"></script>
     <style>
         body {
             font-size: 18px;

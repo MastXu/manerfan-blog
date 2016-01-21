@@ -8,21 +8,26 @@ viewer
 # start_inject_resources
 view/js/main.js
 view/js/require.js
-view/style/font/cursive_standard-webfont.woff
-view/style/font/fontello.svg
-view/style/font/fontello.woff
-view/style/font/PTSans-Bold-webfont.woff
-view/style/font/PTSans-BoldItalic-webfont.woff
-view/style/font/PTSans-Italic-webfont.woff
-view/style/font/PTSans-Regular-webfont.woff
-view/style/font/SourceCodePro-Bold-webfont.woff
-view/style/font/SourceCodePro-Regular-webfont.woff
-view/style/font/SourceSansPro-Bold-webfont.woff
-view/style/font/SourceSansPro-BoldItalic-webfont.woff
-view/style/font/SourceSansPro-Italic-webfont.woff
-view/style/font/SourceSansPro-Light-webfont.woff
-view/style/font/SourceSansPro-LightItalic-webfont.woff
-view/style/font/SourceSansPro-Regular-webfont.woff
+view/style/fonts/cursive_standard-webfont.woff
+view/style/fonts/fontello.svg
+view/style/fonts/fontello.woff
+view/style/fonts/PTSans-Bold-webfont.woff
+view/style/fonts/PTSans-BoldItalic-webfont.woff
+view/style/fonts/PTSans-Italic-webfont.woff
+view/style/fonts/PTSans-Regular-webfont.woff
+view/style/fonts/SourceCodePro-Bold-webfont.woff
+view/style/fonts/SourceCodePro-Regular-webfont.woff
+view/style/fonts/SourceSansPro-Bold-webfont.woff
+view/style/fonts/SourceSansPro-BoldItalic-webfont.woff
+view/style/fonts/SourceSansPro-Italic-webfont.woff
+view/style/fonts/SourceSansPro-Light-webfont.woff
+view/style/fonts/SourceSansPro-LightItalic-webfont.woff
+view/style/fonts/SourceSansPro-Regular-webfont.woff
+view/style/fonts/glyphicons-halflings-regular.eot
+view/style/fonts/glyphicons-halflings-regular.svg
+view/style/fonts/glyphicons-halflings-regular.ttf
+view/style/fonts/glyphicons-halflings-regular.woff
+view/style/fonts/glyphicons-halflings-regular.woff2
 view/images/editor/button.svg
 view/images/editor/code-block.png
 view/images/editor/comments.png
@@ -42,7 +47,7 @@ view/images/editor/publish.png
 view/images/editor/stackedit-32.ico
 view/images/editor/syntax-highlighting.gif
 view/images/editor/toc.gif
-view/style/editor/default.css
+view/style/themes/default.css
 # end_inject_resources
 
 # start_inject_mathjax
