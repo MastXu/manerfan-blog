@@ -1,7 +1,19 @@
 {
-  "name": "manerfan-blog",
-  "version": "1.0.0",
-  "description": "StackEdit is a free, open-source Markdown editor based on PageDown, the Markdown library used by Stack Overflow and the other Stack Exchange sites.",
+  "name": "ManerFan",
+  "homepage": "https://github.com/ManerFan/manerfan-blog",
+  "authors": [
+    "ManerFan <manerfan@foxmail.com>"
+  ],
+  "description": "ManerFan-Blog",
+  "main": [
+    "/src/main/webapp/view/js/main.js",
+    "/src/main/webapp/view/style/styles/jquery.jgrowl.css"
+  ],
+  "moduleType": [],
+  "keywords": [
+    "blog"
+  ],
+  "license": "Apache Licence 2.0",
   "dependencies": {
     "bootstrap": "~3.3.6",
     "jquery": "~2.2.0",
@@ -35,9 +47,5 @@
     "MathJax": "~2.5.0",
     "alertify.js": "https://github.com/fabien-d/alertify.js.git#fc2e06fa39873363dda199204b8544119ab060bf",
     "jGrowl": "jgrowl#~1.4.3"
-  },
-  "main": [
-    "/public/res/main.js",
-    "/public/res/styles/jquery.jgrowl.css"
-  ]
+  }
 }

@@ -27,6 +27,13 @@ require([
     "jquery",
     themeModule
 ], function ($) {
+	$(".bg img").load(function() {
+		$(this).fadeIn("slow");
+	});
+	$(".bg img").attr("src", "http://imglf1.nosdn.127.net/img/Z09yMllJWHpmK2NBcnB4M2lKOFRHK2d1azFNSmFveVE1OG8vTmVJNXhZYnhycGFzOXhqckZ3PT0.jpg?imageView&thumbnail=2000y1235&type=jpg&quality=96&stripmeta=0&type=jpg");
+	
 	// CSS 加载完之后再显示
-	$(".panel").show();
+	$(".body").show();
+	
+	$("input[name='username']").focus();
 });

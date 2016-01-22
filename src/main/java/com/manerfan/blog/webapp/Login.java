@@ -34,7 +34,7 @@ public class Login {
     public ModelAndView login(HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("login");
 
-        if (request.getParameterMap().containsKey("error")) {
+        if (request.getParameterMap().containsKey("auth-fail")) {
             mv.addObject("error", "用户名或密码错误");
         }
 
