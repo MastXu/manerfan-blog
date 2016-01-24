@@ -30,7 +30,7 @@
                 window.debug = true;
             }
         </script>
-        <script src="<c:url value="/view/js/require.js" />"></script>
+        <script src="<c:url value="/view/plugins/requirejs/require.js" />"></script>
         <script src="<c:url value="/view/js/main.js" />"></script>
         <script src="<c:url value="/view/js/editor/main.js" />"></script>
         <!-- 也可以通过data-main配置Require Config -->

@@ -142,7 +142,7 @@
 	    }
 	</script>
 	
-	<script src="<c:url value="/view/js/require.js" />"></script>
+	<script src="<c:url value="/view/plugins/requirejs/require.js" />"></script>
     <script src="<c:url value="/view/js/main.js" />"></script>
     <script src="<c:url value="/view/js/login.js" />"></script>
 </body>

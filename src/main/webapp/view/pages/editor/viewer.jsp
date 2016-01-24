@@ -21,17 +21,14 @@
         <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="msvalidate.01" content="5E47EE6F67B069C17E3CDD418351A612">
         <script>
-            // Use ?debug to serve original JavaScript files instead of minified
-            window.baseDir = 'res';
-            if (!/(\?|&)debug($|&)/.test(location.search)) {
-                window.baseDir += '-min';
+            window.debug = false;
+            if (/(\?|&)debug($|&)/.test(location.search)) {
+                window.debug = true;
             }
-            window.require = {
-                baseUrl: window.baseDir,
-                deps: ['main']
-            };
         </script>
-        <script src="res-min/require.js"></script>
+        <script src="<c:url value="/view/plugins/requirejs/require.js" />"></script>
+        <script src="<c:url value="/view/js/main.js" />"></script>
+        <script src="<c:url value="/view/js/editor/main.js" />"></script>
     </head>
 
     <body class="viewer"></body>

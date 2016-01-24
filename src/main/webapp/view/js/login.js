@@ -25,6 +25,7 @@ if (!!window.debug) {
  */
 require([
     "jquery",
+    "md5",
     themeModule
 ], function ($) {
 	$(".bg img").load(function() {
@@ -36,4 +37,8 @@ require([
 	$(".body").show();
 	
 	$("input[name='username']").focus();
+	
+	$("button[type='submit']").click(function() {
+		$("input[name='password']").val(md5($(this).val()));
+	});
 });

@@ -87,11 +87,10 @@ requirejs.config({
         'to-markdown': 'plugins/to-markdown/src/to-markdown',
         waitForImages: 'plugins/waitForImages/dist/jquery.waitforimages',
         MathJax: 'plugins/MathJax/MathJax',
-        alertify: 'plugins/alertify.js/lib/alertify'
+        alertify: 'plugins/alertify.js/lib/alertify',
         
         /* 以下为自定义 */
-        
-        
+        md5: 'plugins/js-md5/build/md5.min'
     },
 
     /**

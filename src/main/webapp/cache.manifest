@@ -7,7 +7,7 @@ viewer
 
 # start_inject_resources
 view/js/main.js
-view/js/require.js
+view/plugins/requirejs/require.js
 view/style/fonts/cursive_standard-webfont.woff
 view/style/fonts/fontello.svg
 view/style/fonts/fontello.woff
