@@ -42,7 +42,7 @@ requirejs.config({
         jquery: 'plugins/jquery/dist/jquery',
         underscore: 'plugins/underscore/underscore',
         crel: 'plugins/crel/crel',
-        jgrowl: 'plugins/jGrowl/jquery.jgrowl',
+        jgrowl: 'plugins/jgrowl/jquery.jgrowl',
         mousetrap: 'plugins/mousetrap/mousetrap',
         'mousetrap-record': 'plugins/mousetrap/plugins/record/mousetrap-record',
         toMarkdown: 'plugins/to-markdown/src/to-markdown',
@@ -90,7 +90,7 @@ requirejs.config({
         alertify: 'plugins/alertify.js/lib/alertify',
         
         /* 以下为自定义 */
-        md5: 'plugins/js-md5/build/md5.min'
+        md5: 'plugins/jquery-md5/jquery.md5'
     },
 
     /**
@@ -192,6 +192,11 @@ requirejs.config({
         Diagram: [
             'raphael',
             'diagram-grammar'
+        ],
+        
+        /* 以下为自定义 */
+        md5: [
+            'jquery'
         ]
     }
 });

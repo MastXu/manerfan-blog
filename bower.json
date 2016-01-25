@@ -48,6 +48,6 @@
     "alertify.js": "https://github.com/fabien-d/alertify.js.git#fc2e06fa39873363dda199204b8544119ab060bf",
     "jGrowl": "jgrowl#~1.4.3",
     "echarts": "~3.0.1",
-    "js-md5": "md5#~0.3.0"
+    "jquery-md5": "*"
   }
 }

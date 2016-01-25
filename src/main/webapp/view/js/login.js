@@ -39,6 +39,6 @@ require([
 	$("input[name='username']").focus();
 	
 	$("button[type='submit']").click(function() {
-		$("input[name='password']").val(md5($(this).val()));
+		$("input[name='password']").val($.md5($("input[name='password']").val()));
 	});
 });

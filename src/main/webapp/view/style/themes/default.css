@@ -1,7 +1,7 @@
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 @import "../../js/editor/libs/highlight/styles/default.css";
 @import "../../js/editor/libs/fontello/css/fontello.css";
-@import "../styles/jquery.jgrowl.css";
+@import "../../plugins/jgrowl/jquery.jgrowl.css";
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
