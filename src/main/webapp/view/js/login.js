@@ -21,24 +21,54 @@ if (!!window.debug) {
 
 /**
  * 登陆
- * @author ManerFan 2016年1月21日
+ * Created by ManerFan on 2016/1/26.
  */
 require([
-    "jquery",
-    "md5",
-    themeModule
-], function ($) {
-	$(".bg img").load(function() {
-		$(this).fadeIn("slow");
-	});
-	$(".bg img").attr("src", "http://imglf1.nosdn.127.net/img/Z09yMllJWHpmK2NBcnB4M2lKOFRHK2d1azFNSmFveVE1OG8vTmVJNXhZYnhycGFzOXhqckZ3PT0.jpg?imageView&thumbnail=2000y1235&type=jpg&quality=96&stripmeta=0&type=jpg");
-	
-	// CSS 加载完之后再显示
-	$(".body").show();
-	
-	$("input[name='username']").focus();
-	
-	$("button[type='submit']").click(function() {
-		$("input[name='password']").val($.md5($("input[name='password']").val()));
-	});
-});
+        "jquery",
+        "underscore",
+        "md5",
+        themeModule
+    ],
+    function ($, _) {
+        $(".bg img").load(function () {
+            $(this).fadeIn("fast");
+        });
+        $(".bg img").attr("src",
+            "http://imglf1.nosdn.127.net/img/Z09yMllJWHpmK2NBcnB4M2lKOFRHK2d1azFNSmFveVE1OG8vTmVJNXhZYnhycGFzOXhqckZ3PT0.jpg?imageView&thumbnail=2000y1235&type=jpg&quality=96&stripmeta=0&type=jpg");
+
+        // CSS 加载完之后再显示
+        $(".body").show();
+
+        var $username = $("input[name='username']");
+        var $password = $("input[name='password']");
+
+        $username.focus();
+
+        $("button[type='submit']").click(function (event) {
+
+            $(".has-error").removeClass("has-error");
+
+            if (!isEmpty($username, event)) { // 无用户
+                return false;
+            }
+
+            if (!isEmpty($password, event)) { // 无密码
+                return false;
+            }
+
+            $password.val($.md5($password.val()));
+        });
+
+        function isEmpty(_input, _event) {
+            if (_.isEmpty(_input.val())) {
+                _input.parent().addClass("has-error");
+                _input.focus();
+                _event.preventDefault();
+                _event.stopPropagation();
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+);

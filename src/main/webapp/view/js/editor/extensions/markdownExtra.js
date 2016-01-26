@@ -106,7 +106,11 @@ define([
             editor.hooks.chain("onPreviewRefresh", function () {
                 _.each(previewContentsElt.querySelectorAll('.prettyprint > code'), function (elt) {
                     // 计算行号
-                    var lines = $(elt).text().split('\n').length + 1;
+                    var lines = $(elt).text().split('\n');
+                    var linenum = $(elt).text().split('\n').length;
+                    if (_.isEmpty($.trim(lines[linenum - 1]))) {
+                        linenum -= 1;
+                    }
 
                     // 格式化代码
                     !elt.highlighted && hljs.highlightBlock(elt);
@@ -117,7 +121,7 @@ define([
                         class: 'pre-numbering'
                     });
 
-                    for (var l = 1; l < lines; l++) {
+                    for (var l = 1; l <= linenum; l++) {
                         linenumber.innerHTML += "<li>" + l + ".</li>";
                     }
 
