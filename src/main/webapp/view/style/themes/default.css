@@ -643,7 +643,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: "Source Code Pro", monospace;
+  font-family: "Source Code Pro", "Microsoft YaHei", "微软雅黑";
 }
 code {
   padding: 2px 4px;
@@ -6460,7 +6460,7 @@ img {
 }
 code,
 pre {
-  font-family: "Source Code Pro", monospace;
+  font-family: "Source Code Pro", "Microsoft YaHei", "微软雅黑";
   font-size: 0.9em;
 }
 code {
@@ -6688,6 +6688,12 @@ body.rtl .container {
  ********************/
 .hljs {
   padding: 8px 8px 8px 50px ;
+  word-wrap: normal;
+  white-space: pre;
+}
+.prettyprint {
+  white-space: nowrap;
+  word-break: normal;
 }
 .prettyprint .pre-numbering {
   position: absolute;
@@ -6701,6 +6707,37 @@ body.rtl .container {
   border-right: 1px solid #ddd;
   list-style: none;
   text-align: right;
+}
+/********************
+ * header
+ ********************/
+.navbar-collapse ul {
+  margin: 0 !important;
+}
+/********************
+ * footer
+ ********************/
+footer {
+  position: fixed;
+  padding: 10px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid rgba(128, 128, 128, 0.1);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+  border-radius: 0;
+  z-index: 20;
+  min-height: 25px;
+  border-color: #d8d8d8;
+}
+footer h6 {
+  margin: 0;
+  line-height: 25px;
+  text-align: center;
+  color: ghostwhite;
+  font-family: 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', tahoma, arial, simsun, '宋体';
 }
 .alertify,
 .alertify-show,
@@ -8119,10 +8156,10 @@ a.input-group-addon {
   color: rgba(128, 128, 128, 0.25);
 }
 #wmd-input.font-rich-monospaced * {
-  font-family: "Source Code Pro", monospace !important;
+  font-family: "Source Code Pro", "Microsoft YaHei", "微软雅黑" !important;
 }
 #wmd-input.font-monospaced * {
-  font-family: "Source Code Pro", monospace !important;
+  font-family: "Source Code Pro", "Microsoft YaHei", "微软雅黑" !important;
   line-height: 1.65 !important;
   font-size: 1em !important;
 }
@@ -8140,11 +8177,11 @@ a.input-group-addon {
 #wmd-input .code,
 #wmd-input .pre {
   color: #343434;
-  font: normal 0.9em "Source Code Pro", monospace;
+  font: normal 0.9em "Source Code Pro", "Microsoft YaHei", "微软雅黑";
 }
 #wmd-input .tag {
   color: #343434;
-  font: bold 0.9em "Source Code Pro", monospace;
+  font: bold 0.9em "Source Code Pro", "Microsoft YaHei", "微软雅黑";
 }
 #wmd-input .tag .punctuation,
 #wmd-input .tag .attr-value,
@@ -8156,11 +8193,11 @@ a.input-group-addon {
   color: #808080;
 }
 #wmd-input .entity {
-  font: italic 0.9em "Source Code Pro", monospace;
+  font: italic 0.9em "Source Code Pro", "Microsoft YaHei", "微软雅黑";
   color: #808080;
 }
 #wmd-input .table {
-  font: normal 0.9em "Source Code Pro", monospace;
+  font: normal 0.9em "Source Code Pro", "Microsoft YaHei", "微软雅黑";
 }
 #wmd-input .table * {
   font-size: 1em;

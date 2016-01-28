@@ -33,6 +33,9 @@ public class UserEntity extends CommonEntity {
      */
     private static final long serialVersionUID = -6655242366381426428L;
 
+    public transient static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public transient static final String ROLE_USER = "ROLE_USER";
+
     /**
      * 用户名
      */

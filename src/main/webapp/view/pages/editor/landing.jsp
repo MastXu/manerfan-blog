@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
 
 <!DOCTYPE html>
 <html <c:if test="${cache}">manifest="cache.manifest"</c:if> >
@@ -222,6 +223,7 @@
 
 <body>
 <div class="content">
+    
     <div class="slide modal-body" id="slide1">
         <div class="navbar navbar-default navbar-fixed">
             <div class="navbar-inner">
@@ -512,8 +514,6 @@
                 License</a><br>
                 <a href="privacy_policy.html" target="_blank">Privacy Policy</a><br>
             </div>
-
-
         </div>
     </div>
 </div>

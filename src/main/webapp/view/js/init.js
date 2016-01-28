@@ -20,21 +20,23 @@ if (!!window.debug) {
 }
 
 /**
- * 登陆
- * Created by ManerFan on 2016/1/26.
+ * 初始化
+ * Created by ManerFan on 2016/1/28.
  */
 require([
         "jquery",
         "underscore",
+        "commonutils",
         "md5",
         themeModule
     ],
-    function ($, _) {
+    function ($, _, commonutils) {
         // CSS 加载完之后再显示
         $(".body").show();
 
-        var $username = $("input[name='username']");
+        var $username = $("input[name='name']");
         var $password = $("input[name='password']");
+        var $email = $("input[name='email']");
 
         $username.focus();
 
@@ -50,19 +52,28 @@ require([
                 return false;
             }
 
+            if (!_.isEmpty($email.val()) && !commonutils.isEmial($email.val())) {
+                hasError($email, event);
+                return false;
+            }
+
             $password.val($.md5($password.val()));
         });
 
         function isEmpty(_input, _event) {
             if (_.isEmpty(_input.val())) {
-                _input.parent().addClass("has-error");
-                _input.focus();
-                _event.preventDefault();
-                _event.stopPropagation();
+                hasError(_input, _event);
                 return false;
             } else {
                 return true;
             }
+        }
+
+        function hasError(_input, _event) {
+            _input.parent().addClass("has-error");
+            _input.focus();
+            _event.preventDefault();
+            _event.stopPropagation();
         }
     }
 );

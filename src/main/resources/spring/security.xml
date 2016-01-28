@@ -9,12 +9,19 @@
 
 	<!-- 目前角色分 ADMIN USER ANONYMOUS 三种 -->
 
+    <!-- 这种方式，根本不进security filter，无法使用SecurityContextHolder获取任何用户信息 -->
     <http security="none" pattern="/" />
     <http security="none" pattern="/*.manifest" />
-    <http security="none" pattern="/login" />
+    <http security="none" pattern="/init" />
+    <http security="none" pattern="/init/**" />
     <http security="none" pattern="/view/**" />
     
-	<http auto-config="false">
+	<http auto-config="false" use-expressions="true">
+	    <!-- 启用匿名用户 -->
+	    <anonymous enabled="true" key ="doesNotMatter" username="anonymous" granted-authority="ROLE_ANONYMOUS" />
+	
+	    <intercept-url pattern="/login" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
+	
 		<!-- 登陆
 		  login-page                  登陆地址
 		  login-processing-url        验证地址，默认/j-spring-security-check
@@ -33,9 +40,6 @@
         <!-- 登出 -->
         <logout logout-url="/logout" logout-success-url="/login?logout" />
         
-        <!-- 启用匿名用户 -->
-        <anonymous enabled="true" username="anonymous" granted-authority="ROLE_ANONYMOUS"/>
-         
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
 		
 		<csrf disabled="true"/> <!-- 搞不定csrf，先禁用 -->

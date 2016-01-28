@@ -16,10 +16,17 @@
 package com.manerfan.blog.webapp;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.manerfan.blog.service.UserService;
 
 /**
  * <pre>登陆</pre>
@@ -28,11 +35,26 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/login")
-public class Login {
+public class Login extends ControllerBase {
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping
     public ModelAndView login(HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("login");
+
+        if (ObjectUtils.isEmpty(userService.findAdmins())) {
+            // 还没有管理员用户，重定向到初始化
+            mv.setViewName("redirect:/init");
+            return mv;
+        }
+
+        if (!isAnonymous()) {
+            // 已经登录
+            mv.setViewName("redirect:/");
+            return mv;
+        }
 
         if (request.getParameterMap().containsKey("auth-fail")) {
             mv.addObject("error", "用户名或密码错误");
@@ -43,5 +65,24 @@ public class Login {
         }
 
         return mv;
+    }
+
+    /**
+     * <pre>注销</pre>
+     *
+     * @param request
+     */
+    public static void logout(HttpServletRequest request) {
+        /* 清楚session */
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        /* 清除security鉴权 */
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(null);
+        /* 清除security上下文 */
+        SecurityContextHolder.clearContext();
     }
 }

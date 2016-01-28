@@ -4,12 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>登陆</title>
+    <title>初始化</title>
     
     <style>
         h1 {
@@ -31,7 +30,7 @@
             width: 450px !important;
             top: 50% !important;
             left: 50% !important;
-            margin-top: -200px;
+            margin-top: -250px;
             margin-left: -230px;
         }
         
@@ -67,14 +66,10 @@
         button[type=submit] {
             margin-top: 10px;
         }
-		
-		.msg-danger {
-		    background-color: rgba(232, 76, 61, 0.5) !important;
-		}
-		
-		.msg-info {
-		    background-color: rgba(217, 237, 247, 0.5) !important;
-		}
+        
+        .msg-danger {
+            background-color: rgba(232, 76, 61, 0.5) !important;
+        }
     </style>
 </head>
 <body>
@@ -82,26 +77,32 @@
     <c:import url="nav/header.jsp" />
     
     <div class="body">
-	    <h1><span class="glyphicon glyphicon-cloud"></span> 登陆</h1>
-	    <c:if test="${not empty error}">
-	        <pre class="msg-danger text-danger">${error}</pre>
-	    </c:if>
-	    <c:if test="${not empty msg}">
-	        <pre class="msg-info text-info">${msg}</pre>
-	    </c:if>
+	    <h1><span class="glyphicon glyphicon-dashboard"></span> 初始化</h1>
+	    <pre class="bg-info">该向导将引导您创建管理员用户并对博客做首次初始化</pre>
+	    <c:choose>
+	       <c:when  test="${not empty error}">
+	           <pre class="msg-danger text-danger">${error}</pre>
+	       </c:when>
+	       <c:otherwise>
+	           <pre class="msg-danger text-danger" style="display: none;"></pre>
+	       </c:otherwise>   
+	    </c:choose>
 	    <div class="panel panel-default">
 	        <div class="panel-body">
-				<form name="loginForm" action="<c:url value='/login-check' />" method='POST'>
+				<form name="loginForm" action="<c:url value='/init/check' />" method='POST'>
 		            <div>
-                        <span class="glyphicon glyphicon-user"></span>
-                        <input class="form-control" type='text' name='username' placeholder="用户名">
+			            <span class="glyphicon glyphicon-user"></span>
+			            <input class="form-control" type='text' name='name' placeholder="用户名">
+		            </div>
+		            <div>
+	                    <span class="glyphicon glyphicon-lock"></span>
+	                    <input class="form-control" type='password' name='password' placeholder="密码">
+	                </div>
+	                <div>
+                        <span class="glyphicon glyphicon-envelope"></span>
+                        <input class="form-control" type='text' name='email' placeholder="邮箱(可选)">
                     </div>
-                    <div>
-                        <span class="glyphicon glyphicon-lock"></span>
-                        <input class="form-control" type='password' name='password' placeholder="密码">
-                    </div>
-	                <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
-	                <button type="submit" class="btn btn-primary btn-lg btn-block">登陆</button>
+	                <button type="submit" class="btn btn-primary btn-lg btn-block">初始化</button>
 		        </form>
 			</div>
 		</div>
@@ -118,6 +119,6 @@
 	
 	<script src="<c:url value="/view/plugins/requirejs/require.js" />"></script>
     <script src="<c:url value="/view/js/main.js" />"></script>
-    <script src="<c:url value="/view/js/login.js" />"></script>
+    <script src="<c:url value="/view/js/init.js" />"></script>
 </body>
 </html>

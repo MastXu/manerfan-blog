@@ -88,9 +88,10 @@ requirejs.config({
         waitForImages: 'plugins/waitForImages/dist/jquery.waitforimages',
         MathJax: 'plugins/MathJax/MathJax',
         alertify: 'plugins/alertify.js/lib/alertify',
-        
+
         /* 以下为自定义 */
-        md5: 'plugins/jquery-md5/jquery.md5'
+        md5: 'plugins/jquery-md5/jquery.md5',
+        commonutils: 'js/CommonUtils'
     },
 
     /**
@@ -193,7 +194,7 @@ requirejs.config({
             'raphael',
             'diagram-grammar'
         ],
-        
+
         /* 以下为自定义 */
         md5: [
             'jquery'
