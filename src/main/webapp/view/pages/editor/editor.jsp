@@ -6,7 +6,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <!DOCTYPE html>
-<html <c:if test="${cache}">manifest="cache.manifest"</c:if> >
+<%-- <html <c:if test="${cache}">manifest="cache.manifest"</c:if> > --%>
+<html>
 
     <head>
         <title>Markdown 编辑器</title>
@@ -24,6 +25,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="msvalidate.01" content="5E47EE6F67B069C17E3CDD418351A612">
+        
         <script>
             window.debug = false;
             if (/(\?|&)debug($|&)/.test(location.search)) {
@@ -37,6 +39,9 @@
         <!-- <script data-main="view/js/main.js" src="<c:url value="/view/js/require.js" />"></script> -->
     </head>
 
-    <body></body>
+    <body>
+        <c:set var="position" value="fixed" scope="request"></c:set>
+        <c:import url="../nav/header.jsp" />
+    </body>
 
 </html>

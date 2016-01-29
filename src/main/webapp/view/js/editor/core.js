@@ -309,10 +309,10 @@ define([
         document.body.className += ' ' + settings.editMode;
 
         if (window.viewerMode === true) {
-            document.body.innerHTML = bodyViewerHTML;
+        	$("body").prepend(bodyViewerHTML);
         }
         else {
-            document.body.innerHTML = bodyEditorHTML;
+        	$("body").prepend(bodyEditorHTML);
         }
 
         // Initialize utils library

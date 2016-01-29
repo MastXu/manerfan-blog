@@ -73,7 +73,7 @@
     </style>
 </head>
 <body>
-    <c:set var="position" value="absolute" scope="request"></c:set>
+    <c:set var="position" value="fixed" scope="request"></c:set>
     <c:import url="nav/header.jsp" />
     
     <div class="body">

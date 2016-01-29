@@ -16,8 +16,10 @@
 package com.manerfan.blog.webapp;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -62,6 +64,28 @@ public class ControllerBase {
         RequestContext context = new RequestContext(request);
 
         return context.getMessage(code, args);
+    }
+
+    /**
+     * <pre>注销</pre>
+     *
+     * @param request
+     */
+    protected void logout() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+                .currentRequestAttributes()).getRequest();
+
+        /* 清楚session */
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        /* 清除security鉴权 */
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(null);
+        /* 清除security上下文 */
+        SecurityContextHolder.clearContext();
     }
 
 }

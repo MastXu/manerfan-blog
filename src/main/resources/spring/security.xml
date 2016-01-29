@@ -21,6 +21,7 @@
 	    <anonymous enabled="true" key ="doesNotMatter" username="anonymous" granted-authority="ROLE_ANONYMOUS" />
 	
 	    <intercept-url pattern="/login" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
+	    <intercept-url pattern="/editor" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
 	
 		<!-- 登陆
 		  login-page                  登陆地址

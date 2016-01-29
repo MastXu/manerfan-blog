@@ -2294,25 +2294,25 @@ fieldset[disabled] .btn-primary.focus {
   background-color: #fff;
 }
 .btn-success {
-  color: #ddd;
+  color: #666;
   background-color: rgba(0, 0, 0, 0);
   border-color: rgba(0, 0, 0, 0);
 }
 .btn-success:focus,
 .btn-success.focus {
-  color: #ddd;
+  color: #666;
   background-color: rgba(0, 0, 0, 0);
   border-color: rgba(0, 0, 0, 0);
 }
 .btn-success:hover {
-  color: #ddd;
+  color: #666;
   background-color: rgba(0, 0, 0, 0);
   border-color: rgba(0, 0, 0, 0);
 }
 .btn-success:active,
 .btn-success.active,
 .open > .dropdown-toggle.btn-success {
-  color: #ddd;
+  color: #666;
   background-color: rgba(0, 0, 0, 0);
   border-color: rgba(0, 0, 0, 0);
 }
@@ -2325,7 +2325,7 @@ fieldset[disabled] .btn-primary.focus {
 .btn-success:active.focus,
 .btn-success.active.focus,
 .open > .dropdown-toggle.btn-success.focus {
-  color: #ddd;
+  color: #666;
   background-color: rgba(0, 0, 0, 0);
   border-color: rgba(0, 0, 0, 0);
 }
@@ -2348,7 +2348,7 @@ fieldset[disabled] .btn-success.focus {
 }
 .btn-success .badge {
   color: rgba(0, 0, 0, 0);
-  background-color: #ddd;
+  background-color: #666;
 }
 .btn-info {
   color: rgba(128, 128, 128, 0.35);
@@ -6894,6 +6894,17 @@ footer h6 {
   color: black;
   font-weight: bolder;
 }
+/********************
+ * editor
+ ********************/
+.layout-wrapper-l1 {
+  top: 50px !important;
+  background-color: #4a4a4a;
+}
+.layout-wrapper-l2 .navbar-default {
+  background-color: #ededed;
+  border-color: #dcdcdc;
+}
 .alertify,
 .alertify-show,
 .alertify-log {
@@ -7648,7 +7659,7 @@ a.input-group-addon {
 .navbar .btn-group > .btn.disabled *,
 .navbar .btn-group > .btn.blocked *,
 .navbar .btn-group > .btn[disabled] * {
-  color: rgba(221, 221, 221, 0.3);
+  color: rgba(102, 102, 102, 0.3);
 }
 .navbar .button-open-discussion.some {
   color: #e0b800 !important;
@@ -7712,7 +7723,7 @@ a.input-group-addon {
   margin: 0 2px;
   opacity: 0.25;
   filter: alpha(opacity=25);
-  background-color: rgba(221, 221, 221, 0.75);
+  background-color: rgba(102, 102, 102, 0.75);
 }
 .navbar .offline-status > div {
   display: inline-block;
@@ -8047,7 +8058,7 @@ a.input-group-addon {
   vertical-align: text-top;
 }
 .extension-preview-buttons .drag-me {
-  color: #ddd;
+  color: #666;
 }
 .extension-preview-buttons .drag-me i:before {
   width: 5px;
@@ -8768,7 +8779,7 @@ div.jGrowl div.jGrowl-notification {
 .buttons-dropdown .dropdown-menu .btn-success:focus,
 .buttons-dropdown .dropdown-menu .btn-success:active {
   border-color: rgba(128, 128, 128, 0.1);
-  background-color: rgba(128, 128, 128, 0.05) !important;
+  background-color: rgba(128, 128, 128, 0.01) !important;
 }
 .btn-primary:hover,
 .alertify-button-ok:hover,

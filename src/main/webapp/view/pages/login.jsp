@@ -31,7 +31,7 @@
             width: 450px !important;
             top: 50% !important;
             left: 50% !important;
-            margin-top: -200px;
+            margin-top: -235px;
             margin-left: -230px;
         }
         
@@ -78,7 +78,7 @@
     </style>
 </head>
 <body>
-    <c:set var="position" value="absolute" scope="request"></c:set>
+    <c:set var="position" value="fixed" scope="request"></c:set>
     <c:import url="nav/header.jsp" />
     
     <div class="body">

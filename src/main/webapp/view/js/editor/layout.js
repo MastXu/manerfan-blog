@@ -279,7 +279,7 @@ define([
     function resizeAll() {
         windowSize = {
             width: window.innerWidth,
-            height: window.innerHeight
+            height: window.innerHeight - 50 // 50 是header的高度
         };
 
         while (true) {

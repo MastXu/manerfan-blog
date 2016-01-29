@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<footer class="text-center" style="position: <c:out value='${position}' default='relative' />;">
+<footer id="footer" class="text-center" style="position: <c:out value='${position}' default='relative' />;">
 	<div class="social">
 		<a href="https://github.com/pseudo-science/manerfan-blog" target="_blank">
 		  <i class="icon-github-circled"></i>

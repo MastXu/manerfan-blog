@@ -16,11 +16,8 @@
 package com.manerfan.blog.webapp;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,28 +58,10 @@ public class LoginController extends ControllerBase {
         }
 
         if (request.getParameterMap().containsKey("logout")) {
+            logout();
             mv.addObject("msg", "您已成功退出系统");
         }
 
         return mv;
-    }
-
-    /**
-     * <pre>注销</pre>
-     *
-     * @param request
-     */
-    public static void logout(HttpServletRequest request) {
-        /* 清楚session */
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-
-        /* 清除security鉴权 */
-        SecurityContext context = SecurityContextHolder.getContext();
-        context.setAuthentication(null);
-        /* 清除security上下文 */
-        SecurityContextHolder.clearContext();
     }
 }

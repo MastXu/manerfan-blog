@@ -6,7 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>  
 
-<nav class="navbar navbar-default" style="position: <c:out value='${position}' default='relative' />;">
+<nav id="header" class="navbar navbar-default" style="position: <c:out value='${position}' default='relative' />;">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<a href="<c:url value='/' />" class="navbar-brand">MBLOG</a>
@@ -20,7 +20,7 @@
 		            <li><a href="<c:url value='/login' />"><span class="glyphicon glyphicon-log-in"></span> 登陆</a></li>
 		        </sec:authorize>
 		        <sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
-					<li class="dropdown">
+					<li class="<c:out value='${drop}' default='dropdown'/>">
 					    <a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <sec:authentication property="principal.username"/> <span class="caret"></span></a>
