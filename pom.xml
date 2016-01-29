@@ -162,7 +162,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<version>3.0</version>
-					<warName>blog</warName>
+					<warName>mblog</warName>
 					<warSourceDirectory>${basedir}/src/main/webapp</warSourceDirectory> <!-- This is where you place your JSP files. -->
 				</configuration>
 			</plugin>

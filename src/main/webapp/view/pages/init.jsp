@@ -78,7 +78,7 @@
     
     <div class="body">
 	    <h1><span class="glyphicon glyphicon-dashboard"></span> 初始化</h1>
-	    <pre class="bg-info">该向导将引导您创建管理员用户并对博客做首次初始化</pre>
+	    <pre class="bg-info">该向导将引导您创建管理员用户并对系统做首次初始化</pre>
 	    <c:choose>
 	       <c:when  test="${not empty error}">
 	           <pre class="msg-danger text-danger">${error}</pre>

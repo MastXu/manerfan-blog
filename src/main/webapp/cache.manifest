@@ -2,8 +2,6 @@ CACHE MANIFEST
 
 CACHE:
 .
-editor
-viewer
 
 # start_inject_resources
 view/js/main.js

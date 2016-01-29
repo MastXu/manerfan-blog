@@ -6687,7 +6687,7 @@ body.rtl .container {
  * highlight
  ********************/
 .hljs {
-  padding: 8px 8px 8px 50px ;
+  padding: 8px 8px 8px 50px;
   word-wrap: normal;
   white-space: pre;
 }
@@ -6723,7 +6723,6 @@ footer {
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 0;
   border: 0;
   border-top: 1px solid rgba(128, 128, 128, 0.1);
   border-bottom: 1px solid rgba(128, 128, 128, 0.1);
@@ -6738,6 +6737,162 @@ footer h6 {
   text-align: center;
   color: ghostwhite;
   font-family: 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', tahoma, arial, simsun, '宋体';
+}
+/********************
+ * main content
+ ********************/
+.main-content {
+  display: inline-block;
+  width: 100%;
+}
+/* 超小屏幕（小于等于 768px） */
+@media screen and (max-width: 767px) {
+  .main-content {
+    padding: 10px;
+  }
+}
+/* 小屏幕（平板，大于等于 768px） */
+@media screen and (min-width: 768px) {
+  .main-content {
+    padding: 10px 40px;
+  }
+}
+/* 中等屏幕（桌面显示器，大于等于 992px） */
+@media screen and (min-width: 992px) {
+  .main-content {
+    padding: 10px 100px;
+  }
+}
+/* 大屏幕（大桌面显示器，大于等于 1200px） */
+@media screen and (min-width: 1200px) {
+  .main-content {
+    padding: 10px 150px;
+  }
+}
+.main-content .col-xs-1,
+.main-content .col-sm-1,
+.main-content .col-md-1,
+.main-content .col-lg-1 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-2,
+.main-content .col-sm-2,
+.main-content .col-md-2,
+.main-content .col-lg-2 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-3,
+.main-content .col-sm-3,
+.main-content .col-md-3,
+.main-content .col-lg-3 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-4,
+.main-content .col-sm-4,
+.main-content .col-md-4,
+.main-content .col-lg-4 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-5,
+.main-content .col-sm-5,
+.main-content .col-md-5,
+.main-content .col-lg-5 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-6,
+.main-content .col-sm-6,
+.main-content .col-md-6,
+.main-content .col-lg-6 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-7,
+.main-content .col-sm-7,
+.main-content .col-md-7,
+.main-content .col-lg-7 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-8,
+.main-content .col-sm-8,
+.main-content .col-md-8,
+.main-content .col-lg-8 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-9,
+.main-content .col-sm-9,
+.main-content .col-md-9,
+.main-content .col-lg-9 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-10,
+.main-content .col-sm-10,
+.main-content .col-md-10,
+.main-content .col-lg-10 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-11,
+.main-content .col-sm-11,
+.main-content .col-md-11,
+.main-content .col-lg-11 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+.main-content .col-xs-12,
+.main-content .col-sm-12,
+.main-content .col-md-12,
+.main-content .col-lg-12 {
+  position: static;
+  min-height: 1px;
+  padding: 0;
+}
+/********************
+ * list-group in panel
+ ********************/
+.panel .list-group-item {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+.panel .list-group-item a {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+.panel .list-group-item:hover {
+  background-color: #f9f9f9;
+}
+.panel .list-group-item.active {
+  background-color: #f9f9f9;
+  border-left: 2px #d26911 solid;
+}
+.panel .list-group-item.active a {
+  cursor: auto;
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;
 }
 .alertify,
 .alertify-show,

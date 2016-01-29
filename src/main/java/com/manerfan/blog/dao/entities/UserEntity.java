@@ -35,6 +35,8 @@ public class UserEntity extends CommonEntity {
 
     public transient static final String ROLE_ADMIN = "ROLE_ADMIN";
     public transient static final String ROLE_USER = "ROLE_USER";
+    public transient static final String ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
+    public transient static final String NAME_ANONYMOUS = "anonymous";
 
     /**
      * 用户名

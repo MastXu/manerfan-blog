@@ -35,7 +35,7 @@ import com.manerfan.blog.service.UserService;
  */
 @Controller
 @RequestMapping("/login")
-public class Login extends ControllerBase {
+public class LoginController extends ControllerBase {
 
     @Autowired
     private UserService userService;

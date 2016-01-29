@@ -102,6 +102,7 @@
                     </div>
 	                <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
 	                <button type="submit" class="btn btn-primary btn-lg btn-block">登陆</button>
+	                <h6 style="margin-bottom: 0; color: #d82a1a !important;">暂不开放注册</h6>
 		        </form>
 			</div>
 		</div>

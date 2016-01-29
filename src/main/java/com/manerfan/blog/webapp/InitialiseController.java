@@ -33,7 +33,7 @@ import com.manerfan.blog.service.UserService;
  */
 @Controller
 @RequestMapping("/init")
-public class Initialise {
+public class InitialiseController extends ControllerBase {
 
     @Autowired
     private UserService userService;

@@ -27,6 +27,7 @@ require([
         "jquery",
         "underscore",
         "md5",
+        "bootstrap",
         themeModule
     ],
     function ($, _) {

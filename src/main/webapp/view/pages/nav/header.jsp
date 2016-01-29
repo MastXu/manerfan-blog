@@ -9,7 +9,7 @@
 <nav class="navbar navbar-default" style="position: <c:out value='${position}' default='relative' />;">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a href="#" class="navbar-brand">BLOG</a>
+			<a href="<c:url value='/' />" class="navbar-brand">MBLOG</a>
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
@@ -17,15 +17,20 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="hasRole('ROLE_ANONYMOUS')">
-		            <li><a href="<c:url value='/login' />">登陆</a></li>
+		            <li><a href="<c:url value='/login' />"><span class="glyphicon glyphicon-log-in"></span> 登陆</a></li>
 		        </sec:authorize>
 		        <sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
-		            <li><a href="#" ><sec:authentication property="principal.username"/></a></li>
-		        </sec:authorize>
+					<li class="dropdown">
+					    <a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <sec:authentication property="principal.username"/> <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="<c:url value='/settings' />"><span class="glyphicon glyphicon-cog"></span> 设置</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="<c:url value='/logout' />"><span class="glyphicon glyphicon-log-out"></span> 登出</a></li>
+						</ul></li>
+				</sec:authorize>
 			</ul>
 		</div>
-		<%-- <sec:authorize access="hasRole('ROLE_ANONYMOUS')">
-			<a href="<c:url value='/login' />">登陆</a>
-		</sec:authorize> --%>
 	</div>
 </nav>

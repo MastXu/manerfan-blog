@@ -15,8 +15,15 @@
  */
 package com.manerfan.blog.webapp;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.RequestContext;
+
+import com.manerfan.blog.dao.entities.UserEntity;
 
 /**
  * <pre></pre>
@@ -25,13 +32,36 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class ControllerBase {
 
+    /**
+     * 
+     * <pre>判断当前登陆是否为匿名</pre>
+     *
+     * @return
+     */
     protected boolean isAnonymous() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (null == authentication || "anonymous".equals(authentication.getPrincipal())) {
+        if (null == authentication
+                || UserEntity.NAME_ANONYMOUS.equals(authentication.getPrincipal())) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * 
+     * <pre>获取国际化</pre>
+     *
+     * @param args  参数
+     * @param code  国际化code
+     * @return
+     */
+    protected String getLocaleMessage(Object[] args, String code) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+                .currentRequestAttributes()).getRequest();
+        RequestContext context = new RequestContext(request);
+
+        return context.getMessage(code, args);
     }
 
 }

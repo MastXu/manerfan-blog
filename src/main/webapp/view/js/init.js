@@ -28,6 +28,7 @@ require([
         "underscore",
         "commonutils",
         "md5",
+        "bootstrap",
         themeModule
     ],
     function ($, _, commonutils) {
