@@ -43,18 +43,12 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            UserEntity userEntity = userService.findByName(username);
-            if (null == userEntity) {
-                throw new UsernameNotFoundException("Cannot Find any User for " + username);
-            }
-
-            return new User(username, userEntity.getPassword(), true, true, true, true,
-                    AuthorityUtils.createAuthorityList(userEntity.getRole().split(",")));
-        } catch (Exception e) {
-            throw new UsernameNotFoundException("", e);
+        UserEntity userEntity = userService.findByName(username);
+        if (null == userEntity) {
+            throw new UsernameNotFoundException("Cannot Find any User for " + username);
         }
 
+        return new User(username, userEntity.getPassword(), true, true, true, true,
+                AuthorityUtils.createAuthorityList(userEntity.getRole().split(",")));
     }
-
 }

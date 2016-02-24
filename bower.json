@@ -49,5 +49,6 @@
     "jGrowl": "jgrowl#~1.4.3",
     "echarts": "~3.0.1",
     "jquery-md5": "*"
+	/* "flatui": "git://github.com/paulovitin/Flat-UI.git#*" */
   }
 }

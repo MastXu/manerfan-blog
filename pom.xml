@@ -152,6 +152,13 @@
 			<artifactId>manerfan-common-utils-hibernatebased</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+
+		<!-- ehcache -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>${ehcache.version}</version>
+		</dependency>
 		
 	</dependencies>
 
