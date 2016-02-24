@@ -107,4 +107,16 @@
         </cookie-config> --> 
         <tracking-mode>COOKIE</tracking-mode><!-- 强制jsessionid存储在cookie中，不出现在url中 -->
     </session-config>
+
+	<security-constraint><!-- 禁用POST GET之外的方法 -->
+		<web-resource-collection>
+		    <web-resource-name>mblog</web-resource-name>   
+			<url-pattern>/*</url-pattern>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+			<http-method>HEAD</http-method>
+			<http-method>OPTIONS</http-method>
+			<http-method>TRACE</http-method>
+		</web-resource-collection>
+	</security-constraint> 
 </web-app>
