@@ -15,6 +15,8 @@
  */
 package com.manerfan.blog;
 
+import java.io.File;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -22,6 +24,11 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.webapp.WebAppContext;
+import org.springframework.util.ObjectUtils;
+
+import com.manerfan.common.utils.logger.Logger;
 
 /**
  * <pre>
@@ -46,6 +53,10 @@ public class MainEntry {
     private static String formatstr = "mblog";
 
     public static void main(String[] args) {
+        if (ObjectUtils.isEmpty(args)) {
+            args = new String[] { "-cp", "/", "-wc", "src/main/webapp", "-p", "80" };
+        }
+
         initCLI();
         handleArgs(args);
     }
@@ -60,8 +71,12 @@ public class MainEntry {
         opts.addOption(Option.builder("h").longOpt("help").hasArg(false).desc("显示帮助信息")
                 .required(false).build());
 
+        /* web context dir */
+        opts.addOption(Option.builder("wc").longOpt("webcontent").hasArg().type(String.class)
+                .argName("WebContentDir[e.g. webapp]").desc("Web Content Dir").required().build());
+
         /* 端口 */
-        opts.addOption(Option.builder("p").longOpt("port").hasArg().type(int.class)
+        opts.addOption(Option.builder("p").longOpt("port").hasArg().type(Number.class)
                 .argName("HttpPort[e.g. 80]").desc("web服务端口").required().build());
 
         /* context path */
@@ -84,10 +99,34 @@ public class MainEntry {
                 hf.printHelp(formatstr, opts, true);
             }
 
-            int port = (int) commandLine.getParsedOptionValue("p");
+            String webcontent = (String) commandLine.getParsedOptionValue("wc");
+            int port = ((Long) commandLine.getParsedOptionValue("p")).intValue();
+            String contextpath = (String) commandLine.getParsedOptionValue("cp");
+
+            String resourceBase = new File(webcontent).getAbsolutePath();
+            String descriptor = new File(webcontent, "WEB-INF/web.xml").getAbsolutePath();
+
+            /* 初始化webserver */
+            Server server = new Server(port);
+
+            /* 配置webcontent */
+            WebAppContext context = new WebAppContext();
+            context.setContextPath(contextpath);
+            context.setDescriptor(descriptor);
+            context.setResourceBase(resourceBase);
+            context.setClassLoader(Thread.currentThread().getContextClassLoader());
+            context.setConfigurationDiscovered(true);
+            context.setParentLoaderPriority(true);
+
+            server.setHandler(context);
+
+            /* 启动web & spring */
+            server.start();
 
         } catch (ParseException e) {
             hf.printHelp(formatstr, opts, true);
+        } catch (Exception e) {
+            Logger.LOGGER.error("Start Server Error.", e);
         }
     }
 

@@ -50,6 +50,7 @@
         <property name="suffix" value=".jsp"/>  
     </bean>
     
+    <mvc:resources mapping="/tags/**" location="/tags/" cache-period="31556926"/> 
     <mvc:resources mapping="/view/pages/**" location="/view/pages/" cache-period="31556926"/>  
     <mvc:resources mapping="/view/js/**" location="/view/js/" cache-period="31556926"/>  
     <mvc:resources mapping="/view/style/**" location="/view/style/" cache-period="31556926"/>

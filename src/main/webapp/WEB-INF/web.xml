@@ -98,6 +98,29 @@
         <servlet-name>blog</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping> 
+    
+    <jsp-config>
+	    <taglib>
+	        <taglib-uri>c_tld</taglib-uri>
+	        <taglib-location>/tags/jstl/c.tld</taglib-location>
+	    </taglib>
+	    <taglib>
+            <taglib-uri>fmt_tld</taglib-uri>
+            <taglib-location>/tags/jstl/fmt.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>fn_tld</taglib-uri>
+            <taglib-location>/tags/jstl/fn.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>spring_tld</taglib-uri>
+            <taglib-location>/tags/spring/spring.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>security_tld</taglib-uri>
+            <taglib-location>/tags/spring/security.tld</taglib-location>
+        </taglib>
+	</jsp-config>
 
     <session-config>
         <session-timeout>60</session-timeout>
