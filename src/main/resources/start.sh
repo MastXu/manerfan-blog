@@ -11,4 +11,4 @@ WEB_CONTENT=webapp
 CONTEXT_PATH=/
 PORT=80
 
-start $RUNJAVA$ -Xbootclasspath/a:$CLASSPATH$ $JAVA_OPTS$ -jar mblog.jar -cp $CONTEXT_PATH$ -wc $WEB_CONENT$ -p $PORT$
+start $RUNJAVA$ -Xbootclasspath/a:$CLASSPATH$ $JAVA_OPTS$ -jar mblog.jar -cp $CONTEXT_PATH$ -wc $WEB_CONTENT$ -p $PORT$

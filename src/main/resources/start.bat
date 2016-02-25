@@ -10,4 +10,4 @@ set WEB_CONTENT=webapp
 set CONTEXT_PATH=/
 set PORT=80
 
-call %RUNJAVA% -Xbootclasspath/a:%CLASSPATH% %JAVA_OPTS% -jar mblog.jar -cp %CONTEXT_PATH% -wc %WEB_CONENT% -p %PORT%
+call %RUNJAVA% -Xbootclasspath/a:%CLASSPATH% %JAVA_OPTS% -jar mblog.jar -cp %CONTEXT_PATH% -wc %WEB_CONTENT% -p %PORT%
