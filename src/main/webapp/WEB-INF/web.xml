@@ -85,16 +85,16 @@
 	</filter-mapping>
 
 	<servlet>
-		<servlet-name>blog</servlet-name>
+		<servlet-name>mblog</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param><!-- 默认WEB-INF/blog-servlet.xml -->
+		<init-param><!-- 默认WEB-INF/mblog-servlet.xml -->
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath*:spring/servlet/*.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>blog</servlet-name>
+		<servlet-name>mblog</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 

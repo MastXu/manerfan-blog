@@ -2,7 +2,7 @@
 set cdir=%~dp0
 
 set RUNJAVA="D:\Program Files\Tools\java8\bin\java.exe"
-set JAVA_OPTS=-server -Xms64M -Xmx512M -XX:MaxNewSize=256M
+set JAVA_OPTS=-server -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 -Xms64M -Xmx512M -XX:MaxNewSize=256M -XX:MaxMetaspaceSize=128M
 
 set CLASSPATH=.\resources
 set WEB_CONTENT=webapp

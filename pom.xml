@@ -219,7 +219,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<!-- jar包名称 -->
-					<jarName>release/mblog-${project.version}</jarName>
+					<jarName>release/mblog</jarName>
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
