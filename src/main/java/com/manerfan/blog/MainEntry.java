@@ -28,7 +28,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.springframework.util.ObjectUtils;
 
-import com.manerfan.common.utils.logger.Logger;
+import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>
@@ -126,7 +126,7 @@ public class MainEntry {
         } catch (ParseException e) {
             hf.printHelp(formatstr, opts, true);
         } catch (Exception e) {
-            Logger.LOGGER.error("Start Server Error.", e);
+            MLogger.ROOT_LOGGER.error("Start Server Error.", e);
         }
     }
 

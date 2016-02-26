@@ -28,7 +28,7 @@ import com.manerfan.blog.dao.entities.UserEntity;
 import com.manerfan.common.utils.dao.common.CriteriaSet;
 import com.manerfan.common.utils.dao.common.IRepositoryUtils;
 import com.manerfan.common.utils.dao.exception.DaoCommonException;
-import com.manerfan.common.utils.logger.Logger;
+import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>用户操作</pre>
@@ -45,7 +45,7 @@ public class UserService {
         try {
             return repositoryUtils.findUniqByAttrEqual("name", name, UserEntity.class);
         } catch (DaoCommonException e) {
-            Logger.LOGGER.error("Cannot Find an User on Name[{}]", name, e);
+            MLogger.ROOT_LOGGER.error("Cannot Find an User on Name[{}]", name, e);
             return null;
         }
     }
@@ -60,7 +60,7 @@ public class UserService {
                 }
             }, UserEntity.class);
         } catch (DaoCommonException e) {
-            Logger.LOGGER.error("Cannot Fina any Admins.", e);
+            MLogger.ROOT_LOGGER.error("Cannot Fina any Admins.", e);
             return null;
         }
     }
@@ -77,7 +77,7 @@ public class UserService {
             repositoryUtils.save(user);
             return true;
         } catch (Exception e) {
-            Logger.LOGGER.error("Cannot Create an User[{}]", user, e);
+            MLogger.ROOT_LOGGER.error("Cannot Create an User[{}]", user, e);
             return false;
         }
     }
