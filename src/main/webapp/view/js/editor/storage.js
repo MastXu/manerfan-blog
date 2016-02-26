@@ -3,6 +3,7 @@
  *
  * file.list        文章列表索引
  * file.current     当前文章索引
+ * frontWindowId    窗口id，用于保证只打开一个编辑窗口
  */
 
 // Setup an empty localStorage or upgrade an existing one
