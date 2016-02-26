@@ -1,7 +1,43 @@
+/**
+ * 记录常量
+ */
+
 define([], function () {
     var constants = {};
-    constants.VERSION = "4.3.12";
-    constants.MAIN_URL = "https://stackedit.io/";
+    constants.VERSION = "4.3.12"; // 版本号
+    constants.MAIN_URL = "http://www.manerfan.com/"; // 主页
+
+    constants.DEFAULT_FOLDER_NAME = "New folder"; // 默认文件夹名
+    constants.DEFAULT_FILE_TITLE = "Title"; // 默认标题名
+    constants.EDITOR_DEFAULT_PADDING = 35; // 编辑区padding
+    constants.CHECK_ONLINE_PERIOD = 120000;
+    constants.AJAX_TIMEOUT = 30000; // ajax请求超时时间
+    constants.ASYNC_TASK_DEFAULT_TIMEOUT = 60000;
+    constants.ASYNC_TASK_LONG_TIMEOUT = 180000;
+    constants.USER_IDLE_THRESHOLD = 300000; // 用户操作 超时时间|空闲阈值
+    constants.IMPORT_FILE_MAX_CONTENT_SIZE = 100000; // 文件导入大小限制
+    constants.IMPORT_IMG_MAX_CONTENT_SIZE = 10000000; // 图片导入大小限制
+    constants.TEMPORARY_FILE_INDEX = "file.tempIndex"; // 临时文件索引
+    constants.WELCOME_DOCUMENT_TITLE = "Hello!"; // 默认文章标题
+
+    constants.DOWNLOAD_IMPORT_URL = "/downloadImport";
+    constants.PICASA_IMPORT_IMG_URL = "/picasaImportImg";
+    constants.SSH_PUBLISH_URL = '/sshPublish';
+    constants.PDF_EXPORT_URL = "/pdfExport";
+
+    constants.THEME_LIST = {
+        "default": "Default"
+        /*
+         "blue": "Blue",
+         "gray": "Gray",
+         "night": "Night",
+         "school": "School",
+         "solarized-light": "Solarized Light",
+         "solarized-dark": "Solarized Dark"
+         */
+    };
+
+    /***  ***/
     constants.GOOGLE_ANALYTICS_ACCOUNT_ID = "UA-39556145-1";
     constants.GOOGLE_API_KEY = "AIzaSyAeCU8CGcSkn0z9js6iocHuPBX4f_mMWkw";
     constants.GOOGLE_DRIVE_APP_ID = "241271498917";
@@ -10,25 +46,9 @@ define([], function () {
     constants.DROPBOX_RESTRICTED_APP_KEY = "sw0hlixhr8q1xk0";
     constants.DROPBOX_RESTRICTED_APP_SECRET = "1r808p2xygs6lbg";
     constants.BITLY_ACCESS_TOKEN = "317e033bfd48cf31155a68a536b1860013b09c4c";
-    constants.DEFAULT_FILE_TITLE = "Title";
-    constants.DEFAULT_FOLDER_NAME = "New folder";
     constants.GDRIVE_DEFAULT_FILE_TITLE = "New Markdown document";
-    constants.EDITOR_DEFAULT_PADDING = 35;
-    constants.CHECK_ONLINE_PERIOD = 120000;
-    constants.AJAX_TIMEOUT = 30000; // ajax请求超时时间
-    constants.ASYNC_TASK_DEFAULT_TIMEOUT = 60000;
-    constants.ASYNC_TASK_LONG_TIMEOUT = 180000;
-    constants.USER_IDLE_THRESHOLD = 300000; // 用户操作 超时时间|空闲阈值
-    constants.IMPORT_FILE_MAX_CONTENT_SIZE = 100000;
-    constants.IMPORT_IMG_MAX_CONTENT_SIZE = 10000000;
-    constants.COUCHDB_PAGE_SIZE = 25;
-    constants.TEMPORARY_FILE_INDEX = "file.tempIndex";
-    constants.WELCOME_DOCUMENT_TITLE = "Hello!";
-    constants.DOWNLOAD_IMPORT_URL = "/downloadImport";
-    constants.PICASA_IMPORT_IMG_URL = "/picasaImportImg";
-    constants.SSH_PUBLISH_URL = '/sshPublish';
-    constants.PDF_EXPORT_URL = "/pdfExport";
     constants.COUCHDB_URL = 'https://stackedit.smileupps.com/documents';
+    constants.COUCHDB_PAGE_SIZE = 25;
 
     // Site dependent
     constants.BASE_URL = "http://localhost/";
@@ -71,16 +91,7 @@ define([], function () {
         constants.GATEKEEPER_URL = "https://stackedit-gatekeeper-insomnia.herokuapp.com/";
         constants.TUMBLR_PROXY_URL = "https://stackedit-tumblr-proxy-beta.herokuapp.com/";
     }
-
-    constants.THEME_LIST = {
-        "blue": "Blue",
-        "default": "Default",
-        "gray": "Gray",
-        "night": "Night",
-        "school": "School",
-        "solarized-light": "Solarized Light",
-        "solarized-dark": "Solarized Dark"
-    };
+    /*** ***/
 
     return constants;
 });

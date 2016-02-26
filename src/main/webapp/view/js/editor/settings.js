@@ -16,14 +16,20 @@ define([
         fontSizeRatio: 1,
         maxWidthRatio: 1,
         cursorFocusRatio: 0.5,
-        defaultContent: "\n\n\n> Written with [StackEdit](" + constants.MAIN_URL + ").",
+        defaultContent: "\n\n\n> Written with [MBLOG·ManerFan](" + constants.MAIN_URL + ").",
         commitMsg: "Published with " + constants.MAIN_URL,
         conflictMode: 'merge',
         markdownMimeType: 'text/plain',
+
+        /*** ***/
         gdriveMultiAccount: 1,
         gdriveFullAccess: true,
         dropboxFullAccess: true,
         githubFullAccess: true,
+        couchdbUrl: constants.COUCHDB_URL,
+        /*** ***/
+
+        /* HTML模板 */
         template: [
             '<!DOCTYPE html>',
             '<html>',
@@ -31,23 +37,24 @@ define([
             '<meta charset="utf-8">',
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
             '<title><%= documentTitle %></title>',
-            '<link rel="stylesheet" href="' + constants.MAIN_URL + 'res-min/themes/base.css" />',
+            '<link rel="stylesheet" href="' + constants.MAIN_URL + 'view/style/themes/default.css" />',
             '<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>',
             '</head>',
             '<body><div class="container"><%= documentHTML %></div></body>',
             '</html>'
         ].join('\n'),
+        /* PDF 模板 */
         pdfTemplate: [
             '<!DOCTYPE html>',
             '<html>',
             '<head>',
             '<meta charset="utf-8">',
             '<title><%= documentTitle %></title>',
-            '<link rel="stylesheet" href="http://localhost/res-min/themes/base.css" />',
+            '<link rel="stylesheet" href="http://localhost/view/style/themes/default.css" />',
             '<script type="text/x-mathjax-config">',
             'MathJax.Hub.Config({ messageStyle: "none" });',
             '</script>',
-            '<script type="text/javascript" src="http://localhost/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>',
+            '<script type="text/javascript" src="http://localhost/view/plugins/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>',
             '</head>',
             '<body><%= documentHTML %></body>',
             '</html>'
@@ -61,11 +68,11 @@ define([
             '    "pageSize": "A4"',
             '}'
         ].join('\n'),
-        couchdbUrl: constants.COUCHDB_URL,
         extensionSettings: {}
     };
 
     try {
+        // 将浏览器保存的配置合并到默认配置中
         _.extend(settings, JSON.parse(storage.settings));
     }
     catch (e) {

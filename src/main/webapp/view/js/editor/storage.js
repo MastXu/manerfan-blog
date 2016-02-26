@@ -1,13 +1,26 @@
+/**
+ * 在浏览器Local Storage中保存文章、设置、版本、主题等信息
+ *
+ * file.list        文章列表索引
+ * file.current     当前文章索引
+ */
+
 // Setup an empty localStorage or upgrade an existing one
 define([
     "underscore"
-], function(_) {
+], function (_) {
 
+    /**
+     * 获取数组型的storage，以;分隔
+     * 如 file1;file2;file3 返回[file1, file2, file3]
+     * @param storeIndex
+     * @returns {Array}
+     */
     function retrieveIndexArray(storeIndex) {
         try {
             return _.compact(localStorage[storeIndex].split(";"));
         }
-        catch(e) {
+        catch (e) {
             localStorage[storeIndex] = ";";
             return [];
         }
@@ -17,37 +30,45 @@ define([
     var currentFileIndex, settings;
 
     // localStorage versioning
+    // 版本更迭过程中对localStorage的更新
     var version = localStorage.version;
 
-    if(version === undefined) {
+    // 首次打开
+    if (version === undefined) {
 
-        // Not used anymore
-        localStorage.removeItem("sync.queue");
-        localStorage.removeItem("sync.current");
-        localStorage.removeItem("file.counter");
+        // 对于首次打开，直接清空不就行了
+        localStorage.clear();
+        /* Not used anymore
+         localStorage.removeItem("sync.queue");
+         localStorage.removeItem("sync.current");
+         localStorage.removeItem("file.counter");
+         */
 
-        _.each(fileIndexList, function(fileIndex) {
+        // 与文章相关的
+        _.each(fileIndexList, function (fileIndex) {
             localStorage[fileIndex + ".publish"] = ";";
+            // TODO 与文章同步相关的，之后去掉文章同步功能
             var syncIndexList = retrieveIndexArray(fileIndex + ".sync");
-            _.each(syncIndexList, function(syncIndex) {
+            _.each(syncIndexList, function (syncIndex) {
                 localStorage[syncIndex + ".contentCRC"] = "0";
                 // We store title CRC only for Google Drive synchronization
-                if(localStorage[syncIndex + ".etag"] !== undefined) {
+                if (localStorage[syncIndex + ".etag"] !== undefined) {
                     localStorage[syncIndex + ".titleCRC"] = "0";
                 }
             });
         });
-        version = "v1";
+        version = "v3"; // 跳过 v1 v2 同步设置
     }
 
-    if(version == "v1") {
+    // 同步相关
+    if (version == "v1") {
         var gdriveLastChangeId = localStorage["sync.gdrive.lastChangeId"];
-        if(gdriveLastChangeId) {
+        if (gdriveLastChangeId) {
             localStorage["gdrive.lastChangeId"] = gdriveLastChangeId;
             localStorage.removeItem("sync.gdrive.lastChangeId");
         }
         var dropboxLastChangeId = localStorage["sync.dropbox.lastChangeId"];
-        if(dropboxLastChangeId) {
+        if (dropboxLastChangeId) {
             localStorage["dropbox.lastChangeId"] = dropboxLastChangeId;
             localStorage.removeItem("sync.dropbox.lastChangeId");
         }
@@ -56,18 +77,18 @@ define([
         var PROVIDER_DROPBOX = "dropbox";
         var SYNC_PROVIDER_GDRIVE = "sync." + PROVIDER_GDRIVE + ".";
         var SYNC_PROVIDER_DROPBOX = "sync." + PROVIDER_DROPBOX + ".";
-        _.each(fileIndexList, function(fileIndex) {
+        _.each(fileIndexList, function (fileIndex) {
             var syncIndexList = retrieveIndexArray(fileIndex + ".sync");
-            _.each(syncIndexList, function(syncIndex) {
+            _.each(syncIndexList, function (syncIndex) {
                 var syncAttributes = {};
-                if(syncIndex.indexOf(SYNC_PROVIDER_GDRIVE) === 0) {
+                if (syncIndex.indexOf(SYNC_PROVIDER_GDRIVE) === 0) {
                     syncAttributes.provider = PROVIDER_GDRIVE;
                     syncAttributes.id = syncIndex.substring(SYNC_PROVIDER_GDRIVE.length);
                     syncAttributes.etag = localStorage[syncIndex + ".etag"];
                     syncAttributes.contentCRC = localStorage[syncIndex + ".contentCRC"];
                     syncAttributes.titleCRC = localStorage[syncIndex + ".titleCRC"];
                 }
-                else if(syncIndex.indexOf(SYNC_PROVIDER_DROPBOX) === 0) {
+                else if (syncIndex.indexOf(SYNC_PROVIDER_DROPBOX) === 0) {
                     syncAttributes.provider = PROVIDER_DROPBOX;
                     syncAttributes.path = decodeURIComponent(syncIndex.substring(SYNC_PROVIDER_DROPBOX.length));
                     syncAttributes.version = localStorage[syncIndex + ".version"];
@@ -83,9 +104,10 @@ define([
         version = "v2";
     }
 
-    if(version == "v2") {
-        _.each(fileIndexList, function(fileIndex) {
-            if(!_.has(localStorage, fileIndex + ".sync")) {
+    // 同步相关
+    if (version == "v2") {
+        _.each(fileIndexList, function (fileIndex) {
+            if (!_.has(localStorage, fileIndex + ".sync")) {
                 localStorage.removeItem(fileIndex + ".title");
                 localStorage.removeItem(fileIndex + ".publish");
                 localStorage.removeItem(fileIndex + ".content");
@@ -95,26 +117,30 @@ define([
         version = "v3";
     }
 
-    if(version == "v3") {
+    // 处理当前文章索引
+    if (version == "v3") {
         currentFileIndex = localStorage["file.current"];
-        if(currentFileIndex !== undefined && localStorage["file.list"].indexOf(";" + currentFileIndex + ";") === -1) {
+        if (currentFileIndex !== undefined && localStorage["file.list"].indexOf(";" + currentFileIndex + ";") === -1) {
+            // 如果找不到当前文章，则删除当前文章索引
             localStorage.removeItem("file.current");
         }
-        version = "v4";
+        version = "v6"; // 跳过github及publish相关
     }
 
-    if(version == "v4") {
+    // github相关
+    if (version == "v4") {
         // Recreate GitHub token
         localStorage.removeItem("githubToken");
         version = "v5";
     }
 
-    if(version == "v5") {
-        _.each(fileIndexList, function(fileIndex) {
+    // 文章发布相关
+    if (version == "v5") {
+        _.each(fileIndexList, function (fileIndex) {
             var publishIndexList = retrieveIndexArray(fileIndex + ".publish");
-            _.each(publishIndexList, function(publishIndex) {
+            _.each(publishIndexList, function (publishIndex) {
                 var publishAttributes = JSON.parse(localStorage[publishIndex]);
-                if(publishAttributes.provider == "gdrive") {
+                if (publishAttributes.provider == "gdrive") {
                     // Change fileId to Id to be consistent with syncAttributes
                     publishAttributes.id = publishAttributes.fileId;
                     publishAttributes.fileId = undefined;
@@ -125,17 +151,18 @@ define([
         version = "v6";
     }
 
-    if(version == "v6") {
+    // 移除file.current，设置[file].selectTime，不清楚有何用
+    if (version == "v6") {
         currentFileIndex = localStorage["file.current"];
-        if(currentFileIndex !== undefined) {
+        if (currentFileIndex !== undefined) {
             localStorage[currentFileIndex + ".selectTime"] = new Date().getTime();
             localStorage.removeItem("file.current");
         }
-        version = "v7";
+        version = "v23"; // v7~v22 均对settings做修改，今后settings均取默认，不允许用户定制
     }
 
-    if(version == "v7" || version == "v8" || version == "v9") {
-        if(_.has(localStorage, 'settings')) {
+    if (version == "v7" || version == "v8" || version == "v9") {
+        if (_.has(localStorage, 'settings')) {
             settings = JSON.parse(localStorage.settings);
             delete settings.editorFontFamily;
             delete settings.editorFontSize;
@@ -145,8 +172,8 @@ define([
         version = "v10";
     }
 
-    if(version == "v10") {
-        if(_.has(localStorage, 'settings')) {
+    if (version == "v10") {
+        if (_.has(localStorage, 'settings')) {
             settings = JSON.parse(localStorage.settings);
             ((settings.extensionSettings || {}).markdownExtra || {}).extensions && settings.extensionSettings.markdownExtra.extensions.push('smartypants');
             settings.sshProxy == 'http://stackedit-ssh-proxy.herokuapp.com/' && (settings.sshProxy = 'https://stackedit-ssh-proxy.herokuapp.com/');
@@ -161,10 +188,10 @@ define([
         version = "v11";
     }
 
-    if(version == "v11") {
+    if (version == "v11") {
         // Force new theme by using themeV3 variable
         localStorage.removeItem("theme");
-        if(_.has(localStorage, 'settings')) {
+        if (_.has(localStorage, 'settings')) {
             settings = JSON.parse(localStorage.settings);
             // Force new font
             delete settings.editorFontFamily;
@@ -176,8 +203,8 @@ define([
         version = "v12";
     }
 
-    if(version == "v12" || version == "v13") {
-        if(_.has(localStorage, 'settings')) {
+    if (version == "v12" || version == "v13") {
+        if (_.has(localStorage, 'settings')) {
             settings = JSON.parse(localStorage.settings);
             // Have to reset the font because of Monaco issue with ACE
             delete settings.editorFontFamily;
@@ -186,8 +213,8 @@ define([
         version = "v14";
     }
 
-    if(version == "v14") {
-        if(_.has(localStorage, 'settings')) {
+    if (version == "v14") {
+        if (_.has(localStorage, 'settings')) {
             settings = JSON.parse(localStorage.settings);
             settings.template && (settings.template = settings.template.replace('https://stackedit.io/res-min/themes/default.css', 'https://stackedit.io/res-min/themes/base.css'));
             settings.pdfTemplate && (settings.pdfTemplate = settings.pdfTemplate.replace('https://stackedit.io/res-min/themes/default.css', 'https://stackedit.io/res-min/themes/base.css'));
@@ -196,15 +223,15 @@ define([
         version = "v15";
     }
 
-    if(version == "v15") {
+    if (version == "v15") {
         localStorage.removeItem('gdrivePermissions');
-        if(_.has(localStorage, 'gdrive.lastChangeId')) {
+        if (_.has(localStorage, 'gdrive.lastChangeId')) {
             localStorage['google.gdrive0.gdrive.lastChangeId'] = localStorage['gdrive.lastChangeId'];
             localStorage.removeItem('gdrive.lastChangeId');
         }
-        if(_.has(localStorage, 'settings')) {
+        if (_.has(localStorage, 'settings')) {
             settings = JSON.parse(localStorage.settings);
-            if(((settings.extensionSettings || {}).markdownExtra || {}).extensions) {
+            if (((settings.extensionSettings || {}).markdownExtra || {}).extensions) {
                 settings.extensionSettings.markdownExtra.extensions.push('newlines');
                 settings.extensionSettings.markdownExtra.extensions.push('strikethrough');
             }
@@ -213,13 +240,13 @@ define([
         version = "v16";
     }
 
-    if(version == "v16" || version == "v17") {
+    if (version == "v16" || version == "v17") {
         localStorage.removeItem('focusMode');
         localStorage.removeItem('mode');
         localStorage.removeItem('gdrive.state');
         localStorage.removeItem('google.picasa0.permissions');
         localStorage.removeItem('google.picasa0.userId');
-        if(_.has(localStorage, 'settings')) {
+        if (_.has(localStorage, 'settings')) {
             settings = JSON.parse(localStorage.settings);
             delete settings.shortcuts;
             delete settings.editorFontFamily;
@@ -230,43 +257,43 @@ define([
         version = "v18";
     }
 
-	if(version == 'v18') {
-		if(_.has(localStorage, 'settings')) {
-			settings = JSON.parse(localStorage.settings);
-			((settings.extensionSettings || {}).markdownExtra || {}).diagrams = true;
-			localStorage.settings = JSON.stringify(settings);
-		}
-		version = "v19";
-	}
+    if (version == 'v18') {
+        if (_.has(localStorage, 'settings')) {
+            settings = JSON.parse(localStorage.settings);
+            ((settings.extensionSettings || {}).markdownExtra || {}).diagrams = true;
+            localStorage.settings = JSON.stringify(settings);
+        }
+        version = "v19";
+    }
 
-	if(version == 'v19') {
-		// Force new theme by using themeV4 variable
-		localStorage.removeItem("themeV3");
-		// Force welcome tour
-		localStorage.removeItem("welcomeTour");
-		if(_.has(localStorage, 'settings')) {
-			settings = JSON.parse(localStorage.settings);
-			// New web services
-			delete settings.pdfTemplate;
-			delete settings.pdfPageSize;
-			delete settings.sshProxy;
-			localStorage.settings = JSON.stringify(settings);
-		}
-		version = "v20";
-	}
+    if (version == 'v19') {
+        // Force new theme by using themeV4 variable
+        localStorage.removeItem("themeV3");
+        // Force welcome tour
+        localStorage.removeItem("welcomeTour");
+        if (_.has(localStorage, 'settings')) {
+            settings = JSON.parse(localStorage.settings);
+            // New web services
+            delete settings.pdfTemplate;
+            delete settings.pdfPageSize;
+            delete settings.sshProxy;
+            localStorage.settings = JSON.stringify(settings);
+        }
+        version = "v20";
+    }
 
-	if(version == 'v20') {
-		if(_.has(localStorage, 'settings')) {
-			settings = JSON.parse(localStorage.settings);
-			// Force use of text/plain
-			delete settings.markdownMimeType;
-			localStorage.settings = JSON.stringify(settings);
-		}
-		version = "v21";
-	}
+    if (version == 'v20') {
+        if (_.has(localStorage, 'settings')) {
+            settings = JSON.parse(localStorage.settings);
+            // Force use of text/plain
+            delete settings.markdownMimeType;
+            localStorage.settings = JSON.stringify(settings);
+        }
+        version = "v21";
+    }
 
-    if(version == "v21") {
-        if(_.has(localStorage, 'settings')) {
+    if (version == "v21") {
+        if (_.has(localStorage, 'settings')) {
             settings = JSON.parse(localStorage.settings);
             settings.template && (settings.template = settings.template.replace('https://stackedit.io/libs/MathJax/', 'https://cdn.mathjax.org/mathjax/latest/'));
             settings.pdfTemplate && (settings.pdfTemplate = settings.pdfTemplate.replace('/libs/MathJax/', '/res/bower-libs/MathJax/'));
@@ -275,15 +302,15 @@ define([
         version = "v22";
     }
 
-	if(version == "v22") {
-		if(_.has(localStorage, 'settings')) {
-			settings = JSON.parse(localStorage.settings);
-			settings.couchdbUrl && (settings.couchdbUrl = settings.couchdbUrl.replace('https://stackedit.couchappy.com/documents', 'https://stackedit.smileupps.com/documents'));
-			localStorage.settings = JSON.stringify(settings);
-		}
-		version = "v23";
-	}
+    if (version == "v22") {
+        if (_.has(localStorage, 'settings')) {
+            settings = JSON.parse(localStorage.settings);
+            settings.couchdbUrl && (settings.couchdbUrl = settings.couchdbUrl.replace('https://stackedit.couchappy.com/documents', 'https://stackedit.smileupps.com/documents'));
+            localStorage.settings = JSON.stringify(settings);
+        }
+        version = "v23";
+    }
 
-	localStorage.version = version;
+    localStorage.version = version;
     return localStorage;
 });

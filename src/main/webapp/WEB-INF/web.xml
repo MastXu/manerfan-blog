@@ -41,7 +41,7 @@
 		<init-param> <!-- 白名单 -->
 			<param-name>refererWhiteList</param-name>
 			<param-value>
-                **.manerfan.**,
+                localhost,**.manerfan.**,
                 **.baidu.**,**.google.**,**.csdn.**
             </param-value>
 		</init-param>

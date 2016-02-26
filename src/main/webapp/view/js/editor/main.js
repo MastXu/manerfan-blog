@@ -43,11 +43,8 @@ require([
     themeModule
 ], function ($, rangy, core, eventMgr) {
 
-    if (window.noStart) {
-        return;
-    }
-
     $(function () {
+        // 获取用户选择文字的插件
         rangy.init();
 
         // Here, all the modules are loaded and the DOM is ready

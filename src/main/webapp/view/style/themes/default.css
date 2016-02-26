@@ -195,7 +195,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: Menlo, 'Ubuntu Mono', Consolas, 'Courier New', 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
   font-size: 15px;
   line-height: 1.45;
   color: #3f3f3f;
@@ -5915,7 +5915,7 @@ button.close {
   position: absolute;
   z-index: 1070;
   display: block;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: Menlo, 'Ubuntu Mono', Consolas, 'Courier New', 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -6033,7 +6033,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: Menlo, 'Ubuntu Mono', Consolas, 'Courier New', 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
   font-style: normal;
   font-weight: normal;
   letter-spacing: normal;
@@ -6436,7 +6436,7 @@ img {
 .sequence-diagram text,
 .flow-chart text {
   font-size: 15px !important;
-  font-family: "Source Sans Pro", sans-serif !important;
+  font-family: Menlo, 'Ubuntu Mono', Consolas, 'Courier New', 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif !important;
 }
 .sequence-diagram [fill="#ffffff"],
 .flow-chart [fill="#ffffff"] {
@@ -7038,7 +7038,7 @@ footer h6 {
  */
 .alertify,
 .alertify-log {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: Menlo, 'Ubuntu Mono', Consolas, 'Courier New', 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
 }
 .alertify {
   background: #fcfcfc;
@@ -8714,7 +8714,7 @@ div.jGrowl div.jGrowl-closer {
   -ms-filter: none;
   filter: none;
   border-radius: 4px;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: Menlo, 'Ubuntu Mono', Consolas, 'Courier New', 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
 }
 div.jGrowl div.jGrowl-notification {
   min-height: 65px;

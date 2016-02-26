@@ -34,10 +34,6 @@ import com.manerfan.common.utils.logger.MLogger;
  * <pre>
  * jetty 主入口
  * 命令解析采用 apache commons-cli
- * 
- * 参考
- * http://my.oschina.net/cloudcoder/blog/363793
- * http://blog.csdn.net/faye0412/article/details/2949753
  * </pre>
  *
  * @author ManerFan 2016年2月24日
@@ -50,7 +46,7 @@ public class MainEntry {
 
     private static HelpFormatter hf = new HelpFormatter();
 
-    private static String formatstr = "mblog";
+    private static String cmdstr = "mblog";
 
     public static void main(String[] args) {
         if (ObjectUtils.isEmpty(args)) {
@@ -96,7 +92,7 @@ public class MainEntry {
 
             if (commandLine.hasOption('h')) {
                 // 打印使用帮助
-                hf.printHelp(formatstr, opts, true);
+                hf.printHelp(cmdstr, opts, true);
             }
 
             String webcontent = (String) commandLine.getParsedOptionValue("wc");
@@ -124,7 +120,7 @@ public class MainEntry {
             server.start();
 
         } catch (ParseException e) {
-            hf.printHelp(formatstr, opts, true);
+            hf.printHelp(cmdstr, opts, true);
         } catch (Exception e) {
             MLogger.ROOT_LOGGER.error("Start Server Error.", e);
         }
