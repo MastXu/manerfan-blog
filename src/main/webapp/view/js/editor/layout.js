@@ -437,7 +437,7 @@ define([
         wrapperL2 = new DomObject('.layout-wrapper-l2'); // 第二层
         wrapperL3 = new DomObject('.layout-wrapper-l3'); // 第三层 包含编辑区、预览区
 
-        navbar = new DomObject('.navbar'); // 上侧工具条
+        navbar = new DomObject('.layout-wrapper-l1 .navbar'); // 上侧工具条
         navbarInnerElt = navbar.elt.querySelector('.navbar-inner'); // 上侧工具条内部
 
         menuPanel = new DomObject('.menu-panel'); // 左侧侧拉面板

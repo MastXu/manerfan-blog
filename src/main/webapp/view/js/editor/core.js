@@ -307,12 +307,12 @@ define([
         // Add RTL class
         document.body.className += ' ' + settings.editMode;
 
-        if (window.viewerMode === true) {
+        /*if (window.viewerMode === true) {
         	$("body").prepend(bodyViewerHTML);
         }
         else {
         	$("body").prepend(bodyEditorHTML);
-        }
+        }*/
 
         // Initialize utils library
         utils.init();

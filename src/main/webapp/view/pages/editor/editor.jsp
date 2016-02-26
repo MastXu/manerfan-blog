@@ -43,6 +43,7 @@
     <body>
         <c:set var="position" value="fixed" scope="request"></c:set>
         <c:import url="../nav/header.jsp" />
+        <c:import url="bodyEditor.jsp" />
     </body>
 
 </html>
