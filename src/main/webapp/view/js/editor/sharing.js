@@ -7,7 +7,6 @@ define([
 	"js/editor/fileMgr",
 	"js/editor/classes/AsyncTask",
 	"js/editor/classes/Provider",
-	"js/editor/providers/couchdbProvider",
 	"js/editor/providers/downloadProvider",
 	"js/editor/providers/gistProvider"
 ], function($, _, constants, utils, eventMgr, fileMgr, AsyncTask, Provider) {

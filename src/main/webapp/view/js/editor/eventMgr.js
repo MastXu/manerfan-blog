@@ -32,7 +32,7 @@ define([
     "js/editor/extensions/welcomeTour",
     "js/editor/extensions/shortcuts",
     "js/editor/extensions/userCustom",
-    "js/editor/extensions/comments",
+    /*"js/editor/extensions/comments",*/
     "js/editor/extensions/findReplace",
     "js/editor/extensions/htmlSanitizer",
     "bootstrap",
@@ -221,9 +221,9 @@ define([
     addEventHook("onEditorPopover");
 
     // Operations on comments
-    addEventHook("onDiscussionCreated");
+    /*addEventHook("onDiscussionCreated");
     addEventHook("onDiscussionRemoved");
-    addEventHook("onCommentsChanged");
+    addEventHook("onCommentsChanged");*/
 
     // Refresh twitter buttons
     addEventHook("onTweet");

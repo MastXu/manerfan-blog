@@ -652,9 +652,9 @@ define([
 		}
 	}
 
-	eventMgr.addListener('onDiscussionCreated', onComment);
+	/*eventMgr.addListener('onDiscussionCreated', onComment);
 	eventMgr.addListener('onDiscussionRemoved', onComment);
-	eventMgr.addListener('onCommentsChanged', onComment);
+	eventMgr.addListener('onCommentsChanged', onComment);*/
 
 	var triggerSpellCheck = _.debounce(function() {
 		var selection = window.getSelection();
@@ -771,18 +771,27 @@ define([
 	editor.adjustCommentOffsets = adjustCommentOffsets;
 
 	editor.init = function() {
+		// 编辑区
 		inputElt = document.getElementById('wmd-input');
 		$inputElt = $(inputElt);
+
+		// 编辑区内容
 		contentElt = inputElt.querySelector('.editor-content');
 		$contentElt = $(contentElt);
+
+		// 编辑区左侧边栏
 		marginElt = inputElt.querySelector('.editor-margin');
 		$marginElt = $(marginElt);
+
+		// 预览容器
 		previewElt = document.querySelector('.preview-container');
 
 		$inputElt.addClass(settings.editorFontClass);
 
+		// 监测编辑区内容变化
 		watcher.startWatching();
 
+		// 编辑区或者预览区滚动的时候，记录滚动位置
 		$(inputElt).scroll(function() {
 			scrollTop = inputElt.scrollTop;
 			if(fileChanged === false) {

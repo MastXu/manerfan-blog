@@ -34,11 +34,11 @@
 				<ul class="nav left-buttons">
 					<li class="wmd-button-group5 btn-group"></li>
 				</ul>
-				<ul class="nav left-buttons">
+				<!-- <ul class="nav left-buttons">
 					<li class="wmd-button-group4 btn-group">
 						<a class="btn btn-success button-open-discussion" title="Comments Ctrl/Cmd+M"><i class="icon-comment-alt"></i></a>
 					</li>
-				</ul>
+				</ul> -->
 				<ul class="nav pull-right right-buttons">
 					<li class="offline-status hide">
 					    <div class="text-danger">
@@ -72,9 +72,9 @@
 			</div>
 		</div>
 		<div class="extension-preview-buttons">
-			<div class="btn-group drag-me" title="Drag me!">
+			<!-- <div class="btn-group drag-me" title="Drag me!">
 				<i class="icon-ellipsis-vert"></i>
-			</div>
+			</div> -->
 		</div>
 	</div>
 	<div id="wmd-button-bar" class="hide"></div>

@@ -525,65 +525,63 @@ define([
 
         // 右侧侧拉面板
         menuPanel.isOpen = false;
-        if (!window.viewerMode) {
-            menuPanel.createToggler(true);
-            menuPanel.$elt.find('.toggle-button').click(_.bind(menuPanel.toggle, menuPanel));
+        menuPanel.createToggler(true);
+        menuPanel.$elt.find('.toggle-button').click(_.bind(menuPanel.toggle, menuPanel));
 
-            // Hide panels when clicking on a non collapse element
-            menuPanel.$elt.on('click', 'a[data-toggle!=collapse]', _.bind(menuPanel.toggle, menuPanel, false));
+        // Hide panels when clicking on a non collapse element
+        menuPanel.$elt.on('click', 'a[data-toggle!=collapse]', _.bind(menuPanel.toggle, menuPanel, false));
 
-            // Close all open sub-menus when one submenu opens and when panel is closed
-            menuPanel.$elt.on('show.bs.collapse hidden.layout.toggle', function () {
-                menuPanel.$elt.find('.in').collapse('hide');
-            });
+        // Close all open sub-menus when one submenu opens and when panel is closed
+        menuPanel.$elt.on('show.bs.collapse hidden.layout.toggle', function () {
+            menuPanel.$elt.find('.in').collapse('hide');
+        });
 
-            // Focus on editor when menu panel is closed
-            menuPanel.$elt.on('hidden.layout.toggle', function () {
-                isModalShown || editor.elt.focus();
-            });
+        // Focus on editor when menu panel is closed
+        menuPanel.$elt.on('hidden.layout.toggle', function () {
+            isModalShown || editor.elt.focus();
+        });
 
-            // Gesture
+        // Gesture
 
-            /*
-             navbar.initHammer();
-             menuPanel.initHammer();
-             documentPanel.initHammer();
-             previewButtons.initHammer();
+        /*
+         navbar.initHammer();
+         menuPanel.initHammer();
+         documentPanel.initHammer();
+         previewButtons.initHammer();
 
-             navbar.hammer.on('swiperight', _.bind(menuPanel.toggle, menuPanel, true));
-             navbar.hammer.on('swipeleft', _.bind(documentPanel.toggle, documentPanel, true));
-             navbar.hammer.on('swipeup', _.bind(navbar.toggle, navbar, false));
+         navbar.hammer.on('swiperight', _.bind(menuPanel.toggle, menuPanel, true));
+         navbar.hammer.on('swipeleft', _.bind(documentPanel.toggle, documentPanel, true));
+         navbar.hammer.on('swipeup', _.bind(navbar.toggle, navbar, false));
 
-             menuPanel.hammer.on('swiperight', _.bind(menuPanel.toggle, menuPanel, true));
-             menuPanel.hammer.on('swipeleft', _.bind(menuPanel.toggle, menuPanel, false));
+         menuPanel.hammer.on('swiperight', _.bind(menuPanel.toggle, menuPanel, true));
+         menuPanel.hammer.on('swipeleft', _.bind(menuPanel.toggle, menuPanel, false));
 
-             documentPanel.hammer.on('swipeleft', _.bind(documentPanel.toggle, documentPanel, true));
-             documentPanel.hammer.on('swiperight', _.bind(documentPanel.toggle, documentPanel, false));
-             */
+         documentPanel.hammer.on('swipeleft', _.bind(documentPanel.toggle, documentPanel, true));
+         documentPanel.hammer.on('swiperight', _.bind(documentPanel.toggle, documentPanel, false));
+         */
 
-            // 调整预览区宽度按钮
-            previewResizer.initHammer(true);
-            var resizerInitialSize;
-            previewResizer.hammer.on('dragstart', function () {
-                resizerInitialSize = {
-                    width: previewPanel.width,
-                    height: previewPanel.height
-                };
-            }).on('drag', function (evt) {
-                if (isVertical) {
-                    previewPanel.height = resizerInitialSize.height - evt.gesture.deltaY;
-                }
-                else {
-                    previewPanel.width = resizerInitialSize.width - evt.gesture.deltaX;
-                }
-                evt.gesture.preventDefault();
-                previewPanel.halfSize = false;
-                resizeAll();
-            });
-        }
+        // 调整预览区宽度按钮
+        previewResizer.initHammer(true);
+        var resizerInitialSize;
+        previewResizer.hammer.on('dragstart', function () {
+            resizerInitialSize = {
+                width: previewPanel.width,
+                height: previewPanel.height
+            };
+        }).on('drag', function (evt) {
+            if (isVertical) {
+                previewPanel.height = resizerInitialSize.height - evt.gesture.deltaY;
+            }
+            else {
+                previewPanel.width = resizerInitialSize.width - evt.gesture.deltaX;
+            }
+            evt.gesture.preventDefault();
+            previewPanel.halfSize = false;
+            resizeAll();
+        });
 
         // 浮动工具条
-        previewButtons.initHammer(true);
+        /*previewButtons.initHammer(true);*/
         previewButtons.adjustPosition = function () {
             if (!previewButtons.isDragged) {
                 return;
@@ -597,8 +595,7 @@ define([
             this.applyCss();
         };
 
-
-        var buttonsInitialCoord;
+        /*var buttonsInitialCoord;
         previewButtons.hammer.on('dragstart', function () {
             previewButtons.isOpen = true;
             previewButtons.isDragged = true;
@@ -616,7 +613,7 @@ define([
         }).on('dragend', function () {
             wrapperL2.$elt.removeClass('dragging');
             previewButtons.$elt.find('.btn-group').toggleClass('dropup', windowSize.height / 2 > -previewButtons.y);
-        });
+        });*/
 
         // Configure Mousetrap
         mousetrap.stopCallback = function () {

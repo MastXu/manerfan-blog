@@ -8,7 +8,6 @@ define([
 	"js/editor/fileMgr",
 	"js/editor/classes/Provider",
 	"js/editor/providers/dropboxProvider",
-	"js/editor/providers/couchdbProvider",
 	"js/editor/providers/gdriveProvider",
 	"js/editor/providers/gdrivesecProvider",
 	"js/editor/providers/gdriveterProvider"

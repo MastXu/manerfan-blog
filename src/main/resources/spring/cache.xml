@@ -25,6 +25,8 @@
 
 	<bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
 		<property name="configLocation" value="classpath:ehcache/ehcache.xml" />
+		<property name="cacheManagerName" value="SpringEhcacheManager" /> <!-- 防止ehcache冲突 -->
+        <property name="shared" value="false"/>
 	</bean>
 
 </beans>

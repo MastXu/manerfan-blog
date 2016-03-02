@@ -28,8 +28,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Store;
 
 import com.manerfan.blog.dao.entities.UserEntity;
 import com.manerfan.common.utils.dao.common.CommonEntity;
@@ -40,6 +46,8 @@ import com.manerfan.common.utils.dao.common.CommonEntity;
  * @author ManerFan 2016年2月24日
  */
 @Entity(name = "ARTICLE")
+@Indexed(index = "ARTICLE_INDEX") /* 索引文件 */
+@Analyzer(impl = SmartChineseAnalyzer.class) /* 中文分词器 */
 public class ArticleEntity extends CommonEntity {
 
     /**
@@ -50,20 +58,28 @@ public class ArticleEntity extends CommonEntity {
     /**
      * 标题
      */
+    @Field(store = Store.NO)
     @Column(name = "TITLE", nullable = false)
     private String title;
 
     /**
      * 摘要
      */
+    @Field(store = Store.NO)
     @Column(name = "SUMMARY", nullable = false, length = 1024)
     private String summary;
 
     /**
-     * 正文[路径]
+     * 正文文件路径
      */
-    @Column(name = "CONTENT", nullable = false)
-    private String content;
+    @Column(name = "CONTENT_PATH", nullable = false)
+    private String contentPath;
+
+    /**
+     * 正文，仅用于hibernate search索引
+     */
+    @Field(store = Store.NO)
+    private transient String content;
 
     /**
      * 创建时间
@@ -102,6 +118,7 @@ public class ArticleEntity extends CommonEntity {
     /**
      * 作者
      */
+    @IndexedEmbedded(depth = 1)
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @LazyToOne(LazyToOneOption.PROXY)
     @JoinColumn(name = "AUTHOR", nullable = false/* 不能使用referencedColumnName，否则LAZY就不生效了 */)
@@ -214,8 +231,7 @@ public class ArticleEntity extends CommonEntity {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((author == null) ? 0 : author.hashCode());
-        result = prime * result + ((content == null) ? 0 : content.hashCode());
-        result = prime * result + ((state == null) ? 0 : state.hashCode());
+        result = prime * result + ((contentPath == null) ? 0 : contentPath.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
@@ -235,24 +251,27 @@ public class ArticleEntity extends CommonEntity {
                 return false;
         } else if (!author.equals(other.author))
             return false;
-        if (content == null) {
-            if (other.content != null)
+        if (contentPath == null) {
+            if (other.contentPath != null)
                 return false;
-        } else if (!content.equals(other.content))
-            return false;
-        if (state != other.state)
+        } else if (!contentPath.equals(other.contentPath))
             return false;
         if (title == null) {
             if (other.title != null)
                 return false;
         } else if (!title.equals(other.title))
             return false;
-        if (type == null) {
-            if (other.type != null)
-                return false;
-        } else if (!type.equals(other.type))
+        if (type != other.type)
             return false;
         return true;
+    }
+
+    public String getContentPath() {
+        return contentPath;
+    }
+
+    public void setContentPath(String contentPath) {
+        this.contentPath = contentPath;
     }
 
 }
