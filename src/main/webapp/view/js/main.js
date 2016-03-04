@@ -47,7 +47,7 @@ requirejs.config({
         'mousetrap-record': 'plugins/mousetrap/plugins/record/mousetrap-record',
         toMarkdown: 'plugins/to-markdown/src/to-markdown',
         text: 'plugins/requirejs-text/text',
-        mathjax: 'plugins/MathJax/MathJax.js?config=TeX-AMS_HTML',
+        mathjax: 'plugins/MathJax/MathJax.js?config=TeX-AMS_SVG',
         bootstrap: 'plugins/bootstrap/dist/js/bootstrap',
         requirejs: 'plugins/requirejs/require',
         'google-code-prettify': 'plugins/google-code-prettify/src/prettify',
@@ -87,6 +87,7 @@ requirejs.config({
         waitForImages: 'plugins/waitForImages/dist/jquery.waitforimages',
         MathJax: 'plugins/MathJax/MathJax',
         alertify: 'plugins/alertify.js/lib/alertify',
+        monetizejs: 'plugins/monetizejs/dist/monetize.min',
 
         /* 以下为自定义 */
         md5: 'plugins/jquery-md5/jquery.md5',
