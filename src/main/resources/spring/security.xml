@@ -16,6 +16,7 @@
     <http security="none" pattern="/init/**" />
     <http security="none" pattern="/view/**" />
     <http security="none" pattern="/tags/**" />
+    <http security="none" pattern="/**/*.html" />
     
 	<http auto-config="false" use-expressions="true">
 	    <!-- 启用匿名用户 -->
