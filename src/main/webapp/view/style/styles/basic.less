@@ -11,25 +11,28 @@
 .prettyprint {
   white-space: nowrap;
   word-break: normal;
-}
-
-.prettyprint .pre-numbering {
-  position: absolute;
-  width: 50px;
-  height: 100%;
-  background-color: #eee;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 18px 2px 18px 0;
-  border-right: 1px solid #ddd;
-  list-style: none;
-  text-align: right;
+  .pre-numbering {
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    background-color: #eee;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 18px 2px 18px 0;
+    border-right: 1px solid #ddd;
+    list-style: none;
+    text-align: right;
+  }
 }
 
 /********************
  * header
  ********************/
+.navbar#header {
+  margin: 0 !important;
+}
+
 .navbar-collapse ul {
   margin: 0 !important;
 }
@@ -50,14 +53,13 @@ footer {
   z-index: 20;
   min-height: 25px;
   border-color: #d8d8d8;
-}
-
-footer h6 {
-  margin: 0;
-  line-height: 25px;
-  text-align: center;
-  color: ghostwhite;
-  font-family: 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', tahoma, arial, simsun, '宋体';
+  h6 {
+    margin: 0;
+    line-height: 25px;
+    text-align: center;
+    color: ghostwhite;
+    font-family: 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', tahoma, arial, simsun, '宋体';
+  }
 }
 
 /********************
@@ -149,7 +151,7 @@ footer h6 {
  ********************/
 
 .layout-wrapper-l1 {
-  /*top: 50px !important;*/
+  position: relative !important;
   background-color: #4a4a4a;
 }
 

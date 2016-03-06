@@ -5751,6 +5751,9 @@ body.rtl .container {
 /********************
  * header
  ********************/
+.navbar#header {
+  margin: 0 !important;
+}
 .navbar-collapse ul {
   margin: 0 !important;
 }
@@ -5938,7 +5941,7 @@ footer h6 {
  * editor
  ********************/
 .layout-wrapper-l1 {
-  /*top: 50px !important;*/
+  position: relative !important;
   background-color: #4a4a4a;
 }
 .layout-wrapper-l2 .navbar-default {

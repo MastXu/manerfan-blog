@@ -35,8 +35,9 @@
     </head>
 
     <body>
-        <c:set var="position" value="fixed" scope="request"></c:set>
-        <%-- <c:import url="../nav/header.jsp" /> --%>
+        <c:set var="position" value="relative" scope="request"></c:set>
+        <c:import url="../nav/header.jsp" />
+        <c:import url="bodyEditor.jsp" />
     </body>
 
 </html>
