@@ -5948,6 +5948,18 @@ footer h6 {
   background-color: #ededed;
   border-color: #dcdcdc;
 }
+/********************
+ * echarts
+ ********************/
+.language-echarts {
+  position: relative;
+  display: block;
+  height: 340px;
+  width: 100%;
+}
+.language-echarts > div {
+  margin: auto;
+}
 .alertify,
 .alertify-show,
 .alertify-log {

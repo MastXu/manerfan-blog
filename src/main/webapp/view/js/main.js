@@ -91,7 +91,8 @@ requirejs.config({
 
         /* 以下为自定义 */
         md5: 'plugins/jquery-md5/jquery.md5',
-        commonutils: 'js/CommonUtils'
+        commonutils: 'js/CommonUtils',
+        echarts: 'plugins/echarts/dist/echarts.min'
     },
 
     /**

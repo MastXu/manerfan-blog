@@ -9,8 +9,9 @@ define([
     'google-code-prettify',
     'highlightjs',
     'crel',
+    'js/editor/extensions/echartsParser',
     'pagedownExtra'
-], function ($, _, utils, logger, Extension, markdownExtraSettingsBlockHTML, prettify, hljs, crel) {
+], function ($, _, utils, logger, Extension, markdownExtraSettingsBlockHTML, prettify, hljs, crel, echartsParser) {
 
     var markdownExtra = new Extension("markdownExtra", "Markdown Extra", true);
     markdownExtra.settingsBlock = markdownExtraSettingsBlockHTML;
@@ -105,27 +106,29 @@ define([
             var previewContentsElt = document.getElementById('preview-contents');
             editor.hooks.chain("onPreviewRefresh", function () {
                 _.each(previewContentsElt.querySelectorAll('.prettyprint > code'), function (elt) {
-                    // 计算行号
-                    var lines = $(elt).text().split('\n');
-                    var linenum = $(elt).text().split('\n').length;
-                    if (_.isEmpty($.trim(lines[linenum - 1]))) {
-                        linenum -= 1;
+                    if (!echartsParser.parse(elt) /* 先做echarts */) {
+                        // 计算行号
+                        var lines = $(elt).text().split('\n');
+                        var linenum = $(elt).text().split('\n').length;
+                        if (_.isEmpty($.trim(lines[linenum - 1]))) {
+                            linenum -= 1;
+                        }
+
+                        // 格式化代码
+                        !elt.highlighted && hljs.highlightBlock(elt);
+                        elt.highlighted = true;
+
+                        // 生成行号
+                        var linenumber = crel('ul', {
+                            class: 'pre-numbering'
+                        });
+
+                        for (var l = 1; l <= linenum; l++) {
+                            linenumber.innerHTML += "<li>" + l + ".</li>";
+                        }
+
+                        $(elt).parent().append(linenumber);
                     }
-
-                    // 格式化代码
-                    !elt.highlighted && hljs.highlightBlock(elt);
-                    elt.highlighted = true;
-
-                    // 生成行号
-                    var linenumber = crel('ul', {
-                        class: 'pre-numbering'
-                    });
-
-                    for (var l = 1; l <= linenum; l++) {
-                        linenumber.innerHTML += "<li>" + l + ".</li>";
-                    }
-
-                    $(elt).parent().append(linenumber);
                 });
             });
         }

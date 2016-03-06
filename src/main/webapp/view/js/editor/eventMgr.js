@@ -42,6 +42,7 @@ define([
 	"js/editor/extensions/comments",
 	"js/editor/extensions/findReplace",
 	"js/editor/extensions/htmlSanitizer",
+	"js/editor/extensions/echartsParser",
 	"bootstrap",
 	"jquery-waitforimages"
 ], function($, _, crel, mousetrap, utils, logger, Extension, settings, settingsExtensionsAccordionHTML) {
