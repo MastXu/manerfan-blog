@@ -21,8 +21,9 @@
 define([
     "jquery",
     "js/editor/classes/Extension",
+    'crel',
     "echarts"
-], function ($, Extension, echarts) {
+], function ($, Extension, crel, echarts) {
     var echartsParser = new Extension("echartsParser", "Echarts Parser Extra", true);
 
     var eventMgr;
@@ -38,9 +39,23 @@ define([
     echartsParser.parse = function (elt) {
         if ($(elt).hasClass("language-echarts")) {
             try {
-                eval($(elt).text());
+                var optioneval = $(elt).text();
+
+                // 执行echarts语句
+                eval(optioneval);
+                // 初始化echarts
                 var chart = echarts.init(elt);
+                // 初始化图表
                 chart.setOption(option);
+
+                // 将echarts语句保存到pre，查看文章时需要重新初始化echarts
+                var oc = crel('pre', {
+                    class: 'echarts-option',
+                    style: 'display: none'
+                });
+                oc.innerHTML = optioneval;
+                $(elt).append(oc);
+
                 return true;
             } catch (e) {
                 // 如果出错，则按普通code处理
