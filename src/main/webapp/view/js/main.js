@@ -91,8 +91,7 @@ requirejs.config({
 
         /* 以下为自定义 */
         md5: 'plugins/jquery-md5/jquery.md5',
-
-
+        rsa: 'js/utils/rsa/RSA',
 
         commonutils: 'js/utils/CommonUtils',
         echarts: 'plugins/echarts/dist/echarts.min'
@@ -202,6 +201,10 @@ requirejs.config({
         /* 以下为自定义 */
         md5: [
             'jquery'
+        ],
+        rsa: [
+            'js/utils/rsa/BigInt',
+            'js/utils/rsa/Barrett'
         ]
     }
 });
