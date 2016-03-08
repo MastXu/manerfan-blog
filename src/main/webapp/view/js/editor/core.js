@@ -291,12 +291,12 @@ define([
         // Add RTL class
         document.body.className += ' ' + settings.editMode;
 
-        if (window.viewerMode === true) {
+        /*if (window.viewerMode === true) {
             document.body.innerHTML = bodyViewerHTML;
         }
         else {
             document.body.innerHTML = bodyEditorHTML;
-        }
+        }*/
 
         // Initialize utils library
         utils.init();

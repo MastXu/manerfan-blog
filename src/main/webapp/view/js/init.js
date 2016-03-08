@@ -26,7 +26,7 @@ if (!!window.debug) {
 require([
         "jquery",
         "underscore",
-        "commonutils",
+        "utils/CommonUtils",
         "md5",
         "bootstrap",
         themeModule

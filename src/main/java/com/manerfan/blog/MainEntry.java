@@ -24,7 +24,9 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.springframework.util.ObjectUtils;
 
@@ -103,7 +105,14 @@ public class MainEntry {
             String descriptor = new File(webcontent, "WEB-INF/web.xml").getAbsolutePath();
 
             /* 初始化webserver */
-            Server server = new Server(port);
+            Server server = new Server();
+
+            // 使用HTTP/2.0
+            ServerConnector connector = new ServerConnector(server, null, null, null, -1, -1,
+                    new Http2ConnectionFactory());
+            connector.setPort(port);
+
+            server.setConnectors(new Connector[] { connector });
 
             /* 配置webcontent */
             WebAppContext context = new WebAppContext();
