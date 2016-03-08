@@ -58,7 +58,6 @@ public class LoginController extends ControllerBase {
         }
 
         if (request.getParameterMap().containsKey("logout")) {
-            logout();
             mv.addObject("msg", "您已成功退出系统");
         }
 

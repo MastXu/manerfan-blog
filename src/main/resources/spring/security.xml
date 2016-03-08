@@ -18,12 +18,13 @@
     <http security="none" pattern="/tags/**" />
     <http security="none" pattern="/**/*.html" />
     
-	<http auto-config="false" use-expressions="true">
+	<http auto-config="false" use-expressions="true" entry-point-ref="authenticationEntryPoint">
 	    <!-- 启用匿名用户 -->
 	    <anonymous enabled="true" key ="doesNotMatter" username="anonymous" granted-authority="ROLE_ANONYMOUS" />
 	
 	    <intercept-url pattern="/login" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
 	    <intercept-url pattern="/editor" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
+	    <intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
 	
 		<!-- 登陆
 		  login-page                  登陆地址
@@ -33,24 +34,73 @@
 		  default-target-url          登陆后默认跳转的页面
 		  authentication-failure-url  登陆失败后跳转的页面
 		 -->
+		<!-- 
         <form-login login-page="/login"
          login-processing-url="/login-check" 
          username-parameter="username"
          password-parameter="password"
          default-target-url="/"
          authentication-failure-url="/login?auth-fail" />
+         -->
+         
+        <!-- 替换默认的LoginFilter -->
+        <custom-filter ref="customLoginFilter" position="FORM_LOGIN_FILTER" />
          
         <!-- 登出 -->
-        <logout logout-url="/logout" logout-success-url="/login?logout" />
-        
-		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
+        <!-- <logout logout-url="/logout" logout-success-url="/login?logout" /> -->
+        <!-- 替换默认的LogoutFilter -->
+        <custom-filter ref="customLogoutFilter" position="LOGOUT_FILTER" />
 		
 		<csrf disabled="true"/> <!-- 搞不定csrf，先禁用 -->
 	</http>
 	
-	<!--  认证管理器，实现用户认证的入口  --> 
-	<authentication-manager>
+	<!-- 认证管理器，实现用户认证的入口  --> 
+	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userDetailsService" />
 	</authentication-manager>
+	
+	<beans:bean id="authenticationEntryPoint"  
+        class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">  
+        <beans:constructor-arg value="/login" /><!-- 登陆地址 --> 
+    </beans:bean>
+	
+	<!-- 自定义登陆认证过滤器 -->
+	<beans:bean name="customLoginFilter"
+		class="com.manerfan.blog.security.CustomUsernamePasswordAuthenticationFilter">
+		<beans:constructor-arg value="/login-check"/><!-- 认证地址 -->
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="usernameParameter" value="username" />
+        <beans:property name="passwordParameter" value="password" />
+		<beans:property name="authenticationSuccessHandler" ref="loginSuccessHandler" />
+		<beans:property name="authenticationFailureHandler" ref="loginFailureHandler" />
+	</beans:bean>
+	<!-- 登陆成功处理器 -->
+	<beans:bean name="loginSuccessHandler" 
+	   class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+	   <beans:property name="defaultTargetUrl" value="/" /><!-- 登录成功默认跳转地址 -->
+	   <beans:property name="alwaysUseDefaultTargetUrl" value="false" />
+	</beans:bean>
+	<!-- 登陆失败处理器 -->
+	<beans:bean name="loginFailureHandler" 
+       class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+       <beans:constructor-arg value="/login?auth-fail"/><!-- 登陆失败跳转地址 -->
+    </beans:bean>
+    
+    <!-- 自定义注销过滤器 -->
+    <beans:bean name="customLogoutFilter"
+        class="com.manerfan.blog.security.CustomLogoutFilter">
+        <beans:constructor-arg value="/login?logout"/><!-- 注销成功后的跳转地址 --> 
+        <beans:constructor-arg>  
+            <beans:list>  
+                <beans:ref bean="securityContextLogoutHandler"/>  
+            </beans:list>  
+        </beans:constructor-arg>      
+    </beans:bean>
+    <beans:bean name="securityContextLogoutHandler" 
+        class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler">
+        <beans:property name="invalidateHttpSession" value="true" /> <!-- 注销后置session失效 -->
+        <beans:property name="clearAuthentication" value="true" /> <!-- 注销后清楚认证信息 -->
+    </beans:bean>
+	
 
 </beans:beans>
