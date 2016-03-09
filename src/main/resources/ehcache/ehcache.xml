@@ -22,12 +22,12 @@
 		statistics：统计功能?
 	-->
 
-	<!-- 缓存 10天 -->
-    <cache name="cache"
-           maxEntriesLocalHeap="900000"
+	<!-- RSA KeyPair缓存 1分钟 -->
+    <cache name="rsa-keypair-cache"
+           maxEntriesLocalHeap="1024"
            eternal="false"
-           timeToIdleSeconds="864000"
-           timeToLiveSeconds="864000"
+           timeToIdleSeconds="60"
+           timeToLiveSeconds="60"
            overflowToDisk="true"
            statistics="false">
     </cache>

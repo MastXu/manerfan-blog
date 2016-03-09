@@ -26,6 +26,7 @@ if (!!window.debug) {
 require([
         "jquery",
         "underscore",
+        "jcryption",
         "md5",
         "bootstrap",
         themeModule
@@ -51,7 +52,15 @@ require([
                 return false;
             }
 
-            $password.val($.md5($password.val()));
+            $.jCryption.getPublicKey("/login/publickey", function (receivedKeys) {
+                var password = $.md5($password.val());
+                $.jCryption.encryptKey(password, function (encryptedPasswd) {
+                    $password.val(encryptedPasswd);
+                    $("form[name='loginForm']").submit();
+                });
+            });
+
+            return false;
         });
 
         function isEmpty(_input, _event) {

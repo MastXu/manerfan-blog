@@ -22,7 +22,7 @@
 	    <!-- 启用匿名用户 -->
 	    <anonymous enabled="true" key ="doesNotMatter" username="anonymous" granted-authority="ROLE_ANONYMOUS" />
 	
-	    <intercept-url pattern="/login" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
+	    <intercept-url pattern="/login/**" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
 	    <intercept-url pattern="/editor" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
 	    <intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
 	
@@ -73,6 +73,7 @@
         <beans:property name="passwordParameter" value="password" />
 		<beans:property name="authenticationSuccessHandler" ref="loginSuccessHandler" />
 		<beans:property name="authenticationFailureHandler" ref="loginFailureHandler" />
+		<beans:property name="rsaService" ref="passwordRSAService" />
 	</beans:bean>
 	<!-- 登陆成功处理器 -->
 	<beans:bean name="loginSuccessHandler" 

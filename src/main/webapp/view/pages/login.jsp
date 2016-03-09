@@ -109,14 +109,7 @@
 	</div>
 	
 	<c:import url="nav/footer.jsp" />
-	
-	<script>
-		window.debug = false;
-	    if (/(\?|&)debug($|&)/.test(location.search)) {
-	        window.debug = true;
-	    }
-	</script>
-	
+
 	<script src="<c:url value="/view/plugins/requirejs/require.js" />"></script>
     <script src="<c:url value="/view/js/main.js" />"></script>
     <script src="<c:url value="/view/js/login.js" />"></script>

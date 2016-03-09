@@ -15,10 +15,22 @@
  */
 package com.manerfan.blog.security;
 
-import javax.servlet.http.HttpServletRequest;
+import java.security.InvalidKeyException;
+import java.security.interfaces.RSAPrivateKey;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.Assert;
+
+import com.manerfan.blog.service.RSAService;
+import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>自定义登陆验证过滤器</pre>
@@ -27,6 +39,8 @@ import org.springframework.util.Assert;
  */
 public class CustomUsernamePasswordAuthenticationFilter
         extends UsernamePasswordAuthenticationFilter {
+
+    private RSAService rsaService;
 
     public CustomUsernamePasswordAuthenticationFilter() {
     }
@@ -38,8 +52,47 @@ public class CustomUsernamePasswordAuthenticationFilter
 
     @Override
     protected String obtainPassword(HttpServletRequest request) {
-        // TODO 这里对password做rsa解密
-        return super.obtainPassword(request);
+        HttpSession session = request.getSession(true);
+
+        // rsa
+        String passwordrsa = super.obtainPassword(request);
+
+        // 从缓存中获取rsa私钥
+        RSAPrivateKey key = rsaService.getPrivateKey(session.getId());
+        if (null == key) {
+            // 页面停留时间过长导致key过期
+            return passwordrsa;
+        }
+
+        // 取出一个Cipher
+        Cipher c = rsaService.borrowCipher();
+        if (null == c) {
+            return passwordrsa;
+        }
+
+        try {
+            // 转换BCD
+            byte[] bytersa = Hex.decodeHex(passwordrsa.toCharArray());
+
+            c.init(Cipher.ENCRYPT_MODE, key);
+
+            // 解密
+            String password = new String(c.doFinal(bytersa));
+            return password;
+        } catch (DecoderException | IllegalBlockSizeException | BadPaddingException
+                | InvalidKeyException e) {
+            MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);
+            return passwordrsa;
+        } finally {
+            if (null != c) {
+                // 最后无论如何都要把Cipher还回去
+                rsaService.returnCipher(c);
+            }
+        }
+    }
+
+    public void setRsaService(RSAService rsaService) {
+        this.rsaService = rsaService;
     }
 
 }
