@@ -36,7 +36,7 @@ require([
         $(".body").show();
 
         var $username = $("input[name='username']");
-        var $password = $("input[name='password']");
+        var $password = $("input[id='password']");
 
         $username.focus();
 
@@ -52,15 +52,20 @@ require([
                 return false;
             }
 
-            $.jCryption.getPublicKey("/login/publickey", function (receivedKeys) {
-                var password = $.md5($password.val());
-                $.jCryption.encryptKey(password, function (encryptedPasswd) {
-                    $password.val(encryptedPasswd);
-                    $("form[name='loginForm']").submit();
-                });
-            });
+            // md5
+            var password = $.md5($password.val());
+            // rsa pkcs#1 padding
+            $.jCryption.crypt.setKey({e: $("#exponent").val(), n: $("#modulus").val()});
+            password = $.jCryption.crypt.encrypt(password);
+            $("input[name='password']").val(password);
 
-            return false;
+            /*$.jCryption.getPublicKey("/login/publickey", function () {
+             var password = $.md5($password.val());
+             $.jCryption.encryptKey(password, function (encryptedPasswd) {
+             $password.val(encryptedPasswd);
+             $("form[name='loginForm']").submit();
+             });
+             });*/
         });
 
         function isEmpty(_input, _event) {

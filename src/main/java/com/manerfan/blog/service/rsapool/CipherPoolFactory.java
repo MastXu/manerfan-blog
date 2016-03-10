@@ -15,14 +15,11 @@
  */
 package com.manerfan.blog.service.rsapool;
 
-import java.security.Security;
-
 import javax.crypto.Cipher;
 
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  * <pre>RSA Cipher池工厂类</pre>
@@ -33,20 +30,13 @@ public class CipherPoolFactory extends BasePooledObjectFactory<Cipher> {
 
     private static final String ALGORITHM = "RSA/ECB/PKCS1Padding";
 
-    private BouncyCastleProvider provider;
-
-    public CipherPoolFactory() {
-        BouncyCastleProvider provider = new BouncyCastleProvider();
-        Security.addProvider(provider);
-    }
-
     /**
      * 创建cipher
      * @see org.apache.commons.pool2.BasePooledObjectFactory#create()
      */
     @Override
     public Cipher create() throws Exception {
-        return Cipher.getInstance(ALGORITHM, provider);
+        return Cipher.getInstance(ALGORITHM, SecurityBCProvider.getProvider());
     }
 
     /**

@@ -4334,12 +4334,15 @@ RSAKey.prototype.hasPrivateKeyProperty = function(obj){
 /**
  * Parse the properties of obj in the current rsa object. Obj should AT LEAST
  * include the modulus and public exponent (n, e) parameters.
+ *
+ * Modified By ManerFan
+ *
  * @param {Object} obj - the object containing rsa parameters
  * @private
  */
 RSAKey.prototype.parsePropertiesFrom = function(obj){
-    this.n = parseBigInt(obj.n, 16);
-    this.e = parseBigInt(obj.e, 16);
+    this.n = parseBigInt(obj.n, 16); // Exponent - Hex String
+    this.e = parseBigInt(obj.e, 16); // Modulus - Hex String
 
     if (obj.hasOwnProperty('d')){
         this.d = parseBigInt(obj.d, 16);
@@ -4452,6 +4455,9 @@ JSEncrypt.prototype.decrypt = function(string) {
  * Proxy method for RSAKey object's encrypt, encrypt the string using the public
  * components of the rsa key object. Note that if the object was not set will be created
  * on the fly (by the getKey method) using the parameters passed in the JSEncrypt constructor
+ *
+ * Modified By ManerFan (not encoded in base64)
+ *
  * @param {string} string the string to encrypt
  * @return {string} the encrypted string encoded in base64
  * @public

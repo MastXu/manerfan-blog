@@ -17,12 +17,10 @@ package com.manerfan.blog.service.rsapool;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.Security;
 
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  * <pre>RSA KeyPair池工厂类</pre>
@@ -32,18 +30,12 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 public class KeyPairPoolFactory extends BasePooledObjectFactory<KeyPair> {
 
     private static final String ALGORITHM = "RSA";
-    private static final int KEY_LEN = 512;
-
-    private BouncyCastleProvider provider;
-
-    public KeyPairPoolFactory() {
-        BouncyCastleProvider provider = new BouncyCastleProvider();
-        Security.addProvider(provider);
-    }
+    private static final int KEY_LEN = 1024;
 
     @Override
     public KeyPair create() throws Exception {
-        KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(ALGORITHM, provider);
+        KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(ALGORITHM,
+                SecurityBCProvider.getProvider());
         keyPairGen.initialize(KEY_LEN);
         return keyPairGen.generateKeyPair();
     }

@@ -18,8 +18,6 @@ package com.manerfan.blog.webapp;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.manerfan.blog.service.RSAService;
@@ -72,29 +69,19 @@ public class LoginController extends ControllerBase {
             mv.addObject("msg", "您已成功退出系统");
         }
 
-        return mv;
-    }
-
-    @RequestMapping("/publickey")
-    @ResponseBody
-    public Object publicRSAKey(HttpServletRequest request) {
-        Map<String, Object> data = new HashMap<>();
-        Map<String, Object> publickey = new HashMap<>();
-
         // 获取rsa密钥
         KeyPair keyPair = rsaService.getKeyPair();
         if (null != keyPair) {
             // 将rsa公钥传给页面
             RSAPublicKey pk = (RSAPublicKey) keyPair.getPublic();
-            publickey.put("e", pk.getPublicExponent().toString(16));
-            publickey.put("n", pk.getModulus().toString(16));
-            data.put("publickey", publickey);
+            mv.addObject("exponent", pk.getPublicExponent().toString(16));
+            mv.addObject("modulus", pk.getModulus().toString(16));
 
             // 将rsa私钥放入缓存
             String id = request.getSession(true).getId();
             rsaService.putPrivateKey(id, (RSAPrivateKey) keyPair.getPrivate());
         }
 
-        return data;
+        return mv;
     }
 }

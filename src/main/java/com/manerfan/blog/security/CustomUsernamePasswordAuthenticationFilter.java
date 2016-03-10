@@ -54,7 +54,7 @@ public class CustomUsernamePasswordAuthenticationFilter
     protected String obtainPassword(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
 
-        // rsa
+        // rsa密文
         String passwordrsa = super.obtainPassword(request);
 
         // 从缓存中获取rsa私钥
@@ -74,11 +74,9 @@ public class CustomUsernamePasswordAuthenticationFilter
             // 转换BCD
             byte[] bytersa = Hex.decodeHex(passwordrsa.toCharArray());
 
-            c.init(Cipher.ENCRYPT_MODE, key);
-
             // 解密
-            String password = new String(c.doFinal(bytersa));
-            return password;
+            c.init(Cipher.DECRYPT_MODE, key);
+            return new String(c.doFinal(bytersa));
         } catch (DecoderException | IllegalBlockSizeException | BadPaddingException
                 | InvalidKeyException e) {
             MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);

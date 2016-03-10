@@ -37,22 +37,6 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- 加解密、编解码 -->
-        <dependency><!-- RSA的provider -->
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-        </dependency>
-        
-        <dependency><!-- 对象池 -->
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-        </dependency>
-
 		<dependency><!-- jetty -->
 			<groupId>org.eclipse.jetty.aggregate</groupId>
 			<artifactId>jetty-all</artifactId>
@@ -63,6 +47,22 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-jsp</artifactId>
 			<version>9.2.15.v20160210</version>
+		</dependency>
+
+		<!-- 加解密、编解码 -->
+		<dependency><!-- RSA的provider -->
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<dependency><!-- 对象池 -->
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
 		</dependency>
 
 		<!-- commons-cli -->
@@ -213,28 +213,11 @@
 	<build>
 		<plugins>
 			<!-- jetty 调试 -->
-		    <!-- 
-		    <plugin>
-	            <groupId>org.eclipse.jetty</groupId>
-	            <artifactId>jetty-maven-plugin</artifactId>
-	            <configuration>
-                    <systemProperties>
-                        <systemProperty>
-                            <name>DEBUG</name>
-                            <value>TRUE</value>
-                        </systemProperty>
-                    </systemProperties>
-                    <httpConnector>
-                        <port>80</port>
-                    </httpConnector>
-                    <reload>automatic</reload>
-                    <scanIntervalSeconds>1</scanIntervalSeconds>
-                    <webApp>
-                        <contextPath>/mblog</contextPath>
-                    </webApp>
-                </configuration>
-	        </plugin>
-	        -->
+			<!-- <plugin> <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-maven-plugin</artifactId> 
+				<configuration> <systemProperties> <systemProperty> <name>DEBUG</name> <value>TRUE</value> 
+				</systemProperty> </systemProperties> <httpConnector> <port>80</port> </httpConnector> 
+				<reload>automatic</reload> <scanIntervalSeconds>1</scanIntervalSeconds> <webApp> 
+				<contextPath>/mblog</contextPath> </webApp> </configuration> </plugin> -->
 
 			<plugin><!-- 生成JAR包 -->
 				<groupId>org.apache.maven.plugins</groupId>

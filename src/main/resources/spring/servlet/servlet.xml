@@ -56,7 +56,7 @@
     <mvc:resources mapping="/view/style/**" location="/view/style/" cache-period="31556926"/>
     <mvc:resources mapping="/view/images/**" location="/view/images/" cache-period="31556926"/>
     <mvc:resources mapping="/view/plugins/**" location="/view/plugins/" cache-period="31556926"/>
-    <mvc:resources mapping="*.manifest" location="/" cache-period="31556926"/> 
+    <mvc:resources mapping="/*.*" location="/" cache-period="31556926"/> 
     
     <!-- 支持上传文件 -->  
     <!-- id="multipartResolver"必须是multipartResolver -->

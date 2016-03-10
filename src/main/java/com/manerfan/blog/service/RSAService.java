@@ -35,7 +35,7 @@ import com.manerfan.blog.service.rsapool.KeyPairPoolFactory;
 import com.manerfan.common.utils.logger.MLogger;
 
 /**
- * <pre>密码rsa缓存</pre>
+ * <pre>rsa密钥缓存</pre>
  *
  * @author ManerFan 2016年3月8日
  */
@@ -150,7 +150,19 @@ public class RSAService implements InitializingBean {
      */
     private void initKeyPairPool() throws Exception {
         GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
-        // TODO 配置poolConfig
+
+        /* 设置池中最大idle，若idle数量大于此值，则会清理多余idle */
+        poolConfig.setMaxIdle(20);
+        /* 设置多久没有borrow则设置为idle(5分钟) */
+        poolConfig.setMinEvictableIdleTimeMillis(5 * 60 * 1000);
+
+        /* 设置池中最小idle，若idle数量小于此值，则在Evictor定时器中会自动创建idle */
+        poolConfig.setMinIdle(10);
+        /* 设置Evictor定时器周期并启动定时器(30秒) */
+        poolConfig.setTimeBetweenEvictionRunsMillis(30 * 1000);
+
+        /* 设置池中最大数量，若达到上限时borrow，则阻塞 */
+        poolConfig.setMaxTotal(50);
 
         keyPairPool = new GenericObjectPool<>(new KeyPairPoolFactory(), poolConfig);
         // 初始化池中idle keypare个数到minIdle，提前create，免得在使用时再创建
@@ -164,7 +176,19 @@ public class RSAService implements InitializingBean {
      */
     private void initCipherPool() throws Exception {
         GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
-        // TODO 配置poolConfig
+
+        /* 设置池中最大idle，若idle数量大于此值，则会清理多余idle */
+        poolConfig.setMaxIdle(10);
+        /* 设置多久没有borrow则设置为idle(1小时) */
+        poolConfig.setMinEvictableIdleTimeMillis(60 * 60 * 1000);
+
+        /* 设置池中最小idle，若idle数量小于此值，则在Evictor定时器中会自动创建idle */
+        poolConfig.setMinIdle(5);
+        /* 设置Evictor定时器周期并启动定时器(30秒) */
+        poolConfig.setTimeBetweenEvictionRunsMillis(30 * 1000);
+
+        /* 设置池中最大数量，若达到上限时borrow，则阻塞 */
+        poolConfig.setMaxTotal(20);
 
         cipherPool = new GenericObjectPool<>(new CipherPoolFactory(), poolConfig);
         cipherPool.preparePool();
