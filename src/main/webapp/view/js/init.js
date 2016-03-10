@@ -26,7 +26,8 @@ if (!!window.debug) {
 require([
         "jquery",
         "underscore",
-        "utils/CommonUtils",
+        "commonutils",
+        "jcryption",
         "md5",
         "bootstrap",
         themeModule
@@ -36,7 +37,7 @@ require([
         $(".body").show();
 
         var $username = $("input[name='name']");
-        var $password = $("input[name='password']");
+        var $password = $("input[id='password']");
         var $email = $("input[name='email']");
 
         $username.focus();
@@ -58,7 +59,12 @@ require([
                 return false;
             }
 
-            $password.val($.md5($password.val()));
+            // md5
+            var password = $.md5($password.val());
+            // rsa pkcs#1 padding
+            $.jCryption.crypt.setKey({e: $("#exponent").val(), n: $("#modulus").val()});
+            password = $.jCryption.crypt.encrypt(password);
+            $("input[name='password']").val(password);
         });
 
         function isEmpty(_input, _event) {

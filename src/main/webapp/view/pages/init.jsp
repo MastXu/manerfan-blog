@@ -96,7 +96,10 @@
 		            </div>
 		            <div>
 	                    <span class="glyphicon glyphicon-lock"></span>
-	                    <input class="form-control" type='password' name='password' placeholder="密码">
+	                    <input class="form-control" type='password' id='password' placeholder="密码">
+                        <input type='hidden' name='password'>
+                        <input type='hidden' id='exponent' value='<c:out value="${exponent}" />'>
+                        <input type='hidden' id='modulus' value='<c:out value="${modulus}" />'>
 	                </div>
 	                <div>
                         <span class="glyphicon glyphicon-envelope"></span>

@@ -91,7 +91,7 @@
 	    </c:if>
 	    <div class="panel panel-default">
 	        <div class="panel-body">
-				<form name="loginForm" action="<c:url value='/login-check' />" method='POST'>
+				<form name="loginForm" action="<c:url value='/login/check' />" method='POST'>
 		            <div>
                         <span class="glyphicon glyphicon-user"></span>
                         <input class="form-control" type='text' name='username' placeholder="用户名">

@@ -10,9 +10,7 @@
 	<!-- 目前角色分 ADMIN USER ANONYMOUS 三种 -->
 
     <!-- 这种方式，根本不进security filter，无法使用SecurityContextHolder获取任何用户信息 -->
-    <http security="none" pattern="/" />
     <http security="none" pattern="/*.*" />
-    <http security="none" pattern="/init" />
     <http security="none" pattern="/init/**" />
     <http security="none" pattern="/view/**" />
     <http security="none" pattern="/tags/**" />
@@ -22,7 +20,8 @@
 	    <!-- 启用匿名用户 -->
 	    <anonymous enabled="true" key ="doesNotMatter" username="anonymous" granted-authority="ROLE_ANONYMOUS" />
 	
-	    <intercept-url pattern="/login" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
+	    <intercept-url pattern="/" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
+	    <intercept-url pattern="/login/**" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
 	    <intercept-url pattern="/editor" access="hasAnyRole('ROLE_ANONYMOUS','ROLE_ADMIN','ROLE_USER')" />
 	    <intercept-url pattern="/**" access="hasAnyRole('ROLE_ADMIN','ROLE_USER')" />
 	
@@ -36,7 +35,7 @@
 		 -->
 		<!-- 
         <form-login login-page="/login"
-         login-processing-url="/login-check" 
+         login-processing-url="/login/check" 
          username-parameter="username"
          password-parameter="password"
          default-target-url="/"
@@ -67,7 +66,7 @@
 	<!-- 自定义登陆认证过滤器 -->
 	<beans:bean name="customLoginFilter"
 		class="com.manerfan.blog.security.CustomUsernamePasswordAuthenticationFilter">
-		<beans:constructor-arg value="/login-check"/><!-- 认证地址 -->
+		<beans:constructor-arg value="/login/check"/><!-- 认证地址 -->
 		<beans:property name="authenticationManager" ref="authenticationManager" />
 		<beans:property name="usernameParameter" value="username" />
         <beans:property name="passwordParameter" value="password" />
