@@ -91,8 +91,7 @@ requirejs.config({
 
         /* 以下为自定义 */
         md5: 'plugins/jquery-md5/jquery.md5',
-
-
+        jcryption: 'js/utils/jquery.jcryption.3.1.0',
 
         commonutils: 'js/utils/CommonUtils',
         echarts: 'plugins/echarts/dist/echarts.min'
@@ -201,6 +200,9 @@ requirejs.config({
 
         /* 以下为自定义 */
         md5: [
+            'jquery'
+        ],
+        jcryption: [
             'jquery'
         ]
     }

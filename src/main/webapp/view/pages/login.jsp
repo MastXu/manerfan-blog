@@ -83,22 +83,25 @@
     
     <div class="body">
 	    <h1><span class="glyphicon glyphicon-cloud"></span> 登陆</h1>
-	    <c:if test="${not empty error}">
-	        <pre class="msg-danger text-danger">${error}</pre>
+	    <c:if test="${not empty err}">
+	        <pre class="msg-danger text-danger">${err}</pre>
 	    </c:if>
-	    <c:if test="${not empty msg}">
-	        <pre class="msg-info text-info">${msg}</pre>
+	    <c:if test="${not empty info}">
+	        <pre class="msg-info text-info">${info}</pre>
 	    </c:if>
 	    <div class="panel panel-default">
 	        <div class="panel-body">
-				<form name="loginForm" action="<c:url value='/login-check' />" method='POST'>
+				<form name="loginForm" action="<c:url value='/login/check' />" method='POST'>
 		            <div>
                         <span class="glyphicon glyphicon-user"></span>
                         <input class="form-control" type='text' name='username' placeholder="用户名">
                     </div>
                     <div>
                         <span class="glyphicon glyphicon-lock"></span>
-                        <input class="form-control" type='password' name='password' placeholder="密码">
+                        <input class="form-control" type='password' id='password' placeholder="密码">
+                        <input type='hidden' name='password'>
+                        <input type='hidden' id='exponent' value='<c:out value="${exponent}" />'>
+                        <input type='hidden' id='modulus' value='<c:out value="${modulus}" />'>
                     </div>
 	                <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
 	                <button type="submit" class="btn btn-primary btn-lg btn-block">登陆</button>
@@ -109,14 +112,7 @@
 	</div>
 	
 	<c:import url="nav/footer.jsp" />
-	
-	<script>
-		window.debug = false;
-	    if (/(\?|&)debug($|&)/.test(location.search)) {
-	        window.debug = true;
-	    }
-	</script>
-	
+
 	<script src="<c:url value="/view/plugins/requirejs/require.js" />"></script>
     <script src="<c:url value="/view/js/main.js" />"></script>
     <script src="<c:url value="/view/js/login.js" />"></script>

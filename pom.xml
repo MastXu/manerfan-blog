@@ -42,11 +42,27 @@
 			<artifactId>jetty-all</artifactId>
 			<type>pom</type>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.eclipse.jetty</groupId>
-		    <artifactId>jetty-jsp</artifactId>
-		    <version>9.2.15.v20160210</version>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-jsp</artifactId>
+			<version>9.2.15.v20160210</version>
+		</dependency>
+
+		<!-- 加解密、编解码 -->
+		<dependency><!-- RSA的provider -->
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<dependency><!-- 对象池 -->
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
 		</dependency>
 
 		<!-- commons-cli -->
@@ -163,7 +179,7 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
-		
+
 		<!-- jdbc -->
 		<dependency><!-- hibernatebased -->
 			<groupId>com.manerfan.common.utils</groupId>
@@ -180,12 +196,12 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-		
+
 		<!-- 分词 -->
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-analyzers-smartcn</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-smartcn</artifactId>
+		</dependency>
 
 		<!-- ehcache -->
 		<dependency>
@@ -196,30 +212,13 @@
 
 	<build>
 		<plugins>
-		    <!-- jetty 调试 -->
-		    <!-- 
-		    <plugin>
-	            <groupId>org.eclipse.jetty</groupId>
-	            <artifactId>jetty-maven-plugin</artifactId>
-	            <configuration>
-                    <systemProperties>
-                        <systemProperty>
-                            <name>DEBUG</name>
-                            <value>TRUE</value>
-                        </systemProperty>
-                    </systemProperties>
-                    <httpConnector>
-                        <port>80</port>
-                    </httpConnector>
-                    <reload>automatic</reload>
-                    <scanIntervalSeconds>1</scanIntervalSeconds>
-                    <webApp>
-                        <contextPath>/mblog</contextPath>
-                    </webApp>
-                </configuration>
-	        </plugin>
-	        -->
-		    
+			<!-- jetty 调试 -->
+			<!-- <plugin> <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-maven-plugin</artifactId> 
+				<configuration> <systemProperties> <systemProperty> <name>DEBUG</name> <value>TRUE</value> 
+				</systemProperty> </systemProperties> <httpConnector> <port>80</port> </httpConnector> 
+				<reload>automatic</reload> <scanIntervalSeconds>1</scanIntervalSeconds> <webApp> 
+				<contextPath>/mblog</contextPath> </webApp> </configuration> </plugin> -->
+
 			<plugin><!-- 生成JAR包 -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

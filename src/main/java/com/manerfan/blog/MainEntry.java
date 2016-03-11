@@ -108,7 +108,8 @@ public class MainEntry {
             Server server = new Server();
 
             // 使用HTTP/2.0
-            ServerConnector connector = new ServerConnector(server, null, null, null, -1, -1,
+            ServerConnector connector = new ServerConnector(server,
+                    /*new SslConnectionFactory(HttpVersion.HTTP_2.asString()),*/
                     new Http2ConnectionFactory());
             connector.setPort(port);
 

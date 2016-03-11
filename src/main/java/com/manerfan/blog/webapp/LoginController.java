@@ -15,14 +15,21 @@
  */
 package com.manerfan.blog.webapp;
 
+import java.security.KeyPair;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.manerfan.blog.service.RSAService;
 import com.manerfan.blog.service.UserService;
 
 /**
@@ -34,12 +41,19 @@ import com.manerfan.blog.service.UserService;
 @RequestMapping("/login")
 public class LoginController extends ControllerBase {
 
+    public static final String INFO_MSG = "INFO_MSG";
+    public static final String ERR_MSG = "ERR_MSG";
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RSAService rsaService;
 
     @RequestMapping
     public ModelAndView login(HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("login");
+        HttpSession session = request.getSession(true);
 
         if (ObjectUtils.isEmpty(userService.findAdmins())) {
             // 还没有管理员用户，重定向到初始化
@@ -53,13 +67,30 @@ public class LoginController extends ControllerBase {
             return mv;
         }
 
-        if (request.getParameterMap().containsKey("auth-fail")) {
-            mv.addObject("error", "用户名或密码错误");
+        String info = (String) session.getAttribute(INFO_MSG);
+        String err = (String) session.getAttribute(ERR_MSG);
+        session.removeAttribute(INFO_MSG);
+        session.removeAttribute(ERR_MSG);
+
+        if (StringUtils.hasText(info)) {
+            mv.addObject("msg", info);
         }
 
-        if (request.getParameterMap().containsKey("logout")) {
-            logout();
-            mv.addObject("msg", "您已成功退出系统");
+        if (StringUtils.hasText(err)) {
+            mv.addObject("err", err);
+        }
+
+        // 获取rsa密钥
+        KeyPair keyPair = rsaService.getKeyPair();
+        if (null != keyPair) {
+            // 将rsa公钥传给页面
+            RSAPublicKey pk = (RSAPublicKey) keyPair.getPublic();
+            mv.addObject("exponent", pk.getPublicExponent().toString(16));
+            mv.addObject("modulus", pk.getModulus().toString(16));
+
+            // 将rsa私钥放入缓存
+            String id = request.getSession(true).getId();
+            rsaService.putPrivateKey(id, (RSAPrivateKey) keyPair.getPrivate());
         }
 
         return mv;
