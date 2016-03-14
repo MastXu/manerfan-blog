@@ -40,14 +40,14 @@
          username-parameter="username"
          password-parameter="password"
          default-target-url="/"
-         authentication-failure-url="/login?auth-fail" />
+         authentication-failure-url="/login" />
          -->
          
         <!-- 替换默认的LoginFilter -->
         <custom-filter ref="customLoginFilter" position="FORM_LOGIN_FILTER" />
          
         <!-- 登出 -->
-        <!-- <logout logout-url="/logout" logout-success-url="/login?logout" /> -->
+        <!-- <logout logout-url="/logout" logout-success-url="/login" /> -->
         <!-- 替换默认的LogoutFilter -->
         <custom-filter ref="customLogoutFilter" position="LOGOUT_FILTER" />
 		
@@ -84,13 +84,13 @@
 	<!-- 登陆失败处理器 -->
 	<beans:bean name="loginFailureHandler" 
        class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-       <beans:constructor-arg value="/login?auth-fail"/><!-- 登陆失败跳转地址 -->
+       <beans:constructor-arg value="/login"/><!-- 登陆失败跳转地址 -->
     </beans:bean>
     
     <!-- 自定义注销过滤器 -->
     <beans:bean name="customLogoutFilter"
         class="com.manerfan.blog.security.CustomLogoutFilter">
-        <beans:constructor-arg value="/login?logout"/><!-- 注销成功后的跳转地址 --> 
+        <beans:constructor-arg value="/login"/><!-- 注销成功后的跳转地址 --> 
         <beans:constructor-arg>  
             <beans:list>  
                 <beans:ref bean="securityContextLogoutHandler"/>  

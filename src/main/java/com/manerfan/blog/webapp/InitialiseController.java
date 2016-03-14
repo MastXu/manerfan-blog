@@ -24,6 +24,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
@@ -56,13 +57,14 @@ public class InitialiseController extends ControllerBase {
     private RSAService rsaService;
 
     @RequestMapping
-    public ModelAndView init(RedirectAttributes attr, HttpServletRequest request) {
+    public ModelAndView init(HttpServletRequest request/*RedirectAttributes.addFlashAttribute*/) {
         ModelAndView mv = new ModelAndView("init");
+        HttpSession session = request.getSession(true);
 
         if (!ObjectUtils.isEmpty(userService.findAdmins())) {
             // 已经有管理员用户了，直接登录
             mv.setViewName("redirect:/login");
-            attr.addFlashAttribute("error", "请勿重复初始化");
+            session.setAttribute(LoginController.ERR_MSG, "请勿重复初始化");
             return mv;
         }
 
@@ -86,13 +88,14 @@ public class InitialiseController extends ControllerBase {
     public ModelAndView check(@ModelAttribute UserEntity user, RedirectAttributes attr,
             HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
+        HttpSession session = request.getSession(true);
 
         // 从缓存中获取rsa私钥
         RSAPrivateKey key = rsaService.getPrivateKey(request.getSession(true).getId());
         if (null == key) {
             // 页面停留时间过长导致key过期
             mv.setViewName("redirect:/init");
-            attr.addFlashAttribute("msg", "初始化失败，请重新初始化");
+            session.setAttribute(LoginController.ERR_MSG, "页面停留时间过长，请重新初始化");
             return mv;
         }
 
@@ -100,7 +103,7 @@ public class InitialiseController extends ControllerBase {
         Cipher c = rsaService.borrowCipher();
         if (null == c) {
             mv.setViewName("redirect:/init");
-            attr.addFlashAttribute("msg", "初始化失败，请重新初始化");
+            session.setAttribute(LoginController.ERR_MSG, "初始化失败，请联系管理员或重新初始化");
             return mv;
         }
 
@@ -116,7 +119,7 @@ public class InitialiseController extends ControllerBase {
             MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);
 
             mv.setViewName("redirect:/init");
-            attr.addFlashAttribute("msg", "初始化失败，请重新初始化");
+            session.setAttribute(LoginController.ERR_MSG, "初始化失败，请联系管理员或重新初始化");
             return mv;
         } finally {
             if (null != c) {
@@ -127,10 +130,10 @@ public class InitialiseController extends ControllerBase {
 
         if (userService.createAdmin(user)) {
             mv.setViewName("redirect:/login");
-            attr.addFlashAttribute("msg", "初始化完成，请登录");
+            session.setAttribute(LoginController.INFO_MSG, "初始化完成，请登录");
         } else {
             mv.setViewName("redirect:/init");
-            attr.addFlashAttribute("error", "初始化失败，请重试");
+            session.setAttribute(LoginController.ERR_MSG, "初始化失败，请联系管理员或重新初始化");
         }
 
         return mv;

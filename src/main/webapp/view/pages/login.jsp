@@ -83,11 +83,11 @@
     
     <div class="body">
 	    <h1><span class="glyphicon glyphicon-cloud"></span> 登陆</h1>
-	    <c:if test="${not empty error}">
-	        <pre class="msg-danger text-danger">${error}</pre>
+	    <c:if test="${not empty err}">
+	        <pre class="msg-danger text-danger">${err}</pre>
 	    </c:if>
-	    <c:if test="${not empty msg}">
-	        <pre class="msg-info text-info">${msg}</pre>
+	    <c:if test="${not empty info}">
+	        <pre class="msg-info text-info">${info}</pre>
 	    </c:if>
 	    <div class="panel panel-default">
 	        <div class="panel-body">
