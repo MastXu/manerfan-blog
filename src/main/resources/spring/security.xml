@@ -13,6 +13,7 @@
     <http security="none" pattern="/*.*" />
     <http security="none" pattern="/init/**" />
     <http security="none" pattern="/view/**" />
+    <http security="none" pattern="/image/**" />
     <http security="none" pattern="/tags/**" />
     <http security="none" pattern="/**/*.html" />
     

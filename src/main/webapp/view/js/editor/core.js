@@ -16,7 +16,8 @@ define([
     "text!pages/editor/html/tooltipSettingsTemplate.html",
     "text!pages/editor/html/tooltipSettingsPdfOptions.html",
     "js/editor/storage",
-    'pagedown'
+    'pagedown',
+    'jqueryfileupload'
 ], function ($, _, crel, editor, layout, constants, utils, storage, settings, eventMgr, MonetizeJS, bodyEditorHTML, bodyViewerHTML, settingsTemplateTooltipHTML, settingsPdfOptionsTooltipHTML) {
 
     var core = {};
@@ -292,11 +293,11 @@ define([
         document.body.className += ' ' + settings.editMode;
 
         /*if (window.viewerMode === true) {
-            document.body.innerHTML = bodyViewerHTML;
-        }
-        else {
-            document.body.innerHTML = bodyEditorHTML;
-        }*/
+         document.body.innerHTML = bodyViewerHTML;
+         }
+         else {
+         document.body.innerHTML = bodyEditorHTML;
+         }*/
 
         // Initialize utils library
         utils.init();
@@ -420,12 +421,72 @@ define([
             }
         });
 
+        // 上传图片
+        $("#imageupload").fileupload({
+            url: settings.imageUploadURL,
+            /*type: "post",*/
+            dataType: "json",
+            /*dropZone: $("#imageupload"),*/
+            singleFileUploads: false,
+            /*autoUpload: false,*/
+            /*acceptFileTypes: settings.acceptFileTypes,*/
+            add: function (e, data) {
+                var accept = true;
+                $(data.files).each(function (index, file) {
+                    if (!settings.acceptImageTypes.test(file.name)) {
+                        accept = false;
+                        return false;
+                    }
+                });
+
+                if (!accept) {
+                    return;
+                }
+
+                $("#progress").text("0%");
+                $("#progress-bar").css("width", "0%");
+
+                /*$("#filename").text(data.files[0].name);*/
+                $("#before-add").hide();
+                $("#after-add").show();
+
+                jqXHR = data.submit()
+                    .success(function (_result, _textStatus, _jqXHR) {
+                        console.info(_result);
+                    })
+                    .error(function (_jqXHR, _textStatus, _errorThrown) {
+                    })
+                    .complete(function (_result, _textStatus, _jqXHR) {
+                        jqXHR = null;
+                        $("#progress").text("");
+                        $("#progress-bar").css("width", "0%");
+                        $("#importModal").modal("hide");
+                    });
+
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $("#progress").text(progress + "%");
+                $("#progress-bar").css("width", progress + "%");
+
+                if (progress == 100) {
+                    if (typeof settings.onBefore == "function") {
+                        settings.onBefore();
+                    }
+                }
+            }
+        });
+
         // Hide events on "insert link" and "insert image" dialogs
         $(".modal-insert-link, .modal-insert-image").on('hidden.bs.modal', function () {
             if (core.insertLinkCallback !== undefined) {
                 core.insertLinkCallback(null);
                 core.insertLinkCallback = undefined;
             }
+
+            // 插入图片 显示拖拽栏，隐藏进度条
+            $("#before-add").show();
+            $("#after-add").hide();
         });
 
         // Settings loading/saving
