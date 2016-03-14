@@ -15,6 +15,9 @@
  */
 package com.manerfan.blog.webapp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
@@ -31,6 +34,15 @@ import com.manerfan.blog.dao.entities.UserEntity;
  * @author ManerFan 2016年1月28日
  */
 public class ControllerBase {
+
+    protected static final String ERRMSG = "errmsg";
+
+    protected Map<String, Object> makeAjaxData() {
+        Map<String, Object> data = new HashMap<>();
+        data.put(ERRMSG, null);
+
+        return data;
+    }
 
     /**
      * 

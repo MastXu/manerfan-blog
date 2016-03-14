@@ -5,6 +5,8 @@ define([
 ], function(_, constants, storage) {
 
 	var settings = {
+		imageUploadURL: "/image/upload",
+		acceptImageTypes: /([\.jpg|\.jpeg|\.png|\.gif])$/i,
 		layoutOrientation: "horizontal",
 		editMode: 'ltr',
 		lazyRendering: true,
