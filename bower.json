@@ -48,7 +48,6 @@
     "alertify.js": "https://github.com/fabien-d/alertify.js.git#fc2e06fa39873363dda199204b8544119ab060bf",
     "echarts": "~3.0.1",
     "jquery-md5": "*",
-    "flatui": "git://github.com/paulovitin/Flat-UI.git#*",
-    "blueimp-file-upload": "fileupload#^9.12.1"
+    "flatui": "git://github.com/paulovitin/Flat-UI.git#*"
   }
 }

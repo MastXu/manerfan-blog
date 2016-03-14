@@ -313,24 +313,11 @@
 				<h2 class="modal-title">Image</h2>
 			</div>
 			<div class="modal-body">
-				<div class="file-upload">
-					<div id="before-add">
-						<h1>将博客插图拖拽到此区域</h1>
-						<h4>若您的浏览器不支持文件拖拽，请点击此区域选择插图</h4>
-					</div>
-					<input id="imageupload" type="file" name="image" > <!-- multiple -->
-					<div id="after-add" style="display: none;">
-						<h3 id="progress" style="height: 114px; line-height: 114px; overflow: hidden; margin: 0;"></h3>
-						<div id="progress-bar" class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="opacity: 0.5;"></div>
-					</div>
-				</div>
-				<div>
-					<p>您也可以直接提供插图URL，并提供图片描述:</p>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="icon-picture"></i></span><input
-							id="input-insert-image" type="text" class="col-sm-5 form-control"
-							placeholder='http://example.com/image.jpg "插图描述"' />
-					</div>
+				<p>Please provide the image URL and an optional title:</p>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon-picture"></i></span><input
+						id="input-insert-image" type="text" class="col-sm-5 form-control"
+						placeholder='http://example.com/image.jpg "optional title"' />
 				</div>
 			</div>
 			<div class="modal-footer">

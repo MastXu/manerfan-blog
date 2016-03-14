@@ -94,10 +94,7 @@ requirejs.config({
         jcryption: 'js/utils/jquery.jcryption.3.1.0',
 
         commonutils: 'js/utils/CommonUtils',
-        echarts: 'plugins/echarts/dist/echarts.min',
-
-        jqueryfileupload: 'plugins/blueimp-file-upload/js/jquery.fileupload',
-        'jquery.ui.widget': 'plugins/blueimp-file-upload/js/vendor/jquery.ui.widget'
+        echarts: 'plugins/echarts/dist/echarts.min'
     },
 
     /**
@@ -207,11 +204,6 @@ requirejs.config({
         ],
         jcryption: [
             'jquery'
-        ],
-        jqueryfileupload: [
-            'jquery',
-            'jquery.ui.widget',
-            'plugins/blueimp-file-upload/js/jquery.iframe-transport'
         ]
     }
 });

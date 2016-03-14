@@ -5960,44 +5960,6 @@ footer h6 {
 .language-echarts > div {
   margin: auto;
 }
-/**************************************!
- * 文件上传
- **************************************/
-.file-upload {
-  position: relative;
-  width: 100%;
-  height: 120px;
-  margin-bottom: 20px;
-  border: 3px dashed silver;
-  text-align: center;
-  font-size: 36px;
-  color: #d3d3d3;
-}
-.file-upload div {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.file-upload input {
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  cursor: pointer;
-}
-.file-upload h1,
-.file-upload h4 {
-  text-align: center;
-}
-.file-upload h1 {
-  margin: 20px 0;
-  font-size: 32px;
-}
-.file-upload h4 {
-  margin: 0;
-  font-size: 18px;
-}
 .alertify,
 .alertify-show,
 .alertify-log {
