@@ -47,10 +47,13 @@
 		</init-param>
 		<init-param> <!-- 需要过滤的资源 -->
 			<param-name>filteredResources</param-name>
-			<param-value>/image/**</param-value>
+			<param-value>/image/view/**</param-value>
 		</init-param>
-		<!-- 如果没有referer，是否允许访问资源 <init-param> <param-name>accessNonReferer</param-name> 
-			<param-value>false</param-value> </init-param> -->
+		<!-- 如果没有referer，是否允许访问资源  -->
+		<init-param>
+			<param-name>accessNonReferer</param-name> 
+			<param-value>false</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>AntiTheftLinkFilter</filter-name>

@@ -5987,6 +5987,8 @@ footer h6 {
   cursor: pointer;
 }
 .file-upload h1,
+.file-upload h2,
+.file-upload h3,
 .file-upload h4 {
   text-align: center;
 }
