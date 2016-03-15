@@ -46,7 +46,7 @@ public class ImageService implements InitializingBean {
     private static final SimpleDateFormat NAME_SDF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     private static final SimpleDateFormat PATH_SDF = new SimpleDateFormat("/yyyy/MM/");
     private static final String suffix = "[\\.jpg|\\.jpeg|\\.png|\\.gif]";
-    private static final Pattern pattern = Pattern.compile("\\.+" + suffix);
+    private static final Pattern pattern = Pattern.compile(".+" + suffix);
 
     @Value("${article.basedir}")
     private String baseDir;
@@ -55,6 +55,13 @@ public class ImageService implements InitializingBean {
 
     private File defaultImage;
 
+    /**
+     * <pre>
+     * </pre>
+     *
+     * @param image
+     * @return
+     */
     public String save(MultipartFile image) {
         String imageName = image.getOriginalFilename();
         if (!pattern.matcher(imageName).matches()) {
@@ -63,7 +70,11 @@ public class ImageService implements InitializingBean {
 
         String name = NAME_SDF.format(Calendar.getInstance().getTime());
         try {
-            image.transferTo(new File(imageDir, transPath(name) + name + getSuffix(imageName)));
+            File dir = new File(imageDir, transPath(name));
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            image.transferTo(new File(dir, name + getSuffix(imageName)));
             return name;
         } catch (IllegalStateException | IOException e) {
             MLogger.ROOT_LOGGER.error("Save Image File Error.", e);
@@ -123,5 +134,4 @@ public class ImageService implements InitializingBean {
         defaultImage = ResourceUtils.getFile("classpath:antitheft.jpg");
         Assert.isTrue(defaultImage.exists());
     }
-
 }

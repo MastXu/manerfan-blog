@@ -452,7 +452,8 @@ define([
 
                 jqXHR = data.submit()
                     .success(function (_result, _textStatus, _jqXHR) {
-                        console.info(_result);
+                        utils.setInputValue($("#input-insert-image"), _result.url);
+                        $(".action-insert-image").trigger("click");
                     })
                     .error(function (_jqXHR, _textStatus, _errorThrown) {
                     })
