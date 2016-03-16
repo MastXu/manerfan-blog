@@ -45,7 +45,7 @@ public class ImageService implements InitializingBean {
 
     private static final SimpleDateFormat NAME_SDF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     private static final SimpleDateFormat PATH_SDF = new SimpleDateFormat("/yyyy/MM/");
-    private static final String suffix = "[\\.jpg|\\.jpeg|\\.png|\\.gif]";
+    private static final String suffix = "\\.(jpg|jpeg|png|gif)";
     private static final Pattern pattern = Pattern.compile(".+" + suffix);
 
     @Value("${article.basedir}")

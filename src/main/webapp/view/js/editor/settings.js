@@ -6,7 +6,7 @@ define([
 
 	var settings = {
 		imageUploadURL: "/image/upload",
-		acceptImageTypes: /([\.jpg|\.jpeg|\.png|\.gif])$/i,
+		acceptImageTypes: /.+\.(jpg|jpeg|png|gif)/i,
 		layoutOrientation: "horizontal",
 		editMode: 'ltr',
 		lazyRendering: true,
