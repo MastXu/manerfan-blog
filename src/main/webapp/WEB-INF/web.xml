@@ -47,15 +47,18 @@
 		</init-param>
 		<init-param> <!-- 需要过滤的资源 -->
 			<param-name>filteredResources</param-name>
-			<param-value>/image/**</param-value>
+			<param-value>/image/view/**</param-value>
 		</init-param>
-		<!-- 如果没有referer，是否允许访问资源 <init-param> <param-name>accessNonReferer</param-name> 
-			<param-value>false</param-value> </init-param> -->
+		<!-- 如果没有referer，是否允许访问资源  -->
+		<init-param>
+			<param-name>accessNonReferer</param-name> 
+			<param-value>false</param-value>
+		</init-param>
 	</filter>
-	<filter-mapping>
+	<!-- <filter-mapping>
 		<filter-name>AntiTheftLinkFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -133,10 +136,22 @@
 			<web-resource-name>mblog</web-resource-name>
 			<url-pattern>/*</url-pattern>
 			<http-method>PUT</http-method>
+			<http-method>PATCH</http-method>
 			<http-method>DELETE</http-method>
+			<http-method>COPY</http-method>
 			<http-method>HEAD</http-method>
 			<http-method>OPTIONS</http-method>
+			<http-method>LINK</http-method>
+			<http-method>UNLINK</http-method>
+			<http-method>PURGE</http-method>
 			<http-method>TRACE</http-method>
 		</web-resource-collection>
+		<auth-constraint/>
 	</security-constraint>
+	<login-config/> <!-- JETTY -->
+	<!-- TOMCAT
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+	-->
 </web-app>

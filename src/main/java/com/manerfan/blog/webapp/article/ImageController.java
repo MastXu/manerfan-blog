@@ -17,27 +17,23 @@ package com.manerfan.blog.webapp.article;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.manerfan.blog.service.article.ImageService;
 import com.manerfan.blog.webapp.ControllerBase;
-import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>图片操作</pre>
@@ -46,14 +42,10 @@ import com.manerfan.common.utils.logger.MLogger;
  */
 @Controller
 @RequestMapping("/image")
-public class ImageController extends ControllerBase implements InitializingBean {
+public class ImageController extends ControllerBase {
 
-    @Value("${article.basedir}")
-    private String baseDir;
-
-    private File imageDir;
-
-    private File defaultImage;
+    @Autowired
+    private ImageService imageService;
 
     @RequestMapping("/upload")
     @ResponseBody
@@ -65,51 +57,40 @@ public class ImageController extends ControllerBase implements InitializingBean 
             return data;
         }
 
-        String name = String.valueOf(Calendar.getInstance().getTime().getTime());
         try {
-            image.transferTo(new File(imageDir, name + getSuffix(image.getName())));
-            data.put("url", "/image/" + name);
-        } catch (IllegalStateException | IOException e) {
-            data.put(ERRMSG, "保存图片失败");
-            MLogger.ROOT_LOGGER.error("", e);
+            String name = imageService.save(image);
+            data.put("url", "/image/view/" + name);
+        } catch (IllegalArgumentException e) {
+            data.put(ERRMSG, e.getMessage());
         }
 
         return data;
     }
 
-    @RequestMapping("/{name}")
+    @RequestMapping("/view/{name}")
     public ResponseEntity<byte[]> image(@PathVariable("name") String name) throws IOException {
-        File image = imageDir; // TODO
+        File image = imageService.get(name);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_PNG);
-        headers.setContentDispositionFormData("inline", name); // attachment弹出下载框
+        headers.setContentType(mediaType(image.getName()));
+        headers.add("Content-Disposition", "inline; filename=\"" + name + "\"");
+        /*headers.setContentDispositionFormData("attachment", name);*/ // 弹出下载框
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(image), headers,
                 HttpStatus.CREATED);
     }
 
-    private String getSuffix(String fileName) {
-        if (!StringUtils.hasText(fileName)) {
-            return "";
+    private MediaType mediaType(String name) {
+        String suffix = imageService.getSuffix(name);
+        switch (suffix) {
+            case ".jpg":
+            case ".jpeg":
+                return MediaType.IMAGE_JPEG;
+            case ".gif":
+                return MediaType.IMAGE_GIF;
+            case ".png":
+            default:
+                return MediaType.IMAGE_PNG;
         }
-
-        int index = fileName.lastIndexOf(".");
-        if (index < 1) {
-            return "";
-        }
-
-        return fileName.substring(index);
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        Assert.hasText(baseDir);
-
-        imageDir = new File(baseDir, "image");
-        if (!imageDir.exists()) {
-            Assert.isTrue(imageDir.mkdirs());
-        }
-
-        Assert.isTrue(imageDir.isDirectory());
-    }
 }

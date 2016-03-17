@@ -288,6 +288,8 @@
 									</includes>
 									<excludes>
 										<exclude>**/*.java</exclude>
+										<exclude>**/*.bash</exclude>
+										<exclude>**/*.bat</exclude>
 									</excludes>
 									<filtering>false</filtering>
 								</resource>

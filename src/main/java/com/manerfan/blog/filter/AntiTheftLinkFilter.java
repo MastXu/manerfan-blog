@@ -15,24 +15,30 @@
  */
 package com.manerfan.blog.filter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.mather.AnyPathMatcher;
 import com.manerfan.common.utils.mather.OrPathMatcher;
 
@@ -42,6 +48,8 @@ import com.manerfan.common.utils.mather.OrPathMatcher;
  * @author ManerFan 2016年1月24日
  */
 public class AntiTheftLinkFilter extends OncePerRequestFilter {
+
+    private static File antiTheftImage;
 
     private static final String SPLITER = "[ ,\t\n]+";
 
@@ -100,6 +108,13 @@ public class AntiTheftLinkFilter extends OncePerRequestFilter {
         } else {
             resourcesMatcher = new OrRequestMatcher(AnyRequestMatcher.INSTANCE);
         }
+
+        try {
+            antiTheftImage = ResourceUtils.getFile("classpath:antitheft.jpg");
+        } catch (FileNotFoundException e) {
+            MLogger.ROOT_LOGGER.error("Cannot Found AntiThelft Image");
+            throw new ServletException("Cannot Found AntiThelft Image");
+        }
     }
 
     @Override
@@ -119,19 +134,26 @@ public class AntiTheftLinkFilter extends OncePerRequestFilter {
             if (whiteListMatcher.matches(referer)) {
                 filterChain.doFilter(request, response);
             } else { // 不在白名单内
-                redirectLogin(response);
+                doAntiTheft(response);
             }
         } else { // 没有referer
             if (accessNonReferer) {
                 filterChain.doFilter(request, response);
             } else {
-                redirectLogin(response);
+                doAntiTheft(response);
             }
         }
     }
 
-    private void redirectLogin(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/login");
+    private void doAntiTheft(HttpServletResponse response) throws IOException {
+        response.addHeader("Content-Disposition", "inline; filename=\"ManerFanAntiTheft\"");
+        response.setContentType("image/jpeg");
+        response.setStatus(201);
+
+        ServletOutputStream os = response.getOutputStream();
+        os.write(FileUtils.readFileToByteArray(antiTheftImage));
+        os.flush();
+        response.flushBuffer();
     }
 
     public void setRefererWhiteList(String refererWhiteList) {
