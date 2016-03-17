@@ -183,24 +183,64 @@ footer {
 .file-upload {
   position: relative;
   width: 100%;
-  height: 120px;
   margin-bottom: 20px;
   border: 3px dashed silver;
   text-align: center;
   font-size: 36px;
   color: #d3d3d3;
-  div {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  .before-add {
+      input {
+        height: 120px !important;
+        width: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+      .content {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+      }
   }
-  input {
-    height: 100%;
-    width: 100%;
-    opacity: 0;
-    cursor: pointer;
+  .after-add {
+      position: relative;
+      min-height: 80px;
+      image {
+          max-width: 100%;
+          min-width: 100%;
+      }
+      .content, .file-progress {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          .progress-bar {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+          }
+          h3 {
+              position: absolute;
+              top: 50%;
+              left: 0;
+              width: 100%;
+              padding: 0;
+              margin: 0;
+              text-shadow: 3px 3px 10px black;
+              margin-top: -35px;
+          }
+          button {
+              position: absolute;
+              width: 100%;
+              left: 0;
+              opacity: 0.8;
+              border-radius: 0;
+          }
+      }
   }
   h1, h2, h3, h4 {
     text-align: center;

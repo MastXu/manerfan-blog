@@ -10,6 +10,7 @@ define([
     "js/editor/storage",
     "js/editor/settings",
     "js/editor/eventMgr",
+    "jBoxUtil",
     "monetizejs",
     "text!pages/editor/html/bodyEditor.html",
     "text!pages/editor/html/bodyViewer.html",
@@ -17,8 +18,10 @@ define([
     "text!pages/editor/html/tooltipSettingsPdfOptions.html",
     "js/editor/storage",
     'pagedown',
-    'jqueryfileupload'
-], function ($, _, crel, editor, layout, constants, utils, storage, settings, eventMgr, MonetizeJS, bodyEditorHTML, bodyViewerHTML, settingsTemplateTooltipHTML, settingsPdfOptionsTooltipHTML) {
+    'jqueryfileupload',
+], function ($, _, crel, editor, layout, constants, utils, storage, settings,
+             eventMgr, jBoxUtil, MonetizeJS, bodyEditorHTML, bodyViewerHTML,
+             settingsTemplateTooltipHTML, settingsPdfOptionsTooltipHTML) {
 
     var core = {};
 
@@ -443,27 +446,42 @@ define([
                     return;
                 }
 
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#preview").attr('src', e.target.result);
+                }
+                reader.readAsDataURL(data.files[0]);
+
                 $("#progress").text("0%");
                 $("#progress-bar").css("width", "0%");
 
-                /*$("#filename").text(data.files[0].name);*/
-                $("#before-add").hide();
-                $("#after-add").show();
+                $(".before-add").hide();
+                $(".after-add").show();
 
-                jqXHR = data.submit()
-                    .success(function (_result, _textStatus, _jqXHR) {
-                        utils.setInputValue($("#input-insert-image"), _result.url);
-                        $(".action-insert-image").trigger("click");
-                    })
-                    .error(function (_jqXHR, _textStatus, _errorThrown) {
-                    })
-                    .complete(function (_result, _textStatus, _jqXHR) {
-                        jqXHR = null;
-                        $("#progress").text("");
-                        $("#progress-bar").css("width", "0%");
-                        $("#importModal").modal("hide");
-                    });
+                // 点击上传
+                $("#upload-image").one("click", function () {
+                    $(".file-progress").show();
+                    $("#upload-image").hide();
 
+                    jqXHR = data.submit()
+                        .success(function (_result, _textStatus, _jqXHR) {
+                            if (null != _result.errmsg) {
+                                resetImageModalLayout();
+                                jBoxUtil.noticeError({content: _result.errmsg});
+                            } else {
+                                utils.setInputValue($("#input-insert-image"), _result.url);
+                                $(".action-insert-image").trigger("click");
+                            }
+                        })
+                        .error(function (_jqXHR, _textStatus, _errorThrown) {
+                        })
+                        .complete(function (_result, _textStatus, _jqXHR) {
+                            jqXHR = null;
+                            $("#progress").text("");
+                            $("#progress-bar").css("width", "0%");
+                            $("#importModal").modal("hide");
+                        });
+                });
             },
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -478,17 +496,29 @@ define([
             }
         });
 
+        // 插入链接|图片模态框隐藏时
         // Hide events on "insert link" and "insert image" dialogs
         $(".modal-insert-link, .modal-insert-image").on('hidden.bs.modal', function () {
             if (core.insertLinkCallback !== undefined) {
                 core.insertLinkCallback(null);
                 core.insertLinkCallback = undefined;
             }
-
-            // 插入图片 显示拖拽栏，隐藏进度条
-            $("#before-add").show();
-            $("#after-add").hide();
         });
+
+        // 插入图片模态框显示时
+        $(".modal-insert-image").on("shown.bs.modal", function () {
+            resetImageModalLayout();
+        });
+
+        // 重置插入图片布局
+        function resetImageModalLayout() {
+            // 插入图片 显示拖拽栏，隐藏进度条
+            $(".before-add").show();
+            $(".after-add").hide();
+
+            $(".file-progress").hide();
+            $("#upload-image").show();
+        }
 
         // Settings loading/saving
         $(".action-load-settings").click(function () {

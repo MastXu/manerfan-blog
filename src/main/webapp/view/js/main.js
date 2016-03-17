@@ -97,7 +97,8 @@ requirejs.config({
         echarts: 'plugins/echarts/dist/echarts.min',
 
         jqueryfileupload: 'plugins/blueimp-file-upload/js/jquery.fileupload',
-        'jquery.ui.widget': 'plugins/blueimp-file-upload/js/vendor/jquery.ui.widget'
+        'jquery.ui.widget': 'plugins/blueimp-file-upload/js/vendor/jquery.ui.widget',
+        'jBoxUtil': 'js/utils/jBoxUtil'
     },
 
     /**

@@ -315,14 +315,22 @@
 			<div class="modal-body">
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
 					<div class="file-upload">
-						<div id="before-add">
-							<h1>将博客插图拖拽到此区域</h1>
-							<h4>若您的浏览器不支持文件拖拽，请点击此区域选择插图</h4>
+						<div class="before-add">
+							<div class="content">
+								<h1>将博客插图拖拽到此区域</h1>
+								<h4>若您的浏览器不支持文件拖拽，请点击此区域选择插图</h4>
+							</div>
+							<input id="imageupload" type="file" name="image" > <!-- multiple -->
 						</div>
-						<input id="imageupload" type="file" name="image" > <!-- multiple -->
-						<div id="after-add" style="display: none;">
-							<h3 id="progress" style="height: 114px; line-height: 114px; overflow: hidden; margin: 0;"></h3>
-							<div id="progress-bar" class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="opacity: 0.5;"></div>
+						<div class="after-add" style="display: none;">
+							<img id="preview"></img>
+							<div class="content">
+								<div class="file-progress">
+									<h3 id="progress"></h3>
+									<div id="progress-bar" class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="opacity: 0.5;"></div>
+								</div>
+								<button id="upload-image" type="button" class="btn btn-primary">上传</button>
+							</div>
 						</div>
 					</div>
 				</sec:authorize>
