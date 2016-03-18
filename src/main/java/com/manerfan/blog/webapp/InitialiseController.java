@@ -113,7 +113,7 @@ public class InitialiseController extends ControllerBase {
 
             // 解密
             c.init(Cipher.DECRYPT_MODE, key);
-            user.setPassword(new String(c.doFinal(bytersa)));
+            user.setPassword(rsaService.addSalt(new String(c.doFinal(bytersa))));
         } catch (DecoderException | IllegalBlockSizeException | BadPaddingException
                 | InvalidKeyException e) {
             MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);

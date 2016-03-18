@@ -8,7 +8,7 @@
 
 <footer id="footer" class="text-center" style="position: <c:out value='${position}' default='relative' />;">
 	<div class="social">
-		<a href="https://github.com/pseudo-science/manerfan-blog" target="_blank">
+		<a href="https://github.com/ManerFan/manerfan-blog" target="_blank">
 		  <i class="icon-github-circled"></i>
 		</a>
 	</div>

@@ -105,7 +105,9 @@ public class CustomUsernamePasswordAuthenticationFilter
 
             // 解密
             c.init(Cipher.DECRYPT_MODE, key);
-            return new String(c.doFinal(bytersa));
+
+            // 加盐
+            return rsaService.addSalt(new String(c.doFinal(bytersa)));
         } catch (DecoderException | IllegalBlockSizeException | BadPaddingException
                 | InvalidKeyException e) {
             MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);
@@ -145,5 +147,4 @@ public class CustomUsernamePasswordAuthenticationFilter
             super(msg);
         }
     }
-
 }

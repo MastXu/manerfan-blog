@@ -21,6 +21,7 @@ import java.security.interfaces.RSAPrivateKey;
 import javax.annotation.Resource;
 import javax.crypto.Cipher;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.InitializingBean;
@@ -41,6 +42,8 @@ import com.manerfan.common.utils.logger.MLogger;
  */
 @Component("passwordRSAService")
 public class RSAService implements InitializingBean {
+
+    private static final String SALT = "MBLOG";
 
     @Resource(name = "ehcacheCacheManager")
     private CacheManager cacheManager;
@@ -192,6 +195,10 @@ public class RSAService implements InitializingBean {
 
         cipherPool = new GenericObjectPool<>(new CipherPoolFactory(), poolConfig);
         cipherPool.preparePool();
+    }
+
+    public String addSalt(String s) {
+        return DigestUtils.sha256Hex(s + SALT);
     }
 
 }
