@@ -15,12 +15,17 @@
  */
 package com.manerfan.blog.service;
 
+import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 
 import javax.annotation.Resource;
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -28,6 +33,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.cache.CacheManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -195,6 +201,35 @@ public class RSAService implements InitializingBean {
 
         cipherPool = new GenericObjectPool<>(new CipherPoolFactory(), poolConfig);
         cipherPool.preparePool();
+    }
+
+    public String decode(RSAPrivateKey key, String passwordrsa) {
+        // 取出一个Cipher
+        Cipher c = borrowCipher();
+        if (null == c) {
+            MLogger.ROOT_LOGGER.warn("Borrow RSA Cipher Failed.");
+            throw new InternalAuthenticationServiceException("登录失败，请联系管理员或重新登陆");
+        }
+
+        try {
+            // 转换BCD
+            byte[] bytersa = Hex.decodeHex(passwordrsa.toCharArray());
+
+            // 解密
+            c.init(Cipher.DECRYPT_MODE, key);
+
+            // 加盐
+            return addSalt(new String(c.doFinal(bytersa)));
+        } catch (DecoderException | IllegalBlockSizeException | BadPaddingException
+                | InvalidKeyException e) {
+            MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);
+            throw new InternalAuthenticationServiceException("登录失败，请联系管理员或重新登陆", e);
+        } finally {
+            if (null != c) {
+                // 最后无论如何都要把Cipher还回去
+                returnCipher(c);
+            }
+        }
     }
 
     public String addSalt(String s) {

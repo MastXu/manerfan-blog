@@ -16,19 +16,13 @@
 package com.manerfan.blog.security;
 
 import java.io.IOException;
-import java.security.InvalidKeyException;
 import java.security.interfaces.RSAPrivateKey;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -37,7 +31,6 @@ import org.springframework.util.StringUtils;
 
 import com.manerfan.blog.service.RSAService;
 import com.manerfan.blog.webapp.LoginController;
-import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>自定义登陆验证过滤器</pre>
@@ -91,33 +84,11 @@ public class CustomUsernamePasswordAuthenticationFilter
             throw new TimeoutException("页面停留时间过长，请重新登陆");
         }
 
-        // 取出一个Cipher
-        Cipher c = rsaService.borrowCipher();
-        if (null == c) {
-            MLogger.ROOT_LOGGER.warn("Borrow RSA Cipher Failed.");
-            session.setAttribute(LoginController.ERR_MSG, "登录失败，请联系管理员或重新登陆");
-            throw new InternalAuthenticationServiceException("登录失败，请联系管理员或重新登陆");
-        }
-
         try {
-            // 转换BCD
-            byte[] bytersa = Hex.decodeHex(passwordrsa.toCharArray());
-
-            // 解密
-            c.init(Cipher.DECRYPT_MODE, key);
-
-            // 加盐
-            return rsaService.addSalt(new String(c.doFinal(bytersa)));
-        } catch (DecoderException | IllegalBlockSizeException | BadPaddingException
-                | InvalidKeyException e) {
-            MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);
+            return rsaService.decode(key, passwordrsa);
+        } catch (InternalAuthenticationServiceException e) {
             session.setAttribute(LoginController.ERR_MSG, "登录失败，请联系管理员或重新登陆");
-            throw new InternalAuthenticationServiceException("登录失败，请联系管理员或重新登陆", e);
-        } finally {
-            if (null != c) {
-                // 最后无论如何都要把Cipher还回去
-                rsaService.returnCipher(c);
-            }
+            throw e;
         }
     }
 

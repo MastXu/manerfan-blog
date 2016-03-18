@@ -15,20 +15,15 @@
  */
 package com.manerfan.blog.webapp;
 
-import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,7 +34,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.manerfan.blog.dao.entities.UserEntity;
 import com.manerfan.blog.service.RSAService;
 import com.manerfan.blog.service.UserService;
-import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>网站初始化</pre>
@@ -99,33 +93,13 @@ public class InitialiseController extends ControllerBase {
             return mv;
         }
 
-        // 取出一个Cipher
-        Cipher c = rsaService.borrowCipher();
-        if (null == c) {
-            mv.setViewName("redirect:/init");
-            session.setAttribute(LoginController.ERR_MSG, "初始化失败，请联系管理员或重新初始化");
-            return mv;
-        }
-
         try {
-            // 转换BCD
-            byte[] bytersa = Hex.decodeHex(user.getPassword().toCharArray());
-
-            // 解密
-            c.init(Cipher.DECRYPT_MODE, key);
-            user.setPassword(rsaService.addSalt(new String(c.doFinal(bytersa))));
-        } catch (DecoderException | IllegalBlockSizeException | BadPaddingException
-                | InvalidKeyException e) {
-            MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);
-
+            user.setPassword(rsaService.decode(key, user.getPassword()));
+        } catch (InternalAuthenticationServiceException e) {
             mv.setViewName("redirect:/init");
             session.setAttribute(LoginController.ERR_MSG, "初始化失败，请联系管理员或重新初始化");
+
             return mv;
-        } finally {
-            if (null != c) {
-                // 最后无论如何都要把Cipher还回去
-                rsaService.returnCipher(c);
-            }
         }
 
         if (userService.createAdmin(user)) {

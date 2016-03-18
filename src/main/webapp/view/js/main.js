@@ -98,7 +98,8 @@ requirejs.config({
 
         jqueryfileupload: 'plugins/blueimp-file-upload/js/jquery.fileupload',
         'jquery.ui.widget': 'plugins/blueimp-file-upload/js/vendor/jquery.ui.widget',
-        'jBoxUtil': 'js/utils/jBoxUtil'
+        'jBoxUtil': 'js/utils/jBoxUtil',
+        d3cloud: 'plugins/d3-cloud/build/d3.layout.cloud'
     },
 
     /**
