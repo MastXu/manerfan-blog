@@ -2,6 +2,7 @@
 @import "../../js/editor/libs/highlight/styles/default.css";
 @import "../../js/editor/libs/fontello/css/fontello.css";
 @import "../../plugins/jgrowl/jquery.jgrowl.css";
+@import "../../plugins/jbox/Source/jBox.css";
 article,
 aside,
 details,
@@ -5773,6 +5774,7 @@ footer {
   z-index: 20;
   min-height: 25px;
   border-color: #d8d8d8;
+  background-color: #f6f6f6;
 }
 footer h6 {
   margin: 0;
@@ -6042,6 +6044,9 @@ footer h6 {
   margin: 0;
   font-size: 18px;
 }
+/**************************************!
+ * 图片
+ **************************************/
 .alertify,
 .alertify-show,
 .alertify-log {

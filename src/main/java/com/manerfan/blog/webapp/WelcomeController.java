@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.manerfan.blog.webapp.editor;
+package com.manerfan.blog.webapp;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * <pre>欢迎页</pre>
+ * <pre>首页</pre>
  *
- * @author ManerFan 2016年1月18日
+ * @author ManerFan 2016年3月20日
  */
 @Controller
-@RequestMapping("/editor")
-public class Editor {
+@RequestMapping("/")
+public class WelcomeController {
 
     @RequestMapping
-    public ModelAndView editor() {
-        return new ModelAndView("editor/editor");
+    public ModelAndView welcome() {
+        return new ModelAndView("welcome");
     }
 
 }

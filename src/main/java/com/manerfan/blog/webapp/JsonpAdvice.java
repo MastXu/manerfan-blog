@@ -18,6 +18,7 @@ package com.manerfan.blog.webapp;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.AbstractJsonpResponseBodyAdvice;
 
 /**
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.AbstractJsonpRespon
  *
  * @author ManerFan 2016年3月7日
  */
+@ControllerAdvice("com.manerfan.blog.webapp")
 public class JsonpAdvice extends AbstractJsonpResponseBodyAdvice {
     public JsonpAdvice() {
         super("jsonpcallback", "callback", "jsonp");
