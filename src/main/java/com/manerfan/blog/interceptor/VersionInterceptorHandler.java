@@ -18,17 +18,21 @@ package com.manerfan.blog.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
- * <pre>判断是否需要页面缓存</pre>
+ * <pre>版本管理过滤器</pre>
  *
  * @author ManerFan 2016年1月18日
  */
-@Component("CacheInterceptorHandler")
-public class CacheInterceptorHandler extends HandlerInterceptorAdapter {
+@Component("VersionInterceptorHandler")
+public class VersionInterceptorHandler extends HandlerInterceptorAdapter {
+
+    @Value("${mblog.version}")
+    private String version;
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
@@ -36,13 +40,8 @@ public class CacheInterceptorHandler extends HandlerInterceptorAdapter {
         if (null == modelAndView) {
             return;
         }
-        
-        if (request.getParameterMap().containsKey("debug")) {
-            // debug 模式
-            modelAndView.addObject("cache", false);
-        } else {
-            modelAndView.addObject("cache", true);
-        }
+
+        modelAndView.addObject("version", version);
     }
 
 }

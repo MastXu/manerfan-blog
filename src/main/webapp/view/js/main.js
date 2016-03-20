@@ -1,6 +1,8 @@
 // RequireJS configuration
 /*global requirejs */
 
+var version = document.getElementById('mainscript').getAttribute('data-version');
+
 requirejs.config({
 
     baseUrl: "view",
@@ -10,6 +12,11 @@ requirejs.config({
      * Setting it to 0 disables the timeout. The default is 7 seconds.
      */
     waitSeconds: 0,
+
+    /**
+     * 加入版本号
+     */
+    urlArgs: 'v=' + version,
 
     /**
      * 从CommonJS包(package)中加载模块
@@ -98,7 +105,8 @@ requirejs.config({
 
         jqueryfileupload: 'plugins/blueimp-file-upload/js/jquery.fileupload',
         'jquery.ui.widget': 'plugins/blueimp-file-upload/js/vendor/jquery.ui.widget',
-        'jBoxUtil': 'js/utils/jBoxUtil'
+        'jBoxUtil': 'js/utils/jBoxUtil',
+        d3cloud: 'plugins/d3-cloud/build/d3.layout.cloud'
     },
 
     /**

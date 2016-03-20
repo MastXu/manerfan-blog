@@ -50,6 +50,7 @@
     "jquery-md5": "*",
     "flatui": "git://github.com/paulovitin/Flat-UI.git#*",
     "blueimp-file-upload": "fileupload#^9.12.1",
-    "jbox": "^0.3.2"
+    "jbox": "^0.3.2",
+    "d3-cloud": "^1.2.1"
   }
 }

@@ -47,7 +47,7 @@ public class UserEntity extends CommonEntity {
     /**
      * 密码
      */
-    @Column(name = "PASSWORD", nullable = false, length = 32)
+    @Column(name = "PASSWORD", nullable = false, length = 128)
     private String password;
 
     /**

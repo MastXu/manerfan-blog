@@ -46,7 +46,7 @@ public class CustomLogoutFilter extends LogoutFilter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         if (requiresLogout(request, response)) {
-            request.getSession(true).setAttribute(LoginController.INFO_MSG, "您已成功推出系统");
+            request.getSession(true).setAttribute(LoginController.INFO_MSG, "您已成功退出系统");
         }
 
         super.doFilter(req, res, chain);

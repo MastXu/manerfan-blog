@@ -9,6 +9,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="<c:url value='/view/style/themes/default.css?v=${version}'/>" type="text/css">
+	
     <title>登陆</title>
     
     <style>
@@ -113,8 +115,8 @@
 	
 	<c:import url="nav/footer.jsp" />
 
-	<script src="<c:url value="/view/plugins/requirejs/require.js" />"></script>
-    <script src="<c:url value="/view/js/main.js" />"></script>
-    <script src="<c:url value="/view/js/login.js" />"></script>
+	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
+    <script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>
+    <script src="<c:url value="/view/js/login.js?v=${version}" />"></script>
 </body>
 </html>

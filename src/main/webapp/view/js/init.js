@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-var themeModule = "css!style/themes/default";
-if (!!window.debug) {
-    themeModule = "less!style/themes/default";
-}
-
 /**
  * 初始化
  * Created by ManerFan on 2016/1/28.
@@ -29,8 +24,7 @@ require([
         "commonutils",
         "jcryption",
         "md5",
-        "bootstrap",
-        themeModule
+        "bootstrap"
     ],
     function ($, _, commonutils) {
         // CSS 加载完之后再显示
