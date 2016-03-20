@@ -8,6 +8,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="<c:url value='/view/style/themes/default.css?v=${version}'/>" type="text/css">
+
     <title>初始化</title>
     
     <style>
@@ -120,8 +122,8 @@
 	    }
 	</script>
 	
-	<script src="<c:url value="/view/plugins/requirejs/require.js" />"></script>
-    <script src="<c:url value="/view/js/main.js" />"></script>
-    <script src="<c:url value="/view/js/init.js" />"></script>
+	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
+    <script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>
+    <script src="<c:url value="/view/js/init.js?v=${version}" />"></script>
 </body>
 </html>
