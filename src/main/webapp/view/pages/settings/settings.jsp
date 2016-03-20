@@ -54,8 +54,8 @@
 	    }
 	</script>
 	
-	<script src="<c:url value="/view/plugins/requirejs/require.js" />"></script>
-    <script src="<c:url value="/view/js/main.js" />"></script>
-    <script src="<c:url value="/view/js/settings/settings.js" />"></script>
+	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
+    <script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>
+    <script src="<c:url value="/view/js/settings/settings.js?v=${version}" />"></script>
 </body>
 </html>
