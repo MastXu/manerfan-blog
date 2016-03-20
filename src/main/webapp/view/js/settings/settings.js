@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-var themeModule = "css!style/themes/default";
-if (!!window.debug) {
-    themeModule = "less!style/themes/default";
-}
-
 /**
  * 设置
  * Created by ManerFan on 2016/1/29.
@@ -28,8 +23,7 @@ require([
         "underscore",
         "commonutils",
         "md5",
-        "bootstrap",
-        themeModule
+        "bootstrap"
     ],
     function ($, _, commonutils) {
         $(".list-group-item").click(function () {

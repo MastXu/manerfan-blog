@@ -71,6 +71,10 @@
 				<div class="panel-body"><a class="icon-book"></a></div>
 				<div class="panel-footer">JAVADOC</div>
 			</div>
+			<div class="panel panel-default col">
+				<div class="panel-body"><a class="icon-user-md"></a></div>
+				<div class="panel-footer">关于我</div>
+			</div>
 			<!-- <div class="panel panel-default col">
 				<div class="panel-body"><a href="mailto:manerfan@foxmail.com" class="icon-mail-alt"></a></div>
 				<div class="panel-footer">EMAIL</div>

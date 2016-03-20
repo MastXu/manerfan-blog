@@ -61,9 +61,9 @@
         form .glyphicon {
             position: absolute !important;
             z-index: 99 !important;
-            left: 10px !important;
+            left: 5px !important;
             font-size: 20px !important;
-            top: 10px !important;
+            top: 5px !important;
         }
         
         button[type=submit] {
@@ -84,7 +84,7 @@
     <c:import url="nav/header.jsp" />
     
     <div class="body">
-	    <h1><span class="glyphicon glyphicon-cloud"></span> 登陆</h1>
+	    <h1><span class="icon-cloud"></span> 登陆</h1>
 	    <c:if test="${not empty err}">
 	        <pre class="msg-danger text-danger">${err}</pre>
 	    </c:if>
@@ -95,11 +95,11 @@
 	        <div class="panel-body">
 				<form name="loginForm" action="<c:url value='/login/check' />" method='POST'>
 		            <div>
-                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="glyphicon icon-user"></span>
                         <input class="form-control" type='text' name='username' placeholder="用户名">
                     </div>
                     <div>
-                        <span class="glyphicon glyphicon-lock"></span>
+                        <span class="glyphicon icon-lock"></span>
                         <input class="form-control" type='password' id='password' placeholder="密码">
                         <input type='hidden' name='password'>
                         <input type='hidden' id='exponent' value='<c:out value="${exponent}" />'>

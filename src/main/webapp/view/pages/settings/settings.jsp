@@ -11,6 +11,7 @@
 <head>
     <title>设置</title>
     
+    <link rel="stylesheet" href="<c:url value='/view/style/themes/default.css?v=${version}'/>" type="text/css">
     <style>
         .main-content #panel-settings>div {
             display: none;
