@@ -16,7 +16,7 @@ before_install:
   - git clone --depth=50 --branch=master https://github.com/ManerFan/manerfan-common-utils.git $HOME/ManerFan/manerfan-common-utils
   - mvn -f $HOME/ManerFan/manerfan-common-utils clean compile install -Dmaven.javadoc.skip=true
 # 构建脚本
-script: mvn clean compile install -Dmaven.javadoc.skip=true
+install: mvn clean compile install -Dmaven.javadoc.skip=true
 # 通知
 notifications:
   email:
