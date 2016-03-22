@@ -61,7 +61,7 @@
 			</div>
 			<div class="panel panel-default col">
 				<div class="panel-body"><a href="<c:url value='/editor' />" class="icon-pencil-squared"></a></div>
-				<div class="panel-footer">编辑器</div>
+				<div class="panel-footer">写博客</div>
 			</div>
 			<div class="panel panel-default col">
 				<div class="panel-body"><a target="_blank" href="https://github.com/ManerFan/manerfan-blog" class="icon-github-circled"></a></div>

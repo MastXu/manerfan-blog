@@ -1,0 +1,26 @@
+# 语言
+language: java
+# 版本
+jdk:
+  - oraclejdk8
+# 构建过程缓存
+before_cache:
+  - rm -rf $HOME/.m2/repository
+cache:
+  directories:
+  - $HOME/.m2
+# 依赖
+before_install:
+  - git clone --depth=50 --branch=master https://github.com/ManerFan/manerfan-maven-pom.git $HOME/ManerFan/manerfan-maven-pom
+  - mvn -f $HOME/ManerFan/manerfan-maven-pom clean compile install -Dmaven.javadoc.skip=true
+  - git clone --depth=50 --branch=master https://github.com/ManerFan/manerfan-common-utils.git $HOME/ManerFan/manerfan-common-utils
+  - mvn -f $HOME/ManerFan/manerfan-common-utils clean compile install -Dmaven.javadoc.skip=true
+# 构建脚本
+script: mvn clean compile install -Dmaven.javadoc.skip=true
+# 通知
+notifications:
+  email:
+    recipients:
+      - manerfan@foxmail.com
+    on_success: change
+    on_failure: always
