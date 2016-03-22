@@ -48,15 +48,7 @@
 			<artifactId>jetty-jsp</artifactId>
 			<version>9.2.15.v20160210</version>
 			<exclusions>
-				<!-- <exclusion>
-					<groupId>org.glassfish.web</groupId>
-      				<artifactId>javax.servlet.jsp</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.glassfish.web</groupId>
-      				<artifactId>javax.servlet.jsp</artifactId>
-				</exclusion> -->
-				<exclusion>
+				<exclusion><!-- 此项在travisci中download出错 -->
 					<groupId>org.glassfish</groupId>
         			<artifactId>javax.el</artifactId>
 				</exclusion>
@@ -66,6 +58,17 @@
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>el-impl</artifactId>
 			<version>2.2.1-b05</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.el</groupId>
+            		<artifactId>el-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>3.0.1-b04</version>
 		</dependency>
 		
 

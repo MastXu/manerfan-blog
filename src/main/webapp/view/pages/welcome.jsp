@@ -68,6 +68,10 @@
 				<div class="panel-footer">GitHub</div>
 			</div>
 			<div class="panel panel-default col">
+				<div class="panel-body"><a target="_blank" href="https://travis-ci.org/ManerFan" class="icon-gauge"></a></div>
+				<div class="panel-footer">TravisCI</div>
+			</div>
+			<div class="panel panel-default col">
 				<div class="panel-body"><a class="icon-book"></a></div>
 				<div class="panel-footer">JAVADOC</div>
 			</div>
