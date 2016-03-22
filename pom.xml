@@ -47,7 +47,27 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-jsp</artifactId>
 			<version>9.2.15.v20160210</version>
+			<exclusions>
+				<!-- <exclusion>
+					<groupId>org.glassfish.web</groupId>
+      				<artifactId>javax.servlet.jsp</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.glassfish.web</groupId>
+      				<artifactId>javax.servlet.jsp</artifactId>
+				</exclusion> -->
+				<exclusion>
+					<groupId>org.glassfish</groupId>
+        			<artifactId>javax.el</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>el-impl</artifactId>
+			<version>2.2.1-b05</version>
+		</dependency>
+		
 
 		<!-- 加解密、编解码 -->
 		<dependency><!-- RSA的provider -->
