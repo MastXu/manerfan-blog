@@ -25,22 +25,12 @@ import org.springframework.web.servlet.ModelAndView;
  * @author ManerFan 2016年1月18日
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/editor")
 public class Editor {
 
     @RequestMapping
-    public ModelAndView landing() {
-        return new ModelAndView("editor/landing");
-    }
-
-    @RequestMapping("/editor")
     public ModelAndView editor() {
         return new ModelAndView("editor/editor");
-    }
-    
-    @RequestMapping("/viewer")
-    public ModelAndView viewer() {
-        return new ModelAndView("editor/viewer");
     }
 
 }
