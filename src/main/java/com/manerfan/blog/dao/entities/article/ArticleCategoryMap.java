@@ -29,7 +29,7 @@ import javax.persistence.ManyToOne;
  *
  * @author ManerFan 2016年2月24日
  */
-@Entity(name = "ARTICLE_CATEGORY_MAP")
+@Entity(name = "article_category_map")
 public class ArticleCategoryMap implements Serializable {
 
     /**
@@ -42,7 +42,7 @@ public class ArticleCategoryMap implements Serializable {
      */
     @Id
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "CATEGORY", nullable = false)
+    @JoinColumn(name = "category", nullable = false)
     private CategoryEntity category;
 
     /**
@@ -50,7 +50,7 @@ public class ArticleCategoryMap implements Serializable {
      */
     @Id
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ARTICLE", nullable = false)
+    @JoinColumn(name = "article", nullable = false)
     private ArticleEntity article;
 
     public CategoryEntity getCategory() {

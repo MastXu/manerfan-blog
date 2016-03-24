@@ -45,8 +45,8 @@ import com.manerfan.common.utils.dao.common.CommonEntity;
  *
  * @author ManerFan 2016年2月24日
  */
-@Entity(name = "ARTICLE")
-@Indexed(index = "ARTICLE_INDEX") /* 索引文件 */
+@Entity(name = "article")
+@Indexed(index = "article_index") /* 索引文件 */
 @Analyzer(impl = SmartChineseAnalyzer.class) /* 中文分词器 */
 public class ArticleEntity extends CommonEntity {
 
@@ -59,20 +59,20 @@ public class ArticleEntity extends CommonEntity {
      * 标题
      */
     @Field(store = Store.NO)
-    @Column(name = "TITLE", nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
     /**
      * 摘要
      */
     @Field(store = Store.NO)
-    @Column(name = "SUMMARY", nullable = false, length = 1024)
+    @Column(name = "summary", nullable = false, length = 1024)
     private String summary;
 
     /**
      * 正文文件路径
      */
-    @Column(name = "CONTENT_PATH", nullable = false)
+    @Column(name = "content_path", nullable = false)
     private String contentPath;
 
     /**
@@ -85,34 +85,34 @@ public class ArticleEntity extends CommonEntity {
      * 创建时间
      */
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "CREATE_TIME", nullable = false)
+    @Column(name = "create_time", nullable = false)
     private Date createTime;
 
     /**
      * 最后一次修改时间
      */
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "LAST_MOD_TIME", nullable = false)
+    @Column(name = "last_mod_time", nullable = false)
     private Date lastModTime;
 
     /**
      * 阅读次数
      */
-    @Column(name = "HITS", nullable = false, columnDefinition = "int default 0")
-    private int hits;
+    @Column(name = "hits", nullable = false, columnDefinition = "int default 0")
+    private int hits = 0;
 
     /**
      * 文章状态
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = "STATE", nullable = false)
+    @Column(name = "state", nullable = false)
     private State state;
 
     /**
      * 文章类型
      */
     @Enumerated(EnumType.STRING)
-    @Column(name = "TYPE", nullable = false)
+    @Column(name = "type", nullable = false)
     private Type type;
 
     /**
@@ -121,7 +121,7 @@ public class ArticleEntity extends CommonEntity {
     @IndexedEmbedded(depth = 1)
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @LazyToOne(LazyToOneOption.PROXY)
-    @JoinColumn(name = "AUTHOR", nullable = false/* 不能使用referencedColumnName，否则LAZY就不生效了 */)
+    @JoinColumn(name = "author", nullable = false/* 不能使用referencedColumnName，否则LAZY就不生效了 */)
     private UserEntity author;
 
     public static enum Type {

@@ -15,6 +15,7 @@
  */
 package com.manerfan.blog.dao.entities.article;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.manerfan.common.utils.dao.common.CommonEntity;
@@ -24,7 +25,7 @@ import com.manerfan.common.utils.dao.common.CommonEntity;
  *
  * @author ManerFan 2016年2月24日
  */
-@Entity(name = "CATEGORY")
+@Entity(name = "category")
 public class CategoryEntity extends CommonEntity {
 
     /**
@@ -35,6 +36,7 @@ public class CategoryEntity extends CommonEntity {
     /**
      * 分类名
      */
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     public String getName() {
