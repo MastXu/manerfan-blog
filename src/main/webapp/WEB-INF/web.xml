@@ -5,10 +5,26 @@
 	id="WebApp_ID" version="3.0">
 
 	<display-name>mblog</display-name>
-
+	
+	<!-- spring 默认XMLWebApplicationContext，使用contextConfigLocation
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:spring/*.xml</param-value>
+	</context-param>
+	 -->
+	
+	<!-- 指定AnnotationConfigWebApplicationContext，使用contextConfigLocation -->
+	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>
+			org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+		</param-value>
+	</context-param>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			com.manerfan.spring.configuration.MBlogConfiguration
+		</param-value>
 	</context-param>
 
 	<listener>
@@ -91,8 +107,12 @@
 		<servlet-name>mblog</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param><!-- 默认WEB-INF/mblog-servlet.xml -->
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath*:spring/servlet/*.xml</param-value>
+			<!-- <param-name>contextConfigLocation</param-name>
+			<param-value>classpath*:spring/servlet/*.xml</param-value> -->
+			<param-name>contextClass</param-name>
+			<param-value>
+				org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

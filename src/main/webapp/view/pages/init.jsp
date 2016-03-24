@@ -13,65 +13,17 @@
     <title>初始化</title>
     
     <style>
-        h1 {
-            margin: 1em 0 !important;
-        }
-    
-        div, span, h1, h2, h3, h4, h5, h6, pre {
-            font-family: 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, tahoma, arial, simsun, 宋体;
-        }
-        
-        div, span, h1, h2, h3, h4, h5, h6 {
-            text-align: center !important;
-            color: #999 !important;
-        }
-
-        .body {
-            display: none;
-            position: absolute !important;
-            width: 450px !important;
-            top: 50% !important;
-            left: 50% !important;
-            margin-top: -250px;
-            margin-left: -230px;
-        }
-        
-        .panel {
-            padding: 5px 20px !important;
-        }
-        
-        .glyphicon-cloud {
-            top: 10px !important;
-        }
-        
-        form div {
-            position: relative !important;
-            height: 42px !important;
-            margin: 5px 0 !important;
-        }
-        
-        form .form-control {
-            position: absolute !important;
-            top: 0 !important;
-            padding-left: 50px !important;
-            color: #333333;
-        }
-        
-        form .glyphicon {
-            position: absolute !important;
-            z-index: 99 !important;
-            left: 10px !important;
-            font-size: 20px !important;
-            top: 10px !important;
-        }
-        
-        button[type=submit] {
-            margin-top: 10px;
-        }
-        
-        .msg-danger {
-            background-color: rgba(232, 76, 61, 0.5) !important;
-        }
+        h1 {margin: 1em 0 !important;}
+        div, span, h1, h2, h3, h4, h5, h6, pre {font-family: 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, tahoma, arial, simsun, 宋体;}
+		div, span, h1, h2, h3, h4, h5, h6 {text-align: center !important;color: #999 !important;}
+		.body {display: none;position: absolute !important;width: 450px !important;top: 50% !important;left: 50% !important;margin-top: -250px;margin-left: -230px;}
+        .panel {padding: 5px 20px !important;}
+        .glyphicon-cloud {top: 10px !important;}
+        form div {position: relative !important;height: 42px !important;margin: 5px 0 !important;}
+        form .form-control {position: absolute !important;top: 0 !important;padding-left: 50px !important;color: #333333;}
+        form .glyphicon {position: absolute !important;z-index: 99 !important;left: 10px !important;font-size: 20px !important;top: 10px !important;}
+        button[type=submit] {margin-top: 10px;}
+        .msg-danger {background-color: rgba(232, 76, 61, 0.5) !important;}
     </style>
 </head>
 <body>

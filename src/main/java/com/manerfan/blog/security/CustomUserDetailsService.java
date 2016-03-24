@@ -31,7 +31,7 @@ import com.manerfan.blog.service.UserService;
  *
  * @author ManerFan 2016年1月24日
  */
-@Component("userDetailsService")
+@Component
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired

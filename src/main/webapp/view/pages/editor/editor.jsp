@@ -29,7 +29,7 @@
         <meta name="msvalidate.01" content="5E47EE6F67B069C17E3CDD418351A612">
         
         <script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
-    <script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>
+    	<script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>
         <script src="<c:url value="/view/js/editor/main.js?v=${version}" />"></script>
         <!-- 也可以通过data-main配置Require Config -->
         <!-- <script data-main="view/js/main.js" src="<c:url value="/view/js/require.js" />"></script> -->

@@ -24,11 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
- * <pre>版本管理过滤器</pre>
+ * <pre>版本管理拦截器</pre>
  *
  * @author ManerFan 2016年1月18日
  */
-@Component("VersionInterceptorHandler")
+@Component
 public class VersionInterceptorHandler extends HandlerInterceptorAdapter {
 
     @Value("${mblog.version}")
