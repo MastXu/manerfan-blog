@@ -24,8 +24,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -82,7 +84,8 @@ public class ImageService implements InitializingBean {
         }
     }
 
-    public File get(String name) {
+    @Cacheable(cacheNames = "resources-cache", keyGenerator = "ResourceKeyGenerator")
+    public ImageCachingFile get(String name) throws IOException {
         Pattern pattern = Pattern.compile(name + suffix);
 
         String path = transPath(name);
@@ -94,7 +97,15 @@ public class ImageService implements InitializingBean {
             }
         });
 
-        return ObjectUtils.isEmpty(files) ? defaultImage : files[0];
+        ImageCachingFile image = new ImageCachingFile();
+        File imageFile = defaultImage;
+        if (!ObjectUtils.isEmpty(files)) {
+            imageFile = files[0];
+        }
+
+        image.setFileName(imageFile.getName());
+        image.setContent(FileUtils.readFileToByteArray(imageFile));
+        return image;
     }
 
     private String transPath(String name) {
@@ -134,4 +145,5 @@ public class ImageService implements InitializingBean {
         defaultImage = ResourceUtils.getFile("classpath:antitheft.jpg");
         Assert.isTrue(defaultImage.exists());
     }
+
 }

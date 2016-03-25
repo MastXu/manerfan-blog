@@ -226,6 +226,11 @@
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 		</dependency>
+		
+		<dependency><!-- 压缩 -->
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

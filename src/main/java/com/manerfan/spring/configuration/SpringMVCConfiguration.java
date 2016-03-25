@@ -18,6 +18,7 @@ package com.manerfan.spring.configuration;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -32,9 +33,13 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.resource.CachingResourceResolver;
+import org.springframework.web.servlet.resource.CachingResourceTransformer;
+import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -101,8 +106,41 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
         registry.addResourceHandler("/tags/**").addResourceLocations("/tags/")
                 .setCachePeriod(cachePeriod);
         registry.addResourceHandler("/view/**").addResourceLocations("/view/")
-                .setCachePeriod(cachePeriod);
+                .setCachePeriod(cachePeriod).resourceChain(false)
+                .addTransformer(cachingResourceTrasnformer()).addResolver(cachingResourceResolver())
+                .addResolver(gzipResourceResolver());
         registry.addResourceHandler("/*.*").addResourceLocations("/").setCachePeriod(cachePeriod);
+    }
+
+    /**
+     * <pre>
+     * 资源压缩
+     * </pre>
+     */
+    @Bean
+    public GzipResourceResolver gzipResourceResolver() {
+        return new CustomGzipResourceResolver();
+    }
+
+    /**
+     * <pre>
+     * 资源缓存
+     * </pre>
+     */
+    @Bean
+    public CachingResourceResolver cachingResourceResolver() {
+        /* 直接使用java自带缓存 */
+        return new CachingResourceResolver(resourceChainCache());
+    }
+
+    @Bean
+    public CachingResourceTransformer cachingResourceTrasnformer() {
+        return new CachingResourceTransformer(resourceChainCache());
+    }
+
+    @Bean
+    public ConcurrentMapCache resourceChainCache() {
+        return new ConcurrentMapCache("spring-resource-chain-cache");
     }
 
     /**
@@ -118,7 +156,7 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     @Bean(name = "messageSource" /* 必须为messageSource */)
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("msg_manerfan");
+        messageSource.setBasename("msg_mblog");
         return messageSource;
     }
 
@@ -166,10 +204,10 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
      *   &lt;/bean&gt; 
      * </pre>
      */
-    @Bean
+    @Bean(name = "multipartResolver" /* 必须为multipartResolver */)
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(1024000l);
+        multipartResolver.setMaxUploadSize(2097152l); /* 2MB */
         multipartResolver.setDefaultEncoding("UTF-8");
 
         return multipartResolver;
@@ -199,6 +237,19 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     protected void addInterceptors(InterceptorRegistry registry) {
         /* 版本管理拦截器 */
         registry.addInterceptor(beanFactory.getBean(VersionInterceptorHandler.class));
+    }
+
+    /**
+     * <pre>
+     * 异常处理
+     * </pre>
+     */
+    @Bean
+    public SimpleMappingExceptionResolver exceptionResolver() {
+        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+        exceptionResolver.setDefaultErrorView("error");
+        exceptionResolver.setDefaultStatusCode(500);
+        return exceptionResolver;
     }
 
 }
