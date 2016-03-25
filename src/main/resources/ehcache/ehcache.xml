@@ -31,5 +31,15 @@
            overflowToDisk="true"
            statistics="false">
     </cache>
+    
+    <!-- 资源缓存 30分钟 -->
+    <cache name="resources-cache"
+           maxEntriesLocalHeap="1024"
+           eternal="false"
+           timeToIdleSeconds="1800"
+           timeToLiveSeconds="1800"
+           overflowToDisk="true"
+           statistics="false">
+    </cache>
 
 </ehcache>

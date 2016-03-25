@@ -15,11 +15,9 @@
  */
 package com.manerfan.blog.webapp.article;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.manerfan.blog.service.article.ImageCachingFile;
 import com.manerfan.blog.service.article.ImageService;
 import com.manerfan.blog.webapp.ControllerBase;
 
@@ -69,14 +68,13 @@ public class ImageController extends ControllerBase {
 
     @RequestMapping("/view/{name}")
     public ResponseEntity<byte[]> image(@PathVariable("name") String name) throws IOException {
-        File image = imageService.get(name);
+        ImageCachingFile image = imageService.get(name);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(mediaType(image.getName()));
+        headers.setContentType(mediaType(image.getFileName()));
         headers.add("Content-Disposition", "inline; filename=\"" + name + "\"");
         /*headers.setContentDispositionFormData("attachment", name);*/ // 弹出下载框
-        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(image), headers,
-                HttpStatus.CREATED);
+        return new ResponseEntity<byte[]>(image.getContent(), headers, HttpStatus.CREATED);
     }
 
     private MediaType mediaType(String name) {

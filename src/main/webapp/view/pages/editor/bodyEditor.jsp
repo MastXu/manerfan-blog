@@ -320,7 +320,7 @@
 								<h1>将博客插图拖拽到此区域</h1>
 								<h4>若您的浏览器不支持文件拖拽，请点击此区域选择插图</h4>
 							</div>
-							<input id="imageupload" type="file" name="image" > <!-- multiple -->
+							<input id="imageupload" type="file" name="image" accept="image/*" > <!-- multiple -->
 						</div>
 						<div class="after-add" style="display: none;">
 							<img id="preview"></img>

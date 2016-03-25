@@ -19,7 +19,6 @@ import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 
-import javax.annotation.Resource;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -30,6 +29,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.cache.CacheManager;
@@ -46,12 +46,10 @@ import com.manerfan.common.utils.logger.MLogger;
  *
  * @author ManerFan 2016年3月8日
  */
-@Component("passwordRSAService")
+@Component
 public class RSAService implements InitializingBean {
 
-    private static final String SALT = "MBLOG";
-
-    @Resource(name = "ehcacheCacheManager")
+    @Autowired
     private CacheManager cacheManager;
     private Cache cache;
 
@@ -232,8 +230,35 @@ public class RSAService implements InitializingBean {
         }
     }
 
+    /**
+     * <pre>
+     * 加盐处理
+     * </pre>
+     *
+     * @param s 密码
+     * @return  sha256(passwd+salt)
+     */
     public String addSalt(String s) {
-        return DigestUtils.sha256Hex(s + SALT);
+        String salt = calculateSalt(s); /* 动态计算盐值 */
+        return DigestUtils.sha256Hex(s + salt); /* 加盐后加密处理 */
+    }
+
+    /**
+     * <pre>
+     * 计算盐值
+     * </pre>
+     *
+     * @param s 密码
+     * @return  计算的盐值
+     */
+    private String calculateSalt(String s) {
+        byte[] bs = s.getBytes();
+        long salt = 0;
+        for (byte b : bs) {
+            salt += b;
+        }
+
+        return Long.toString(salt);
     }
 
 }

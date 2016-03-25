@@ -36,7 +36,7 @@ import com.manerfan.blog.webapp.LoginController;
  */
 public class CustomLogoutFilter extends LogoutFilter {
 
-    public CustomLogoutFilter(String logoutSuccessUrl, LogoutHandler[] handlers) {
+    public CustomLogoutFilter(String logoutSuccessUrl, LogoutHandler... handlers) {
         super(logoutSuccessUrl, handlers);
     }
 

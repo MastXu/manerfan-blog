@@ -25,7 +25,7 @@ import com.manerfan.common.utils.dao.common.CommonEntity;
  *
  * @author ManerFan 2016年1月24日
  */
-@Entity(name = "USER")
+@Entity(name = "user")
 public class UserEntity extends CommonEntity {
 
     /**
@@ -41,31 +41,31 @@ public class UserEntity extends CommonEntity {
     /**
      * 用户名
      */
-    @Column(name = "NAME", unique = true, nullable = false, length = 12)
+    @Column(name = "name", unique = true, nullable = false, length = 12)
     private String name;
 
     /**
      * 密码
      */
-    @Column(name = "PASSWORD", nullable = false, length = 128)
+    @Column(name = "password", nullable = false, length = 128)
     private String password;
 
     /**
      * 邮箱
      */
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     private String email;
 
     /**
      * 角色
      */
-    @Column(name = "ROLE", nullable = false)
+    @Column(name = "role", nullable = false)
     private String role;
 
     /**
      * 头像地址
      */
-    @Column(name = "AVATAR")
+    @Column(name = "avatar")
     private String avatar;
 
     @Override

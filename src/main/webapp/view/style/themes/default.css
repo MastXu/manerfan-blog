@@ -3,6 +3,7 @@
 @import "../../js/editor/libs/fontello/css/fontello.css";
 @import "../../plugins/jgrowl/jquery.jgrowl.css";
 @import "../../plugins/jbox/Source/jBox.css";
+@import "../../plugins/animate.css/animate.css";
 article,
 aside,
 details,
@@ -6044,9 +6045,6 @@ footer h6 {
   margin: 0;
   font-size: 18px;
 }
-/**************************************!
- * 图片
- **************************************/
 .alertify,
 .alertify-show,
 .alertify-log {
