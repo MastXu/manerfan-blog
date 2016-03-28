@@ -41,15 +41,15 @@
 			</div>
 			<div class="panel panel-default col animated flipInX">
 				<div class="panel-body"><a href="<c:url value='/editor' />" class="icon-pencil-squared"></a></div>
-				<div class="panel-footer">写博客</div>
+				<div class="panel-footer">写文章</div>
 			</div>
 			<div class="panel panel-default col animated flipInX">
 				<div class="panel-body"><a target="_blank" href="https://github.com/ManerFan/manerfan-blog" class="icon-github-circled"></a></div>
 				<div class="panel-footer">GitHub</div>
 			</div>
 			<div class="panel panel-default col animated flipInX">
-				<div class="panel-body"><a target="_blank" href="https://travis-ci.org/ManerFan" class="icon-gauge"></a></div>
-				<div class="panel-footer">TravisCI</div>
+				<div class="panel-body"><a target="_blank" href="https://github.com/ManerFan/manerfan-blog/wiki" class="icon-won"></a></div>
+				<div class="panel-footer">Wiki</div>
 			</div>
 			<div class="panel panel-default col animated flipInX">
 				<div class="panel-body"><a class="icon-book"></a></div>

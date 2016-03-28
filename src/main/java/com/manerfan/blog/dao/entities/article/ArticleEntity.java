@@ -109,13 +109,6 @@ public class ArticleEntity extends CommonEntity {
     private State state;
 
     /**
-     * 文章类型
-     */
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    private Type type;
-
-    /**
      * 作者
      */
     @IndexedEmbedded(depth = 1)
@@ -123,21 +116,6 @@ public class ArticleEntity extends CommonEntity {
     @LazyToOne(LazyToOneOption.PROXY)
     @JoinColumn(name = "author", nullable = false/* 不能使用referencedColumnName，否则LAZY就不生效了 */)
     private UserEntity author;
-
-    public static enum Type {
-        /**
-         * 博客文章
-         */
-        ARTICLE,
-        /**
-         * 关于
-         */
-        ABOUT,
-        /**
-         * 更新日志
-         */
-        CHANGELOG
-    }
 
     public static enum State {
         /**
@@ -218,14 +196,6 @@ public class ArticleEntity extends CommonEntity {
         this.author = author;
     }
 
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -233,7 +203,6 @@ public class ArticleEntity extends CommonEntity {
         result = prime * result + ((author == null) ? 0 : author.hashCode());
         result = prime * result + ((contentPath == null) ? 0 : contentPath.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
 
@@ -260,8 +229,6 @@ public class ArticleEntity extends CommonEntity {
             if (other.title != null)
                 return false;
         } else if (!title.equals(other.title))
-            return false;
-        if (type != other.type)
             return false;
         return true;
     }

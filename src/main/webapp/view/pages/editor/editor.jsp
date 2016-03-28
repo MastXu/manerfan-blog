@@ -33,11 +33,18 @@
         <script src="<c:url value="/view/js/editor/main.js?v=${version}" />"></script>
         <!-- 也可以通过data-main配置Require Config -->
         <!-- <script data-main="view/js/main.js" src="<c:url value="/view/js/require.js" />"></script> -->
+        
+        <style>
+        	._loading{position:absolute;top:0;width:100%;height:100%;z-index:9000;background-color:#88a825}
+        </style>
     </head>
 
     <body>
         <c:set var="position" value="relative" scope="request"></c:set>
         <c:import url="../nav/header.jsp" />
+        <div class="_loading">
+	        <c:import url="../common/loading.jsp" />
+        </div>
         <c:import url="bodyEditor.jsp" />
     </body>
 

@@ -33,8 +33,9 @@ define([
     };
     var windowSize;
 
-    var header;
-    var wrapperL1, wrapperL2, wrapperL3;
+    var header, title;
+    var headerHeight = 52;
+    var titleHeight = 50
     var navbar, menuPanel, documentPanel, editor, previewPanel, previewContainer, navbarToggler, previewToggler, previewResizer, previewButtons;
 
     var animate = false;
@@ -272,12 +273,12 @@ define([
     function resizeAll() {
         windowSize = {
             width: window.innerWidth,
-            height: window.innerHeight - header.$elt.outerHeight(true)
+            height: window.innerHeight - headerHeight - titleHeight
         };
 
         while (true) {
             // Layout wrapper level 1
-            wrapperL1.y = navbar.isOpen ? 0 : -navbarHeight;
+            wrapperL1.y = navbar.isOpen ? 0 : -(headerHeight + titleHeight);
             wrapperL1.x = menuPanel.isOpen ? 0 : documentPanel.isOpen ? -(menuPanelWidth + documentPanelWidth) : -menuPanelWidth;
             wrapperL1.width = windowSize.width + menuPanelWidth + documentPanelWidth;
             wrapperL1.height = windowSize.height - wrapperL1.y;
@@ -292,9 +293,12 @@ define([
             wrapperL3.width = windowSize.width;
             wrapperL3.height = wrapperL1.height - navbarHeight;
 
+            header.y = navbar.isOpen ? 0 : -headerHeight;
+
             wrapperL1.applyCss();
             wrapperL2.applyCss();
             wrapperL3.applyCss();
+            header.applyCss();
 
             if (window.viewerMode) {
                 previewPanel.width = wrapperL3.width;
@@ -425,6 +429,7 @@ define([
         document.documentElement.style.overflow = 'hidden';
 
         header = new DomObject('nav#header');
+        title = new DomObject('.navbar-title');
 
         wrapperL1 = new DomObject('.layout-wrapper-l1');
         wrapperL2 = new DomObject('.layout-wrapper-l2');
@@ -638,6 +643,8 @@ define([
         document.head.appendChild(style);
 
         resizeAll();
+
+        $("._loading").fadeOut("slow");
     };
 
     eventMgr.addListener('onReady', function () {

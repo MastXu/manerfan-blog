@@ -6,6 +6,26 @@
 <%@ taglib prefix="spring" uri="spring_tld" %> <!-- http://www.springframework.org/tags -->
 <%@ taglib prefix="sec" uri="security_tld" %> <!-- http://www.springframework.org/security/tags" -->
 
+<style>
+	.navbar-title {width:100%;height:50px;position:relative;}
+	.navbar-title ul {width:100%;height:100%;padding:4px 30px;position:relative;}
+	.navbar-title ul li {float:right;}
+	.navbar-title .title-inner {position:absolute;width:100%;padding-right:120px;}
+</style>
+
+<div class="navbar-title navbar-inner">
+	<ul class="nav pull-right title-container">
+		<li><button type="button" class="btn btn-danger" style="margin: 1px  0  0 10px;">发表</button></li>
+		<li>
+			<a class="btn btn-success file-title-navbar" href="#" title="Rename document"></a>
+		</li>
+		<li class="title-inner">
+			<div class="input-file-title-container">
+				<input type="text" class="col-sm-4 form-control hide input-file-title" placeholder="Document title" />
+			</div>
+		</li>
+	</ul>
+</div>
 <div class="layout-wrapper-l1">
 	<div class="layout-wrapper-l2">
 		<div class="navbar navbar-default">
@@ -47,14 +67,14 @@
 					</li>
 					<li class="extension-buttons"></li>
 				</ul>
-				<ul class="nav pull-right title-container">
+				<!-- <ul class="nav pull-right title-container">
 					<li><div class="working-indicator"></div></li>
 					<li><a class="btn btn-success file-title-navbar" href="#"
 						title="Rename document"> </a></li>
 					<li><div class="input-file-title-container"><input type="text"
 						class="col-sm-4 form-control hide input-file-title"
 						placeholder="Document title" /></div></li>
-				</ul>
+				</ul> -->
 			</div>
 		</div>
 		<div class="layout-wrapper-l3">
