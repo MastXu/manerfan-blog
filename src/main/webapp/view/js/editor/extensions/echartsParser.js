@@ -22,7 +22,8 @@ define([
     "jquery",
     "js/editor/classes/Extension",
     'crel',
-    "echarts"
+    "echarts",
+    "js-base64"
 ], function ($, Extension, crel, echarts) {
     var echartsParser = new Extension("echartsParser", "Echarts Parser Extra", true);
 
@@ -48,12 +49,12 @@ define([
                 // 初始化图表
                 chart.setOption(option);
 
-                // 将echarts语句保存到pre，查看文章时需要重新初始化echarts
+                // 将echarts语句(编码)保存到pre，查看文章时需要重新初始化echarts
                 var oc = crel('pre', {
                     class: 'echarts-option',
                     style: 'display: none'
                 });
-                oc.innerHTML = optioneval;
+                oc.innerHTML = Base64.encode(optioneval);
                 $(elt).append(oc);
 
                 return true;

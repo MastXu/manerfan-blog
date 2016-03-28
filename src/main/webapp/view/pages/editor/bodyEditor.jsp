@@ -9,13 +9,15 @@
 <style>
 	.navbar-title {width:100%;height:50px;position:relative;}
 	.navbar-title ul {width:100%;height:100%;padding:4px 30px;position:relative;}
-	.navbar-title ul li {float:right;}
-	.navbar-title .title-inner {position:absolute;width:100%;padding-right:120px;}
+	.navbar-title ul li {float:left;}
+	.navbar-title .title-inner {position:absolute;width:100%;padding-right:160px;}
 </style>
 
 <div class="navbar-title navbar-inner">
 	<ul class="nav pull-right title-container">
-		<li><button type="button" class="btn btn-danger" style="margin: 1px  0  0 10px;">发表</button></li>
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
+			<li style="float:right;"><button type="button" class="btn btn-danger" style="margin-top:1px;">发表博客</button></li>
+		</sec:authorize>
 		<li>
 			<a class="btn btn-success file-title-navbar" href="#" title="Rename document"></a>
 		</li>
@@ -165,8 +167,7 @@
 	                        class="action-reset-input"><i class="icon-upload"></i>
 	                        Manage publication</a></li>
 					</ul>
-					<ul class="nav publish-on-provider-list">
-					</ul>
+					<ul class="nav publish-on-provider-list"></ul>
 				</div>
 				<a href="#" data-toggle="modal" data-target=".modal-manage-sharing"
 					class="action-reset-input list-group-item">

@@ -52,6 +52,7 @@
     "blueimp-file-upload": "fileupload#^9.12.1",
     "jbox": "^0.3.2",
     "d3-cloud": "^1.2.1",
-    "animate.css": "animate-css#^3.5.1"
+    "animate.css": "animate-css#^3.5.1",
+    "js-base64": "^2.1.9"
   }
 }

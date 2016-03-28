@@ -5756,7 +5756,7 @@ body.rtl .container {
 .navbar#header {
   margin: 0 !important;
   transition: all 1s ease;
-  z-index: 9999;
+  z-index: 1000;
 }
 .navbar-collapse ul {
   margin: 0 !important;
