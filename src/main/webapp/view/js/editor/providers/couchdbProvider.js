@@ -90,7 +90,7 @@ define([
 				var syncAttributes = createSyncAttributes(file._id, file._rev, parsedContent.content, file.title, parsedContent.discussionListJSON);
 				syncLocations = {};
 				syncLocations[syncAttributes.syncIndex] = syncAttributes;
-				fileDesc = fileMgr.createFile(file.title, parsedContent.content, parsedContent.discussionListJSON, syncLocations);
+				fileDesc = fileMgr.createFile(file.title, parsedContent.content, syncLocations);
 				fileDescList.push(fileDesc);
 			});
 			if(fileDesc !== undefined) {

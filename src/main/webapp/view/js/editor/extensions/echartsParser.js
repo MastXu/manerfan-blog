@@ -33,6 +33,13 @@ define([
     };
 
     /**
+     * window resize
+     */
+    echartsParser.onLayoutResize = function () {
+        // TODO some opr on window resize
+    };
+
+    /**
      * 将elt转为echarts图表
      * @param elt
      * @returns {boolean}

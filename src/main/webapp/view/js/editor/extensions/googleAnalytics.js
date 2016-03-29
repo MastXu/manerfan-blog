@@ -77,7 +77,7 @@ define([
             '_trackEvent',
             "Settings",
             'theme',
-            "" + window.themeV4
+            "default"
         ]);
         _gaq.push([
             '_trackEvent',

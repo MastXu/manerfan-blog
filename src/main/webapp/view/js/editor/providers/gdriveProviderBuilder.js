@@ -81,7 +81,7 @@ define([
 							syncLocations = {};
 							syncLocations[syncAttributes.syncIndex] = syncAttributes;
 						}
-						fileDesc = fileMgr.createFile(file.title, parsedContent.content, parsedContent.discussionListJSON, syncLocations);
+						fileDesc = fileMgr.createFile(file.title, parsedContent.content, syncLocations);
 						fileDescList.push(fileDesc);
 					});
 					if(fileDesc !== undefined) {
@@ -377,7 +377,7 @@ define([
 					var syncAttributes = createSyncAttributes(file.id, file.etag, file.content, file.title);
 					var syncLocations = {};
 					syncLocations[syncAttributes.syncIndex] = syncAttributes;
-					var fileDesc = fileMgr.createFile(file.title, file.content, undefined, syncLocations);
+					var fileDesc = fileMgr.createFile(file.title, file.content, syncLocations);
 					fileMgr.selectFile(fileDesc);
 					eventMgr.onMessage('"' + file.title + '" created successfully on ' + providerName + '.');
 				}));

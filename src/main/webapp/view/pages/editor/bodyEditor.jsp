@@ -57,9 +57,7 @@
 					<li class="wmd-button-group5 btn-group"></li>
 				</ul>
 				<ul class="nav left-buttons">
-					<li class="wmd-button-group4 btn-group">
-						<a class="btn btn-success button-open-discussion" title="Comments Ctrl/Cmd+M"><i class="icon-comment-alt"></i></a>
-					</li>
+					<li class="wmd-button-group4 btn-group"></li>
 				</ul>
 				<ul class="nav pull-right right-buttons">
 					<li class="offline-status hide">
@@ -1112,13 +1110,6 @@
 											Vertical
 										</label>
 									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-4 control-label" for="input-settings-theme">Theme</label>
-								<div class="col-sm-7">
-									<select id="input-settings-theme" class="form-control">
-									</select>
 								</div>
 							</div>
 							<div class="form-group">

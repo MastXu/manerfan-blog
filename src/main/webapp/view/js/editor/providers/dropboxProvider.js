@@ -76,7 +76,7 @@ define([
                     var syncAttributes = createSyncAttributes(file.path, file.versionTag, parsedContent.content, parsedContent.discussionListJSON);
                     var syncLocations = {};
                     syncLocations[syncAttributes.syncIndex] = syncAttributes;
-                    var fileDesc = fileMgr.createFile(file.name, parsedContent.content, parsedContent.discussionListJSON, syncLocations);
+                    var fileDesc = fileMgr.createFile(file.name, parsedContent.content, syncLocations);
                     fileMgr.selectFile(fileDesc);
                     fileDescList.push(fileDesc);
                 });

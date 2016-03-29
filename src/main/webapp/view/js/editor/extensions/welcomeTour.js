@@ -89,16 +89,6 @@ define([
 				reflex: true
 			},
 			{
-				element: '.navbar-inner > .nav .button-open-discussion, .navbar .buttons-dropdown > .nav > .btn:not(:hidden)',
-				title: 'Comments/discussions',
-				content: [
-					'<p>New in StackEdit 4: the <i class="icon-comment-alt"></i> <b>comments</b> button lets you create inline discussions!</p>',
-					'<b>Tip:</b> Reopen the Hello! document from Settings>Utils to discover other new features.'
-				].join(""),
-				placement: 'right',
-				reflex: true
-			},
-			{
 				element: '.navbar-inner',
 				title: 'Happy StackWriting!',
 				content: [

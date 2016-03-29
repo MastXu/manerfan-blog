@@ -202,11 +202,14 @@ define([
     var $navbarTitleElt;
     var navbarBtnGroups = [];
     var navbarBtnGroupsWidth = [
-        80,
-        80,
-        160,
-        160,
-        80,
+        40 * 2,
+        40 * 2,
+        40 * 4,
+        40 * 4,
+        40 * 2,
+        40,
+        40 * 2,
+        40 * 3,
         40
     ].map(function (width) {
             return width + 18; // Add margin

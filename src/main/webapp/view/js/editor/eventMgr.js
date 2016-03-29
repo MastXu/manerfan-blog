@@ -31,15 +31,12 @@ define([
 	"js/editor/extensions/mathJax",
 	"js/editor/extensions/emailConverter",
 	"js/editor/extensions/scrollSync",
-	"js/editor/extensions/buttonSync",
-	"js/editor/extensions/buttonPublish",
 	"js/editor/extensions/buttonStat",
 	"js/editor/extensions/buttonHtmlCode",
 	"js/editor/extensions/buttonViewer",
 	"js/editor/extensions/welcomeTour",
 	"js/editor/extensions/shortcuts",
 	"js/editor/extensions/userCustom",
-	"js/editor/extensions/comments",
 	"js/editor/extensions/findReplace",
 	"js/editor/extensions/htmlSanitizer",
 	"js/editor/extensions/echartsParser",
@@ -211,11 +208,6 @@ define([
 	addEventHook("onSectionsCreated");
 	addEventHook("onCursorCoordinates");
 	addEventHook("onEditorPopover");
-
-	// Operations on comments
-	addEventHook("onDiscussionCreated");
-	addEventHook("onDiscussionRemoved");
-	addEventHook("onCommentsChanged");
 
 	// Refresh twitter buttons
 	addEventHook("onTweet");

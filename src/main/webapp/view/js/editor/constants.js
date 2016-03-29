@@ -72,15 +72,5 @@ define([], function() {
 		constants.TUMBLR_PROXY_URL = "https://stackedit-tumblr-proxy-beta.herokuapp.com/";
 	}
 
-	constants.THEME_LIST = {
-		"blue": "Blue",
-		"default": "Default",
-		"gray": "Gray",
-		"night": "Night",
-		"school": "School",
-		"solarized-light": "Solarized Light",
-		"solarized-dark": "Solarized Dark"
-	};
-
 	return constants;
 });
