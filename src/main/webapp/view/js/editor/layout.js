@@ -203,11 +203,9 @@ define([
     var navbarBtnGroups = [];
     var navbarBtnGroupsWidth = [
         40 * 2,
-        40 * 2,
         40 * 4,
         40 * 4,
         40 * 2,
-        40,
         40 * 2,
         40 * 3,
         40
@@ -466,13 +464,13 @@ define([
             this.scrollLeft = 0;
         });
 
-        _.each(navbar.elt.querySelectorAll('.right-buttons'), function (btnGroupElt) {
+        _.each(navbar.elt.querySelectorAll('.left-buttons'), function (btnGroupElt) {
             navbarBtnGroups.push({
                 elt: btnGroupElt,
                 width: navbarBtnGroupsWidth.shift()
             });
         });
-        _.each(navbar.elt.querySelectorAll('.left-buttons'), function (btnGroupElt) {
+        _.each(navbar.elt.querySelectorAll('.right-buttons'), function (btnGroupElt) {
             navbarBtnGroups.push({
                 elt: btnGroupElt,
                 width: navbarBtnGroupsWidth.shift()

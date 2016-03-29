@@ -19,7 +19,6 @@ define([
         eventMgr = eventMgrParameter;
     };
 
-    var contentWrapper;
     var converter;
     var htmlContentWrapper = function(content) {
         return converter.makeMd(content);
@@ -41,7 +40,7 @@ define([
                         eventMgr.onError(importedFile.name + " is a binary file.");
                         return;
                     }
-                    content = contentWrapper ? contentWrapper(content) : content;
+                    content =  importedFile.name.match(/.(html?)$/i) ? htmlContentWrapper(content) : content;
                     if(content === undefined) {
                         eventMgr.onError(importedFile.name + " is not a valid HTML file.");
                         return;
@@ -58,16 +57,6 @@ define([
         });
     }
 
-    function handleMarkdownImport(evt) {
-        contentWrapper = undefined;
-        handleFileImport(evt);
-    }
-    
-    function handleHtmlImport(evt) {
-        contentWrapper = htmlContentWrapper;
-        handleFileImport(evt);
-    }
-    
     function handleDragOver(evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -78,15 +67,15 @@ define([
         // Create toMarkdown converter
         converter = new toMarkdown.converter();
         
-        $("#input-file-import-harddrive-markdown").change(handleMarkdownImport);
+        $("#input-file-import-harddrive-markdown").change(handleFileImport);
         $('#dropzone-import-harddrive-markdown, #wmd-input').each(function() {
             this.addEventListener('dragover', handleDragOver, false);
-            this.addEventListener('drop', handleMarkdownImport, false);
+            this.addEventListener('drop', handleFileImport, false);
         });
-        $("#input-file-import-harddrive-html").change(handleHtmlImport);
+        $("#input-file-import-harddrive-html").change(handleFileImport);
         $('#dropzone-import-harddrive-html').each(function() {
             this.addEventListener('dragover', handleDragOver, false);
-            this.addEventListener('drop', handleHtmlImport, false);
+            this.addEventListener('drop', handleFileImport, false);
         });
         $(".action-convert-html").click(function(e) {
             var content = utils.getInputTextValue("#input-convert-html", e);

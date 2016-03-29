@@ -275,7 +275,7 @@ define([
         $("#wmd-ulist-button").append($('<i class="icon-list-bullet">')).appendTo($btnGroupElt);
         $("#wmd-heading-button").append($('<i class="icon-text-height">')).appendTo($btnGroupElt);
         $("#wmd-hr-button").append($('<i class="icon-ellipsis">')).appendTo($btnGroupElt);
-        $btnGroupElt = $('.wmd-button-group5');
+        $btnGroupElt = $('.wmd-button-group4');
         $("#wmd-undo-button").append($('<i class="icon-reply">')).appendTo($btnGroupElt);
         $("#wmd-redo-button").append($('<i class="icon-forward">')).appendTo($btnGroupElt);
     };
@@ -552,7 +552,7 @@ define([
 
         // Avoid dropdown panels to close on click
         $("div.dropdown-menu").click(function (e) {
-            e.stopPropagation();
+            // e.stopPropagation();
         });
 
         // Non unique window dialog

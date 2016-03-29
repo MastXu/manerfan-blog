@@ -12,7 +12,6 @@ define([
 	"js/editor/extensions/markdownSectionParser",
 	"js/editor/extensions/partialRendering",
 	"js/editor/extensions/buttonMarkdownSyntax",
-	"js/editor/extensions/dialogManagePublication",
 	"js/editor/extensions/dialogOpenHarddrive",
 	"js/editor/extensions/documentTitle",
 	"js/editor/extensions/documentSelector",

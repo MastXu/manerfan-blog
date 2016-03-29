@@ -11,6 +11,7 @@ define([
 	'jsondiffpatch',
 	'crel',
 	'rangy',
+	'js/editor/article',
 	'MutationObservers',
 	'js/editor/libs/prism-markdown'
 ], function($, _, utils, settings, eventMgr, Prism, diff_match_patch, jsondiffpatch, crel, rangy) {

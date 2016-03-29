@@ -54,10 +54,37 @@
 					<li class="wmd-button-group3 btn-group"></li>
 				</ul>
 				<ul class="nav left-buttons">
-					<li class="wmd-button-group5 btn-group"></li>
+					<li class="wmd-button-group4 btn-group"></li>
 				</ul>
 				<ul class="nav left-buttons">
-					<li class="wmd-button-group4 btn-group"></li>
+					<li class="wmd-button-group5 btn-group">
+						<a class="btn btn-success" id="wmd-save-button" title="保存到草稿箱  Ctrl/Cmd+S">
+							<i class="icon-floppy"></i>
+						</a>
+						<a class="btn btn-success" id="wmd-setting-button" title="文章设置">
+							<i class="csdn-icon-doc-setting"></i>
+						</a>
+					</li>
+				</ul>
+				<ul class="nav left-buttons">
+					<li class="wmd-button-group6 btn-group">
+						<a class="btn btn-success" id="md-import-url-button" data-toggle="modal" data-target=".modal-import-url" title="线上导入">
+							<i class="icon-link"></i>
+						</a>
+						<a class="btn btn-success" id="wmd-import-local-button" data-toggle="modal" data-target=".modal-import-harddrive-markdown" title="本地导入">
+							<i class="icon-download"></i>
+						</a>
+						<a class="btn btn-success" id="wmd-export-local-button" data-toggle="modal" data-target=".modal-export-harddrive" title="导出本地">
+							<i class="icon-upload"></i>
+						</a>
+					</li>
+				</ul>
+				<ul class="nav left-buttons">
+					<li class="wmd-button-group7 btn-group">
+						<a class="btn btn-success" id="wmd-help-button" title="语法帮助">
+							<i class="icon-help-circled"></i>
+						</a>
+					</li>
 				</ul>
 				<ul class="nav pull-right right-buttons">
 					<li class="offline-status hide">
@@ -108,33 +135,6 @@
 				<div class="sub-menu collapse collapse-publish-on clearfix">
 					<ul class="nav publish-on-provider-list"></ul>
 				</div>
-			</div>
-			<div class="list-group">
-
-				<a data-toggle="modal"
-					data-target=".modal-import-harddrive-markdown"
-					class="list-group-item action-reset-input" href="#"><i
-					class="icon-hdd"></i> Import from disk</a>
-				<a href="#" data-toggle="collapse" data-target=".collapse-save-as"
-					class="list-group-item"><i class="icon-hdd"></i> Export to disk</a>
-				<div class="sub-menu collapse collapse-save-as clearfix">
-					<ul class="nav">
-						<li><a class="action-download-md" href="#"><i
-					        class="icon-download"></i> As Markdown</a></li>
-						<li><a class="action-download-html" href="#"><i
-					        class="icon-download"></i> As HTML</a></li>
-						<li><a class="action-download-template" href="#"><i
-					        class="icon-download"></i> Using template</a></li>
-					</ul>
-				</div>
-
-	            <a data-toggle="modal" data-target=".modal-import-url"
-	                class="list-group-item action-reset-input" href="#"><i
-					class="icon-globe"></i> Import from URL</a>
-	            <a data-toggle="modal"
-					data-target=".modal-import-harddrive-html"
-					class="list-group-item action-reset-input" href="#"><i
-					class="icon-code"></i> Convert HTML to Markdown</a>
 			</div>
 			<ul class="nav">
 				<li><a href="#" data-toggle="modal"
@@ -298,11 +298,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn btn-default pull-left action-import-image-gplus"
-					data-dismiss="modal"><i class="icon-provider-gplus"></i> Import
-					from Google+</a> <a href="#" class="btn btn-default"
-					data-dismiss="modal">Cancel</a> <a href="#"
-					class="btn btn-primary action-insert-image" data-dismiss="modal">OK</a>
+				<a href="#" class="btn btn-default"	data-dismiss="modal">Cancel</a>
+				<a href="#"	class="btn btn-primary action-insert-image" data-dismiss="modal">OK</a>
 			</div>
 		</div>
 	</div>
@@ -366,25 +363,26 @@
 	</div>
 </div>
 
-
+<!-- 导入 -->
 <div class="modal fade modal-import-harddrive-markdown">
 	<div class="modal-dialog">
 		<div class="modal-content">
 
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">&times;</button>
-				<h2 class="modal-title">Import from disk</h2>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title">从本机导入</h2>
 			</div>
 			<div class="modal-body">
-				<p>Please select your Markdown files here:</p>
-				<p>
-					<input type="file" id="input-file-import-harddrive-markdown"
-						multiple class="form-control" />
-				</p>
-				<p>Or drag and drop your Markdown files here:</p>
-				<p id="dropzone-import-harddrive-markdown" class="drop-zone">Drop
-					files here</p>
+				<p>请选择Markdown/HTML文件</p>
+				<div class="file-upload">
+					<div class="before-add">
+						<div class="content" id="dropzone-import-harddrive-markdown">
+							<h1>将Markdown/HTML文件拖拽到此区域</h1>
+							<h4>若您的浏览器不支持文件拖拽，请点击此区域选择</h4>
+						</div>
+						<input id="input-file-import-harddrive-markdown" type="file" multiple >
+					</div>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
@@ -393,37 +391,40 @@
 	</div>
 </div>
 
-
-<div class="modal fade modal-import-harddrive-html">
+<!-- 导出 -->
+<div class="modal fade modal-export-harddrive">
 	<div class="modal-dialog">
 		<div class="modal-content">
-
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">&times;</button>
-				<h2 class="modal-title">Convert HTML to Markdown</h2>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title">导出到本地</h2>
 			</div>
 			<div class="modal-body">
-				<p>Please select your HTML files here:</p>
-				<p>
-					<input type="file" id="input-file-import-harddrive-html" multiple
-						class="form-control" />
-				</p>
-				<p>Or drag and drop your HTML files here:</p>
-				<p id="dropzone-import-harddrive-html" class="drop-zone">Drop
-					files here</p>
-				<p>Or insert your HTML code here:</p>
-				<textarea id="input-convert-html" class="form-control"></textarea>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn btn-default" data-dismiss="modal">Close</a> <a
-					href="#" class="btn btn-primary action-convert-html"
-					data-dismiss="modal">OK</a>
+				<ul class="nav">
+					<li>
+						<a class="action-download-md" > 
+							<i class="csdn-icon-file-markdown"></i>
+							<p>Markdown</p>
+						</a>
+					</li>
+					<li>
+						<a class="action-download-html">
+							<i class="csdn-icon-file-html"></i>
+							<p>仅内容HTML</p>
+						</a>
+					</li>
+					<li>
+						<a class="action-download-template">
+							<i class="csdn-icon-file-html-t"></i>
+							<p>带模板HTML</p>
+						</a>
+					</li>
+					<!--<li><a class="action-download-pdf"><i class="icon-file-pdf"></i> <p>PDF文档</p></a></li>-->
+				</ul>
 			</div>
 		</div>
 	</div>
 </div>
-
 
 <div class="modal fade modal-publish">
 	<div class="modal-dialog">
