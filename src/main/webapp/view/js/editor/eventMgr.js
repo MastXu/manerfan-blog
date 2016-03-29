@@ -12,12 +12,7 @@ define([
 	"js/editor/extensions/markdownSectionParser",
 	"js/editor/extensions/partialRendering",
 	"js/editor/extensions/buttonMarkdownSyntax",
-	"js/editor/extensions/googleAnalytics",
-	"js/editor/extensions/twitter",
-	"js/editor/extensions/dialogAbout",
 	"js/editor/extensions/dialogManagePublication",
-	"js/editor/extensions/dialogManageSynchronization",
-	"js/editor/extensions/dialogManageSharing",
 	"js/editor/extensions/dialogOpenHarddrive",
 	"js/editor/extensions/documentTitle",
 	"js/editor/extensions/documentSelector",
@@ -168,9 +163,7 @@ define([
 	// To access modules that are loaded after extensions
 	addEventHook("onEditorCreated");
 	addEventHook("onFileMgrCreated");
-	addEventHook("onSynchronizerCreated");
 	addEventHook("onPublisherCreated");
-	addEventHook("onSharingCreated");
 	addEventHook("onEventMgrCreated");
 
 	// Operations on files

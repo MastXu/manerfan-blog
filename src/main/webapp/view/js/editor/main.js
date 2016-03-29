@@ -26,9 +26,7 @@ require([
     "rangy",
     "js/editor/core",
     "js/editor/eventMgr",
-    "js/editor/synchronizer",
     "js/editor/publisher",
-    "js/editor/sharing",
     "js/editor/mediaImporter",
     "css",
     "rangy-cssclassapplier"

@@ -10,17 +10,7 @@ define([
     "js/editor/fileMgr",
     "js/editor/classes/Provider",
     "js/editor/classes/AsyncTask",
-    "js/editor/providers/bloggerProvider",
-    "js/editor/providers/bloggerPageProvider",
-    "js/editor/providers/dropboxProvider",
-    "js/editor/providers/gistProvider",
     "js/editor/providers/githubProvider",
-    "js/editor/providers/gdriveProvider",
-    "js/editor/providers/gdrivesecProvider",
-    "js/editor/providers/gdriveterProvider",
-    "js/editor/providers/sshProvider",
-    "js/editor/providers/tumblrProvider",
-    "js/editor/providers/wordpressProvider"
 ], function ($, _, constants, utils, storage, settings, eventMgr, fileSystem, fileMgr, Provider, AsyncTask) {
 
     var publisher = {};
