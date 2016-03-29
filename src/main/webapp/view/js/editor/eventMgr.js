@@ -198,7 +198,6 @@ define([
 	// Operations on editor
 	addEventHook("onPagedownConfigure");
 	addEventHook("onSectionsCreated");
-	addEventHook("onCursorCoordinates");
 	addEventHook("onEditorPopover");
 
 	// Refresh twitter buttons

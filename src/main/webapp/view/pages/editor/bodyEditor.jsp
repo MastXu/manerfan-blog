@@ -38,7 +38,7 @@
 		    		<div class="nav">
 		        		<button class="btn btn-success" data-toggle="dropdown"
 		            		title="Show buttons">
-		            		<i class="icon-th-large"></i>
+		            		<i class="csdn-icon-th-large"></i>
 		            	</button>
 		    		    <div class="dropdown-menu">
 		        		</div>
@@ -58,31 +58,31 @@
 				</ul>
 				<ul class="nav left-buttons">
 					<li class="wmd-button-group5 btn-group">
-						<a class="btn btn-success" id="wmd-save-button" title="保存到草稿箱  Ctrl/Cmd+S">
-							<i class="icon-floppy"></i>
+						<a class="btn btn-success btn-blog-save" title="保存到草稿箱  Ctrl/Cmd+S">
+							<i class="csdn-icon-disk"></i>
 						</a>
-						<a class="btn btn-success" id="wmd-setting-button" title="文章设置">
+						<a class="btn btn-success btn-blog-setting" title="文章设置">
 							<i class="csdn-icon-doc-setting"></i>
 						</a>
 					</li>
 				</ul>
 				<ul class="nav left-buttons">
 					<li class="wmd-button-group6 btn-group">
-						<a class="btn btn-success" id="md-import-url-button" data-toggle="modal" data-target=".modal-import-url" title="线上导入">
-							<i class="icon-link"></i>
+						<a class="btn btn-success btn-import-online" data-toggle="modal" data-target=".modal-import-url" title="线上导入">
+							<i class="csdn-icon-link"></i>
 						</a>
-						<a class="btn btn-success" id="wmd-import-local-button" data-toggle="modal" data-target=".modal-import-harddrive-markdown" title="本地导入">
-							<i class="icon-download"></i>
+						<a class="btn btn-success btn-import" data-toggle="modal" data-target=".modal-import-harddrive-markdown" title="本地导入">
+							<i class="csdn-icon-upload"></i>
 						</a>
-						<a class="btn btn-success" id="wmd-export-local-button" data-toggle="modal" data-target=".modal-export-harddrive" title="导出本地">
-							<i class="icon-upload"></i>
+						<a class="btn btn-success btn-export" data-toggle="modal" data-target=".modal-export-harddrive" title="导出本地">
+							<i class="csdn-icon-hdd"></i>
 						</a>
 					</li>
 				</ul>
 				<ul class="nav left-buttons">
 					<li class="wmd-button-group7 btn-group">
 						<a class="btn btn-success" id="wmd-help-button" title="语法帮助">
-							<i class="icon-help-circled"></i>
+							<i class="csdn-icon-help"></i>
 						</a>
 					</li>
 				</ul>
@@ -97,10 +97,8 @@
 			</div>
 		</div>
 		<div class="layout-wrapper-l3">
-			<pre id="wmd-input" class="form-control">
-				<div class="editor-content" contenteditable=true></div>
-				<div class="editor-margin"></div>
-			</pre>
+			<!-- wmd-input 此DOM不要有折行，否则[ \t]等符号均会算到文章内 -->
+			<pre id="wmd-input" class="form-control"><div class="editor-content" contenteditable=true></div><div class="editor-margin"></div></pre>
 			<div class="preview-panel">
 				<div class="layout-resizer layout-resizer-preview"></div>
 				<div class="layout-toggler layout-toggler-navbar btn btn-info" title="Toggle navigation bar"><i class="icon-th"></i></div>
@@ -340,17 +338,14 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<h2 class="modal-title">Import from URL</h2>
+				<h2 class="modal-title">网络导入</h2>
 			</div>
 			<div class="modal-body">
-				<p>Please provide a link to a Markdown document.</p>
+				<p>填写Markdown文档URL地址</p>
 				<div class="form-horizontal">
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="input-import-url">URL</label>
-						<div class="col-sm-8">
-							<input type="text" id="input-import-url"
-								placeholder="http://www.abc.com/xyz.md" class="form-control">
-						</div>
+						<input type="text" id="input-import-url"
+							placeholder="http://www.abc.com/xyz.md" class="form-control">
 					</div>
 				</div>
 			</div>
@@ -375,7 +370,7 @@
 			<div class="modal-body">
 				<p>请选择Markdown/HTML文件</p>
 				<div class="file-upload">
-					<div class="before-add">
+					<div class="before-add" style="display: block !important">
 						<div class="content" id="dropzone-import-harddrive-markdown">
 							<h1>将Markdown/HTML文件拖拽到此区域</h1>
 							<h4>若您的浏览器不支持文件拖拽，请点击此区域选择</h4>

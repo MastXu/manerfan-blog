@@ -10,6 +10,7 @@ define([
     "js/editor/fileMgr",
     "js/editor/classes/Provider",
     "js/editor/classes/AsyncTask",
+    "js/editor/providers/downloadProvider",
     "js/editor/providers/githubProvider",
 ], function ($, _, constants, utils, storage, settings, eventMgr, fileSystem, fileMgr, Provider, AsyncTask) {
 
