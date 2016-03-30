@@ -47,10 +47,10 @@
 				<div class="panel-body"><a target="_blank" href="https://github.com/ManerFan/manerfan-blog" class="icon-github-circled"></a></div>
 				<div class="panel-footer">GitHub</div>
 			</div>
-			<div class="panel panel-default col animated flipInX">
+			<!-- <div class="panel panel-default col animated flipInX">
 				<div class="panel-body"><a target="_blank" href="https://github.com/ManerFan/manerfan-blog/wiki" class="icon-won"></a></div>
 				<div class="panel-footer">Wiki</div>
-			</div>
+			</div> -->
 			<div class="panel panel-default col animated flipInX">
 				<div class="panel-body"><a class="icon-book"></a></div>
 				<div class="panel-footer">JAVADOC</div>
