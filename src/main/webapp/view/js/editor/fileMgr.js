@@ -50,7 +50,7 @@ define([
         core.initEditor(fileDesc);
     };
 
-    fileMgr.createFile = function (title, content, discussionListJSON, syncLocations, isTemporary) {
+    fileMgr.createFile = function (title, content, syncLocations, isTemporary) {
         content = content !== undefined ? content : settings.defaultContent;
         if (!title) {
             // Create a file title
@@ -86,7 +86,6 @@ define([
 
         // Create the file descriptor
         var fileDesc = new FileDescriptor(fileIndex, title, syncLocations);
-        discussionListJSON && (fileDesc.discussionListJSON = discussionListJSON);
 
         // Add the index to the file list
         if (!isTemporary) {

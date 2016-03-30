@@ -90,7 +90,6 @@ requirejs.config({
         raphael: 'plugins/raphael/raphael',
         'flow-chart': 'plugins/flowchart/release/flowchart.amd-1.3.4.min',
         flowchart: 'plugins/flowchart/release/flowchart-1.3.4.min',
-        monetizejs: 'plugins/monetizejs/src/monetize',
         'to-markdown': 'plugins/to-markdown/src/to-markdown',
         waitForImages: 'plugins/waitForImages/dist/jquery.waitforimages',
         MathJax: 'plugins/MathJax/MathJax',
@@ -106,7 +105,8 @@ requirejs.config({
         jqueryfileupload: 'plugins/blueimp-file-upload/js/jquery.fileupload',
         'jquery.ui.widget': 'plugins/blueimp-file-upload/js/vendor/jquery.ui.widget',
         'jBoxUtil': 'js/utils/jBoxUtil',
-        d3cloud: 'plugins/d3-cloud/build/d3.layout.cloud'
+        d3cloud: 'plugins/d3-cloud/build/d3.layout.cloud',
+        'js-base64': 'plugins/js-base64/base64.min'
     },
 
     /**

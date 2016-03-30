@@ -6,12 +6,56 @@
 <%@ taglib prefix="spring" uri="spring_tld" %> <!-- http://www.springframework.org/tags -->
 <%@ taglib prefix="sec" uri="security_tld" %> <!-- http://www.springframework.org/security/tags" -->
 
-<nav id="header" class="navbar navbar-default" style="position: <c:out value='${position}' default='relative' />;">
+<style>
+	.travis-ci.dropdown-menu {width:320px !important;}
+	.github.dropdown-menu {width:220px !important;}
+</style>
+
+<nav id="header" class="not-print navbar navbar-default" style="position: <c:out value='${position}' default='relative' />;">
 	<div class="container-fluid">
 		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-collapse" aria-expanded="false">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
 			<a href="<c:url value='/' />" class="navbar-brand">MBLOG</a>
 		</div>
-		<div class="collapse navbar-collapse">
+		<div class="collapse navbar-collapse" id="header-collapse">
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">
+						<i class="icon-github-circled"></i>GitHub<span class="caret"></span>
+					</a>
+					<ul class="github dropdown-menu">
+						<li><a target="_blank" href="https://github.com/ManerFan/manerfan-blog">MBLOG</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a target="_blank" href="https://github.com/ManerFan/manerfan-common-utils">MANERFAN-COMMON-UTILS</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a target="_blank" href="https://github.com/ManerFan/manerfan-maven-pom">MANERFAN-MAVEN-POM</a></li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">
+						Travis-CI<span class="caret"></span>
+					</a>
+					<ul class="travis-ci dropdown-menu">
+						<li><a target="_blank" href="https://travis-ci.org/ManerFan/manerfan-blog">MBLOG-DEV <img src="https://travis-ci.org/ManerFan/manerfan-blog.svg?branch=dev"/></a></li>
+						<li><a target="_blank" href="https://travis-ci.org/ManerFan/manerfan-blog">MBLOG-MASTER <img src="https://travis-ci.org/ManerFan/manerfan-blog.svg?branch=master"/></a></li>
+						<li role="separator" class="divider"></li>
+						<li><a target="_blank" href="https://travis-ci.org/ManerFan/manerfan-common-utils">MANERFAN-COMMON-UTILS <img src="https://travis-ci.org/ManerFan/manerfan-common-utils.svg?branch=master"/></a></li>
+						<li role="separator" class="divider"></li>
+						<li><a target="_blank" href="https://travis-ci.org/ManerFan/manerfan-maven-pom">MANERFAN-MAVEN-POM <img src="https://travis-ci.org/ManerFan/manerfan-maven-pom.svg?branch=master"/></a></li>
+					</ul>
+				</li>
+			</ul>
 			<ul class="nav navbar-nav">
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle"

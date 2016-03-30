@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF" monitorInterval="60">
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%highlight{%d | %-5level %l %n %msg %n}" />
+		</Console>
+		<RollingFile name="RollingFile" fileName="./log/mblog/mblog.log"
+			filePattern="./log/mblog/%d{yyyy-MM}/mblog.%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout pattern="%d | %-5level %l %n %msg %n" />
+			<SizeBasedTriggeringPolicy size="500 MB" />
+		</RollingFile>  
+	</appenders>
+	<loggers>
+		<root level="info">
+			<appender-ref ref="Console" />
+			<appender-ref ref="RollingFile" />
+		</root>
+		<logger name="debug" level="debug" additivity="false">
+			<appender-ref ref="Console" />
+		</logger>  
+	</loggers>
+</configuration>  

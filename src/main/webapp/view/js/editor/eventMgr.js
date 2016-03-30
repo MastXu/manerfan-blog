@@ -12,12 +12,6 @@ define([
 	"js/editor/extensions/markdownSectionParser",
 	"js/editor/extensions/partialRendering",
 	"js/editor/extensions/buttonMarkdownSyntax",
-	"js/editor/extensions/googleAnalytics",
-	"js/editor/extensions/twitter",
-	"js/editor/extensions/dialogAbout",
-	"js/editor/extensions/dialogManagePublication",
-	"js/editor/extensions/dialogManageSynchronization",
-	"js/editor/extensions/dialogManageSharing",
 	"js/editor/extensions/dialogOpenHarddrive",
 	"js/editor/extensions/documentTitle",
 	"js/editor/extensions/documentSelector",
@@ -31,15 +25,12 @@ define([
 	"js/editor/extensions/mathJax",
 	"js/editor/extensions/emailConverter",
 	"js/editor/extensions/scrollSync",
-	"js/editor/extensions/buttonSync",
-	"js/editor/extensions/buttonPublish",
 	"js/editor/extensions/buttonStat",
 	"js/editor/extensions/buttonHtmlCode",
 	"js/editor/extensions/buttonViewer",
 	"js/editor/extensions/welcomeTour",
 	"js/editor/extensions/shortcuts",
 	"js/editor/extensions/userCustom",
-	"js/editor/extensions/comments",
 	"js/editor/extensions/findReplace",
 	"js/editor/extensions/htmlSanitizer",
 	"js/editor/extensions/echartsParser",
@@ -171,9 +162,7 @@ define([
 	// To access modules that are loaded after extensions
 	addEventHook("onEditorCreated");
 	addEventHook("onFileMgrCreated");
-	addEventHook("onSynchronizerCreated");
 	addEventHook("onPublisherCreated");
-	addEventHook("onSharingCreated");
 	addEventHook("onEventMgrCreated");
 
 	// Operations on files
@@ -209,13 +198,7 @@ define([
 	// Operations on editor
 	addEventHook("onPagedownConfigure");
 	addEventHook("onSectionsCreated");
-	addEventHook("onCursorCoordinates");
 	addEventHook("onEditorPopover");
-
-	// Operations on comments
-	addEventHook("onDiscussionCreated");
-	addEventHook("onDiscussionRemoved");
-	addEventHook("onCommentsChanged");
 
 	// Refresh twitter buttons
 	addEventHook("onTweet");

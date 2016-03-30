@@ -20,11 +20,6 @@ define([
 		fileMgr = fileMgrParameter;
 	};
 
-	var synchronizer;
-	userCustom.onSynchronizerCreated = function(synchronizerParameter) {
-		synchronizer = synchronizerParameter;
-	};
-
 	var publisher;
 	userCustom.onPublisherCreated = function(publisherParameter) {
 		publisher = publisherParameter;

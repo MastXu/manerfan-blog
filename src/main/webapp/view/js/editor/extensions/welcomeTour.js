@@ -52,8 +52,8 @@ define([
 				'   <h3 class="popover-title"></h3>',
 				'   <div class="popover-content"></div>',
 				'   <nav class="popover-navigation">',
-				'       <button class="btn btn-primary" data-role="next">Next</button>',
-				'       <button class="btn btn-default" data-role="end">Got it!</button>',
+				'       <button class="btn btn-primary" data-role="next">下一条</button>',
+				'       <button class="btn btn-default" data-role="end">知道了!</button>',
 				'   </nav>',
 				'</div>'
 			].join("")
@@ -84,16 +84,6 @@ define([
 				content: [
 					'<p>The <i class="icon-provider-stackedit"></i> <b>menu panel</b> allows you to synchronize your documents on <i class="icon-provider-gdrive"></i> Google Drive, <i class="icon-provider-dropbox"></i> Dropbox or to publish them on <i class="icon-provider-github"></i> GitHub, <i class="icon-provider-blogger"></i> Blogger...</p>',
 					'<b>Tip:</b> Use the <i class="icon-provider-stackedit"></i> <b>menu panel</b> to access the settings.'
-				].join(""),
-				placement: 'right',
-				reflex: true
-			},
-			{
-				element: '.navbar-inner > .nav .button-open-discussion, .navbar .buttons-dropdown > .nav > .btn:not(:hidden)',
-				title: 'Comments/discussions',
-				content: [
-					'<p>New in StackEdit 4: the <i class="icon-comment-alt"></i> <b>comments</b> button lets you create inline discussions!</p>',
-					'<b>Tip:</b> Reopen the Hello! document from Settings>Utils to discover other new features.'
 				].join(""),
 				placement: 'right',
 				reflex: true

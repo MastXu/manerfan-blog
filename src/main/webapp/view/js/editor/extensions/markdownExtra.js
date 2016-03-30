@@ -47,7 +47,6 @@ define([
         utils.setInputChecked("#input-markdownextra-strikethrough", hasExtension("strikethrough"));
         utils.setInputChecked("#input-markdownextra-newlines", hasExtension("newlines"));
         utils.setInputChecked("#input-markdownextra-intraword", markdownExtra.config.intraword);
-        utils.setInputChecked("#input-markdownextra-comments", markdownExtra.config.comments);
         utils.setInputValue("#input-markdownextra-highlighter", markdownExtra.config.highlighter);
     };
 
@@ -62,7 +61,6 @@ define([
         utils.getInputChecked("#input-markdownextra-strikethrough") && newConfig.extensions.push("strikethrough");
         utils.getInputChecked("#input-markdownextra-newlines") && newConfig.extensions.push("newlines");
         newConfig.intraword = utils.getInputChecked("#input-markdownextra-intraword");
-        newConfig.comments = utils.getInputChecked("#input-markdownextra-comments");
         newConfig.highlighter = utils.getInputValue("#input-markdownextra-highlighter");
     };
 

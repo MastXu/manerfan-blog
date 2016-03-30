@@ -11,7 +11,6 @@ define([
     "js/editor/settings",
     "js/editor/eventMgr",
     "jBoxUtil",
-    "monetizejs",
     "text!pages/editor/html/bodyEditor.html",
     "text!pages/editor/html/bodyViewer.html",
     "text!pages/editor/html/tooltipSettingsTemplate.html",
@@ -20,7 +19,7 @@ define([
     'pagedown',
     'jqueryfileupload',
 ], function ($, _, crel, editor, layout, constants, utils, storage, settings,
-             eventMgr, jBoxUtil, MonetizeJS, bodyEditorHTML, bodyViewerHTML,
+             eventMgr, jBoxUtil, bodyEditorHTML, bodyViewerHTML,
              settingsTemplateTooltipHTML, settingsPdfOptionsTooltipHTML) {
 
     var core = {};
@@ -107,16 +106,10 @@ define([
         }
     }
 
-    // Load settings in settings dialog
-    var $themeInputElt;
-
     function loadSettings() {
 
         // Layout orientation
         utils.setInputRadio("radio-layout-orientation", settings.layoutOrientation);
-        // Theme
-        utils.setInputValue($themeInputElt, window.theme);
-        $themeInputElt.change();
         // Lazy rendering
         utils.setInputChecked("#input-settings-lazy-rendering", settings.lazyRendering);
         // Editor font class
@@ -162,8 +155,6 @@ define([
 
         // Layout orientation
         newSettings.layoutOrientation = utils.getInputRadio("radio-layout-orientation");
-        // Theme
-        var theme = utils.getInputValue($themeInputElt);
         // Lazy Rendering
         newSettings.lazyRendering = utils.getInputChecked("#input-settings-lazy-rendering");
         // Editor font class
@@ -209,7 +200,6 @@ define([
             }
             $.extend(settings, newSettings);
             storage.settings = JSON.stringify(settings);
-            storage.themeV4 = theme;
         }
     }
 
@@ -273,21 +263,21 @@ define([
 
         // Add customized buttons
         var $btnGroupElt = $('.wmd-button-group1');
-        $("#wmd-bold-button").append($('<i class="icon-bold">')).appendTo($btnGroupElt);
-        $("#wmd-italic-button").append($('<i class="icon-italic">')).appendTo($btnGroupElt);
+        $("#wmd-bold-button").append($('<i class="csdn-icon-bold">')).appendTo($btnGroupElt);
+        $("#wmd-italic-button").append($('<i class="csdn-icon-italic">')).appendTo($btnGroupElt);
         $btnGroupElt = $('.wmd-button-group2');
-        $("#wmd-link-button").append($('<i class="icon-globe">')).appendTo($btnGroupElt);
-        $("#wmd-quote-button").append($('<i class="icon-indent-right">')).appendTo($btnGroupElt);
-        $("#wmd-code-button").append($('<i class="icon-code">')).appendTo($btnGroupElt);
-        $("#wmd-image-button").append($('<i class="icon-picture">')).appendTo($btnGroupElt);
+        $("#wmd-link-button").append($('<i class="csdn-icon-earth">')).appendTo($btnGroupElt);
+        $("#wmd-quote-button").append($('<i class="csdn-icon-quote">')).appendTo($btnGroupElt);
+        $("#wmd-code-button").append($('<i class="csdn-icon-code">')).appendTo($btnGroupElt);
+        $("#wmd-image-button").append($('<i class="csdn-icon-picture">')).appendTo($btnGroupElt);
         $btnGroupElt = $('.wmd-button-group3');
-        $("#wmd-olist-button").append($('<i class="icon-list-numbered">')).appendTo($btnGroupElt);
-        $("#wmd-ulist-button").append($('<i class="icon-list-bullet">')).appendTo($btnGroupElt);
-        $("#wmd-heading-button").append($('<i class="icon-text-height">')).appendTo($btnGroupElt);
-        $("#wmd-hr-button").append($('<i class="icon-ellipsis">')).appendTo($btnGroupElt);
-        $btnGroupElt = $('.wmd-button-group5');
-        $("#wmd-undo-button").append($('<i class="icon-reply">')).appendTo($btnGroupElt);
-        $("#wmd-redo-button").append($('<i class="icon-forward">')).appendTo($btnGroupElt);
+        $("#wmd-olist-button").append($('<i class="csdn-icon-list-ordered">')).appendTo($btnGroupElt);
+        $("#wmd-ulist-button").append($('<i class="csdn-icon-list-unordered">')).appendTo($btnGroupElt);
+        $("#wmd-heading-button").append($('<i class="csdn-icon-heading">')).appendTo($btnGroupElt);
+        $("#wmd-hr-button").append($('<i class="csdn-icon-line">')).appendTo($btnGroupElt);
+        $btnGroupElt = $('.wmd-button-group4');
+        $("#wmd-undo-button").append($('<i class="csdn-icon-undo">')).appendTo($btnGroupElt);
+        $("#wmd-redo-button").append($('<i class="csdn-icon-redo">')).appendTo($btnGroupElt);
     };
 
     // Initialize multiple things and then fire eventMgr.onReady
@@ -331,58 +321,6 @@ define([
         eventMgr.onReady();
     };
 
-    var appId = 'ESTHdCYOi18iLhhO';
-    var monetize = new MonetizeJS({
-        applicationID: appId
-    });
-    var $alerts = $();
-
-    function isSponsor(payments) {
-        var result = payments && payments.app == appId && (
-            (payments.chargeOption && payments.chargeOption.alias == 'once') ||
-            (payments.subscriptionOption && payments.subscriptionOption.alias == 'yearly'));
-        eventMgr.isSponsor = result;
-        return result;
-    }
-
-    function removeAlerts() {
-        $alerts.remove();
-        $alerts = $();
-    }
-
-    function performPayment() {
-        monetize.getPayments({
-            pricingOptions: [
-                'once',
-                'yearly'
-            ]
-        }, function (err, payments) {
-            if (isSponsor(payments)) {
-                eventMgr.onMessage('Thank you for sponsoring StackEdit!');
-                removeAlerts();
-            }
-        });
-    }
-
-    var checkPayment = _.debounce(function () {
-        if (isOffline) {
-            return;
-        }
-        monetize.getPaymentsImmediate(function (err, payments) {
-            removeAlerts();
-            if (!isSponsor(payments)) {
-                _.each(document.querySelectorAll('.modal-body'), function (modalBodyElt) {
-                    var $elt = $('<div class="alert alert-danger">Please consider <a href="#">sponsoring StackEdit</a> for $5/year (or <a href="#">sign in</a> if you\'re already a sponsor).</div>');
-                    $elt.find('a').click(performPayment);
-                    modalBodyElt.insertBefore($elt[0], modalBodyElt.firstChild);
-                    $alerts = $alerts.add($elt);
-                });
-            }
-        });
-    }, 3000);
-
-    eventMgr.addListener('onOfflineChanged', checkPayment);
-
     // Other initialization that are not prioritary
     eventMgr.addListener("onReady", function () {
 
@@ -399,8 +337,6 @@ define([
         }).on('hidden.bs.modal', '.modal', function () {
             // Focus on the editor when modal is gone
             editor.focus();
-            // Revert to current theme when settings modal is closed
-            applyTheme(window.theme);
         }).on('keypress', '.modal', function (e) {
             // Handle enter key in modals
             if (e.which == 13 && !$(e.target).is("textarea")) {
@@ -539,31 +475,6 @@ define([
             window.location.reload();
         });
 
-        // Hot theme switcher in the settings
-        var currentTheme = window.theme;
-
-        function applyTheme(theme) {
-            theme = theme || 'default';
-            if (currentTheme != theme) {
-                var themeModule = "less!themes/" + theme;
-                if (window.baseDir.indexOf('-min') !== -1) {
-                    themeModule = "css!themes/" + theme;
-                }
-                // Undefine the module in RequireJS
-                requirejs.undef(themeModule);
-                // Then reload the style
-                require([
-                    themeModule
-                ]);
-                currentTheme = theme;
-            }
-        }
-
-        $themeInputElt = $("#input-settings-theme");
-        $themeInputElt.on("change", function () {
-            applyTheme(this.value);
-        });
-
         // Import docs and settings
         $(".action-import-docs-settings").click(function () {
             $("#input-file-import-docs-settings").click();
@@ -599,7 +510,7 @@ define([
         });
         $(".action-import-docs-settings-confirm").click(function () {
             storage.clear();
-            var allowedKeys = /^file\.|^folder\.|^publish\.|^settings$|^sync\.|^google\.|^author\.|^themeV4$|^version$/;
+            var allowedKeys = /^file\.|^folder\.|^publish\.|^settings$|^sync\.|^google\.|^author\.|^version$/;
             _.each(newstorage, function (value, key) {
                 if (allowedKeys.test(key)) {
                     storage[key] = value;
@@ -641,7 +552,7 @@ define([
 
         // Avoid dropdown panels to close on click
         $("div.dropdown-menu").click(function (e) {
-            e.stopPropagation();
+            // e.stopPropagation();
         });
 
         // Non unique window dialog
@@ -659,17 +570,6 @@ define([
                 $imgElt.attr('src', window.baseDir + '/img/' + src);
             }
         });
-
-        if (window.viewerMode === false) {
-            // Load theme list
-            var themeOptions = _.reduce(constants.THEME_LIST, function (themeOptions, name, value) {
-                return themeOptions + '<option value="' + value + '">' + name + '</option>';
-            }, '');
-            document.getElementById('input-settings-theme').innerHTML = themeOptions;
-        }
-
-        $('.modal-header').append('<a class="dialog-header-message" href="http://classeur.io" target="_blank"><i class="icon-megaphone"></i> Try Classeur beta!</a>');
-        checkPayment();
     });
 
     return core;
