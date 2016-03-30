@@ -58,7 +58,7 @@ define([
         core.initEditor(fileDesc);
     };
 
-    fileMgr.createFile = function (title, content/*, isTemporary*/) {
+    fileMgr.createFile = function (title, content, isTemporary) {
         content = content !== undefined ? content : settings.defaultContent;
         if (!title) {
             // Create a file title
@@ -74,13 +74,11 @@ define([
 
         // Generate a unique fileIndex
         var fileIndex = constants.TEMPORARY_FILE_INDEX;
-        /** 浏览器中只保留一份儿文章即可
-         if (!!isTemporary) {
+        if (!isTemporary) {
             do {
                 fileIndex = "file." + utils.id();
             } while (_.has(fileSystem, fileIndex));
         }
-         */
 
         storage[fileIndex + ".title"] = title;
         storage[fileIndex + ".content"] = content;
@@ -90,13 +88,11 @@ define([
         var fileDesc = new FileDescriptor(fileIndex, title);
 
         // Add the index to the file list
-        /** 浏览器中只保留一份儿文章即可
-         if (!isTemporary) {
+        if (!isTemporary) {
             utils.appendIndexToArray("file.list", fileIndex);
             fileSystem[fileIndex] = fileDesc;
             eventMgr.onFileCreated(fileDesc);
         }
-         */
         return fileDesc;
     };
 
