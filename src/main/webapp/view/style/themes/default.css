@@ -6165,6 +6165,11 @@ footer h6 {
 .modal-export-harddrive .nav li p {
   font-size: 12px;
 }
+@media print {
+  .not-print {
+    display: none;
+  }
+}
 .alertify,
 .alertify-show,
 .alertify-log {

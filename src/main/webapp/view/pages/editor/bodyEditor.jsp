@@ -13,7 +13,7 @@
 	.navbar-title .title-inner {position:absolute;width:100%;padding-right:160px;}
 </style>
 
-<div class="navbar-title navbar-inner">
+<div class="not-print navbar-title navbar-inner">
 	<ul class="nav pull-right title-container">
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
 			<li style="float:right;"><button type="button" class="btn btn-danger" style="margin-top:1px;">发表博客</button></li>
@@ -84,6 +84,9 @@
 						<a class="btn btn-success" id="wmd-help-button" title="语法帮助">
 							<i class="csdn-icon-help"></i>
 						</a>
+						<a class="btn btn-success" id="wmd-help-button" onclick="javascript:window.print();" title="打印|建议使用Chrome内核浏览器">
+							<i class="icon-print"></i>
+						</a>
 					</li>
 				</ul>
 				<ul class="nav pull-right right-buttons">
@@ -96,7 +99,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="layout-wrapper-l3">
+		<div class="print layout-wrapper-l3">
 			<!-- wmd-input 此DOM不要有折行，否则[ \t]等符号均会算到文章内 -->
 			<pre id="wmd-input" class="form-control"><div class="editor-content" contenteditable=true></div><div class="editor-margin"></div></pre>
 			<div class="preview-panel">

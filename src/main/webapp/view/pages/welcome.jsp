@@ -29,7 +29,7 @@
 	    .animated:nth-child(6) {animation-delay:1.2s;-webkit-animation-delay:1.2s;}
 	</style>
 </head>
-<body>
+<body class="not-print">
     <c:set var="position" value="fixed" scope="request"></c:set>
     <c:import url="nav/header.jsp" />
 

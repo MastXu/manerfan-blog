@@ -208,7 +208,7 @@ define([
         33 * 2,
         33 * 2,
         33 * 3,
-        33
+        33 * 2
     ].map(function (width) {
             return width + 18; // Add margin
         });
