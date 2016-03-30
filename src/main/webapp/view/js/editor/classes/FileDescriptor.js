@@ -4,7 +4,7 @@ define([
 	"js/editor/storage",
 ], function(_, utils, storage) {
 
-	function FileDescriptor(fileIndex, title, syncLocations, publishLocations) {
+	function FileDescriptor(fileIndex, title, publishLocations) {
 		this.fileIndex = fileIndex;
 		this._title = title || storage[fileIndex + ".title"];
 		this._editorScrollTop = parseInt(storage[fileIndex + ".editorScrollTop"]) || 0;
@@ -12,7 +12,6 @@ define([
 		this._editorEnd = parseInt(storage[fileIndex + ".editorEnd"]) || 0;
 		this._previewScrollTop = parseInt(storage[fileIndex + ".previewScrollTop"]) || 0;
 		this._selectTime = parseInt(storage[fileIndex + ".selectTime"]) || 0;
-		this.syncLocations = syncLocations || {};
 		this.publishLocations = publishLocations || {};
 		Object.defineProperty(this, 'title', {
 			get: function() {
@@ -77,17 +76,6 @@ define([
 			}
 		});
 	}
-
-	FileDescriptor.prototype.addSyncLocation = function(syncAttributes) {
-		utils.storeAttributes(syncAttributes);
-		utils.appendIndexToArray(this.fileIndex + ".sync", syncAttributes.syncIndex);
-		this.syncLocations[syncAttributes.syncIndex] = syncAttributes;
-	};
-
-	FileDescriptor.prototype.removeSyncLocation = function(syncAttributes) {
-		utils.removeIndexFromArray(this.fileIndex + ".sync", syncAttributes.syncIndex);
-		delete this.syncLocations[syncAttributes.syncIndex];
-	};
 
 	FileDescriptor.prototype.addPublishLocation = function(publishAttributes) {
 		utils.storeAttributes(publishAttributes);

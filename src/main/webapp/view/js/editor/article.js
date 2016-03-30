@@ -4,7 +4,13 @@
 
 define([
     'jquery',
+    'js/editor/eventMgr',
     'bootstrap'
-], function ($) {
-
+], function ($, eventMgr) {
+    /**
+     * 内容变化时触发
+     */
+    eventMgr.addListener('onContentChanged', function () {
+        $(".btn-blog-save").addClass("changed");
+    });
 });

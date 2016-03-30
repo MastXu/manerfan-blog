@@ -22,16 +22,24 @@ define([
         fileDesc = fileDesc || fileMgr.currentFile;
 
         if (fileDesc === undefined) {
-            var fileSystemSize = _.size(fileSystem);
-            if (fileSystemSize === 0) {
-                // If fileSystem empty create one file
-                fileDesc = fileMgr.createFile(constants.WELCOME_DOCUMENT_TITLE, welcomeContent);
-            }
-            else {
-                // Select the last selected file
-                fileDesc = _.max(fileSystem, function (fileDesc) {
-                    return fileDesc.selectTime || 0;
-                });
+            // 刚进入editor页面，检查location.search中是否有fileId参数
+            var fileId = utils.getURLParameter("fileId");
+            if (!!fileId) {
+                /* 有fileId，认为编辑文章操作 */
+                // TODO
+            } else {
+                var fileSystemSize = _.size(fileSystem);
+                if (fileSystemSize === 0) {
+                    /* 创建默认文章 */
+                    // If fileSystem empty create one file
+                    fileDesc = fileMgr.createFile(constants.WELCOME_DOCUMENT_TITLE, welcomeContent);
+                }
+                else {
+                    // Select the last selected file
+                    fileDesc = _.max(fileSystem, function (fileDesc) {
+                        return fileDesc.selectTime || 0;
+                    });
+                }
             }
         }
 
@@ -50,7 +58,7 @@ define([
         core.initEditor(fileDesc);
     };
 
-    fileMgr.createFile = function (title, content, syncLocations, isTemporary) {
+    fileMgr.createFile = function (title, content/*, isTemporary*/) {
         content = content !== undefined ? content : settings.defaultContent;
         if (!title) {
             // Create a file title
@@ -66,33 +74,29 @@ define([
 
         // Generate a unique fileIndex
         var fileIndex = constants.TEMPORARY_FILE_INDEX;
-        if (!isTemporary) {
+        /** 浏览器中只保留一份儿文章即可
+         if (!!isTemporary) {
             do {
                 fileIndex = "file." + utils.id();
             } while (_.has(fileSystem, fileIndex));
         }
-
-        // syncIndex associations
-        syncLocations = syncLocations || {};
-        var sync = _.reduce(syncLocations, function (sync, syncAttributes) {
-            utils.storeAttributes(syncAttributes);
-            return sync + syncAttributes.syncIndex + ";";
-        }, ";");
+         */
 
         storage[fileIndex + ".title"] = title;
         storage[fileIndex + ".content"] = content;
-        storage[fileIndex + ".sync"] = sync;
         storage[fileIndex + ".publish"] = ";";
 
         // Create the file descriptor
-        var fileDesc = new FileDescriptor(fileIndex, title, syncLocations);
+        var fileDesc = new FileDescriptor(fileIndex, title);
 
         // Add the index to the file list
-        if (!isTemporary) {
+        /** 浏览器中只保留一份儿文章即可
+         if (!isTemporary) {
             utils.appendIndexToArray("file.list", fileIndex);
             fileSystem[fileIndex] = fileDesc;
             eventMgr.onFileCreated(fileDesc);
         }
+         */
         return fileDesc;
     };
 
