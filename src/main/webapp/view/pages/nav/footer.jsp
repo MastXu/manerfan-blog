@@ -6,7 +6,7 @@
 <%@ taglib prefix="spring" uri="spring_tld" %> <!-- http://www.springframework.org/tags -->
 <%@ taglib prefix="sec" uri="security_tld" %> <!-- http://www.springframework.org/security/tags" -->
 
-<footer id="footer" class="not-print text-center" style="position: <c:out value='${position}' default='relative' />;">
+<footer id="footer" class="hidden-print text-center" style="position: <c:out value='${position}' default='relative' />;">
 	<div class="social">
 		<a href="https://github.com/ManerFan/manerfan-blog" target="_blank">
 		  <i class="icon-github-circled"></i>

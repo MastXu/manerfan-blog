@@ -11,9 +11,12 @@
 	.navbar-title ul {width:100%;height:100%;padding:4px 30px;position:relative;}
 	.navbar-title ul li {float:left;}
 	.navbar-title .title-inner {position:absolute;width:100%;padding-right:160px;}
+	.tagsinput-add {display:none;}
+	.tagsinput-add-container input {min-width: 60px;}
+	.catalog {cursor:pointer;}
 </style>
 
-<div class="not-print navbar-title navbar-inner">
+<div class="hidden-print navbar-title navbar-inner">
 	<ul class="nav pull-right title-container">
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
 			<li style="float:right;"><button type="button" class="btn btn-danger" style="margin-top:1px;">发表博客</button></li>
@@ -124,9 +127,8 @@
 	<div id="wmd-button-bar" class="hide"></div>
 
 	<div class="menu-panel">
-		<button class="btn toggle-button" title="Menu">
-			<img
-				data-stackedit-src="menu-icon.png" width="24" height="24" />
+		<button class="btn toggle-button hidden" title="Menu">
+			<img src="<c:url value='/view/images/editor/menu-icon.png'/>" width="24" height="24" />
 		</button>
 		<div class="panel-content">
 			<div class="list-group">
@@ -471,6 +473,41 @@
 				<a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
 				<a href="#" data-dismiss="modal"
 					class="btn btn-primary action-process-publish">OK</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 文章设置 -->
+<div class="modal fade modal-blog-setting">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title">
+					文章设置
+				</h2>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>摘要</label>
+					<textarea class="form-control blog-summary" rows="10" maxlength="210"></textarea>
+				</div>
+				<div class="form-group">
+					<label>分类</label>
+					<div class="form-group rec-categories">
+						<span class="label label-info">常用分类:</span>
+						<span class="catalog-group">
+							<span class="badge catalog">java</span>
+							<span class="badge catalog">spring</span>
+						</span>
+					</div>
+					<input name="tagsinput" class="tagsinput form-control blog-categories" maxlength="16"/>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+				<a href="#" class="btn btn-primary action-blog-setting">OK</a>
 			</div>
 		</div>
 	</div>

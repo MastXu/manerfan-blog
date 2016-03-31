@@ -42,7 +42,7 @@
     <body>
         <c:set var="position" value="relative" scope="request"></c:set>
         <c:import url="../nav/header.jsp" />
-        <div class="not-print _loading">
+        <div class="hidden-print _loading">
 	        <c:import url="../common/loading.jsp" />
         </div>
         <c:import url="bodyEditor.jsp" />

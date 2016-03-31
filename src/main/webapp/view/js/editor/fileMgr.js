@@ -26,6 +26,7 @@ define([
             var fileId = utils.getURLParameter("fileId");
             if (!!fileId) {
                 /* 有fileId，认为编辑文章操作 */
+                /* 所有编辑文章操作，均使用temporary模式 */
                 // TODO
             } else {
                 var fileSystemSize = _.size(fileSystem);

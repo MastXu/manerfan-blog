@@ -386,9 +386,15 @@ footer {
   }
 }
 
-@media print {
-  .not-print {
-    display: none;
+.tagsinput {
+  border: 2px solid @btn-primary-bg !important;
+  .tag {
+    background-color: @btn-primary-bg !important;
+    border-color: @btn-primary-border !important;
+    &:hover {
+      background-color: darken(@btn-primary-bg, 8%) !important;
+      border-color: darken(@btn-primary-bg, 12%) !important;
+    }
   }
 }
 

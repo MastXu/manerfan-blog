@@ -35,7 +35,7 @@
 		.msg-info {background-color: rgba(217, 237, 247, 0.5) !important;}
     </style>
 </head>
-<body class="not-print">
+<body class="hidden-print">
     <c:set var="position" value="fixed" scope="request"></c:set>
     <c:import url="nav/header.jsp" />
     

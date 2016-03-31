@@ -11,7 +11,7 @@
 	.github.dropdown-menu {width:220px !important;}
 </style>
 
-<nav id="header" class="not-print navbar navbar-default" style="position: <c:out value='${position}' default='relative' />;">
+<nav id="header" class="hidden-print navbar navbar-default" style="position: <c:out value='${position}' default='relative' />;">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-collapse" aria-expanded="false">

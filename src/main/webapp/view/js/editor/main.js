@@ -27,6 +27,8 @@ require([
     "js/editor/core",
     "js/editor/eventMgr",
     "js/editor/publisher",
+    "js/editor/providers/downloadProvider",
+    'js/editor/providers/mblogProvider',
     "js/editor/mediaImporter",
     "css",
     "rangy-cssclassapplier"

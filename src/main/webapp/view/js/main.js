@@ -106,7 +106,8 @@ requirejs.config({
         'jquery.ui.widget': 'plugins/blueimp-file-upload/js/vendor/jquery.ui.widget',
         'jBoxUtil': 'js/utils/jBoxUtil',
         d3cloud: 'plugins/d3-cloud/build/d3.layout.cloud',
-        'js-base64': 'plugins/js-base64/base64.min'
+        'js-base64': 'plugins/js-base64/base64.min',
+        'tagsinput': 'plugins/flatui/js/jquery.tagsinput'
     },
 
     /**
@@ -221,6 +222,10 @@ requirejs.config({
             'jquery',
             'jquery.ui.widget',
             'plugins/blueimp-file-upload/js/jquery.iframe-transport'
+        ],
+        tagsinput: [
+            'jquery',
+            'bootstrap'
         ]
     }
 });

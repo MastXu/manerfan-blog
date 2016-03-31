@@ -66,14 +66,14 @@ public class ArticleEntity extends CommonEntity {
      * 摘要
      */
     @Field(store = Store.NO)
-    @Column(name = "summary", nullable = false, length = 1024)
+    @Column(name = "summary", length = 1024)
     private String summary;
 
     /**
-     * 正文文件路径
+     * 文章id
      */
-    @Column(name = "content_path", nullable = false)
-    private String contentPath;
+    @Column(name = "uid", nullable = false)
+    private long uid;
 
     /**
      * 正文，仅用于hibernate search索引
@@ -118,18 +118,18 @@ public class ArticleEntity extends CommonEntity {
     private UserEntity author;
 
     public static enum State {
-        /**
-         * 已发布
-         */
-        PUBLISHED,
-        /**
-         * 草稿
-         */
-        DRAFT,
-        /**
-         * 已删除
-         */
-        DELETED
+                              /**
+                               * 已发布
+                               */
+                              PUBLISHED,
+                              /**
+                               * 草稿
+                               */
+                              DRAFT,
+                              /**
+                               * 已删除
+                               */
+                              DELETED
     }
 
     public String getTitle() {
@@ -201,8 +201,8 @@ public class ArticleEntity extends CommonEntity {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((author == null) ? 0 : author.hashCode());
-        result = prime * result + ((contentPath == null) ? 0 : contentPath.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((state == null) ? 0 : state.hashCode());
+        result = prime * result + (int) (uid ^ (uid >>> 32));
         return result;
     }
 
@@ -220,25 +220,19 @@ public class ArticleEntity extends CommonEntity {
                 return false;
         } else if (!author.equals(other.author))
             return false;
-        if (contentPath == null) {
-            if (other.contentPath != null)
-                return false;
-        } else if (!contentPath.equals(other.contentPath))
+        if (state != other.state)
             return false;
-        if (title == null) {
-            if (other.title != null)
-                return false;
-        } else if (!title.equals(other.title))
+        if (uid != other.uid)
             return false;
         return true;
     }
 
-    public String getContentPath() {
-        return contentPath;
+    public long getUid() {
+        return uid;
     }
 
-    public void setContentPath(String contentPath) {
-        this.contentPath = contentPath;
+    public void setUid(long uid) {
+        this.uid = uid;
     }
 
 }
