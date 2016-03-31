@@ -59,9 +59,9 @@ define([
         }
         if (windowId === undefined) {
             windowId = utils.id();
-            storage.frontWindowId = windowId;
+            storage[constants.FRONT_WINDOWID] = windowId;
         }
-        var frontWindowId = storage.frontWindowId;
+        var frontWindowId = storage[constants.FRONT_WINDOWID];
         if (frontWindowId != windowId) {
             windowUnique = false;
             if (intervalId !== undefined) {

@@ -4,7 +4,7 @@ define([
     "js/editor/constants"
 ], function (_, constants) {
 
-    var publishKey = constants.TEMPORARY_FILE_INDEX + "publish";
+    var publishKey = constants.TEMPORARY_FILE_INDEX + ".publish";
 
     /**
      * 每次进入页面，都清空[constants.TEMPORARY_FILE_INDEX].*

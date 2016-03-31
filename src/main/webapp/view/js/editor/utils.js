@@ -537,6 +537,36 @@ define([
         }
     };
 
+    /**
+     * 通过file的index，从storage中移除所有相关项
+     * @param index
+     */
+    utils.removeFileFromIndex = function (index) {
+        var fileIndex = index;
+        var publishKey = fileIndex + ".publish";
+        _.each(_.keys(storage), function (key) {
+            if (utils.startWith(key, fileIndex)) {
+                if (publishKey == key) {
+                    _.each(utils.retrieveIndexArray(key), function (_key) {
+                        /* 移除 publish.* */
+                        storage.removeItem(_key);
+                    });
+                }
+                storage.removeItem(key);
+            }
+        });
+    };
+
+    utils.startWith = function startWith(src, str) {
+        if (str == null || str == "" || src.length == 0 || str.length > src.length)
+            return false;
+        if (src.substr(0, str.length) == str)
+            return true;
+        else
+            return false;
+        return true;
+    }
+
     var eventList = [];
     utils.logValue = function (value) {
         eventList.unshift(value);

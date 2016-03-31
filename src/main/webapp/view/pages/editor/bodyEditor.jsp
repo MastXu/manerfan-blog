@@ -59,18 +59,22 @@
 				<ul class="nav left-buttons">
 					<li class="wmd-button-group4 btn-group"></li>
 				</ul>
-				<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
-					<ul class="nav left-buttons">
-						<li class="wmd-button-group5 btn-group">
+				<ul class="nav left-buttons">
+					<li class="wmd-button-group5 btn-group">
+						<a class="btn btn-success action-create-file" title="新文章">
+							<i class="csdn-icon-pencil"></i>
+						</a>
+						<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
 							<a class="btn btn-success btn-blog-save" title="保存到草稿箱  Ctrl/Cmd+S">
 								<i class="csdn-icon-disk"></i>
 							</a>
 							<a class="btn btn-success btn-blog-setting" title="文章设置">
 								<i class="csdn-icon-doc-setting"></i>
 							</a>
-						</li>
-					</ul>
-				</sec:authorize>
+						</sec:authorize>
+					</li>
+				</ul>
+				
 				<ul class="nav left-buttons">
 					<li class="wmd-button-group6 btn-group">
 						<a class="btn btn-success btn-import-online" data-toggle="modal" data-target=".modal-import-url" title="线上导入">

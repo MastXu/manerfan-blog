@@ -17,6 +17,11 @@ define([
     // Defines the current file
     fileMgr.currentFile = undefined;
 
+    function getRandomFileId() {
+        // TODO 从后台获取一个FileId，若失败，则本地生成
+        return _.now;
+    }
+
     // Set the current file and refresh the editor
     fileMgr.selectFile = function (fileDesc) {
         fileDesc = fileDesc || fileMgr.currentFile;
@@ -27,7 +32,7 @@ define([
             if (!!fileId) {
                 /* 有fileId，认为编辑文章操作 */
                 /* 所有编辑文章操作，均使用temporary模式 */
-                // TODO
+                // TODO 从后台获取文章信息
             } else {
                 var fileSystemSize = _.size(fileSystem);
                 if (fileSystemSize === 0) {
@@ -108,6 +113,7 @@ define([
 
         // Remove the index from the file list
         utils.removeIndexFromArray("file.list", fileDesc.fileIndex);
+        utils.removeFileFromIndex(fileDesc.fileIndex);
         delete fileSystem[fileDesc.fileIndex];
 
         // Don't bother with fields in localStorage, they will be removed on next page load

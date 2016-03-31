@@ -52,6 +52,13 @@ define([
     });
 
     /**
+     * 内容变化时触发
+     */
+    eventMgr.addListener('onContentChanged', function () {
+        $(".btn-blog-save").addClass("changed");
+    });
+
+    /**
      * 点击文章设置
      */
     $(".btn-blog-setting").click(function () {
