@@ -16,6 +16,7 @@
 package com.manerfan.blog.webapp.editor;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,6 +32,22 @@ public class Editor {
     @RequestMapping
     public ModelAndView editor() {
         return new ModelAndView("editor/editor");
+    }
+
+    /**
+     * <pre>
+     * 编辑文章
+     * </pre>
+     *
+     * @param fileId    文章ID
+     * @return
+     */
+    @RequestMapping("/{fileId}")
+    public ModelAndView edit(@PathVariable("fileId") long fileId) {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("fileId", fileId);
+        mv.setViewName("editor/editor");
+        return mv;
     }
 
 }

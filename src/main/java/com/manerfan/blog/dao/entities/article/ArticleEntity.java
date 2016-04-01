@@ -38,7 +38,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 
 import com.manerfan.blog.dao.entities.UserEntity;
-import com.manerfan.common.utils.dao.common.CommonEntity;
+import com.manerfan.common.utils.dao.entities.CommonEntity;
 
 /**
  * <pre>文章</pre>
@@ -74,12 +74,6 @@ public class ArticleEntity extends CommonEntity {
      */
     @Column(name = "uid", nullable = false)
     private long uid;
-
-    /**
-     * 正文，仅用于hibernate search索引
-     */
-    @Field(store = Store.NO)
-    private transient String content;
 
     /**
      * 创建时间
@@ -146,14 +140,6 @@ public class ArticleEntity extends CommonEntity {
 
     public void setSummary(String summary) {
         this.summary = summary;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public Date getCreateTime() {

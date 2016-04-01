@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.manerfan.blog.service.article.ImageCachingFile;
 import com.manerfan.blog.service.article.ImageService;
+import com.manerfan.blog.service.article.resource.ImageCachingFile;
 import com.manerfan.blog.webapp.ControllerBase;
 
 /**
@@ -40,7 +40,7 @@ import com.manerfan.blog.webapp.ControllerBase;
  * @author ManerFan 2016年3月14日
  */
 @Controller
-@RequestMapping("/image")
+@RequestMapping("/article/image")
 public class ImageController extends ControllerBase {
 
     @Autowired

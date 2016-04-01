@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.manerfan.blog.service.article;
+package com.manerfan.blog.service.article.resource;
 
 import java.io.Serializable;
 

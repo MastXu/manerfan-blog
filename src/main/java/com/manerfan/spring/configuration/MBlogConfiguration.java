@@ -26,7 +26,7 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
  *
  * @author ManerFan 2016年3月24日
  */
-@Import({ RepositoryConfiguration.class, /* 数据库 */
+@Import({ DataJpaRepositoryConfiguration.class, /* 数据库 */
         CacheConfiguration.class, /* 缓存 */
         SpringMVCConfiguration.class, /* spring mvc */
         SpringSecurityConfiguration.class /* spring security */

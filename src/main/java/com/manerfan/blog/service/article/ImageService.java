@@ -35,6 +35,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.manerfan.blog.service.article.resource.ImageCachingFile;
 import com.manerfan.common.utils.logger.MLogger;
 
 /**
@@ -47,7 +48,7 @@ public class ImageService implements InitializingBean {
 
     private static final SimpleDateFormat NAME_SDF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     private static final SimpleDateFormat PATH_SDF = new SimpleDateFormat("/yyyy/MM/");
-    private static final String suffix = "\\.(jpg|jpeg|png|gif)";
+    private static final String suffix = "\\.(jpe?g|png|gif)";
     private static final Pattern pattern = Pattern.compile(".+" + suffix);
 
     @Value("${article.basedir}")

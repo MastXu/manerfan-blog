@@ -66,7 +66,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/*.*", "/init/**", "/view/**", "/image/view/**", "/tags/**");
+        web.ignoring().antMatchers("/*.*", "/init/**", "/view/**", "/article/image/view/**",
+                "/tags/**");
     }
 
     /**
@@ -116,9 +117,12 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
         http.anonymous().key("doesNotMatter").principal("anonymous").authorities("ROLE_ANONYMOUS");
 
         http.authorizeRequests().expressionHandler(webSecurityExpressionHandler())
-                .antMatchers("/", "/login/**", "/editor").permitAll()/* 任意用户可访问的 */
+                /* 任意用户可访问的 */
+                .antMatchers("/", "/login/**", "/editor").permitAll()
                 /* 只有admin可访问的 */
-                .antMatchers("/**").hasAnyRole("ADMIN", "USER")/* 登陆后可访问的 [spring会自动添加ROLE_前缀] */
+                /*.antMatchers("/**").hasAnyRole("ADMIN")*/
+                /* 登陆后可访问的 */
+                .antMatchers("/**").hasAnyRole("ADMIN", "USER")/* [spring会自动添加ROLE_前缀] */
                 .and().httpBasic()
                 .authenticationEntryPoint(authenticationEntryPoint())/* 指定EntryPoint */
                 .and().exceptionHandling().accessDeniedPage("/login");

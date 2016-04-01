@@ -18,7 +18,7 @@ package com.manerfan.blog.dao.entities.article;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import com.manerfan.common.utils.dao.common.CommonEntity;
+import com.manerfan.common.utils.dao.entities.CommonEntity;
 
 /**
  * <pre>文章分类</pre>

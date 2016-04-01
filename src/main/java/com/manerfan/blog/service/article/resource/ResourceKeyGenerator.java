@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.manerfan.blog.service.article;
+package com.manerfan.blog.service.article.resource;
 
 import java.lang.reflect.Method;
 
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Component;
+
+import com.manerfan.blog.service.article.ImageService;
 
 /**
  * <pre>

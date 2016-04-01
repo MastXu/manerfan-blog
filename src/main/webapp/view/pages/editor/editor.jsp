@@ -45,6 +45,7 @@
         <div class="hidden-print _loading">
 	        <c:import url="../common/loading.jsp" />
         </div>
+        <input type="hidden" name="fileId" value="<c:out value='${fileId}'/>">
         <c:import url="bodyEditor.jsp" />
     </body>
 
