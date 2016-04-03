@@ -30,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.manerfan.blog.dao.entities.UserEntity;
 import com.manerfan.blog.dao.repositories.UserRepository;
+import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.service.RSAService;
 
 /**
@@ -43,6 +44,9 @@ public class LoginController extends ControllerBase {
 
     public static final String INFO_MSG = "INFO_MSG";
     public static final String ERR_MSG = "ERR_MSG";
+
+    @Autowired
+    private UserInfoInterceptorHandler userInfo;
 
     @Autowired
     private UserRepository userRepository;
@@ -62,7 +66,7 @@ public class LoginController extends ControllerBase {
             return mv;
         }
 
-        if (!isAnonymous()) {
+        if (!userInfo.isAnonymous()) {
             // 已经登录
             mv.setViewName("redirect:/");
             return mv;

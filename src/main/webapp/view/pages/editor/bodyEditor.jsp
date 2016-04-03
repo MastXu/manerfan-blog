@@ -19,7 +19,7 @@
 <div class="hidden-print navbar-title navbar-inner">
 	<ul class="nav pull-right title-container">
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
-			<li style="float:right;"><button type="button" class="btn btn-danger" style="margin-top:1px;">发表博客</button></li>
+			<li style="float:right;"><button type="button" class="btn btn-danger btn-blog-publish" style="margin-top:1px;">发表博客</button></li>
 		</sec:authorize>
 		<li>
 			<a class="btn btn-success file-title-navbar" href="#" title="Rename document"></a>

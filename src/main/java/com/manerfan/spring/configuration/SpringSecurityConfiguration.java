@@ -27,6 +27,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -114,7 +116,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /* 启用匿名用户 */
-        http.anonymous().key("doesNotMatter").principal("anonymous").authorities("ROLE_ANONYMOUS");
+        http.anonymous().key("doesNotMatter")
+                .principal(new User("anonymous", "anonymous",
+                        AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")))
+                .authorities("ROLE_ANONYMOUS");
 
         http.authorizeRequests().expressionHandler(webSecurityExpressionHandler())
                 /* 任意用户可访问的 */

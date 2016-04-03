@@ -17,13 +17,18 @@ package com.manerfan.blog.webapp.article;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.manerfan.blog.dao.entities.article.ArticleBO;
+import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
+import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
+import com.manerfan.blog.service.article.ArticleService;
 import com.manerfan.blog.webapp.ControllerBase;
 
 /**
@@ -34,6 +39,12 @@ import com.manerfan.blog.webapp.ControllerBase;
 @Controller
 @RequestMapping("/article")
 public class ArticleController extends ControllerBase {
+
+    @Autowired
+    private UserInfoInterceptorHandler userInfo;
+
+    @Autowired
+    private ArticleService articleService;
 
     /**
      * <pre>
@@ -55,6 +66,12 @@ public class ArticleController extends ControllerBase {
             return data;
         }
 
+        /**
+         * 设置作者
+         */
+        article.setAuthor(userInfo.userName());
+
+        data.put("uid", articleService.saveOrUpdate(article));
         return data;
     }
 
@@ -82,13 +99,21 @@ public class ArticleController extends ControllerBase {
         switch (article.getState()) {
             case PUBLISHED:
                 /* 发布 */
+                if (!StringUtils.hasText(article.getSummary())) {
+                    return "请填写摘要";
+                }
+                if (ObjectUtils.isEmpty(article.getCategories())) {
+                    return "请填写分类";
+                }
+                article.setState(State.PUBLISHED);
                 break;
             case DRAFT:
                 /* 草稿 */
+                article.setState(State.DRAFT);
                 break;
             case DELETED:
                 /* 删除 */
-                return "不能在";
+                return "不能在此处执行文章删除操作";
             default:
                 /* 未知 */
                 return "未知操作";

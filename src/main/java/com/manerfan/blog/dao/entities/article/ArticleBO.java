@@ -75,6 +75,19 @@ public class ArticleBO {
     private State state;
 
     /**
+     * 作者
+     */
+    private String author;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    /**
      * 分类
      */
     private String[] categories;

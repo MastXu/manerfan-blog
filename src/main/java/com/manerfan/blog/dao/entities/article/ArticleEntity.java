@@ -36,6 +36,8 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import com.manerfan.blog.dao.entities.UserEntity;
 import com.manerfan.common.utils.dao.entities.CommonEntity;
@@ -72,12 +74,13 @@ public class ArticleEntity extends CommonEntity {
     /**
      * 文章id
      */
-    @Column(name = "uid", nullable = false)
+    @Column(name = "uid", unique = true, nullable = false)
     private long uid;
 
     /**
      * 创建时间
      */
+    @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time", nullable = false)
     private Date createTime;
@@ -85,6 +88,7 @@ public class ArticleEntity extends CommonEntity {
     /**
      * 最后一次修改时间
      */
+    @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_mod_time", nullable = false)
     private Date lastModTime;
@@ -112,18 +116,18 @@ public class ArticleEntity extends CommonEntity {
     private UserEntity author;
 
     public static enum State {
-                              /**
-                               * 已发布
-                               */
-                              PUBLISHED,
-                              /**
-                               * 草稿
-                               */
-                              DRAFT,
-                              /**
-                               * 已删除
-                               */
-                              DELETED
+        /**
+         * 已发布
+         */
+        PUBLISHED,
+        /**
+         * 草稿
+         */
+        DRAFT,
+        /**
+         * 已删除
+         */
+        DELETED
     }
 
     public String getTitle() {

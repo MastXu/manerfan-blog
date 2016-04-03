@@ -52,13 +52,6 @@ define([
     });
 
     /**
-     * 内容变化时触发
-     */
-    eventMgr.addListener('onContentChanged', function () {
-        $(".btn-blog-save").addClass("changed");
-    });
-
-    /**
      * 点击文章设置
      */
     $(".btn-blog-setting").click(function () {
@@ -120,6 +113,27 @@ define([
             blogSettingCallback = null;
             callback();
         }
+    });
+
+    /**
+     * 内容变化时触发
+     */
+    eventMgr.addListener('onContentChanged', function () {
+        $(".btn-blog-save").addClass("changed");
+    });
+
+    /**
+     * 保存文章到草稿
+     */
+    $(".btn-blog-save").click(function () {
+
+    });
+
+    /**
+     * 发布文章
+     */
+    $(".btn-blog-publish").click(function () {
+
     });
 
     return mblogProvider;

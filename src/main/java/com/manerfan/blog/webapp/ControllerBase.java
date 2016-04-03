@@ -20,13 +20,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContext;
-
-import com.manerfan.blog.dao.entities.UserEntity;
 
 /**
  * <pre></pre>
@@ -42,22 +38,6 @@ public class ControllerBase {
         data.put(ERRMSG, null);
 
         return data;
-    }
-
-    /**
-     * 
-     * <pre>判断当前登陆是否为匿名</pre>
-     *
-     * @return
-     */
-    protected boolean isAnonymous() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (null == authentication
-                || UserEntity.NAME_ANONYMOUS.equals(authentication.getPrincipal())) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

@@ -43,6 +43,7 @@ import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.interceptor.VersionInterceptorHandler;
 
 /**
@@ -59,7 +60,7 @@ import com.manerfan.blog.interceptor.VersionInterceptorHandler;
 @Configuration
 @EnableSpringConfigured
 @EnableWebMvc
-@ComponentScan(basePackages = "com.manerfan.blog.webapp", useDefaultFilters = false, includeFilters = @Filter(type = FilterType.ANNOTATION, classes = Controller.class))
+@ComponentScan(basePackages = "com.manerfan.blog.webapp", useDefaultFilters = false, includeFilters = @Filter(type = FilterType.ANNOTATION, classes = Controller.class) )
 public class SpringMVCConfiguration extends WebMvcConfigurationSupport implements BeanFactoryAware {
 
     private BeanFactory beanFactory;
@@ -237,6 +238,9 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     protected void addInterceptors(InterceptorRegistry registry) {
         /* 版本管理拦截器 */
         registry.addInterceptor(beanFactory.getBean(VersionInterceptorHandler.class));
+
+        /* 用户信息拦截器 */
+        registry.addInterceptor(beanFactory.getBean(UserInfoInterceptorHandler.class));
     }
 
     /**

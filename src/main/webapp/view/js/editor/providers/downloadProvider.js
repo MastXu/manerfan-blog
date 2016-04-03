@@ -25,7 +25,7 @@ define([
                 return;
             }
             title = url.substring(slashUrl + 1);
-            $.ajax({ // FIXME 需要后台下载后返回给页面
+            $.ajax({ // 需要后台下载后返回给页面
                 url: constants.DOWNLOAD_IMPORT_URL,
                 type: 'post',
                 data: {url: url},
