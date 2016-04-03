@@ -24,7 +24,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.manerfan.blog.dao.entities.UserEntity;
-import com.manerfan.blog.service.UserService;
+import com.manerfan.blog.dao.repositories.UserRepository;
 
 /**
  * <pre>用户信息</pre>
@@ -35,7 +35,7 @@ import com.manerfan.blog.service.UserService;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     /**
      * 加载用户信息
@@ -43,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = userService.findByName(username);
+        UserEntity userEntity = userRepository.findOneByName(username);
         if (null == userEntity) {
             throw new UsernameNotFoundException("Cannot Find any User for " + username);
         }

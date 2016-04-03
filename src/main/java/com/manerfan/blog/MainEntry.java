@@ -54,7 +54,7 @@ public class MainEntry {
     public static void main(String[] args) {
         if (ObjectUtils.isEmpty(args)) {
             CustomGzipResourceResolver.setDebug(true);
-            args = new String[] { "-cp", "/", "-wc", "src/main/webapp", "-p", "80" };
+            args = new String[] { "-cp", "/", "-wc", "src/main/webapp", "-p", "8080" };
         }
 
         initCLI();

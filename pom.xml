@@ -231,6 +231,12 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-compress</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.manerfan.common.utils</groupId>
+    		<artifactId>manerfan-common-utils-http</artifactId>
+    		<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

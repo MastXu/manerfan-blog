@@ -87,14 +87,14 @@
 
 	<!-- Hibernate 允许对关联对象、属性进行延迟加载，但是必须保证延迟加载的操作限于同一个 Hibernate Session 范围之内进行。 
 		如果 Service 层返回一个启用了延迟加载功能的领域对象给 Web 层，当 Web 层访问到那些需要延迟加载的数据时， 由于加载领域对象的 Hibernate 
-		Session 已经关闭，这些导致延迟加载数据的访问异常 -->
+		Session 已经关闭，这些导致延迟加载数据的访问异常
 	<filter>
 		<filter-name>Spring OpenSessionInViewFilter</filter-name>
 		<filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
 		<init-param>
-			<!-- 指定org.springframework.orm.hibernate5.LocalSessionFactoryBean在spring配置文件中的名称,默认值为sessionFactory 
-				如果LocalSessionFactoryBean在spring中的名称不是sessionFactory,该参数一定要指定,否则会出现找不到sessionFactory的例外 -->
-			<param-name>sessionFactoryBean</param-name>
+			指定org.springframework.orm.hibernate5.LocalSessionFactoryBean在spring配置文件中的名称,默认值为sessionFactory 
+				如果LocalSessionFactoryBean在spring中的名称不是sessionFactory,该参数一定要指定,否则会出现找不到sessionFactory的例外
+			<param-name>sessionFactoryBeanName</param-name>
 			<param-value>sessionFactory</param-value>
 		</init-param>
 	</filter>
@@ -102,6 +102,17 @@
 		<filter-name>Spring OpenSessionInViewFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	-->
+	
+	<!-- 作用同上 Hibernate OpenSessionInViewFilter -->
+	<filter>
+	   <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
+	   <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	   <init-param>
+	       <param-name>entityManagerFactoryBeanName</param-name>
+	       <param-value>entityManagerFactory</param-value>
+	   </init-param>
+	</filter>
 
 	<servlet>
 		<servlet-name>mblog</servlet-name>

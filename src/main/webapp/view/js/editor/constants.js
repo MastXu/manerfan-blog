@@ -15,7 +15,7 @@ define([], function () {
     constants.TEMPORARY_FILE_INDEX = "file.mblog";
     constants.FRONT_WINDOWID = "mblog.front.windowId";
     constants.WELCOME_DOCUMENT_TITLE = "欢迎使用MBLOG编辑器!";
-    constants.DOWNLOAD_IMPORT_URL = "/downloadImport";
+    constants.DOWNLOAD_IMPORT_URL = "/editor/fileImport";
     constants.PICASA_IMPORT_IMG_URL = "/picasaImportImg";
     constants.PDF_EXPORT_URL = "/pdfExport";
 

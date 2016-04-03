@@ -24,13 +24,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.manerfan.blog.dao.entities.UserEntity;
+import com.manerfan.blog.dao.repositories.UserRepository;
 import com.manerfan.blog.service.RSAService;
-import com.manerfan.blog.service.UserService;
 
 /**
  * <pre>登陆</pre>
@@ -45,7 +45,7 @@ public class LoginController extends ControllerBase {
     public static final String ERR_MSG = "ERR_MSG";
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Autowired
     private RSAService rsaService;
@@ -55,7 +55,8 @@ public class LoginController extends ControllerBase {
         ModelAndView mv = new ModelAndView("login");
         HttpSession session = request.getSession(true);
 
-        if (ObjectUtils.isEmpty(userService.findAdmins())) {
+        Long adminNum = userRepository.countByRoleContaining(UserEntity.ROLE_ADMIN);
+        if (null == adminNum || adminNum.longValue() < 1) {
             // 还没有管理员用户，重定向到初始化
             mv.setViewName("redirect:/init");
             return mv;

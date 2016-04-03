@@ -25,15 +25,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.manerfan.blog.dao.entities.UserEntity;
+import com.manerfan.blog.dao.repositories.UserRepository;
 import com.manerfan.blog.service.RSAService;
-import com.manerfan.blog.service.UserService;
 
 /**
  * <pre>网站初始化</pre>
@@ -45,7 +45,7 @@ import com.manerfan.blog.service.UserService;
 public class InitialiseController extends ControllerBase {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Autowired
     private RSAService rsaService;
@@ -55,7 +55,8 @@ public class InitialiseController extends ControllerBase {
         ModelAndView mv = new ModelAndView("init");
         HttpSession session = request.getSession(true);
 
-        if (!ObjectUtils.isEmpty(userService.findAdmins())) {
+        Long adminNum = userRepository.countByRoleContaining(UserEntity.ROLE_ADMIN);
+        if (null != adminNum && adminNum.longValue() > 0) {
             // 已经有管理员用户了，直接登录
             mv.setViewName("redirect:/login");
             session.setAttribute(LoginController.ERR_MSG, "请勿重复初始化");
@@ -102,13 +103,17 @@ public class InitialiseController extends ControllerBase {
             return mv;
         }
 
-        if (userService.createAdmin(user)) {
-            mv.setViewName("redirect:/login");
-            session.setAttribute(LoginController.INFO_MSG, "初始化完成，请登录");
-        } else {
-            mv.setViewName("redirect:/init");
-            session.setAttribute(LoginController.ERR_MSG, "初始化失败，请联系管理员或重新初始化");
+        user.setRole(UserEntity.ROLE_ADMIN);
+        if (!StringUtils.hasText(user.getEmail())) {
+            user.setEmail(null);
         }
+        if (!StringUtils.hasText(user.getAvatar())) {
+            user.setAvatar(null);
+        }
+
+        userRepository.save(user);
+        mv.setViewName("redirect:/login");
+        session.setAttribute(LoginController.INFO_MSG, "初始化完成，请登录");
 
         return mv;
     }

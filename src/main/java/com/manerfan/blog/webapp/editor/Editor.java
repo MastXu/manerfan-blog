@@ -15,10 +15,20 @@
  */
 package com.manerfan.blog.webapp.editor;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.manerfan.blog.webapp.ControllerBase;
+import com.manerfan.common.utils.http.HttpClient;
 
 /**
  * <pre>欢迎页</pre>
@@ -27,11 +37,26 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/editor")
-public class Editor {
+public class Editor extends ControllerBase {
+
+    @Autowired
+    private HttpClient httpClient;
 
     @RequestMapping
     public ModelAndView editor() {
         return new ModelAndView("editor/editor");
+    }
+
+    @RequestMapping("/fileImport")
+    @ResponseBody
+    public Object fileImport(@RequestParam("url") String url) throws UnsupportedEncodingException {
+        Map<String, Object> data = makeAjaxData();
+        String errContent = "无法从" + url + "获取文章内容";
+        String content = httpClient.downloadFileContent(url, 4096,
+                HttpClient.timeoutConfig(3000, 3000, 20000));
+
+        data.put("content", StringUtils.hasText(content) ? content : errContent);
+        return data;
     }
 
     /**

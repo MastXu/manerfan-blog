@@ -32,7 +32,7 @@ public interface UserRepository extends BasicJpaRepository<UserEntity, String> {
      * @param   name    用户名
      * @return  用户
      */
-    public UserEntity findByName(String name);
+    public UserEntity findOneByName(String name);
 
     /**
      * <pre>
