@@ -15,6 +15,7 @@
  */
 package com.manerfan.blog.webapp.article;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.service.article.ArticleService;
 import com.manerfan.blog.webapp.ControllerBase;
+import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>文章操作</pre>
@@ -59,19 +61,25 @@ public class ArticleController extends ControllerBase {
     public Object publish(@ModelAttribute ArticleBO article) {
         Map<String, Object> data = makeAjaxData();
 
-        String errMsg = checkArticle(article);
-        if (StringUtils.hasText(errMsg)) {
-            /* 有错误 */
-            data.put(ERRMSG, errMsg);
-            return data;
+        try {
+            String errMsg = checkArticle(article);
+            if (StringUtils.hasText(errMsg)) {
+                /* 有错误 */
+                data.put(ERRMSG, errMsg);
+                return data;
+            }
+
+            /**
+             * 设置作者
+             */
+            article.setAuthor(userInfo.userName());
+
+            data.put("uid", articleService.saveOrUpdate(article));
+        } catch (IOException e) {
+            MLogger.ROOT_LOGGER.error("", e);
+            data.put(ERRMSG, "写文章错误");
         }
 
-        /**
-         * 设置作者
-         */
-        article.setAuthor(userInfo.userName());
-
-        data.put("uid", articleService.saveOrUpdate(article));
         return data;
     }
 

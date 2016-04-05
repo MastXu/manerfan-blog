@@ -53,6 +53,14 @@ public class ArticleCategoryMap implements Serializable {
     @JoinColumn(name = "article", nullable = false)
     private ArticleEntity article;
 
+    public ArticleCategoryMap() {
+    }
+
+    public ArticleCategoryMap(CategoryEntity category, ArticleEntity article) {
+        this.category = category;
+        this.article = article;
+    }
+
     public CategoryEntity getCategory() {
         return category;
     }

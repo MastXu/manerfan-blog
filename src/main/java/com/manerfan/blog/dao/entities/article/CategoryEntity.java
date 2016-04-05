@@ -39,6 +39,13 @@ public class CategoryEntity extends CommonEntity {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    public CategoryEntity() {
+    }
+
+    public CategoryEntity(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

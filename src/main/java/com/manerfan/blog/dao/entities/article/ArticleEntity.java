@@ -20,6 +20,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -38,6 +39,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.manerfan.blog.dao.entities.UserEntity;
 import com.manerfan.common.utils.dao.entities.CommonEntity;
@@ -48,6 +50,7 @@ import com.manerfan.common.utils.dao.entities.CommonEntity;
  * @author ManerFan 2016年2月24日
  */
 @Entity(name = "article")
+@EntityListeners({ AuditingEntityListener.class })
 @Indexed(index = "article_index") /* 索引文件 */
 @Analyzer(impl = SmartChineseAnalyzer.class) /* 中文分词器 */
 public class ArticleEntity extends CommonEntity {
@@ -80,7 +83,7 @@ public class ArticleEntity extends CommonEntity {
     /**
      * 创建时间
      */
-    @LastModifiedDate
+    @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time", nullable = false)
     private Date createTime;
@@ -89,6 +92,7 @@ public class ArticleEntity extends CommonEntity {
      * 最后一次修改时间
      */
     @CreatedDate
+    @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_mod_time", nullable = false)
     private Date lastModTime;

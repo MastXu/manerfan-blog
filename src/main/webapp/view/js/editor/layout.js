@@ -725,7 +725,7 @@ define([
 
     eventMgr.addListener("onPreviewFinished", function () {
         // 页面加载完成后，隐藏加载遮罩
-        $("._loading").fadeOut("slow");
+        $("._loading").fadeOut("slow").addClass("_loading_opacity");
     });
 
     eventMgr.onLayoutCreated(layout);

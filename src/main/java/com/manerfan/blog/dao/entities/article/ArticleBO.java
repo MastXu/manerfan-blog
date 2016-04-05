@@ -16,6 +16,7 @@
 package com.manerfan.blog.dao.entities.article;
 
 import java.util.Date;
+import java.util.List;
 
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 
@@ -90,7 +91,7 @@ public class ArticleBO {
     /**
      * 分类
      */
-    private String[] categories;
+    private List<String> categories;
 
     public String getTitle() {
         return title;
@@ -148,11 +149,11 @@ public class ArticleBO {
         this.state = state;
     }
 
-    public String[] getCategories() {
+    public List<String> getCategories() {
         return categories;
     }
 
-    public void setCategories(String[] categories) {
+    public void setCategories(List<String> categories) {
         this.categories = categories;
     }
 

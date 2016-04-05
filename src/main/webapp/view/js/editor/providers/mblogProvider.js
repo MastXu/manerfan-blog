@@ -6,12 +6,13 @@ define([
     "js/editor/utils",
     "js/editor/classes/Provider",
     "js/editor/settings",
+    "js/editor/core",
     "js/editor/eventMgr",
     "js/editor/helpers/mblogHelper",
     "js/editor/fileMgr",
     "jBoxUtil",
     "tagsinput"
-], function (utils, Provider, settings, eventMgr, mblogHelper, fileMgr, jBoxUtil) {
+], function (utils, Provider, settings, core, eventMgr, mblogHelper, fileMgr, jBoxUtil) {
     var mblogProvider = new Provider("mblog", "ManerFanBlog");
 
     var catalogLimit = 5;
@@ -47,7 +48,7 @@ define([
         currentContent = {
             withComments: htmlWithComments,
             withoutComments: htmlWithoutComments,
-            text: $("#preview-contents").text()
+            text: $.trim($("#preview-contents").text())
         };
     });
 
@@ -114,6 +115,10 @@ define([
         $(".blog-summary").focus();
     });
 
+    $(".modal-blog-setting").on("hidden.bs.modal", function () {
+        blogSettingCallback = null;
+    });
+
     /**
      * 内容变化时触发
      */
@@ -125,16 +130,21 @@ define([
      * 保存文章到草稿
      */
     $(".btn-blog-save").click(function () {
-
+        blogPublish(true);
     });
 
-    // 文章发布回调
-    var blogPublishCallback = null;
     /**
      * 发布文章
      */
     $(".btn-blog-publish").click(function () {
-
+        // 1. 设置博客摘要、分类
+        $(".btn-blog-setting").trigger("click");
+        // 2. 发布
+        blogSettingCallback = function () {
+            blogPublish(false, function () {
+                // TODO 发布成功后的动作
+            });
+        };
     });
 
     /**
@@ -143,10 +153,60 @@ define([
      * @param _callback 回调
      */
     function blogPublish(_draft, _callback) {
+        // TODO
+        var article = makeArticle(_draft);
 
-        if (typeof _callback == "function") {
-            _callback();
-        }
+        $("._loading").show();
+        $.ajax({
+            url: "/article/publish",
+            async: true,
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            data: article,
+            success: function (data, textStatus, XMLHttpRequest) {
+                if (null != data.errmsg) {
+                    // 出现错误
+                    jBoxUtil.noticeError({content: data.errmsg});
+                    return;
+                }
+
+                // 保存/发布成功
+                $(".btn-blog-save").removeClass("changed");
+                currentFileDesc.uid = data.uid;
+
+                if (_.isFunction(_callback)) {
+                    // 回调
+                    _callback();
+                }
+            },
+            error: function () {
+                core.setOffline();
+                jBoxUtil.noticeError({content: "未知错误"});
+            },
+            complete: function () {
+                $("._loading").hide();
+            }
+        });
+
+
+    }
+
+    /**
+     * 生成文章信息
+     * @param _draft    是否为草稿
+     */
+    function makeArticle(_draft) {
+        var article = {};
+        article.title = (currentFileDesc.frontMatter && currentFileDesc.frontMatter.title) || currentFileDesc.title
+        article.summary = currentFileDesc.summary;
+        article.categories = currentFileDesc.categories.join(",");
+        article.uid = currentFileDesc.uid;
+        article.contentWithMD = currentFileDesc.content;
+        article.contentWithHTML = currentContent.withoutComments;
+        article.contentWithTEXT = currentContent.text;
+        article.state = !!_draft ? "DRAFT" : "PUBLISHED";
+        return article;
     }
 
     return mblogProvider;

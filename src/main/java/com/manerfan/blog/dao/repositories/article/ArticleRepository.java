@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.manerfan.blog.dao.repositories;
+package com.manerfan.blog.dao.repositories.article;
+
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
+import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
 
 /**
@@ -31,8 +35,20 @@ public interface ArticleRepository extends BasicJpaRepository<ArticleEntity, Str
      * </pre>
      *
      * @param   uid   文章ID
-     * @return
+     * @return  文章
      */
     public ArticleEntity findOneByUid(long uid);
+
+    /**
+     * <pre>
+     * 设置文章的状态
+     * </pre>
+     *
+     * @param   state   文章状态
+     * @param   uid     文章ID
+     */
+    @Modifying
+    @Query("update ArticleEntity article set article.state = ?1 where article.uid = ?2")
+    public void updateArticleState(State state, long uid);
 
 }

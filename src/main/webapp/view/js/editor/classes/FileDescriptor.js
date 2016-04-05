@@ -14,7 +14,7 @@ define([
         this._selectTime = parseInt(storage[fileIndex + ".selectTime"]) || 0;
         this.publishLocations = publishLocations || {};
 
-        this._uid = parseInt(storage[fileIndex + ".uid"]) || _.now; // 文章id
+        this._uid = parseInt(storage[fileIndex + ".uid"]) || -1; // 文章id
         this._summary = storage[fileIndex + ".summary"] || ""; // 摘要
         this._categories = utils.retrieveIndexArray(fileIndex + ".categories"); // 分类
 
