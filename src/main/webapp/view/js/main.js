@@ -107,7 +107,8 @@ requirejs.config({
         'jBoxUtil': 'js/utils/jBoxUtil',
         d3cloud: 'plugins/d3-cloud/build/d3.layout.cloud',
         'js-base64': 'plugins/js-base64/base64.min',
-        'tagsinput': 'plugins/flatui/js/jquery.tagsinput'
+        'tagsinput': 'plugins/flatui/js/jquery.tagsinput',
+        'FSS': 'js/utils/FSS'
     },
 
     /**
@@ -226,6 +227,9 @@ requirejs.config({
         tagsinput: [
             'jquery',
             'bootstrap'
+        ],
+        FFS: [
+            'jquery'
         ]
     }
 });

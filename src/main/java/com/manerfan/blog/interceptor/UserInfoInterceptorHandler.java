@@ -37,12 +37,13 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 @Component
 public class UserInfoInterceptorHandler extends HandlerInterceptorAdapter {
 
+    private User anonymous = new User("anonymous", "anonymous",
+            AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS"));
+
     private ThreadLocal<User> userThreadLoacal = new ThreadLocal<User>() {
         @Override
         protected User initialValue() {
-            User user = new User("anonymous", "anonymous",
-                    AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS"));
-            userThreadLoacal.set(user);
+            userThreadLoacal.set(anonymous);
             return super.initialValue();
         }
     };
@@ -51,7 +52,11 @@ public class UserInfoInterceptorHandler extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
             Object handler) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        userThreadLoacal.set((User) authentication.getPrincipal());
+        if (null == authentication) {
+            userThreadLoacal.set(anonymous);
+        } else {
+            userThreadLoacal.set((User) authentication.getPrincipal());
+        }
         return super.preHandle(request, response, handler);
     }
 

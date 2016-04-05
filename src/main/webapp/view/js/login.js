@@ -23,11 +23,11 @@ require([
         "underscore",
         "jcryption",
         "md5",
-        "bootstrap"
+        "bootstrap",
+        "FSS"
     ],
     function ($, _) {
-        // CSS 加载完之后再显示
-        $(".body").show();
+        FSS("bg-container", "bg-output");
 
         var $username = $("input[name='username']");
         var $password = $("input[id='password']");

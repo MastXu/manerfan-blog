@@ -77,6 +77,8 @@ define([
         $(".tagsinput").addTag($(this).text(), {unique: true});
     });
 
+    // 文章设置回调
+    var blogSettingCallback = null;
     /**
      * 点击设置
      */
@@ -97,22 +99,19 @@ define([
         currentFileDesc.categories = categories;
 
         $(".modal-blog-setting").modal("hide");
-    });
 
-    $(".modal-blog-setting").on("show.bs.modal", function () {
-        currCatalogNum = 0;
-        $(".tagsinput-add-container input").show();
-        $(".blog-summary").focus();
-    });
-
-    var blogSettingCallback = null;
-    $(".modal-blog-setting").on("hidden.bs.modal", function () {
         // 回调
         if (_.isFunction(blogSettingCallback)) {
             var callback = blogSettingCallback;
             blogSettingCallback = null;
             callback();
         }
+    });
+
+    $(".modal-blog-setting").on("show.bs.modal", function () {
+        currCatalogNum = 0;
+        $(".tagsinput-add-container input").show();
+        $(".blog-summary").focus();
     });
 
     /**
@@ -129,12 +128,26 @@ define([
 
     });
 
+    // 文章发布回调
+    var blogPublishCallback = null;
     /**
      * 发布文章
      */
     $(".btn-blog-publish").click(function () {
 
     });
+
+    /**
+     * 保存/发布文章
+     * @param _draft    是否存为草稿
+     * @param _callback 回调
+     */
+    function blogPublish(_draft, _callback) {
+
+        if (typeof _callback == "function") {
+            _callback();
+        }
+    }
 
     return mblogProvider;
 });
