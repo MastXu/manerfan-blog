@@ -15,7 +15,9 @@
  */
 package com.manerfan.blog.dao.entities.article;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
@@ -25,7 +27,12 @@ import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
  *
  * @author ManerFan 2016年4月1日
  */
-public class ArticleBO {
+public class ArticleBO implements Serializable {
+
+    /**
+     * UID
+     */
+    private static final long serialVersionUID = 5183466177661564252L;
 
     /**
      * 标题
@@ -91,7 +98,7 @@ public class ArticleBO {
     /**
      * 分类
      */
-    private Set<String> categories;
+    private Set<String> categories = new HashSet<>();
 
     public String getTitle() {
         return title;

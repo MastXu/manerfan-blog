@@ -13,7 +13,8 @@
 	.navbar-title .title-inner {position:absolute;width:100%;padding-right:160px;}
 	.tagsinput-add {display:none;}
 	.tagsinput-add-container input {min-width: 60px;}
-	.catalog {cursor:pointer;}
+	.catalog {cursor:pointer;margin-right: 5px;}
+	.catalog .badge {color: black;background-color: white;font-size: 12px;}
 </style>
 
 <div class="hidden-print navbar-title navbar-inner">
@@ -502,8 +503,8 @@
 					<div class="form-group rec-categories">
 						<span class="label label-info">常用分类:</span>
 						<span class="catalog-group">
-							<span class="badge catalog">java</span>
-							<span class="badge catalog">spring</span>
+							<span class="label label-warning catalog" data-name="java">java</span>
+							<span class="label label-warning catalog" data-name="spring">spring</span>
 						</span>
 					</div>
 					<input name="tagsinput" class="tagsinput form-control blog-categories" maxlength="16"/>
@@ -912,6 +913,20 @@
 				<a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
 				<a href="#" class="btn btn-primary action-import-docs-settings-confirm"
 					data-dismiss="modal">OK</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade modal-publish-success" data-keyboard="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">文章发表成功</h2>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-warning action-view-file" >查看文章</a>
+				<a href="#" class="btn btn-primary action-create-file" data-dismiss="modal">再写一篇</a>
 			</div>
 		</div>
 	</div>

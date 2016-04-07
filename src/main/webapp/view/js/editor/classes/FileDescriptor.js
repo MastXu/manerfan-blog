@@ -14,7 +14,7 @@ define([
         this._selectTime = parseInt(storage[fileIndex + ".selectTime"]) || 0;
         this.publishLocations = publishLocations || {};
 
-        this._uid = parseInt(storage[fileIndex + ".uid"]) || null; // 文章id
+        this._uid = storage[fileIndex + ".uid"] || null; // 文章id
         this._summary = storage[fileIndex + ".summary"] || ""; // 摘要
         this._categories = utils.retrieveIndexArray(fileIndex + ".categories"); // 分类
 
@@ -23,23 +23,17 @@ define([
                 return this._fileIndex;
             },
             set: function (fileIndex) {
-                var indexOld = this._fileIndex;
-                var publishKey = indexOld + ".publish";
-                _.each(_.keys(localStorage), function (key) {
-                    if (utils.startWith(key, indexOld)) {
-                        if (publishKey == key) {
-                            _.each(utils.retrieveIndexArray(key), function (_key) {
-                                /* 移除 publish.* */
-                                localStorage.removeItem(_key);
-                            });
-                        }
-                        /* 替换key */
-                        localStorage.setItem(key.replace(indexOld, fileIndex), localStorage[key]);
-                        localStorage.removeItem(key);
-                    }
-                });
-
                 this._fileIndex = fileIndex;
+                this.title = this._title;
+                this.editorScrollTop = this._editorScrollTop;
+                this.editorStart = this._editorStart;
+                this.editorEnd = this._editorEnd;
+                this.previewScrollTop = this._previewScrollTop;
+                this.selectTime = this._selectTime;
+
+                this.uid = this._uid;
+                this.summary = this._summary;
+                this.categories = this._categories;
             }
         });
 

@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Component;
 
+import com.manerfan.blog.service.article.ArticleService;
 import com.manerfan.blog.service.article.ImageService;
 
 /**
@@ -38,11 +39,14 @@ public class ResourceKeyGenerator implements KeyGenerator {
 
         if (ImageService.class.isInstance(target)) {
             /* 图片缓存 */
-            sb.append("image_");
+            sb.append("IMAGE");
+        } else if (ArticleService.class.isInstance(target)) {
+            /* 文章缓存 */
+            sb.append("ARTICLE");
         }
 
         for (Object param : params) {
-            sb.append(param);
+            sb.append(param.toString());
         }
         return sb.toString();
     }

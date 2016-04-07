@@ -74,8 +74,8 @@ define([
     /**
      * 添加常用分类
      */
-    $(".catalog").click(function () {
-        $(".tagsinput").addTag($(this).text(), {unique: true});
+    $(document).on("click", ".catalog", function () {
+        $(".tagsinput").addTag($(this).attr("data-name"), {unique: true});
     });
 
     // 文章设置回调
@@ -141,8 +141,10 @@ define([
         $(".btn-blog-setting").trigger("click");
         // 2. 发布
         blogSettingCallback = function () {
-            blogPublish(false, function () {
-                // TODO 发布成功后的动作
+            blogPublish(false, function (uid) {
+                // 发布成功后的动作
+                $(".action-view-file").attr("href", "/article/" + uid);
+                $(".modal-publish-success").modal("show");
             });
         };
     });
@@ -153,7 +155,6 @@ define([
      * @param _callback 回调
      */
     function blogPublish(_draft, _callback) {
-        // TODO
         var article = makeArticle(_draft);
 
         $("._loading").show();
@@ -180,7 +181,7 @@ define([
 
                 if (_.isFunction(_callback)) {
                     // 回调
-                    _callback();
+                    _callback(data.uid);
                 }
             },
             error: function () {
@@ -191,8 +192,6 @@ define([
                 $("._loading").hide();
             }
         });
-
-
     }
 
     /**
@@ -211,6 +210,52 @@ define([
         article.state = !!_draft ? "DRAFT" : "PUBLISHED";
         return article;
     }
+
+    /**
+     * 获取常用分类
+     */
+    function getHotCategories() {
+        if (!hasLogin) {
+            return;
+        }
+
+        $.ajax({
+            url: "/category/hots",
+            async: true,
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            success: function (data, textStatus, XMLHttpRequest) {
+                if (null != data.errmsg) {
+                    // 出现错误
+                    jBoxUtil.noticeError({content: data.errmsg});
+                    return;
+                }
+
+                // 获取常用分类
+                var html = [];
+                var categories = data.categories;
+                _.each(categories, function (category) {
+                    html.push("<span class='label label-warning catalog' data-name='" + category.name + "'>");
+                    html.push(category.name);
+                    html.push(" <span class='badge'>");
+                    html.push(category.num);
+                    html.push("</span>");
+                    html.push("</span>");
+                });
+
+                $(".catalog-group").empty().append(html.join(""));
+            },
+            error: function () {
+                core.setOffline();
+                jBoxUtil.noticeError({content: "获取常用分类，未知错误"});
+            },
+            complete: function () {
+            }
+        });
+    }
+
+    getHotCategories();
 
     return mblogProvider;
 });

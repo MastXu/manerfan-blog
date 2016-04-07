@@ -15,6 +15,7 @@
  */
 package com.manerfan.blog.webapp.article;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,6 +31,7 @@ import com.manerfan.blog.dao.entities.article.ArticleBO;
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.service.article.ArticleService;
+import com.manerfan.blog.service.article.ArticleService.FileType;
 import com.manerfan.blog.webapp.ControllerBase;
 import com.manerfan.common.utils.logger.MLogger;
 
@@ -75,8 +78,24 @@ public class ArticleController extends ControllerBase {
 
             data.put("uid", articleService.saveOrUpdate(article));
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("", e);
+            MLogger.ROOT_LOGGER.error("Save Article Error!", e);
             data.put(ERRMSG, "写文章错误");
+        }
+
+        return data;
+    }
+
+    @RequestMapping("/content/{uid}/{type}")
+    @ResponseBody
+    public Object article(@PathVariable("uid") String uid, @PathVariable("type") FileType type) {
+        Map<String, Object> data = makeAjaxData();
+
+        try {
+            ArticleBO article = articleService.get(uid, type);
+            data.put("article", article);
+        } catch (IOException e) {
+            MLogger.ROOT_LOGGER.error("Read Article File [{}] Error!", uid, e);
+            data.put(ERRMSG, "读取文章错误");
         }
 
         return data;

@@ -48,6 +48,10 @@
         </div>
         <input type="hidden" name="fileId" value="<c:out value='${fileId}'/>">
         <c:import url="bodyEditor.jsp" />
+        
+        <sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
+			<script>var hasLogin = true;</script>
+		</sec:authorize>
     </body>
 
 </html>

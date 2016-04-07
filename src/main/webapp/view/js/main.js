@@ -5,7 +5,7 @@ var version = document.getElementById('mainscript').getAttribute('data-version')
 
 requirejs.config({
 
-    baseUrl: "view",
+    baseUrl: "/view",
 
     /**
      * The number of seconds to wait before giving up on loading a script.

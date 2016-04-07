@@ -9,41 +9,34 @@ define([
     "js/editor/eventMgr",
     "js/editor/fileSystem",
     "js/editor/classes/FileDescriptor",
+    "jBoxUtil",
     "text!pages/editor/WELCOME.md"
-], function ($, _, constants, core, utils, storage, settings, eventMgr, fileSystem, FileDescriptor, welcomeContent) {
+], function ($, _, constants, core, utils, storage, settings, eventMgr, fileSystem, FileDescriptor, jBoxUtil, welcomeContent) {
 
     var fileMgr = {};
 
     // Defines the current file
     fileMgr.currentFile = undefined;
 
-    // Set the current file and refresh the editor
-    fileMgr.selectFile = function (fileDesc) {
-        fileDesc = fileDesc || fileMgr.currentFile;
-
-        if (fileDesc === undefined) {
-            // 刚进入editor页面，检查location.search中是否有fileId参数
-            var fileId = utils.getURLParameter("fileId");
-            if (!!fileId) {
-                /* 有fileId，认为编辑文章操作 */
-                /* 所有编辑文章操作，均使用temporary模式 */
-                // TODO 从后台获取文章信息
-            } else {
-                var fileSystemSize = _.size(fileSystem);
-                if (fileSystemSize === 0) {
-                    /* 创建默认文章 */
-                    // If fileSystem empty create one file
-                    fileDesc = fileMgr.createFile(constants.WELCOME_DOCUMENT_TITLE, welcomeContent);
-                }
-                else {
-                    // Select the last selected file
-                    fileDesc = _.max(fileSystem, function (fileDesc) {
-                        return fileDesc.selectTime || 0;
-                    });
-                }
-            }
+    function selectDefaultFile() {
+        var fileDesc = null;
+        var fileSystemSize = _.size(fileSystem);
+        if (fileSystemSize === 0) {
+            /* 创建默认文章 */
+            // If fileSystem empty create one file
+            fileDesc = fileMgr.createFile(constants.WELCOME_DOCUMENT_TITLE, welcomeContent);
+        }
+        else {
+            // Select the last selected file
+            fileDesc = _.max(fileSystem, function (fileDesc) {
+                return fileDesc.selectTime || 0;
+            });
         }
 
+        selectExistFile(fileDesc);
+    }
+
+    function selectExistFile(fileDesc) {
         if (fileMgr.currentFile !== fileDesc) {
             fileMgr.currentFile = fileDesc;
             fileDesc.selectTime = new Date().getTime();
@@ -57,6 +50,56 @@ define([
 
         // Refresh the editor (even if it's the same file)
         core.initEditor(fileDesc);
+    }
+
+    // Set the current file and refresh the editor
+    fileMgr.selectFile = function (fileDesc) {
+        fileDesc = fileDesc || fileMgr.currentFile;
+
+        if (fileDesc === undefined) {
+            // 刚进入editor页面，检查location.search中是否有fileId参数
+            var fileId = $("input[name='fileId']").val();
+            if (_.isString(fileId) && fileId.length > 0) {
+                /* 有fileId，认为编辑文章操作 */
+                /* 所有编辑文章操作，均使用temporary模式 */
+                // 从后台获取文章信息
+                $.ajax({
+                    url: "/article/content/" + fileId + "/markdown",
+                    async: true,
+                    type: 'post',
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data, textStatus, XMLHttpRequest) {
+                        if (null != data.errmsg) {
+                            // 出现错误
+                            jBoxUtil.noticeError({content: data.errmsg});
+                            selectDefaultFile();
+                            return;
+                        }
+
+                        // 获取到文章
+                        var article = data.article;
+                        fileDesc = fileMgr.createFile(article.title, article.contentWithMD, true);
+                        fileDesc.summary = article.summary;
+                        fileDesc.categories = article.categories;
+                        fileDesc.uid = article.uid;
+
+                        selectExistFile(fileDesc);
+                    },
+                    error: function () {
+                        core.setOffline();
+                        jBoxUtil.noticeError({content: "未知错误"});
+                        selectDefaultFile();
+                    },
+                    complete: function () {
+                    }
+                });
+            } else {
+                selectDefaultFile();
+            }
+        } else {
+            selectExistFile(fileDesc);
+        }
     };
 
     fileMgr.createFile = function (title, content, isTemporary) {
@@ -101,23 +144,30 @@ define([
      * 将当前文章转为temporary模式
      */
     fileMgr.trans2Temporary = function () {
-        if (fileMgr.currentFile.fileIndex == constants.TEMPORARY_FILE_INDEX) {
+        var fileDesc = fileMgr.currentFile;
+
+        if (fileDesc.fileIndex == constants.TEMPORARY_FILE_INDEX) {
             // 已经是temporary模式
             return;
         }
 
-        var fileDesc = new FileDescriptor();
-        $.extend(fileDesc, fileMgr.currentFile);
-        // 从folder中移除
+        // Unassociate file from folder
+        // 从folder中删除
         if (fileDesc.folder) {
             fileDesc.folder.removeFile(fileDesc);
             eventMgr.onFoldersChanged();
         }
-        // 从列表中移除
+
+        // Remove the index from the file list
+        // 从列表中删除
         utils.removeIndexFromArray("file.list", fileDesc.fileIndex);
+        // 删除所有相关项
+        utils.removeFileFromIndex(fileDesc.fileIndex);
+        delete fileSystem[fileDesc.fileIndex];
+        eventMgr.onFileDeleted(fileDesc);
+
         // 转换为temporary
         fileMgr.currentFile.fileIndex = constants.TEMPORARY_FILE_INDEX;
-        eventMgr.onFileDeleted(fileDesc);
     };
 
     fileMgr.deleteFile = function (fileDesc) {

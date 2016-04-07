@@ -16,7 +16,6 @@
 package com.manerfan.blog.dao.repositories.article;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -65,14 +64,4 @@ public interface ArticleCategoryMapRepository
     @Modifying
     @Query("delete from ArticleCategoryMap map where map.category.uuid = (select category.uuid from Category category where category.name = ?1)")
     void deleteByCategoryName(String name);
-
-    /**
-     * <pre>
-     * 按照分类名进行分组，统计出每种分类的个数
-     * </pre>
-     *
-     * @return  每种分类的个数
-     */
-    @Query("select new map(ac.category.name, count(ac.article)) from ArticleCategoryMap ac where 1=1 group by ac.category order by count(ac.article) desc")
-    Map<String, Integer> findCategoryByGroup();
 }

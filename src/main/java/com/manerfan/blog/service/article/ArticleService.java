@@ -16,26 +16,34 @@
 package com.manerfan.blog.service.article;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.Cache;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 import com.manerfan.blog.dao.entities.article.ArticleBO;
@@ -46,6 +54,7 @@ import com.manerfan.blog.dao.repositories.UserRepository;
 import com.manerfan.blog.dao.repositories.article.ArticleCategoryMapRepository;
 import com.manerfan.blog.dao.repositories.article.ArticleRepository;
 import com.manerfan.blog.dao.repositories.article.CategoryRepository;
+import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>文章操作</pre>
@@ -63,6 +72,12 @@ public class ArticleService implements InitializingBean {
     private String baseDir;
 
     private File articleDir;
+
+    private File defaultArticle;
+
+    @Autowired
+    private EhCacheCacheManager cacheCacheManager;
+    private Cache cache;
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -86,12 +101,17 @@ public class ArticleService implements InitializingBean {
      * @throws IOException 
      * @throws ParseException 
      */
+    /* 这里需要销毁多个缓存，就不使用注解了 @CacheEvict(cacheNames = "resources-cache", beforeInvocation = true, keyGenerator = "ResourceKeyGenerator")*/
     public String saveOrUpdate(ArticleBO article) throws IOException, ParseException {
         /* 文章信息 */
 
         if (!StringUtils.hasText(article.getUid())) {
             article.setUid(NAME_SDF.format(Calendar.getInstance().getTime()));
         }
+
+        /* 清除缓存 此处为@CacheEvict的替代方案(@CacheEvict仅能指定一个key) */
+        Arrays.asList(FileType.values())
+                .forEach(type -> cache.evict("ARTICLE" + article.getUid() + type.toString()));
 
         boolean isNew = false;
         ArticleEntity articleEntity = articleRepository.findOneByUid(article.getUid());
@@ -134,17 +154,25 @@ public class ArticleService implements InitializingBean {
 
         // markdown
         FileCopyUtils.copy(article.getContentWithMD(),
-                new FileWriter(new File(dir, articleEntity.getUid() + ".md")));
+                new FileWriter(new File(dir, articleEntity.getUid() + FileType.markdown.type)));
         // html
         FileCopyUtils.copy(article.getContentWithHTML(),
-                new FileWriter(new File(dir, articleEntity.getUid() + ".html")));
+                new FileWriter(new File(dir, articleEntity.getUid() + FileType.html.type)));
         // text
         FileCopyUtils.copy(article.getContentWithTEXT(),
-                new FileWriter(new File(dir, articleEntity.getUid() + ".txt")));
+                new FileWriter(new File(dir, articleEntity.getUid() + FileType.text.type)));
 
         return articleEntity.getUid();
     }
 
+    /**
+     * <pre>
+     * 指定分类名，查询数据库中不存在的项
+     * </pre>
+     *
+     * @param names 分类名
+     * @return
+     */
     private List<CategoryEntity> additionalCategories(Set<String> names) {
         if (ObjectUtils.isEmpty(names)) {
             return null;
@@ -153,16 +181,20 @@ public class ArticleService implements InitializingBean {
         /* 在数据库中已存在的分类 */
         List<String> categoryNames = categoryRepository.findNameByNameIn(names);
         List<CategoryEntity> additionalCategories = new LinkedList<>();
-        for (String name : names) {
-            if (!categoryNames.contains(name)) {
-                /* 数据库中不包含此分类 */
-                additionalCategories.add(new CategoryEntity(name));
-            }
-        }
+        names.stream().filter(name -> !categoryNames.contains(name)) /* 数据库中不包含此分类 */
+                .forEach(name -> additionalCategories.add(new CategoryEntity(name)));
 
         return additionalCategories;
     }
 
+    /**
+     * <pre>
+     * 将分类与文章关联存储
+     * </pre>
+     *
+     * @param categoryEntities  分类
+     * @param articleEntity     文章
+     */
     private void saveCategoriesToArticle(List<CategoryEntity> categoryEntities,
             ArticleEntity articleEntity) {
         if (null == articleEntity || ObjectUtils.isEmpty(categoryEntities)) {
@@ -170,16 +202,84 @@ public class ArticleService implements InitializingBean {
         }
 
         List<ArticleCategoryMap> articleCategoryMaps = new LinkedList<>();
-        for (CategoryEntity categoryEntity : categoryEntities) {
-            articleCategoryMaps.add(new ArticleCategoryMap(categoryEntity, articleEntity));
-        }
+        categoryEntities.forEach(categoryEntity -> articleCategoryMaps
+                .add(new ArticleCategoryMap(categoryEntity, articleEntity)));
 
         articleCategoryMapRepository.save(articleCategoryMaps);
     }
 
-    private String transPath(String name) throws ParseException {
-        Date storeDate = NAME_SDF.parse(name);
-        return PATH_SDF.format(storeDate);
+    private String transPath(String name) {
+        try {
+            Date storeDate = NAME_SDF.parse(name);
+            return PATH_SDF.format(storeDate);
+        } catch (ParseException e) {
+            MLogger.ROOT_LOGGER.error("", e);
+            return "/";
+        }
+    }
+
+    @Cacheable(cacheNames = "resources-cache", keyGenerator = "ResourceKeyGenerator")
+    public ArticleBO get(String uid, FileType type) throws IOException {
+        ArticleEntity articleEntity = articleRepository.findOneByUid(uid);
+        if (null == articleEntity) {
+            return null;
+        }
+
+        /* 文章基本信息 */
+        ArticleBO article = new ArticleBO();
+        BeanUtils.copyProperties(articleEntity, article);
+        article.setAuthor(articleEntity.getAuthor().getName());
+
+        /* 文章分类信息 */
+        List<CategoryEntity> categoryEntities = articleCategoryMapRepository.findByArticleUid(uid);
+        categoryEntities.forEach(category -> article.getCategories().add(category.getName()));
+
+        /* 读取文章内容 */
+        Pattern pattern = Pattern.compile(uid + "\\" + type.type());
+        String path = transPath(uid);
+        File searchDir = new File(articleDir, path);
+        File[] files = searchDir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return pattern.matcher(name).matches();
+            }
+        });
+
+        File articleFile = defaultArticle;
+        if (!ObjectUtils.isEmpty(files)) {
+            articleFile = files[0];
+        }
+
+        String content = FileCopyUtils.copyToString(new FileReader(articleFile));
+        switch (type) {
+            case markdown:
+                article.setContentWithMD(content);
+                break;
+            case html:
+                article.setContentWithHTML(content);
+                break;
+            case text:
+                article.setContentWithTEXT(content);
+                break;
+            default:
+                break;
+        }
+
+        return article;
+    }
+
+    public static enum FileType {
+        markdown(".md"), html(".html"), text(".text");
+
+        private String type;
+
+        private FileType(String type) {
+            this.type = type;
+        }
+
+        public String type() {
+            return type;
+        }
     }
 
     @Override
@@ -192,5 +292,11 @@ public class ArticleService implements InitializingBean {
         }
 
         Assert.isTrue(articleDir.isDirectory());
+
+        defaultArticle = ResourceUtils.getFile("classpath:article.md");
+        Assert.isTrue(defaultArticle.exists());
+
+        Assert.notNull(cacheCacheManager);
+        cache = cacheCacheManager.getCache("resources-cache");
     }
 }

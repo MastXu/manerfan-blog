@@ -13,43 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.manerfan.blog.service.article.resource;
-
-import java.io.Serializable;
+package com.manerfan.blog.dao.entities.article;
 
 /**
- * <pre>图片缓存</pre>
+ * <pre>分类数据</pre>
  *
- * @author ManerFan 2016年3月25日
+ * @author ManerFan 2016年4月7日
  */
-public class ImageCachingFile implements Serializable {
-    /**
-     * UID
-     */
-    private static final long serialVersionUID = -4095395343478469202L;
+public class CategoryBO {
 
     /**
-     * 图片名
+     * 分类名
      */
-    private String fileName;
+    private String name;
+
     /**
-     * 图片内容
+     * 使用个数
      */
-    private byte[] content;
+    private long num;
 
-    public String getFileName() {
-        return fileName;
+    public CategoryBO() {
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public CategoryBO(String name, long num) {
+        this.name = name;
+        this.num = num;
     }
 
-    public byte[] getContent() {
-        return content;
+    public String getName() {
+        return name;
     }
 
-    public void setContent(byte[] content) {
-        this.content = content;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public long getNum() {
+        return num;
+    }
+
+    public void setNum(long num) {
+        this.num = num;
+    }
+
 }
