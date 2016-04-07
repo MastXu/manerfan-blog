@@ -17,6 +17,7 @@ package com.manerfan.blog.dao.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import com.manerfan.common.utils.dao.entities.CommonEntity;
 
@@ -25,7 +26,8 @@ import com.manerfan.common.utils.dao.entities.CommonEntity;
  *
  * @author ManerFan 2016年1月24日
  */
-@Entity(name = "user")
+@Entity(name = "User")
+@Table(name = "user")
 public class UserEntity extends CommonEntity {
 
     /**

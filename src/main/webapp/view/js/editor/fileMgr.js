@@ -17,11 +17,6 @@ define([
     // Defines the current file
     fileMgr.currentFile = undefined;
 
-    function getRandomFileId() {
-        // TODO 从后台获取一个FileId，若失败，则本地生成
-        return _.now;
-    }
-
     // Set the current file and refresh the editor
     fileMgr.selectFile = function (fileDesc) {
         fileDesc = fileDesc || fileMgr.currentFile;
@@ -100,6 +95,29 @@ define([
             eventMgr.onFileCreated(fileDesc);
         }
         return fileDesc;
+    };
+
+    /**
+     * 将当前文章转为temporary模式
+     */
+    fileMgr.trans2Temporary = function () {
+        if (fileMgr.currentFile.fileIndex == constants.TEMPORARY_FILE_INDEX) {
+            // 已经是temporary模式
+            return;
+        }
+
+        var fileDesc = new FileDescriptor();
+        $.extend(fileDesc, fileMgr.currentFile);
+        // 从folder中移除
+        if (fileDesc.folder) {
+            fileDesc.folder.removeFile(fileDesc);
+            eventMgr.onFoldersChanged();
+        }
+        // 从列表中移除
+        utils.removeIndexFromArray("file.list", fileDesc.fileIndex);
+        // 转换为temporary
+        fileMgr.currentFile.fileIndex = constants.TEMPORARY_FILE_INDEX;
+        eventMgr.onFileDeleted(fileDesc);
     };
 
     fileMgr.deleteFile = function (fileDesc) {

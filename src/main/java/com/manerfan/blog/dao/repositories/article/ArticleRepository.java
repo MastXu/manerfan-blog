@@ -37,18 +37,19 @@ public interface ArticleRepository extends BasicJpaRepository<ArticleEntity, Str
      * @param   uid   文章ID
      * @return  文章
      */
-    public ArticleEntity findOneByUid(long uid);
+    public ArticleEntity findOneByUid(String uid);
 
     /**
      * <pre>
      * 设置文章的状态
+     * hql中，表名可使用@Entity指定的名称
      * </pre>
      *
      * @param   state   文章状态
      * @param   uid     文章ID
      */
     @Modifying
-    @Query("update ArticleEntity article set article.state = ?1 where article.uid = ?2")
-    public void updateArticleState(State state, long uid);
+    @Query("update Article article set article.state = ?1 where article.uid = ?2")
+    public void updateArticleState(State state, String uid);
 
 }

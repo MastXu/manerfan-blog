@@ -58,7 +58,7 @@ public class ImageController extends ControllerBase {
 
         try {
             String name = imageService.save(image);
-            data.put("url", "/image/view/" + name);
+            data.put("url", "/article/image/view/" + name);
         } catch (IllegalArgumentException e) {
             data.put(ERRMSG, e.getMessage());
         }

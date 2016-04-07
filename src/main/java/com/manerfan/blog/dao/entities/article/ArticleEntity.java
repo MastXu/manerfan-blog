@@ -26,6 +26,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -49,7 +50,8 @@ import com.manerfan.common.utils.dao.entities.CommonEntity;
  *
  * @author ManerFan 2016年2月24日
  */
-@Entity(name = "article")
+@Entity(name = "Article")
+@Table(name = "article")
 @EntityListeners({ AuditingEntityListener.class })
 @Indexed(index = "article_index") /* 索引文件 */
 @Analyzer(impl = SmartChineseAnalyzer.class) /* 中文分词器 */
@@ -78,7 +80,7 @@ public class ArticleEntity extends CommonEntity {
      * 文章id
      */
     @Column(name = "uid", unique = true, nullable = false)
-    private long uid;
+    private String uid;
 
     /**
      * 创建时间
@@ -194,9 +196,8 @@ public class ArticleEntity extends CommonEntity {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((author == null) ? 0 : author.hashCode());
         result = prime * result + ((state == null) ? 0 : state.hashCode());
-        result = prime * result + (int) (uid ^ (uid >>> 32));
+        result = prime * result + ((uid == null) ? 0 : uid.hashCode());
         return result;
     }
 
@@ -209,23 +210,21 @@ public class ArticleEntity extends CommonEntity {
         if (getClass() != obj.getClass())
             return false;
         ArticleEntity other = (ArticleEntity) obj;
-        if (author == null) {
-            if (other.author != null)
-                return false;
-        } else if (!author.equals(other.author))
-            return false;
         if (state != other.state)
             return false;
-        if (uid != other.uid)
+        if (uid == null) {
+            if (other.uid != null)
+                return false;
+        } else if (!uid.equals(other.uid))
             return false;
         return true;
     }
 
-    public long getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(long uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 

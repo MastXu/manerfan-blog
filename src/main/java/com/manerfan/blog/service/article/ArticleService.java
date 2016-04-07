@@ -18,10 +18,13 @@ package com.manerfan.blog.service.article;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -33,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import com.manerfan.blog.dao.entities.article.ArticleBO;
 import com.manerfan.blog.dao.entities.article.ArticleCategoryMap;
@@ -52,7 +56,7 @@ import com.manerfan.blog.dao.repositories.article.CategoryRepository;
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class,
         RuntimeException.class })
 public class ArticleService implements InitializingBean {
-
+    private static final SimpleDateFormat NAME_SDF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     private static final SimpleDateFormat PATH_SDF = new SimpleDateFormat("/yyyy/MM/");
 
     @Value("${article.basedir}")
@@ -80,12 +84,13 @@ public class ArticleService implements InitializingBean {
      * @param   article 文章
      * @return  文章标题
      * @throws IOException 
+     * @throws ParseException 
      */
-    public long saveOrUpdate(ArticleBO article) throws IOException {
+    public String saveOrUpdate(ArticleBO article) throws IOException, ParseException {
         /* 文章信息 */
 
-        if (article.getUid() < 1) {
-            article.setUid(System.currentTimeMillis());
+        if (!StringUtils.hasText(article.getUid())) {
+            article.setUid(NAME_SDF.format(Calendar.getInstance().getTime()));
         }
 
         boolean isNew = false;
@@ -140,7 +145,7 @@ public class ArticleService implements InitializingBean {
         return articleEntity.getUid();
     }
 
-    private List<CategoryEntity> additionalCategories(List<String> names) {
+    private List<CategoryEntity> additionalCategories(Set<String> names) {
         if (ObjectUtils.isEmpty(names)) {
             return null;
         }
@@ -172,8 +177,8 @@ public class ArticleService implements InitializingBean {
         articleCategoryMapRepository.save(articleCategoryMaps);
     }
 
-    private String transPath(long name) {
-        Date storeDate = new Date(name);
+    private String transPath(String name) throws ParseException {
+        Date storeDate = NAME_SDF.parse(name);
         return PATH_SDF.format(storeDate);
     }
 

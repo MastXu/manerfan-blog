@@ -38,7 +38,7 @@ public interface CategoryRepository extends BasicJpaRepository<CategoryEntity, S
      * @param   names   分类名
      * @return  分类名
      */
-    @Query("select category.name from CategoryEntity categoty where category.name in ?1")
+    @Query("select category.name from Category category where category.name in ?1")
     public List<String> findNameByNameIn(Collection<String> names);
 
     /**

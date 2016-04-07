@@ -16,7 +16,7 @@
 package com.manerfan.blog.dao.entities.article;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 
@@ -40,7 +40,7 @@ public class ArticleBO {
     /**
      * 文章id
      */
-    private long uid;
+    private String uid;
 
     /**
      * markdown内容
@@ -91,7 +91,7 @@ public class ArticleBO {
     /**
      * 分类
      */
-    private List<String> categories;
+    private Set<String> categories;
 
     public String getTitle() {
         return title;
@@ -109,11 +109,11 @@ public class ArticleBO {
         this.summary = summary;
     }
 
-    public long getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(long uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -149,11 +149,11 @@ public class ArticleBO {
         this.state = state;
     }
 
-    public List<String> getCategories() {
+    public Set<String> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<String> categories) {
+    public void setCategories(Set<String> categories) {
         this.categories = categories;
     }
 

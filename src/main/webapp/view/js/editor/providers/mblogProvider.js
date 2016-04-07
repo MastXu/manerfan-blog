@@ -175,6 +175,9 @@ define([
                 $(".btn-blog-save").removeClass("changed");
                 currentFileDesc.uid = data.uid;
 
+                // 将文章转换为temporary模式
+                fileMgr.trans2Temporary();
+
                 if (_.isFunction(_callback)) {
                     // 回调
                     _callback();

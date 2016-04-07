@@ -15,7 +15,6 @@
  */
 package com.manerfan.blog.webapp.article;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +74,7 @@ public class ArticleController extends ControllerBase {
             article.setAuthor(userInfo.userName());
 
             data.put("uid", articleService.saveOrUpdate(article));
-        } catch (IOException e) {
+        } catch (Exception e) {
             MLogger.ROOT_LOGGER.error("", e);
             data.put(ERRMSG, "写文章错误");
         }
