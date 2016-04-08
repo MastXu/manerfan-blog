@@ -17,6 +17,8 @@ package com.manerfan.blog.dao.repositories.article;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
@@ -27,6 +29,8 @@ import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
  *
  * @author ManerFan 2016年4月3日
  */
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class,
+        RuntimeException.class })
 public interface ArticleRepository extends BasicJpaRepository<ArticleEntity, String> {
 
     /**

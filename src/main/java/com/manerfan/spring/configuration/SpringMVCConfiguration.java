@@ -60,7 +60,7 @@ import com.manerfan.blog.interceptor.VersionInterceptorHandler;
 @Configuration
 @EnableSpringConfigured
 @EnableWebMvc
-@ComponentScan(basePackages = "com.manerfan.blog.webapp", useDefaultFilters = false, includeFilters = @Filter(type = FilterType.ANNOTATION, classes = Controller.class) )
+@ComponentScan(basePackages = "com.manerfan.blog.webapp", useDefaultFilters = false, includeFilters = @Filter(type = FilterType.ANNOTATION, classes = Controller.class))
 public class SpringMVCConfiguration extends WebMvcConfigurationSupport implements BeanFactoryAware {
 
     private BeanFactory beanFactory;
@@ -105,11 +105,14 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         int cachePeriod = 31556926; /* 1年 */
         registry.addResourceHandler("/tags/**").addResourceLocations("/tags/")
-                .setCachePeriod(cachePeriod);
+                .setCachePeriod(cachePeriod).resourceChain(false)
+                .addTransformer(cachingResourceTrasnformer())
+                .addResolver(cachingResourceResolver());
         registry.addResourceHandler("/view/**").addResourceLocations("/view/")
                 .setCachePeriod(cachePeriod).resourceChain(false)
-                .addTransformer(cachingResourceTrasnformer()).addResolver(cachingResourceResolver())
-                .addResolver(gzipResourceResolver());
+                .addTransformer(cachingResourceTrasnformer())
+                .addResolver(cachingResourceResolver());
+        /*.addResolver(gzipResourceResolver())*/
         registry.addResourceHandler("/*.*").addResourceLocations("/").setCachePeriod(cachePeriod);
     }
 

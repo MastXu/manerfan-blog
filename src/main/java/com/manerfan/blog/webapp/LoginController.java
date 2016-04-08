@@ -18,6 +18,7 @@ package com.manerfan.blog.webapp;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.manerfan.blog.dao.entities.UserEntity;
@@ -99,5 +101,35 @@ public class LoginController extends ControllerBase {
         }
 
         return mv;
+    }
+
+    /**
+     * <pre>
+     * 获取公钥
+     * </pre>
+     *
+     * @return
+     */
+    @RequestMapping("/publickey")
+    @ResponseBody
+    public Object publicKey(HttpServletRequest request) {
+        Map<String, Object> data = makeAjaxData();
+
+        // 获取rsa密钥
+        KeyPair keyPair = rsaService.getKeyPair();
+        if (null != keyPair) {
+            // 将rsa公钥传给页面
+            RSAPublicKey pk = (RSAPublicKey) keyPair.getPublic();
+            data.put("exponent", pk.getPublicExponent().toString(16));
+            data.put("modulus", pk.getModulus().toString(16));
+
+            // 将rsa私钥放入缓存
+            String id = request.getSession(true).getId();
+            rsaService.putPrivateKey(id, (RSAPrivateKey) keyPair.getPrivate());
+        } else {
+            data.put(ERRMSG, "生成公钥失败");
+        }
+
+        return data;
     }
 }

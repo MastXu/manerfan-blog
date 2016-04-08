@@ -236,9 +236,9 @@ define([
                 var html = [];
                 var categories = data.categories;
                 _.each(categories, function (category) {
-                    html.push("<span class='label label-warning catalog' data-name='" + category.name + "'>");
+                    html.push("<span class='label label-warning has-badge catalog' data-name='" + category.name + "'>");
                     html.push(category.name);
-                    html.push(" <span class='badge'>");
+                    html.push("<span class='badge'>");
                     html.push(category.num);
                     html.push("</span>");
                     html.push("</span>");

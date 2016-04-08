@@ -218,6 +218,7 @@ define([
         var $fileTitleInputElt = $(".input-file-title");
         $(".action-create-file").click(function () {
             setTimeout(function () {
+                utils.removeFileFromIndex(constants.TEMPORARY_FILE_INDEX);
                 var fileDesc = fileMgr.createFile();
                 fileMgr.selectFile(fileDesc);
                 $fileTitleElt.click();

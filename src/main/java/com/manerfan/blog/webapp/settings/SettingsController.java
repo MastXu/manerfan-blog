@@ -15,10 +15,14 @@
  */
 package com.manerfan.blog.webapp.settings;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.manerfan.blog.dao.entities.UserEntity;
+import com.manerfan.blog.dao.repositories.UserRepository;
+import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.webapp.ControllerBase;
 
 /**
@@ -30,9 +34,18 @@ import com.manerfan.blog.webapp.ControllerBase;
 @RequestMapping("/settings")
 public class SettingsController extends ControllerBase {
 
+    @Autowired
+    private UserInfoInterceptorHandler userInfo;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @RequestMapping
     public ModelAndView settings() {
-        return new ModelAndView("settings/settings");
+        ModelAndView mv = new ModelAndView("settings/settings");
+        UserEntity user = userRepository.findOneByName(userInfo.userName());
+        mv.addObject("user", user);
+        return mv;
     }
 
 }

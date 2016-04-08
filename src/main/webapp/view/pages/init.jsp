@@ -64,7 +64,7 @@
                         <span class="glyphicon glyphicon-envelope"></span>
                         <input class="form-control" type='text' name='email' placeholder="邮箱(可选)">
                     </div>
-	                <button type="submit" class="btn btn-primary btn-lg btn-block">初始化</button>
+	                <button type="submit" class="btn btn-primary btn-lg btn-block" data-loading-text="稍安勿躁<i class='icon-spinner'></i>">初始化</button>
 		        </form>
 			</div>
 		</div>

@@ -15,6 +15,11 @@
  */
 package com.manerfan.blog.dao.repositories;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.manerfan.blog.dao.entities.UserEntity;
 import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
 
@@ -23,6 +28,8 @@ import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
  *
  * @author ManerFan 2016年4月1日
  */
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class,
+        RuntimeException.class })
 public interface UserRepository extends BasicJpaRepository<UserEntity, String> {
     /**
      * <pre>
@@ -36,6 +43,17 @@ public interface UserRepository extends BasicJpaRepository<UserEntity, String> {
 
     /**
      * <pre>
+     * 根据用户名查找用户密码
+     * </pre>
+     *
+     * @param   name  用户名
+     * @return  密码
+     */
+    @Query("select user.password from User user where user.name = ?1")
+    public String findPasswordByName(String name);
+
+    /**
+     * <pre>
      * 查询包含role角色的用户数量
      * </pre>
      *
@@ -43,4 +61,26 @@ public interface UserRepository extends BasicJpaRepository<UserEntity, String> {
      * @return  用户数量
      */
     public Long countByRoleContaining(String role);
+
+    /**
+     * <pre>
+     * 修改用户邮箱
+     * </pre>
+     *
+     * @param email
+     */
+    @Modifying
+    @Query("update User user set user.email = ?1 where user.name = ?2")
+    public void updateEmail(String email, String name);
+
+    /**
+     * <pre>
+     * 修改用户密码
+     * </pre>
+     *
+     * @param passwd
+     */
+    @Modifying
+    @Query("update User user set user.password = ?1 where user.name = ?2")
+    public void updatePasswd(String passwd, String name);
 }

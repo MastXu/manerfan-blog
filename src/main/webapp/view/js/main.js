@@ -108,7 +108,8 @@ requirejs.config({
         d3cloud: 'plugins/d3-cloud/build/d3.layout.cloud',
         'js-base64': 'plugins/js-base64/base64.min',
         'tagsinput': 'plugins/flatui/js/jquery.tagsinput',
-        'FSS': 'js/utils/FSS'
+        'FSS': 'js/utils/FSS',
+        'bootcss-paginator': 'plugins/bootstrap-paginator/build/bootstrap-paginator.min'
     },
 
     /**
@@ -229,6 +230,9 @@ requirejs.config({
             'bootstrap'
         ],
         FFS: [
+            'jquery'
+        ],
+        'bootcss-paginator': [
             'jquery'
         ]
     }

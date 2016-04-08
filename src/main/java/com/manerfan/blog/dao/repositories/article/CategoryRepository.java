@@ -19,6 +19,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.manerfan.blog.dao.entities.article.CategoryEntity;
 import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
@@ -28,6 +30,8 @@ import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
  *
  * @author ManerFan 2016年4月5日
  */
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class,
+        RuntimeException.class })
 public interface CategoryRepository extends BasicJpaRepository<CategoryEntity, String> {
 
     /**

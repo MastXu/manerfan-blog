@@ -14,7 +14,6 @@
 	.tagsinput-add {display:none;}
 	.tagsinput-add-container input {min-width: 60px;}
 	.catalog {cursor:pointer;margin-right: 5px;}
-	.catalog .badge {color: black;background-color: white;font-size: 12px;}
 </style>
 
 <div class="hidden-print navbar-title navbar-inner">

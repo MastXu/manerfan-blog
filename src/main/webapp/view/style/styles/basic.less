@@ -1,3 +1,13 @@
+.label.has-badge {
+  padding-top: 0.3em;
+  .badge {
+    color: black;
+    background-color: white;
+    font-size: 12px;
+    margin-left: 5px;
+  }
+}
+
 /********************
  * highlight
  ********************/
@@ -76,28 +86,28 @@ footer {
 /* 超小屏幕（小于等于 768px） */
 @media screen and (max-width: @screen-xs-max) {
   .main-content {
-    padding: 10px;
+    padding: 30px 10px 20px;
   }
 }
 
 /* 小屏幕（平板，大于等于 768px） */
 @media screen and (min-width: @screen-sm-min) {
   .main-content {
-    padding: 10px 40px;
+    padding: 30px 40px 20px;
   }
 }
 
 /* 中等屏幕（桌面显示器，大于等于 992px） */
 @media screen and (min-width: @screen-md-min) {
   .main-content {
-    padding: 10px 100px;
+    padding: 30px 100px 20px;
   }
 }
 
 /* 大屏幕（大桌面显示器，大于等于 1200px） */
 @media screen and (min-width: @screen-lg-min) {
   .main-content {
-    padding: 10px 150px;
+    padding: 30px 150px 20px;
   }
 }
 
@@ -398,3 +408,19 @@ footer {
   }
 }
 
+/********************
+ * article
+ ********************/
+article.list-group-item {
+  margin-bottom: 5px !important;
+  & > h4 {
+    margin: 0.5em 0;
+  }
+  & > section {
+    margin: 5px 0 10px;
+    border-bottom: 1px dotted #BDBDBD;
+  }
+  & > div {
+    height: 25px;
+  }
+}

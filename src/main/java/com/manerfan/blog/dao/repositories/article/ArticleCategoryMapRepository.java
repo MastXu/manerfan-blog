@@ -19,6 +19,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.manerfan.blog.dao.entities.article.ArticleCategoryMap;
 import com.manerfan.blog.dao.entities.article.CategoryEntity;
@@ -29,6 +31,8 @@ import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
  *
  * @author ManerFan 2016年4月5日
  */
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class,
+        RuntimeException.class })
 public interface ArticleCategoryMapRepository
         extends BasicJpaRepository<ArticleCategoryMap, String> {
 

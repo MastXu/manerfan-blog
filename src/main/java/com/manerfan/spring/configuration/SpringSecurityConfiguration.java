@@ -123,7 +123,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
 
         http.authorizeRequests().expressionHandler(webSecurityExpressionHandler())
                 /* 任意用户可访问的 */
-                .antMatchers("/", "/login/**", "/editor", "/editor/fileImport").permitAll()
+                .antMatchers("/", "/login", "/editor", "/editor/fileImport").permitAll()
                 /* 只有admin可访问的 */
                 /*.antMatchers("/**").hasAnyRole("ADMIN")*/
                 /* 登陆后可访问的 */

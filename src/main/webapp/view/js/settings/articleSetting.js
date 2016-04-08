@@ -15,20 +15,20 @@
  */
 
 /**
- * 设置
- * Created by ManerFan on 2016/1/29.
+ * 文章设置
+ * Created by ManerFan on 2016/4/8.
  */
 require([
     "jquery",
-    "bootstrap",
-    "js/settings/accountSetting",
-    "js/settings/articleSetting",
-    "js/settings/categorySetting",
-    "js/settings/draftBox",
-    "js/settings/recycleBin"
+    'bootcss-paginator'
 ], function ($) {
-    $(".list-nav .list-group-item").click(function () {
-        $(".list-group-item").removeClass("active");
-        $(this).addClass("active");
+    /**
+     * 恢复数据
+     */
+    $(".list-group-item[data-action='article-settings']").click(function () {
+        $("#panel-settings").children("div").hide();
+        $(".panel[data-action='article-settings']").show();
     });
+
+
 });

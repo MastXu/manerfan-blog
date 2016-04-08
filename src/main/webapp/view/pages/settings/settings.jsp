@@ -10,12 +10,10 @@
 <html>
 <head>
     <title>设置</title>
-    
     <link rel="stylesheet" href="<c:url value='/view/style/themes/default.css?v=${version}'/>" type="text/css">
     <style>
-        .main-content #panel-settings>div {
-            display: none;
-        }
+        .main-content #panel-settings>div:nth-child(n+2) {display: none;}
+        .panel-heading .btn, .list-group .btn {float: right; margin-right: 5px;}
     </style>
 </head>
 <body>
@@ -24,21 +22,122 @@
     <div class="main-content">
 		<div class="panel panel-default col-xs-12 col-sm-4 col-md-3 col-lg-3">
 			<div class="panel-heading">设置</div>
-			<ul class="list-group">
-			    <li class="list-group-item active" data-action="account-profile"><a href="#panel-settings">用户简介</a></li>
-			    <li class="list-group-item" data-action="account-settings"><a href="#panel-settings">用户设置</a></li>
+			<ul class="list-group list-nav">
+			    <li class="list-group-item active" data-action="account-settings"><a href="#panel-settings">用户设置</a></li>
+			    <li class="list-group-item" data-action="article-settings"><a href="#panel-settings">文章管理</a></li>
+			    <li class="list-group-item" data-action="category-settings"><a href="#panel-settings">分类管理</a></li>
+			    <li class="list-group-item" data-action="drafts-box"><a href="#panel-settings">草稿箱</a></li>
+			    <li class="list-group-item" data-action="recycle-bin"><a href="#panel-settings">回收站</a></li>
 			</ul>
 		</div>
-		<div class="col-sm-1 col-md-1 col-lg-1"></div>
+		<div class="hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
 		<div id="panel-settings" class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
-			<div data-action="account-profile" class="panel panel-default" style="display: block;">
-	            <div class="panel-heading">用户简介</div>
+	        <div data-action="account-settings" class="panel panel-default">
+	            <div class="panel-heading"><c:out value='${user.name}' /></div>
+	            <div class="panel-body">
+					<div class="panel-group" id="account-accordion" role="tablist" aria-multiselectable="true">
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="hadding-account-info">
+								<h4 class="panel-title">
+									<a role="button" data-toggle="collapse"
+										data-parent="#account-accordion" href="#collapse-account-info"
+										aria-expanded="true" aria-controls="collapse-account-info">
+										账户信息
+									</a>
+								</h4>
+							</div>
+							<div id="collapse-account-info" class="panel-collapse collapse in"
+								role="tabpanel" aria-labelledby="hadding-account-info">
+								<div class="panel-body">
+									<div class="input-group">
+										<span class="input-group-addon"><i class='icon-mail'></i>邮箱</span>
+										<input type="email" maxlength="128" class="form-control" data-email="<c:out value='${user.email}' />" value="<c:out value='${user.email}' />" id="account-email" placeholder="your email here">
+									</div>
+									<button id="btn-account-info" type="button" class="btn btn-primary btn-block" data-loading-text="拼命加载中<i class='icon-spinner'></i>">确认</button>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="heading-account-password">
+								<h4 class="panel-title">
+									<a class="collapsed" role="button" data-toggle="collapse"
+										data-parent="#account-accordion" href="#collapse-account-password"
+										aria-expanded="false" aria-controls="collapse-account-password">
+										重置密码
+									</a>
+								</h4>
+							</div>
+							<div id="collapse-account-password" class="panel-collapse collapse"
+								role="tabpanel" aria-labelledby="heading-account-password">
+								<div class="panel-body">
+									<div class="input-group">
+										<span class="input-group-addon">原密码</span>
+										<input type="password" maxlength="16" class="form-control" id="account-org-password" placeholder="原密码">
+									</div>
+									<div class="input-group">
+										<span class="input-group-addon">新密码</span>
+										<input type="password" maxlength="16" class="form-control" id="account-new-password" placeholder="新密码">
+									</div>
+									<div class="input-group">
+										<span class="input-group-addon">再确认</span>
+										<input type="password" maxlength="16" class="form-control" id="account-cfm-password" placeholder="再次输入密码">
+									</div>
+									<button id="btn-account-password" type="button" class="btn btn-primary btn-block" data-loading-text="仔细验证中<i class='icon-spinner'></i>">确认</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	        </div>
+	        <div data-action="article-settings" class="panel panel-default">
+	            <div class="panel-heading">文章管理</div>
+	            <div class="panel-body">
+	                <div class="list-group">
+	                	<article class="list-group-item">
+	                		<h4>文章标题1</h4>
+	                		<section>文章摘要1</section>
+	                		<div>
+	                			<span class='label label-primary has-badge'>阅读<span class='badge'>25</span></span>
+		                		<button type="button" class="btn btn-danger btn-xs">删除</button>
+		            			<button type="button" class="btn btn-warning btn-xs">撤回</button>
+	            			</div>	
+	                	</article>
+	                	<article class="list-group-item">
+	                		<h4>文章标题2</h4>
+	                		<section>文章摘要2</section>
+	                		<div>
+	                			<span class='label label-primary has-badge'>阅读<span class='badge'>36</span></span>
+		                		<button type="button" class="btn btn-danger btn-xs">删除</button>
+		            			<button type="button" class="btn btn-warning btn-xs">撤回</button>
+	            			</div>	
+	                	</article>
+	                </div>
+	            </div>
+	        </div>
+	        <div data-action="category-settings" class="panel panel-default">
+	            <div class="panel-heading">
+	            	<span>分类管理</span>
+	            	<button type="button" class="btn btn-danger btn-xs" disabled>删除</button>	
+	            </div>
 	            <div class="panel-body">
 	                
 	            </div>
 	        </div>
-	        <div data-action="account-settings" class="panel panel-default">
-	            <div class="panel-heading">用户设置</div>
+	        <div data-action="drafts-box" class="panel panel-default">
+	            <div class="panel-heading">
+	            	<span>草稿箱</span>
+	            	<button type="button" class="btn btn-danger btn-xs" disabled>删除</button>
+	            </div>
+	            <div class="panel-body">
+	                
+	            </div>
+	        </div>
+	        <div data-action="recycle-bin" class="panel panel-default">
+	            <div class="panel-heading">
+	            	<span>回收站</span>
+	            	<button type="button" class="btn btn-danger btn-xs" disabled>恢复到草稿箱</button>
+	            	<button type="button" class="btn btn-primary btn-xs" disabled>彻底删除</button>
+	            </div>
 	            <div class="panel-body">
 	                
 	            </div>
@@ -47,13 +146,6 @@
 	</div>
 	
 	<c:import url="../nav/footer.jsp" />
-
-	<script>
-		window.debug = false;
-	    if (/(\?|&)debug($|&)/.test(location.search)) {
-	        window.debug = true;
-	    }
-	</script>
 	
 	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
     <script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>

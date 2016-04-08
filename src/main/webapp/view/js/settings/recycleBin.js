@@ -15,20 +15,11 @@
  */
 
 /**
- * 设置
- * Created by ManerFan on 2016/1/29.
+ * 回收站
+ * Created by ManerFan on 2016/4/8.
  */
 require([
-    "jquery",
-    "bootstrap",
-    "js/settings/accountSetting",
-    "js/settings/articleSetting",
-    "js/settings/categorySetting",
-    "js/settings/draftBox",
-    "js/settings/recycleBin"
+    "jquery"
 ], function ($) {
-    $(".list-nav .list-group-item").click(function () {
-        $(".list-group-item").removeClass("active");
-        $(this).addClass("active");
-    });
+
 });
