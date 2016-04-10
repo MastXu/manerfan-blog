@@ -1,6 +1,7 @@
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
 @import "../../js/editor/libs/highlight/styles/github-gist.css";
 @import "../../js/editor/libs/fontello/css/fontello.css";
+@import "../../plugins/jqPagination/css/jqpagination.css";
 @import "../../plugins/jgrowl/jquery.jgrowl.css";
 @import "../../plugins/jbox/Source/jBox.css";
 @import "../../plugins/animate.css/animate.css";
@@ -542,9 +543,9 @@ dd {
     width: 160px;
     clear: left;
     text-align: right;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
   .dl-horizontal dd {
     margin-left: 180px;
@@ -6657,7 +6658,10 @@ footer h6 {
 /********************
  * list-group in panel
  ********************/
-.panel .list-group-item {
+.panel .list-group {
+  margin-bottom: 1px;
+}
+.panel .list-group .list-group-item {
   position: relative;
   display: block;
   padding: 10px 15px;
@@ -6665,19 +6669,19 @@ footer h6 {
   background-color: #fff;
   border: 1px solid #ddd;
 }
-.panel .list-group-item a {
+.panel .list-group .list-group-item a {
   cursor: pointer;
   display: block;
   width: 100%;
 }
-.panel .list-group-item:hover {
+.panel .list-group .list-group-item:hover {
   background-color: #f9f9f9;
 }
-.panel .list-group-item.active {
+.panel .list-group .list-group-item.active {
   background-color: #f9f9f9;
   border-left: 2px #d26911 solid;
 }
-.panel .list-group-item.active a {
+.panel .list-group .list-group-item.active a {
   cursor: auto;
   text-decoration: none;
   color: black;
@@ -6927,11 +6931,28 @@ article.list-group-item > h4 {
   margin: 0.5em 0;
 }
 article.list-group-item > section {
+  max-height: 65px;
   margin: 5px 0 10px;
   border-bottom: 1px dotted #BDBDBD;
 }
 article.list-group-item > div {
   height: 25px;
+}
+article.list-group-item a {
+  width: auto !important;
+}
+.text-overflow {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.pagination a {
+  height: 26px;
+  width: 26px;
+}
+.pagination input {
+  height: 26px;
+  line-height: 26px;
 }
 .alertify,
 .alertify-show,

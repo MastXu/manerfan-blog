@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.beans.BeanUtils;
+
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 
 /**
@@ -86,6 +88,18 @@ public class ArticleBO implements Serializable {
      * 作者
      */
     private String author;
+
+    public static ArticleBO transFromPO(ArticleEntity articleEntity) {
+        if (null == articleEntity) {
+            return null;
+        }
+
+        ArticleBO bo = new ArticleBO();
+        BeanUtils.copyProperties(articleEntity, bo);
+        bo.setAuthor(articleEntity.getAuthor().getName());
+
+        return bo;
+    }
 
     public String getAuthor() {
         return author;

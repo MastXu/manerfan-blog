@@ -19,16 +19,20 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.manerfan.blog.dao.entities.article.ArticleBO;
+import com.manerfan.blog.dao.entities.article.ArticleEntity;
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
+import com.manerfan.blog.dao.repositories.BOUtils;
 import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.service.article.ArticleService;
 import com.manerfan.blog.service.article.ArticleService.FileType;
@@ -85,6 +89,15 @@ public class ArticleController extends ControllerBase {
         return data;
     }
 
+    /**
+     * <pre>
+     * 获取文章
+     * </pre>
+     *
+     * @param   uid     文章标识
+     * @param   type    文章类型
+     * @return
+     */
     @RequestMapping("/content/{uid}/{type}")
     @ResponseBody
     public Object article(@PathVariable("uid") String uid, @PathVariable("type") FileType type) {
@@ -98,6 +111,41 @@ public class ArticleController extends ControllerBase {
             data.put(ERRMSG, "读取文章错误");
         }
 
+        return data;
+    }
+
+    /**
+     * <pre>
+     * 根据文章创建时间，按照降序排序，分页查询
+     * </pre>
+     *
+     * @param pageable
+     * @return
+     */
+    @RequestMapping("/list")
+    @ResponseBody
+    public Object articleList(@RequestParam State state, @RequestParam int page,
+            @RequestParam int size) {
+        Map<String, Object> data = makeAjaxData();
+        Page<ArticleEntity> articles = articleService.findArticleList(state, page, size);
+        data.put("totalPages", articles.getTotalPages());
+        data.put("articles",
+                BOUtils.transFromPOs(articles.getContent(), ArticleBO.class, ArticleEntity.class));
+        return data;
+    }
+
+    @RequestMapping("/update/state")
+    @ResponseBody
+    public Object updateState(@RequestParam State state, @RequestParam String uid) {
+        Map<String, Object> data = makeAjaxData();
+
+        try {
+            articleService.updateArticleState(state, uid);
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Cannot Update the state of Article {} to {}.",
+                    new Object[] { uid, state, e });
+            data.put(ERRMSG, "数据库错误");
+        }
         return data;
     }
 

@@ -24,7 +24,7 @@ require([
     "js/settings/accountSetting",
     "js/settings/articleSetting",
     "js/settings/categorySetting",
-    "js/settings/draftBox",
+    "js/settings/draftsBox",
     "js/settings/recycleBin"
 ], function ($) {
     $(".list-nav .list-group-item").click(function () {

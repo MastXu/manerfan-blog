@@ -15,7 +15,7 @@
  */
 
 /**
- * 文章设置
+ * 草稿箱
  * Created by ManerFan on 2016/4/8.
  */
 require([
@@ -24,14 +24,14 @@ require([
     "commonutils",
     "jBoxUtil",
     'bootbox',
-    'text!pages/article/html/articleList.html',
+    'text!pages/article/html/draftList.html',
     'pagination'
-], function ($, _, commonutils, jBoxUtil, bootbox, articleListHTML) {
+], function ($, _, commonutils, jBoxUtil, bootbox, draftListHTML) {
     var pageSize = 2;
     var currentPage = 0;
     var totalPages = 0;
 
-    $('.pagination.article-settings-pagination').jqPagination({
+    $('.pagination.drafts-box-pagination').jqPagination({
         page_string: '第{current_page}页, 共{max_page}页',
         current_page: 1,
         max_page: null,
@@ -40,47 +40,35 @@ require([
                 return;
             }
 
-            findArticleList(page - 1, pageSize);
+            findDraftList(page - 1, pageSize);
         }
     });
 
     /**
      * 恢复数据
      */
-    $(".list-group-item[data-action='article-settings']").click(function () {
+    $(".list-group-item[data-action='drafts-box']").click(function () {
         $("#panel-settings").children("div").hide();
-        $(".panel[data-action='article-settings']").show();
+        $(".panel[data-action='drafts-box']").show();
 
-        if (!!$(".panel[data-action='article-settings']").data("hasOpened")) {
-            $('.pagination.article-settings-pagination').jqPagination("option", "current_page", 1);
+        if (!!$(".panel[data-action='drafts-box']").data("hasOpened")) {
+            $('.pagination.drafts-box-pagination').jqPagination("option", "current_page", 1);
         } else {
-            $(".panel[data-action='article-settings']").data("hasOpened", true)
-            findArticleList(1, pageSize);
+            $(".panel[data-action='drafts-box']").data("hasOpened", true)
+            findDraftList(1, pageSize);
         }
     });
 
-    /**
-     * 撤回到草稿箱
-     */
-    $(document).on("click", ".btn-article-withdraw", function () {
-        var uid = $(this).data("uid");
-        bootbox.confirm("此操作将该文章撤回到草稿箱", function (result) {
-            if (!!result) {
-                alert(uid);
-            }
-        });
-    });
-
-    function findArticleList(page, size) {
+    function findDraftList(page, size) {
         $("._loading").show();
-        $(".article-settings-list").empty();
+        $(".drafts-box-list").empty();
         $.ajax({
             url: "/article/list",
             async: true,
             type: 'post',
             cache: false,
             dataType: 'json',
-            data: {state: 'PUBLISHED', page: page, size: size},
+            data: {state: 'DRAFT', page: page, size: size},
             success: function (data, textStatus, XMLHttpRequest) {
                 if (null != data.errmsg) {
                     // 出现错误
@@ -90,21 +78,21 @@ require([
 
                 var list = [];
                 _.each(data.articles, function (article) {
-                    list.push(_.template(articleListHTML)({
+                    list.push(_.template(draftListHTML)({
                         articleCreateTime: commonutils.dateFormate(new Date(article.createTime)),
+                        articleLastModTime: commonutils.dateFormate(new Date(article.lastModTime)),
                         articleTitle: article.title,
                         articleSummary: article.summary,
-                        articleHits: article.hits,
                         articleUid: article.uid
                     }));
                 });
 
-                $(".article-settings-list").append(list.join(""));
+                $(".drafts-box-list").append(list.join(""));
 
                 currentPage = page;
                 totalPages = data.totalPages;
-                /*$('.pagination.article-settings-pagination').jqPagination("option", "current_page", currentPage + 1);*/
-                $('.pagination.article-settings-pagination').jqPagination("option", "max_page", totalPages);
+                /*$('.pagination.drafts-box-pagination').jqPagination("option", "current_page", currentPage + 1);*/
+                $('.pagination.drafts-box-pagination').jqPagination("option", "max_page", totalPages);
             },
             error: function () {
                 jBoxUtil.noticeError({content: "未知错误"});
@@ -115,5 +103,5 @@ require([
         });
     }
 
-    $(".list-group-item[data-action='article-settings']").css("visibility", "visible");
+    $(".list-group-item[data-action='drafts-box']").css("visibility", "visible");
 });

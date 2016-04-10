@@ -109,7 +109,8 @@ requirejs.config({
         'js-base64': 'plugins/js-base64/base64.min',
         'tagsinput': 'plugins/flatui/js/jquery.tagsinput',
         'FSS': 'js/utils/FSS',
-        'bootcss-paginator': 'plugins/bootstrap-paginator/build/bootstrap-paginator.min'
+        'pagination': 'plugins/jqPagination/js/jquery.jqpagination.min',
+        'bootbox': 'plugins/bootbox.js/bootbox'
     },
 
     /**
@@ -232,8 +233,11 @@ requirejs.config({
         FFS: [
             'jquery'
         ],
-        'bootcss-paginator': [
+        'pagination': [
             'jquery'
+        ],
+        'bootbox': [
+            'bootstrap'
         ]
     }
 });

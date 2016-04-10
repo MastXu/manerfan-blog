@@ -37,6 +37,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +51,7 @@ import org.springframework.util.StringUtils;
 import com.manerfan.blog.dao.entities.article.ArticleBO;
 import com.manerfan.blog.dao.entities.article.ArticleCategoryMap;
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
+import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 import com.manerfan.blog.dao.entities.article.CategoryEntity;
 import com.manerfan.blog.dao.repositories.UserRepository;
 import com.manerfan.blog.dao.repositories.article.ArticleCategoryMapRepository;
@@ -218,6 +221,16 @@ public class ArticleService implements InitializingBean {
         }
     }
 
+    /**
+     * <pre>
+     * 获取文章内容
+     * </pre>
+     *
+     * @param   uid     文章标识
+     * @param   type    文章类型
+     * @return
+     * @throws IOException
+     */
     @Cacheable(cacheNames = "resources-cache", keyGenerator = "ResourceKeyGenerator")
     public ArticleBO get(String uid, FileType type) throws IOException {
         ArticleEntity articleEntity = articleRepository.findOneByUid(uid);
@@ -226,9 +239,7 @@ public class ArticleService implements InitializingBean {
         }
 
         /* 文章基本信息 */
-        ArticleBO article = new ArticleBO();
-        BeanUtils.copyProperties(articleEntity, article);
-        article.setAuthor(articleEntity.getAuthor().getName());
+        ArticleBO article = ArticleBO.transFromPO(articleEntity);
 
         /* 文章分类信息 */
         List<CategoryEntity> categoryEntities = articleCategoryMapRepository.findByArticleUid(uid);
@@ -268,6 +279,10 @@ public class ArticleService implements InitializingBean {
         return article;
     }
 
+    public void updateArticleState(State state, String uid) {
+        articleRepository.updateArticleState(state, uid);
+    }
+
     public static enum FileType {
         markdown(".md"), html(".html"), text(".text");
 
@@ -280,6 +295,20 @@ public class ArticleService implements InitializingBean {
         public String type() {
             return type;
         }
+    }
+
+    /**
+     * <pre>
+     * 根据文章创建时间，按照降序排序，分页查询
+     * </pre>
+     *
+     * @param   pageNum  第几页（从0开始）
+     * @param   pageSize 每页条数
+     * @return
+     */
+    public Page<ArticleEntity> findArticleList(State state, int pageNum, int pageSize) {
+        return articleRepository.findAllByStateOrderByCreateTimeDesc(state,
+                new QPageRequest(pageNum, pageSize));
     }
 
     @Override

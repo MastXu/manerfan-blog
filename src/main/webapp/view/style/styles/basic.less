@@ -131,29 +131,33 @@ footer {
  ********************/
 
 .panel {
-  .list-group-item {
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-    margin-bottom: -1px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    a {
-      cursor: pointer;
+  .list-group {
+    margin-bottom: 1px;
+
+    .list-group-item {
+      position: relative;
       display: block;
-      width: 100%;
-    }
-    &:hover {
-      background-color: #f9f9f9;
-    }
-    &.active {
-      background-color: #f9f9f9;
-      border-left: 2px #d26911 solid;
+      padding: 10px 15px;
+      margin-bottom: -1px;
+      background-color: #fff;
+      border: 1px solid #ddd;
       a {
-        cursor: auto;
-        text-decoration: none;
-        color: black;
-        font-weight: bolder;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+      }
+      &:hover {
+        background-color: #f9f9f9;
+      }
+      &.active {
+        background-color: #f9f9f9;
+        border-left: 2px #d26911 solid;
+        a {
+          cursor: auto;
+          text-decoration: none;
+          color: black;
+          font-weight: bolder;
+        }
       }
     }
   }
@@ -417,10 +421,31 @@ article.list-group-item {
     margin: 0.5em 0;
   }
   & > section {
+    max-height: 65px;
     margin: 5px 0 10px;
     border-bottom: 1px dotted #BDBDBD;
   }
   & > div {
     height: 25px;
+  }
+  a {
+    width: auto !important;
+  }
+}
+
+.text-overflow {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.pagination {
+  a {
+    height: 26px;
+    width: 26px;
+  }
+  input {
+    height: 26px;
+    line-height: 26px;
   }
 }

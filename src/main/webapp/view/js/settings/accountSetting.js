@@ -20,12 +20,11 @@
  */
 require([
     "jquery",
-    "js/editor/core",
     "commonutils",
     "jBoxUtil",
     "jcryption",
     "md5"
-], function ($, core, commonutils, jBoxUtil) {
+], function ($, commonutils, jBoxUtil) {
     /**
      * 恢复数据
      */
@@ -66,7 +65,6 @@ require([
                 $("#account-email").data("account-email", data.email);
             },
             error: function () {
-                core.setOffline();
                 jBoxUtil.noticeError({content: "未知错误"});
             },
             complete: function () {
@@ -130,7 +128,6 @@ require([
                 modifyPasswd(orgPasswd, newPasswd);
             },
             error: function () {
-                core.setOffline();
                 jBoxUtil.noticeError({content: "未知错误"});
                 $("#btn-account-password").button('reset');
             },
@@ -158,7 +155,6 @@ require([
                 window.location = "/logout";
             },
             error: function () {
-                core.setOffline();
                 jBoxUtil.noticeError({content: "未知错误"});
             },
             complete: function () {
@@ -166,4 +162,6 @@ require([
             }
         });
     }
+
+    $(".list-group-item[data-action='account-settings']").css("visibility", "visible");
 });

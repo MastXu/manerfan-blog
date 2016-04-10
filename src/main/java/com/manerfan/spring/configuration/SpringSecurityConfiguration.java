@@ -69,6 +69,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/*.*", "/init/**", "/view/**", "/article/image/view/**",
+                "article/list", "article/category", "article/search", "article/archive",
                 "/tags/**");
     }
 

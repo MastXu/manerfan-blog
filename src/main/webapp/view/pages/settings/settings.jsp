@@ -14,6 +14,8 @@
     <style>
         .main-content #panel-settings>div:nth-child(n+2) {display: none;}
         .panel-heading .btn, .list-group .btn {float: right; margin-right: 5px;}
+        .list-nav .list-group-item {visibility:hidden;}
+        ._loading{display:none;position:absolute;top:0;width:100%;height:100%;z-index:999;background-color:#88a825;opacity:0.6;}
     </style>
 </head>
 <body>
@@ -92,26 +94,14 @@
 	        <div data-action="article-settings" class="panel panel-default">
 	            <div class="panel-heading">文章管理</div>
 	            <div class="panel-body">
-	                <div class="list-group">
-	                	<article class="list-group-item">
-	                		<h4>文章标题1</h4>
-	                		<section>文章摘要1</section>
-	                		<div>
-	                			<span class='label label-primary has-badge'>阅读<span class='badge'>25</span></span>
-		                		<button type="button" class="btn btn-danger btn-xs">删除</button>
-		            			<button type="button" class="btn btn-warning btn-xs">撤回</button>
-	            			</div>	
-	                	</article>
-	                	<article class="list-group-item">
-	                		<h4>文章标题2</h4>
-	                		<section>文章摘要2</section>
-	                		<div>
-	                			<span class='label label-primary has-badge'>阅读<span class='badge'>36</span></span>
-		                		<button type="button" class="btn btn-danger btn-xs">删除</button>
-		            			<button type="button" class="btn btn-warning btn-xs">撤回</button>
-	            			</div>	
-	                	</article>
-	                </div>
+	                <div class="list-group article-settings-list"></div>
+	                <div class="pagination article-settings-pagination">
+					    <a href="#" class="first" data-action="first">&laquo;</a>
+					    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+					    <input type="text" />
+					    <a href="#" class="next" data-action="next">&rsaquo;</a>
+					    <a href="#" class="last" data-action="last">&raquo;</a>
+					</div>
 	            </div>
 	        </div>
 	        <div data-action="category-settings" class="panel panel-default">
@@ -119,17 +109,18 @@
 	            	<span>分类管理</span>
 	            	<button type="button" class="btn btn-danger btn-xs" disabled>删除</button>	
 	            </div>
-	            <div class="panel-body">
-	                
-	            </div>
 	        </div>
 	        <div data-action="drafts-box" class="panel panel-default">
-	            <div class="panel-heading">
-	            	<span>草稿箱</span>
-	            	<button type="button" class="btn btn-danger btn-xs" disabled>删除</button>
-	            </div>
+	            <div class="panel-heading">草稿箱</div>
 	            <div class="panel-body">
-	                
+	                <div class="list-group drafts-box-list"></div>
+	                <div class="pagination drafts-box-pagination">
+					    <a href="#" class="first" data-action="first">&laquo;</a>
+					    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+					    <input type="text" />
+					    <a href="#" class="next" data-action="next">&rsaquo;</a>
+					    <a href="#" class="last" data-action="last">&raquo;</a>
+					</div>
 	            </div>
 	        </div>
 	        <div data-action="recycle-bin" class="panel panel-default">
@@ -144,6 +135,10 @@
 	        </div>
         </div>
 	</div>
+	
+	<div class="hidden-print _loading">
+	    <c:import url="../common/loading.jsp" />
+    </div>
 	
 	<c:import url="../nav/footer.jsp" />
 	

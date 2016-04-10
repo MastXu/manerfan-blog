@@ -27,17 +27,7 @@
 				<li><a target="_blank" href="https://github.com/ManerFan/manerfan-blog"><i class="icon-github-circled"></i>GitHub</a></li>
 			</ul>
 			<ul class="nav navbar-nav">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">
-						关于<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="#">关于我</a></li>
-						<li><a href="#">关于博客</a></li>
-					</ul>
-				</li>
+				<li><a href="#"><i class="icon-user-md"></i>关于作者</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="hasRole('ROLE_ANONYMOUS')">
