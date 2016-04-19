@@ -17,7 +17,6 @@ package com.manerfan.blog.dao.entities.article;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -116,7 +115,7 @@ public class ArticleEntity extends CommonEntity {
      * 作者
      */
     @IndexedEmbedded(depth = 1)
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @LazyToOne(LazyToOneOption.PROXY)
     @JoinColumn(name = "author", nullable = false/* 不能使用referencedColumnName，否则LAZY就不生效了 */)
     private UserEntity author;

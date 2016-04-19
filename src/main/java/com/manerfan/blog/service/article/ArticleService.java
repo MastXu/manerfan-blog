@@ -38,6 +38,8 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -48,6 +50,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
+import com.manerfan.blog.dao.entities.article.ArchiveBO;
 import com.manerfan.blog.dao.entities.article.ArticleBO;
 import com.manerfan.blog.dao.entities.article.ArticleCategoryMap;
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
@@ -112,9 +115,7 @@ public class ArticleService implements InitializingBean {
             article.setUid(NAME_SDF.format(Calendar.getInstance().getTime()));
         }
 
-        /* 清除缓存 此处为@CacheEvict的替代方案(@CacheEvict仅能指定一个key) */
-        Arrays.asList(FileType.values())
-                .forEach(type -> cache.evict("ARTICLE" + article.getUid() + type.toString()));
+        evictArticleCache(article.getUid());
 
         boolean isNew = false;
         ArticleEntity articleEntity = articleRepository.findOneByUid(article.getUid());
@@ -163,7 +164,7 @@ public class ArticleService implements InitializingBean {
                 new FileWriter(new File(dir, articleEntity.getUid() + FileType.html.type)));
         // text
         FileCopyUtils.copy(article.getContentWithTEXT(),
-                new FileWriter(new File(dir, articleEntity.getUid() + FileType.text.type)));
+                new FileWriter(new File(dir, articleEntity.getUid() + FileType.txt.type)));
 
         return articleEntity.getUid();
     }
@@ -269,7 +270,7 @@ public class ArticleService implements InitializingBean {
             case html:
                 article.setContentWithHTML(content);
                 break;
-            case text:
+            case txt:
                 article.setContentWithTEXT(content);
                 break;
             default:
@@ -279,12 +280,20 @@ public class ArticleService implements InitializingBean {
         return article;
     }
 
+    /**
+     * <pre>
+     * 更新文章状态
+     * </pre>
+     *
+     * @param   state   文章状态
+     * @param   uid     文章标识
+     */
     public void updateArticleState(State state, String uid) {
         articleRepository.updateArticleState(state, uid);
     }
 
     public static enum FileType {
-        markdown(".md"), html(".html"), text(".text");
+        markdown(".md"), html(".html"), txt(".txt");
 
         private String type;
 
@@ -309,6 +318,79 @@ public class ArticleService implements InitializingBean {
     public Page<ArticleEntity> findArticleList(State state, int pageNum, int pageSize) {
         return articleRepository.findAllByStateOrderByCreateTimeDesc(state,
                 new QPageRequest(pageNum, pageSize));
+    }
+
+    /**
+     * <pre>
+     * 删除文章
+     * </pre>
+     *
+     * @param   uid 文章标识
+     */
+    public void deleteArticle(String uid) {
+        evictArticleCache(uid);
+
+        articleCategoryMapRepository.deleteByArticleUid(uid);
+        articleRepository.deleteByUid(uid);
+
+        Pattern pattern = Pattern.compile(uid + "\\.\\w+");
+        String path = transPath(uid);
+        File searchDir = new File(articleDir, path);
+        File[] files = searchDir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return pattern.matcher(name).matches();
+            }
+        });
+
+        if (!ObjectUtils.isEmpty(files)) {
+            Arrays.asList(files).forEach(file -> {
+                file.delete(); // 删除文章文件
+                if (ObjectUtils.isEmpty(file.getParentFile().list())) {
+                    // 如果所在文件夹已空，则删除
+                    file.getParentFile().delete();
+                }
+            });
+        }
+    }
+
+    /**
+     * <pre>
+     * 清除缓存 此处为@CacheEvict的替代方案(@CacheEvict仅能指定一个key)
+     * </pre>
+     *
+     * @param uid
+     */
+    private void evictArticleCache(String uid) {
+        /* 清除缓存 此处为@CacheEvict的替代方案(@CacheEvict仅能指定一个key) */
+        Arrays.asList(FileType.values())
+                .forEach(type -> cache.evict("ARTICLE" + uid + type.toString()));
+    }
+
+    public Page<ArchiveBO> findArchiveList(int pageNum, int pageSize) {
+        Pageable pageable = new QPageRequest(pageNum, pageSize);
+        StringBuilder hql = new StringBuilder();
+        hql.append("select new ").append(ArchiveBO.class.getName());
+        hql.append(
+                "(date_format(article.createTime,'%Y-%m') as df, count(article.uid)) "); /* 将结果封装成ArchiveBO */
+        hql.append("from Article article "); /* 从文章中查询 */
+        hql.append("where 1=1 ");
+        hql.append("group by df "); /* 按时间段分组 */
+        hql.append("order by df desc"); /* 按时间段排序 */
+        List<ArchiveBO> archives = articleRepository.find(hql.toString(), ArchiveBO.class, pageable,
+                null);
+        long total = countArchive();
+
+        return new PageImpl<>(archives, pageable, total);
+    }
+
+    public long countArchive() {
+        StringBuilder hql = new StringBuilder();
+        hql.append("select count(date_format(article.createTime,'%Y-%m')) ");
+        hql.append("from Article article");
+        hql.append("group by date_format(article.createTime,'%Y-%m')");
+
+        return articleRepository.count(hql.toString(), null);
     }
 
     @Override

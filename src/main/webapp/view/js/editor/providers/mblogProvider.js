@@ -220,7 +220,7 @@ define([
         }
 
         $.ajax({
-            url: "/category/hots",
+            url: "/category/hots/4",
             async: true,
             type: 'post',
             cache: false,

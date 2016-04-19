@@ -27,9 +27,9 @@
 			<ul class="list-group list-nav">
 			    <li class="list-group-item active" data-action="account-settings"><a href="#panel-settings">用户设置</a></li>
 			    <li class="list-group-item" data-action="article-settings"><a href="#panel-settings">文章管理</a></li>
-			    <li class="list-group-item" data-action="category-settings"><a href="#panel-settings">分类管理</a></li>
 			    <li class="list-group-item" data-action="drafts-box"><a href="#panel-settings">草稿箱</a></li>
 			    <li class="list-group-item" data-action="recycle-bin"><a href="#panel-settings">回收站</a></li>
+			    <li class="list-group-item" data-action="category-settings"><a href="#panel-settings">分类管理</a></li>
 			</ul>
 		</div>
 		<div class="hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
@@ -104,12 +104,6 @@
 					</div>
 	            </div>
 	        </div>
-	        <div data-action="category-settings" class="panel panel-default">
-	            <div class="panel-heading">
-	            	<span>分类管理</span>
-	            	<button type="button" class="btn btn-danger btn-xs" disabled>删除</button>	
-	            </div>
-	        </div>
 	        <div data-action="drafts-box" class="panel panel-default">
 	            <div class="panel-heading">草稿箱</div>
 	            <div class="panel-body">
@@ -124,14 +118,20 @@
 	            </div>
 	        </div>
 	        <div data-action="recycle-bin" class="panel panel-default">
-	            <div class="panel-heading">
-	            	<span>回收站</span>
-	            	<button type="button" class="btn btn-danger btn-xs" disabled>恢复到草稿箱</button>
-	            	<button type="button" class="btn btn-primary btn-xs" disabled>彻底删除</button>
-	            </div>
+	            <div class="panel-heading">回收站</div>
 	            <div class="panel-body">
-	                
+	                <div class="list-group recycle-bin-list"></div>
+	                <div class="pagination recycle-bin-pagination">
+					    <a href="#" class="first" data-action="first">&laquo;</a>
+					    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+					    <input type="text" />
+					    <a href="#" class="next" data-action="next">&rsaquo;</a>
+					    <a href="#" class="last" data-action="last">&raquo;</a>
+					</div>
 	            </div>
+	        </div>
+	        <div data-action="category-settings" class="panel panel-default">
+	            <div class="panel-heading">分类管理</div>
 	        </div>
         </div>
 	</div>

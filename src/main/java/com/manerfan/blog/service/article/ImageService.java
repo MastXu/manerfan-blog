@@ -20,13 +20,17 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -85,18 +89,18 @@ public class ImageService implements InitializingBean {
         }
     }
 
+    /**
+     * <pre>
+     * 获取图片
+     * </pre>
+     *
+     * @param name
+     * @return
+     * @throws IOException
+     */
     @Cacheable(cacheNames = "resources-cache", keyGenerator = "ResourceKeyGenerator")
     public ImageCachingFile get(String name) throws IOException {
-        Pattern pattern = Pattern.compile(name + suffix);
-
-        String path = transPath(name);
-        File searchDir = new File(imageDir, path);
-        File[] files = searchDir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return pattern.matcher(name).matches();
-            }
-        });
+        File[] files = getImageFiles(name);
 
         ImageCachingFile image = new ImageCachingFile();
         File imageFile = defaultImage;
@@ -107,6 +111,61 @@ public class ImageService implements InitializingBean {
         image.setFileName(imageFile.getName());
         image.setContent(FileUtils.readFileToByteArray(imageFile));
         return image;
+    }
+
+    private File[] getImageFiles(String name) {
+        Pattern pattern = Pattern.compile(name + suffix);
+
+        String path = transPath(name);
+        File searchDir = new File(imageDir, path);
+        File[] files = searchDir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return pattern.matcher(name).matches();
+            }
+        });
+        return files;
+    }
+
+    /**
+     * <pre>
+     * 删除图片
+     * </pre>
+     *
+     * @param name
+     */
+    @CacheEvict(cacheNames = "resources-cache", keyGenerator = "ResourceKeyGenerator", beforeInvocation = true)
+    public void delete(String name) {
+        File[] files = getImageFiles(name);
+
+        if (!ObjectUtils.isEmpty(files)) {
+            Arrays.asList(files).forEach(file -> {
+                file.delete(); // 删除图片文件
+                if (ObjectUtils.isEmpty(file.getParentFile().list())) {
+                    // 如果所在文件夹已空，则删除
+                    file.getParentFile().delete();
+                }
+            });
+        }
+    }
+
+    /**
+     * <pre>
+     * 获取文件(夹)列表
+     * </pre>
+     *
+     * @param   rd  相对路径
+     * @return
+     */
+    public List<String> listFiles(String rd) {
+        File searchDir = StringUtils.hasText(rd) ? new File(imageDir, rd) : imageDir;
+        List<String> files = Arrays.asList(searchDir.list());
+        Collections.sort(files);
+        return files;
+    }
+
+    public List<String> listFiles(String year, String month) {
+        return listFiles(year + File.separator + month);
     }
 
     private String transPath(String name) {

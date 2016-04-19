@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -30,9 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.manerfan.blog.dao.entities.article.ArticleBO;
-import com.manerfan.blog.dao.entities.article.ArticleEntity;
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
-import com.manerfan.blog.dao.repositories.BOUtils;
 import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.service.article.ArticleService;
 import com.manerfan.blog.service.article.ArticleService.FileType;
@@ -46,7 +43,7 @@ import com.manerfan.common.utils.logger.MLogger;
  */
 @Controller
 @RequestMapping("/article")
-public class ArticleController extends ControllerBase {
+public class ArticleOprController extends ControllerBase {
 
     @Autowired
     private UserInfoInterceptorHandler userInfo;
@@ -116,24 +113,29 @@ public class ArticleController extends ControllerBase {
 
     /**
      * <pre>
-     * 根据文章创建时间，按照降序排序，分页查询
+     * 删除文章
      * </pre>
      *
-     * @param pageable
+     * @param   uid 文章标识
      * @return
      */
-    @RequestMapping("/list")
+    @RequestMapping("/delete/{uid}")
     @ResponseBody
-    public Object articleList(@RequestParam State state, @RequestParam int page,
-            @RequestParam int size) {
+    public Object delete(@PathVariable String uid) {
         Map<String, Object> data = makeAjaxData();
-        Page<ArticleEntity> articles = articleService.findArticleList(state, page, size);
-        data.put("totalPages", articles.getTotalPages());
-        data.put("articles",
-                BOUtils.transFromPOs(articles.getContent(), ArticleBO.class, ArticleEntity.class));
+        articleService.deleteArticle(uid);
         return data;
     }
 
+    /**
+     * <pre>
+     * 修改文章状态 发布/草稿/回收站
+     * </pre>
+     *
+     * @param state
+     * @param uid
+     * @return
+     */
     @RequestMapping("/update/state")
     @ResponseBody
     public Object updateState(@RequestParam State state, @RequestParam String uid) {

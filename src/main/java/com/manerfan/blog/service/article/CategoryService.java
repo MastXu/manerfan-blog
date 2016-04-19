@@ -18,6 +18,9 @@ package com.manerfan.blog.service.article;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -51,7 +54,7 @@ public class CategoryService {
      *
      * @return
      */
-    public List<CategoryBO> hotCategories() {
+    public List<CategoryBO> hotCategories(int top) {
         StringBuilder hql = new StringBuilder();
         hql.append("select new ").append(CategoryBO.class.getName());
         hql.append("(ac.category.name, count(ac.article)) "); /* 将结果封装成CategoryBO */
@@ -60,7 +63,44 @@ public class CategoryService {
         hql.append("group by ac.category "); /* 按分类分组 */
         hql.append("order by count(ac.article) desc"); /* 按使用率由高到低排序 */
         return articleCategoryMapRepository.find(hql.toString(), CategoryBO.class,
-                new QPageRequest(0, 3)/* 只取前3个 */, null);
+                new QPageRequest(0, top)/* 只取前top个 */, null);
+    }
+
+    /**
+     * <pre>
+     * 按使用率排序，分页查询
+     * </pre>
+     *
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public Page<CategoryBO> findCategoryList(int pageNum, int pageSize) {
+        Pageable pageable = new QPageRequest(pageNum, pageSize);
+        StringBuilder hql = new StringBuilder();
+        hql.append("select new ").append(CategoryBO.class.getName());
+        hql.append("(ac.category.name, count(ac.article)) "); /* 将结果封装成CategoryBO */
+        hql.append("from ArticleCategoryMap ac "); /* 从中间关联表中查询 */
+        hql.append("where 1=1 ");
+        hql.append("group by ac.category "); /* 按分类分组 */
+        hql.append("order by count(ac.article) desc"); /* 按使用率由高到低排序 */
+        List<CategoryBO> categories = articleCategoryMapRepository.find(hql.toString(),
+                CategoryBO.class, pageable, null);
+        long total = categoryRepository.count();
+
+        return new PageImpl<>(categories, pageable, total);
+    }
+
+    /**
+     * <pre>
+     * 根据分类名删除分类及其关联
+     * </pre>
+     *
+     * @param name
+     */
+    public void deleteByName(String name) {
+        articleCategoryMapRepository.deleteByCategoryName(name);
+        categoryRepository.deleteByName(name);
     }
 
 }

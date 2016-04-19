@@ -220,7 +220,9 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     @Bean
     @Override
     public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        return super.requestMappingHandlerMapping();
+        RequestMappingHandlerMapping mapping = super.requestMappingHandlerMapping();
+        mapping.setAlwaysUseFullPath(true);
+        return mapping;
     }
 
     @Bean

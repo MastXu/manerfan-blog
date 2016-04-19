@@ -54,4 +54,13 @@ public interface CategoryRepository extends BasicJpaRepository<CategoryEntity, S
      * @return  分类
      */
     public List<CategoryEntity> findByNameIn(Collection<String> names);
+
+    /**
+     * <pre>
+     * 根据分类名删除分类
+     * </pre>
+     *
+     * @param name 分类名
+     */
+    public void deleteByName(String name);
 }

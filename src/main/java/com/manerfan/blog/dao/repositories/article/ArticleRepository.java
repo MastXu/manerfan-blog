@@ -47,6 +47,15 @@ public interface ArticleRepository extends BasicJpaRepository<ArticleEntity, Str
 
     /**
      * <pre>
+     * 通过文章ID删除文章
+     * </pre>
+     *
+     * @param uid   文章ID
+     */
+    public void deleteByUid(String uid);
+
+    /**
+     * <pre>
      * 设置文章的状态
      * hql中，表名可使用@Entity指定的名称
      * </pre>

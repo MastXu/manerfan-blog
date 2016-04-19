@@ -12,8 +12,7 @@
 		  <i class="icon-github-circled"></i>
 		</a>
 	</div>
-	<a target="_blank" href="http://www.manerfan.com">ManerFan</a>, All Rights Reserved.
+	Powered By <a target="_blank" href="http://www.manerfan.com">ManerFan</a>, All Rights Reserved.
 	<br> 
-	Licensed under an
-	<a target="_blank" href="http://www.apache.org/licenses/LICENSE-2.0">Apache	License 2.0</a>
+	Licensed under an <a target="_blank" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>
 </footer>
