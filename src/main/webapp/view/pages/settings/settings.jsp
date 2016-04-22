@@ -15,6 +15,13 @@
         .main-content #panel-settings>div:nth-child(n+2) {display: none;}
         .panel-heading .btn, .list-group .btn {float: right; margin-right: 5px;}
         .list-nav .list-group-item {visibility:hidden;}
+        .list-group-item.list-category-item {width:220px;float:left;margin:5px;}
+        .image-breadcrumb {float:right;margin:0;padding:0;}
+        .image-manager-list .list-group-item {width:180px; height:180px;}
+        .image-manager-list .list-group-item * {text-align: center;}
+        .image-manager-list .list-group-item.dir-item a {font-size: 8em;text-decoration:none;}
+        .image-manager-list .list-group-item.dir-item span {width: 100%;display: block;margin-top: 10px;}
+        .image-manager-list .list-group-item img {max-width:100%;max-height:100%;}
         ._loading{display:none;position:absolute;top:0;width:100%;height:100%;z-index:999;background-color:#88a825;opacity:0.6;}
     </style>
 </head>
@@ -22,18 +29,20 @@
     <c:import url="../nav/header.jsp" />
     
     <div class="main-content">
-		<div class="panel panel-default col-xs-12 col-sm-4 col-md-3 col-lg-3">
-			<div class="panel-heading">设置</div>
-			<ul class="list-group list-nav">
-			    <li class="list-group-item active" data-action="account-settings"><a href="#panel-settings">用户设置</a></li>
-			    <li class="list-group-item" data-action="article-settings"><a href="#panel-settings">文章管理</a></li>
-			    <li class="list-group-item" data-action="drafts-box"><a href="#panel-settings">草稿箱</a></li>
-			    <li class="list-group-item" data-action="recycle-bin"><a href="#panel-settings">回收站</a></li>
-			    <li class="list-group-item" data-action="category-settings"><a href="#panel-settings">分类管理</a></li>
-			</ul>
+    	<div class="col-xs-12 col-sm-4 col-md-3 col-lg-3"> 
+			<div class="panel panel-default">
+				<div class="panel-heading">设置</div>
+				<ul class="list-group list-nav">
+				    <li class="list-group-item active" data-action="account-settings"><a href="#panel-settings">用户设置</a></li>
+				    <li class="list-group-item" data-action="article-settings"><a href="#panel-settings">文章管理</a></li>
+				    <li class="list-group-item" data-action="drafts-box"><a href="#panel-settings">草稿箱</a></li>
+				    <li class="list-group-item" data-action="recycle-bin"><a href="#panel-settings">回收站</a></li>
+				    <li class="list-group-item" data-action="category-settings"><a href="#panel-settings">分类管理</a></li>
+				    <li class="list-group-item" data-action="image-manager"><a href="#panel-settings">图片管理</a></li>
+				</ul>
+			</div>
 		</div>
-		<div class="hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
-		<div id="panel-settings" class="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+		<div id="panel-settings" class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
 	        <div data-action="account-settings" class="panel panel-default">
 	            <div class="panel-heading"><c:out value='${user.name}' /></div>
 	            <div class="panel-body">
@@ -132,6 +141,18 @@
 	        </div>
 	        <div data-action="category-settings" class="panel panel-default">
 	            <div class="panel-heading">分类管理</div>
+	            <div class="panel-body">
+	                <div class="list-group category-list"></div>
+	            </div>
+	        </div>
+	        <div data-action="image-manager" class="panel panel-default">
+	            <div class="panel-heading">
+	            	<span>图片管理</span>
+	            	<ol class="breadcrumb image-breadcrumb"></ol>
+	            </div>
+	            <div class="panel-body">
+	                <div class="list-group image-manager-list"></div>
+	            </div>
 	        </div>
         </div>
 	</div>

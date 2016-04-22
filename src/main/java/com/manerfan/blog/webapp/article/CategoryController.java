@@ -15,12 +15,10 @@
  */
 package com.manerfan.blog.webapp.article;
 
+import java.util.List;
 import java.util.Map;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,22 +67,19 @@ public class CategoryController extends ControllerBase {
 
     /**
      * <pre>
-     * 按照分类使用率排序，分页查询
+     * 按照分类使用率排序，查询所有分类
      * </pre>
      *
-     * @param   page    页数，从0开始
-     * @param   size    每页个数
      * @return
      */
-    @RequestMapping("/list")
+    @RequestMapping("/list/all")
     @ResponseBody
-    public Object categoryList(@RequestParam int page, @RequestParam int size) {
+    public Object categoryList() {
         Map<String, Object> data = makeAjaxData();
 
         try {
-            Page<CategoryBO> categories = categoryService.findCategoryList(page, size);
-            data.put("categories", categories.getContent());
-            data.put("totalPages", categories.getTotalPages());
+            List<CategoryBO> categories = categoryService.findCategoryListAll();
+            data.put("categories", categories);
         } catch (Exception e) {
             MLogger.ROOT_LOGGER.error("Get Categories Error", e);
             data.put(ERRMSG, "获取分类失败");
@@ -103,7 +98,7 @@ public class CategoryController extends ControllerBase {
      */
     @RequestMapping("/delete/{name}")
     @ResponseBody
-    public Object delete(@PathParam("name") String name) {
+    public Object delete(@PathVariable String name) {
         Map<String, Object> data = makeAjaxData();
 
         try {
@@ -111,6 +106,30 @@ public class CategoryController extends ControllerBase {
         } catch (Exception e) {
             MLogger.ROOT_LOGGER.error("Delete Category[{}] Error", name, e);
             data.put(ERRMSG, "删除分类失败");
+        }
+
+        return data;
+    }
+
+    /**
+     * <pre>
+     * 修改分类名
+     * </pre>
+     *
+     * @param oldName
+     * @param newName
+     * @return
+     */
+    @RequestMapping("/rename/{oldName}")
+    @ResponseBody
+    public Object update(@PathVariable String oldName, @RequestParam String newName) {
+        Map<String, Object> data = makeAjaxData();
+
+        try {
+            categoryService.updateByName(oldName, newName);
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Update Category[{}] to [{}] Error", oldName, newName);
+            data.put(ERRMSG, "修改分类失败");
         }
 
         return data;

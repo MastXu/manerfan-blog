@@ -18,6 +18,7 @@ package com.manerfan.blog.dao.repositories.article;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,4 +64,16 @@ public interface CategoryRepository extends BasicJpaRepository<CategoryEntity, S
      * @param name 分类名
      */
     public void deleteByName(String name);
+
+    /**
+     * <pre>
+     * 修改分类名
+     * </pre>
+     *
+     * @param oldName
+     * @param newName
+     */
+    @Modifying
+    @Query("update Category category set category.name = ?2 where category.name = ?1")
+    public void updateByName(String oldName, String newName);
 }

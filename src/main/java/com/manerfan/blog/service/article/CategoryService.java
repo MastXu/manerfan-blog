@@ -15,18 +15,19 @@
  */
 package com.manerfan.blog.service.article;
 
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.manerfan.blog.dao.entities.article.CategoryBO;
+import com.manerfan.blog.dao.entities.article.CategoryEntity;
 import com.manerfan.blog.dao.repositories.article.ArticleCategoryMapRepository;
 import com.manerfan.blog.dao.repositories.article.CategoryRepository;
 
@@ -75,20 +76,35 @@ public class CategoryService {
      * @param pageSize
      * @return
      */
-    public Page<CategoryBO> findCategoryList(int pageNum, int pageSize) {
-        Pageable pageable = new QPageRequest(pageNum, pageSize);
+    public List<CategoryBO> findCategoryListAll() {
+        /* 查询使用中的分类名及使用的数量 */
         StringBuilder hql = new StringBuilder();
         hql.append("select new ").append(CategoryBO.class.getName());
-        hql.append("(ac.category.name, count(ac.article)) "); /* 将结果封装成CategoryBO */
-        hql.append("from ArticleCategoryMap ac "); /* 从中间关联表中查询 */
-        hql.append("where 1=1 ");
-        hql.append("group by ac.category "); /* 按分类分组 */
-        hql.append("order by count(ac.article) desc"); /* 按使用率由高到低排序 */
+        hql.append("(acm.category.name, count(acm.article)) "); /* 将结果封装成CategoryBO */
+        hql.append("from ArticleCategoryMap acm "); /* 从中间关联表中查询 */
+        hql.append("where 1 = 1 ");
+        hql.append("group by acm.category "); /* 按分类分组 */
+        hql.append("order by count(acm.article) desc"); /* 按使用率由高到低排序 */
         List<CategoryBO> categories = articleCategoryMapRepository.find(hql.toString(),
-                CategoryBO.class, pageable, null);
-        long total = categoryRepository.count();
+                CategoryBO.class, null);
 
-        return new PageImpl<>(categories, pageable, total);
+        /* 统计已使用的分类名 */
+        Set<String> names = new HashSet<>();
+        categories.forEach(category -> names.add(category.getName()));
+
+        /* 查询所有的分类 */
+        List<CategoryEntity> entities = categoryRepository.findAll();
+        /* 统计未使用的分类 */
+        List<CategoryBO> additions = new LinkedList<>();
+        entities.forEach(entity -> {
+            if (!names.contains(entity.getName())) {
+                additions.add(new CategoryBO(entity.getName(), 0));
+            }
+        });
+
+        /* 将使用中的及未使用的并到一起 */
+        categories.addAll(additions);
+        return categories;
     }
 
     /**
@@ -101,6 +117,18 @@ public class CategoryService {
     public void deleteByName(String name) {
         articleCategoryMapRepository.deleteByCategoryName(name);
         categoryRepository.deleteByName(name);
+    }
+
+    /**
+     * <pre>
+     * 修改分类名
+     * </pre>
+     *
+     * @param oldName
+     * @param newName
+     */
+    public void updateByName(String oldName, String newName) {
+        categoryRepository.updateByName(oldName, newName);
     }
 
 }

@@ -6559,102 +6559,23 @@ footer h6 {
     padding: 30px 150px 20px;
   }
 }
-.main-content .col-xs-1,
-.main-content .col-sm-1,
-.main-content .col-md-1,
-.main-content .col-lg-1 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
+/**
+.col-loop(@counter) when (@counter > 0) {
+  .col-loop((@counter - 1)); // 递归调用自身
+
+  // 每次调用时产生的样式代码
+  .col-xs-@{counter}, .col-sm-@{counter}, .col-md-@{counter}, .col-lg-@{counter} {
+    position: static;
+    min-height: 1px;
+    padding: 0;
+  }
 }
-.main-content .col-xs-2,
-.main-content .col-sm-2,
-.main-content .col-md-2,
-.main-content .col-lg-2 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
+
+
+.main-content {
+  .col-loop(12)
 }
-.main-content .col-xs-3,
-.main-content .col-sm-3,
-.main-content .col-md-3,
-.main-content .col-lg-3 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
-}
-.main-content .col-xs-4,
-.main-content .col-sm-4,
-.main-content .col-md-4,
-.main-content .col-lg-4 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
-}
-.main-content .col-xs-5,
-.main-content .col-sm-5,
-.main-content .col-md-5,
-.main-content .col-lg-5 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
-}
-.main-content .col-xs-6,
-.main-content .col-sm-6,
-.main-content .col-md-6,
-.main-content .col-lg-6 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
-}
-.main-content .col-xs-7,
-.main-content .col-sm-7,
-.main-content .col-md-7,
-.main-content .col-lg-7 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
-}
-.main-content .col-xs-8,
-.main-content .col-sm-8,
-.main-content .col-md-8,
-.main-content .col-lg-8 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
-}
-.main-content .col-xs-9,
-.main-content .col-sm-9,
-.main-content .col-md-9,
-.main-content .col-lg-9 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
-}
-.main-content .col-xs-10,
-.main-content .col-sm-10,
-.main-content .col-md-10,
-.main-content .col-lg-10 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
-}
-.main-content .col-xs-11,
-.main-content .col-sm-11,
-.main-content .col-md-11,
-.main-content .col-lg-11 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
-}
-.main-content .col-xs-12,
-.main-content .col-sm-12,
-.main-content .col-md-12,
-.main-content .col-lg-12 {
-  position: static;
-  min-height: 1px;
-  padding: 0;
-}
+*/
 /********************
  * list-group in panel
  ********************/

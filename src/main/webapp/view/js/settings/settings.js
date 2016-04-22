@@ -23,9 +23,10 @@ require([
     "bootstrap",
     "js/settings/accountSetting",
     "js/settings/articleSetting",
-    "js/settings/categorySetting",
     "js/settings/draftsBox",
-    "js/settings/recycleBin"
+    "js/settings/recycleBin",
+    "js/settings/categorySetting",
+    "js/settings/imageManager"
 ], function ($) {
     $(".list-nav .list-group-item").click(function () {
         $(".list-group-item").removeClass("active");
