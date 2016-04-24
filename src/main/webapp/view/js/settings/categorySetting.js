@@ -90,8 +90,16 @@ require([
         var oldName = $category_tag.data("name");
 
         bootbox.prompt("重命名分类", function (newName) {
+            newName = $.trim(newName);
+
             if (oldName == newName) {
                 // 没有修改
+                return;
+            }
+
+            if (newName.length < 1) {
+                // 不能为空
+                // jBoxUtil.noticeWarning({content: "分类名不能为空"});
                 return;
             }
 

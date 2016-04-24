@@ -15,13 +15,15 @@
         .main-content #panel-settings>div:nth-child(n+2) {display: none;}
         .panel-heading .btn, .list-group .btn {float: right; margin-right: 5px;}
         .list-nav .list-group-item {visibility:hidden;}
-        .list-group-item.list-category-item {width:220px;float:left;margin:5px;}
+        .list-group-item.list-category-item {width:250px;float:left;margin:5px;}
         .image-breadcrumb {float:right;margin:0;padding:0;}
-        .image-manager-list .list-group-item {width:180px; height:180px;}
+        .image-manager-list .list-group-item {width:180px; height:180px; float:left; margin:5px;}
         .image-manager-list .list-group-item * {text-align: center;}
         .image-manager-list .list-group-item.dir-item a {font-size: 8em;text-decoration:none;}
         .image-manager-list .list-group-item.dir-item span {width: 100%;display: block;margin-top: 10px;}
-        .image-manager-list .list-group-item img {max-width:100%;max-height:100%;}
+        .image-manager-list .list-group-item.img-item img {max-width:150px;max-height:120px;display:block;margin:auto;cursor: pointer;}
+        .image-manager-list .list-group-item.img-item pre {width: 100%;display: block;margin-bottom: 3px;padding: 0;}
+        .img-dialog img {display:block;margin:auto;max-width:100%;}
         ._loading{display:none;position:absolute;top:0;width:100%;height:100%;z-index:999;background-color:#88a825;opacity:0.6;}
     </style>
 </head>
@@ -156,7 +158,21 @@
 	        </div>
         </div>
 	</div>
-	
+
+	<div class="modal fade img-dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body"><img></div>
+			</div>
+		</div>
+	</div>
+
 	<div class="hidden-print _loading">
 	    <c:import url="../common/loading.jsp" />
     </div>

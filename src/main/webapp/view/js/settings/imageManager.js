@@ -32,6 +32,15 @@ require([
         "<span><%= pathName %></span>" +
         "</article>";
 
+    var imgTemplate = "<article class='list-group-item img-item' data-name='<%= imgName %>'>" +
+        "<img src='<%= imgSrc %>' alt='<%= imgName %>' class='img-thumbnail'>" +
+        "<pre><%= imgName %></pre>" +
+        "<div>" +
+        "<a type='button' href='<%= imgDld %>' class='btn btn-primary btn-xs btn-img-download' style='float:left;'><i class='glyphicon glyphicon-download-alt'></i>下载</a>" +
+        "<button data-name='<%= imgName %>' type='button' class='btn btn-danger btn-xs btn-img-delete'><i class='glyphicon glyphicon-trash'></i>删除</button>" +
+        "</div>" +
+        "</article>";
+
     /**
      * 恢复数据
      */
@@ -49,6 +58,51 @@ require([
         e.stopPropagation();
         e.preventDefault();
         findImageList($(this).data("path"));
+    });
+
+    /**
+     * 点击图片
+     */
+    $(document).on("click", ".img-item img", function () {
+        $(".img-dialog .modal-title").text($(this).attr("src"));
+        $(".img-dialog .modal-body img").attr("src", $(this).attr("src"));
+        $(".img-dialog").modal();
+    });
+
+    /**
+     * 删除图片
+     */
+    $(document).on("click", ".img-item .btn-img-delete", function () {
+        var name = $(this).data("name");
+        bootbox.confirm("此操作将永久删除该图片", function (result) {
+            if (!!result) {
+                $.ajax({
+                    url: "/article/image/delete/" + name,
+                    async: true,
+                    type: 'post',
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data, textStatus, XMLHttpRequest) {
+                        if (null != data.errmsg) {
+                            // 出现错误
+                            jBoxUtil.noticeError({content: data.errmsg});
+                            return;
+                        }
+
+                        var $imgTag = $(".img-item[data-name='" + name + "']");
+                        $imgTag.fadeOut(function () {
+                            $imgTag.remove();
+                        });
+                    },
+                    error: function () {
+                        jBoxUtil.noticeError({content: "未知错误"});
+                    },
+                    complete: function () {
+                        $("._loading").hide();
+                    }
+                });
+            }
+        });
     });
 
     /**
@@ -83,7 +137,14 @@ require([
                 }
                 if (!!data.imgs) {
                     /* 图片 */
-
+                    _.each(data.imgs, function (img) {
+                        var name = img.replace(/\.(jp(e)?g|png|gif)/, "");
+                        html.push(_.template(imgTemplate)({
+                            imgSrc: "/article/image/inline/" + name,
+                            imgDld: "/article/image/attachment/" + name,
+                            imgName: name
+                        }));
+                    });
                 }
 
                 $(".image-manager-list").empty().append(html.join(""));

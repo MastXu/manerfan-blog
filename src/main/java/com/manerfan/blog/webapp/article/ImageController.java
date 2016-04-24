@@ -104,6 +104,7 @@ public class ImageController extends ControllerBase {
      * @return
      */
     @RequestMapping("/delete/{name}")
+    @ResponseBody
     public Object delete(@PathVariable String name) {
         Map<String, Object> data = makeAjaxData();
         imageService.delete(name);
