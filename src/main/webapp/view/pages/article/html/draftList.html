@@ -1,0 +1,10 @@
+<article class="list-group-item" data-uid="<%= articleUid %>">
+	<h4 class="text-warning"><%= articleTitle %></h4>
+ 	<section class="text-overflow"><%= articleSummary %></section>
+ 	<div>
+ 		<span class='label label-primary'><i class="icon-calendar"><%= articleCreateTime %></i></span>
+		<span class='label label-primary'><i class="icon-calendar-empty"><%= articleLastModTime %></i></span>
+  		<button data-uid="<%= articleUid %>" type="button" class="btn btn-danger btn-xs btn-drafts-article-recycle"><i class="glyphicon glyphicon-trash"></i>删除</button>
+		<a href="/editor/<%= articleUid %>" type="button" class="btn btn-primary btn-xs btn-article-edit"><i class="glyphicon glyphicon-edit"></i>编辑</a>
+	</div>	
+</article>

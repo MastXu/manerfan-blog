@@ -11,7 +11,7 @@
 	.github.dropdown-menu {width:220px !important;}
 </style>
 
-<nav id="header" class="not-print navbar navbar-default" style="position: <c:out value='${position}' default='relative' />;">
+<nav id="header" class="hidden-print navbar navbar-default" style="position: <c:out value='${position}' default='relative' />;">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-collapse" aria-expanded="false">
@@ -24,50 +24,10 @@
 		</div>
 		<div class="collapse navbar-collapse" id="header-collapse">
 			<ul class="nav navbar-nav">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">
-						<i class="icon-github-circled"></i>GitHub<span class="caret"></span>
-					</a>
-					<ul class="github dropdown-menu">
-						<li><a target="_blank" href="https://github.com/ManerFan/manerfan-blog">MBLOG</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a target="_blank" href="https://github.com/ManerFan/manerfan-common-utils">MANERFAN-COMMON-UTILS</a></li>
-						<li role="separator" class="divider"></li>
-						<li><a target="_blank" href="https://github.com/ManerFan/manerfan-maven-pom">MANERFAN-MAVEN-POM</a></li>
-					</ul>
-				</li>
+				<li><a target="_blank" href="https://github.com/ManerFan/manerfan-blog"><i class="icon-github-circled"></i>GitHub</a></li>
 			</ul>
 			<ul class="nav navbar-nav">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">
-						Travis-CI<span class="caret"></span>
-					</a>
-					<ul class="travis-ci dropdown-menu">
-						<li><a target="_blank" href="https://travis-ci.org/ManerFan/manerfan-blog">MBLOG-DEV <img src="https://travis-ci.org/ManerFan/manerfan-blog.svg?branch=dev"/></a></li>
-						<li><a target="_blank" href="https://travis-ci.org/ManerFan/manerfan-blog">MBLOG-MASTER <img src="https://travis-ci.org/ManerFan/manerfan-blog.svg?branch=master"/></a></li>
-						<li role="separator" class="divider"></li>
-						<li><a target="_blank" href="https://travis-ci.org/ManerFan/manerfan-common-utils">MANERFAN-COMMON-UTILS <img src="https://travis-ci.org/ManerFan/manerfan-common-utils.svg?branch=master"/></a></li>
-						<li role="separator" class="divider"></li>
-						<li><a target="_blank" href="https://travis-ci.org/ManerFan/manerfan-maven-pom">MANERFAN-MAVEN-POM <img src="https://travis-ci.org/ManerFan/manerfan-maven-pom.svg?branch=master"/></a></li>
-					</ul>
-				</li>
-			</ul>
-			<ul class="nav navbar-nav">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">
-						关于<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="#">关于我</a></li>
-						<li><a href="#">关于博客</a></li>
-					</ul>
-				</li>
+				<li><a href="#"><i class="icon-user-md"></i>关于作者</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="hasRole('ROLE_ANONYMOUS')">

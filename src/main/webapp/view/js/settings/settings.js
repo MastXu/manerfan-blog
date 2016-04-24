@@ -19,19 +19,17 @@
  * Created by ManerFan on 2016/1/29.
  */
 require([
-        "jquery",
-        "underscore",
-        "commonutils",
-        "md5",
-        "bootstrap"
-    ],
-    function ($, _, commonutils) {
-        $(".list-group-item").click(function () {
-            $(".list-group-item").removeClass("active");
-            $(this).addClass("active");
-
-            $("#panel-settings").children("div").hide();
-            $("div[data-action='" + $(this).attr("data-action") + "']").show();
-        });
-    }
-);
+    "jquery",
+    "bootstrap",
+    "js/settings/accountSetting",
+    "js/settings/articleSetting",
+    "js/settings/draftsBox",
+    "js/settings/recycleBin",
+    "js/settings/categorySetting",
+    "js/settings/imageManager"
+], function ($) {
+    $(".list-nav .list-group-item").click(function () {
+        $(".list-group-item").removeClass("active");
+        $(this).addClass("active");
+    });
+});

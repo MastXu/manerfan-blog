@@ -5,7 +5,7 @@ var version = document.getElementById('mainscript').getAttribute('data-version')
 
 requirejs.config({
 
-    baseUrl: "view",
+    baseUrl: "/view",
 
     /**
      * The number of seconds to wait before giving up on loading a script.
@@ -106,7 +106,11 @@ requirejs.config({
         'jquery.ui.widget': 'plugins/blueimp-file-upload/js/vendor/jquery.ui.widget',
         'jBoxUtil': 'js/utils/jBoxUtil',
         d3cloud: 'plugins/d3-cloud/build/d3.layout.cloud',
-        'js-base64': 'plugins/js-base64/base64.min'
+        'js-base64': 'plugins/js-base64/base64.min',
+        'tagsinput': 'plugins/flatui/js/jquery.tagsinput',
+        'FSS': 'js/utils/FSS',
+        'pagination': 'plugins/jqPagination/js/jquery.jqpagination.min',
+        'bootbox': 'plugins/bootbox.js/bootbox'
     },
 
     /**
@@ -221,6 +225,19 @@ requirejs.config({
             'jquery',
             'jquery.ui.widget',
             'plugins/blueimp-file-upload/js/jquery.iframe-transport'
+        ],
+        tagsinput: [
+            'jquery',
+            'bootstrap'
+        ],
+        FFS: [
+            'jquery'
+        ],
+        'pagination': [
+            'jquery'
+        ],
+        'bootbox': [
+            'bootstrap'
         ]
     }
 });

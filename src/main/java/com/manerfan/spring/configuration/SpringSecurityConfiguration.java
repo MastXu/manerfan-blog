@@ -27,6 +27,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -66,7 +68,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/*.*", "/init/**", "/view/**", "/image/view/**", "/tags/**");
+        web.ignoring().antMatchers("/*.*", "/init/**", "/view/**", "/article/image/inline/**",
+                "/article/list", "/category/hots/*", "/tags/**");
     }
 
     /**
@@ -113,12 +116,18 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /* 启用匿名用户 */
-        http.anonymous().key("doesNotMatter").principal("anonymous").authorities("ROLE_ANONYMOUS");
+        http.anonymous().key("doesNotMatter")
+                .principal(new User("anonymous", "anonymous",
+                        AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")))
+                .authorities("ROLE_ANONYMOUS");
 
         http.authorizeRequests().expressionHandler(webSecurityExpressionHandler())
-                .antMatchers("/", "/login/**", "/editor").permitAll()/* 任意用户可访问的 */
+                /* 任意用户可访问的 */
+                .antMatchers("/", "/login", "/editor", "/editor/fileImport").permitAll()
                 /* 只有admin可访问的 */
-                .antMatchers("/**").hasAnyRole("ADMIN", "USER")/* 登陆后可访问的 [spring会自动添加ROLE_前缀] */
+                /*.antMatchers("/**").hasAnyRole("ADMIN")*/
+                /* 登陆后可访问的 */
+                .antMatchers("/**").hasAnyRole("ADMIN", "USER")/* [spring会自动添加ROLE_前缀] */
                 .and().httpBasic()
                 .authenticationEntryPoint(authenticationEntryPoint())/* 指定EntryPoint */
                 .and().exceptionHandling().accessDeniedPage("/login");

@@ -15,22 +15,25 @@
  */
 package com.manerfan.blog.dao.entities.article;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.manerfan.common.utils.dao.entities.CommonEntity;
 
 /**
  * <pre>文章-分类 映射</pre>
  *
  * @author ManerFan 2016年2月24日
  */
-@Entity(name = "article_category_map")
-public class ArticleCategoryMap implements Serializable {
+@Entity(name = "ArticleCategoryMap")
+@Table(name = "article_category_map")
+/* 双主键必须设置复合主键 */
+/* 复合主键不一定是自身，复合主键中需要且仅需要包含所有主键字段 */
+public class ArticleCategoryMap extends CommonEntity {
 
     /**
      * UID
@@ -40,18 +43,24 @@ public class ArticleCategoryMap implements Serializable {
     /**
      * 分类
      */
-    @Id
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "category", nullable = false)
+    @JoinColumn(name = "category", /*referencedColumnName = "name",*/ nullable = false)
     private CategoryEntity category;
 
     /**
      * 文章
      */
-    @Id
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "article", nullable = false)
+    @JoinColumn(name = "article", /*referencedColumnName = "uid",*/ nullable = false)
     private ArticleEntity article;
+
+    public ArticleCategoryMap() {
+    }
+
+    public ArticleCategoryMap(CategoryEntity category, ArticleEntity article) {
+        this.category = category;
+        this.article = article;
+    }
 
     public CategoryEntity getCategory() {
         return category;

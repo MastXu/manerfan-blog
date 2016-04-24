@@ -133,6 +133,19 @@ define([
         else if (markdownExtra.config.highlighter == "prettify") {
             editor.hooks.chain("onPreviewRefresh", prettify.prettyPrint);
         }
+
+        /**
+         * 复选框
+         * - [×]
+         * - [√]
+         *
+         */
+        editor.getConverter().hooks.chain("preBlockGamut", function (text) {
+            text = text.replace(/(- \[×\])/g,'<i class="icon-check-empty"></i>');
+            text = text.replace(/(- \[√\])/g,'<i class="icon-check"></i>');
+            return text;
+        });
+
         Markdown.Extra.init(converter, extraOptions);
     };
 

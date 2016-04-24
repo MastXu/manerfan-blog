@@ -16,15 +16,9 @@
     <style>
         h1 {margin: 1em 0 !important;}
         div, span, pre,
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, tahoma, arial, simsun, 宋体;
-        }
-        div, span, 
-        h1, h2, h3, h4, h5, h6 {
-            text-align: center !important;
-            color: #999 !important;
-        }
-        .body {display: none;position: absolute !important;width: 450px !important;top: 50% !important;left: 50% !important;margin-top: -235px;margin-left: -230px;}
+        h1, h2, h3, h4, h5, h6 {font-family: 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, tahoma, arial, simsun, 宋体;}
+        div, span, h1, h2, h3, h4, h5, h6 {text-align: center !important;color: #404040 !important;}
+        .body {position: absolute !important;width: 450px !important;top: 50% !important;left: 50% !important;margin-top: -235px;margin-left: -230px;}
         .panel {padding: 5px 20px !important;}
         .glyphicon-cloud {top: 10px !important;}
         form div {position: relative !important;height: 42px !important;margin: 5px 0 !important;}
@@ -33,11 +27,16 @@
         button[type=submit] {margin-top: 10px;}
 		.msg-danger {background-color: rgba(232, 76, 61, 0.5) !important;}
 		.msg-info {background-color: rgba(217, 237, 247, 0.5) !important;}
+		
+		footer {background-color: transparent;border: none;}
+	    footer * {color:#3f3f3f;}
     </style>
 </head>
-<body class="not-print">
+<body class="hidden-print">
     <c:set var="position" value="fixed" scope="request"></c:set>
     <c:import url="nav/header.jsp" />
+    
+    <c:import url="common/bgfss.jsp" />
     
     <div class="body">
 	    <h1><span class="icon-cloud"></span> 登陆</h1>
@@ -62,7 +61,7 @@
                         <input type='hidden' id='modulus' value='<c:out value="${modulus}" />'>
                     </div>
 	                <%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
-	                <button type="submit" class="btn btn-primary btn-lg btn-block">登陆</button>
+	                <button type="submit" class="btn btn-primary btn-lg btn-block"  data-loading-text="呼叫中<i class='icon-spinner'></i>">登陆</button>
 	                <h6 style="margin-bottom: 0; color: #d82a1a !important;">暂不开放注册</h6>
 		        </form>
 			</div>

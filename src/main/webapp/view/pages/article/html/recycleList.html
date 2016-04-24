@@ -1,0 +1,10 @@
+<article class="list-group-item" data-uid="<%= articleUid %>">
+	<h4 class="text-danger"><%= articleTitle %></h4>
+ 	<section class="text-overflow"><%= articleSummary %></section>
+ 	<div>
+ 		<span class='label label-primary'><i class="icon-calendar"><%= articleCreateTime %></i></span>
+		<span class='label label-primary'><i class="icon-calendar-empty"><%= articleLastModTime %></i></span>
+  		<button data-uid="<%= articleUid %>" type="button" class="btn btn-danger btn-xs btn-article-delete"><i class="glyphicon glyphicon-trash"></i>彻底删除</button>
+		<button data-uid="<%= articleUid %>" type="button" class="btn btn-primary btn-xs btn-article-recovery"><i class="glyphicon glyphicon-share"></i>恢复到草稿箱</button>
+	</div>	
+</article>

@@ -18,19 +18,22 @@ package com.manerfan.blog.webapp;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.manerfan.blog.dao.entities.UserEntity;
+import com.manerfan.blog.dao.repositories.UserRepository;
+import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.service.RSAService;
-import com.manerfan.blog.service.UserService;
 
 /**
  * <pre>登陆</pre>
@@ -45,7 +48,10 @@ public class LoginController extends ControllerBase {
     public static final String ERR_MSG = "ERR_MSG";
 
     @Autowired
-    private UserService userService;
+    private UserInfoInterceptorHandler userInfo;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private RSAService rsaService;
@@ -55,13 +61,14 @@ public class LoginController extends ControllerBase {
         ModelAndView mv = new ModelAndView("login");
         HttpSession session = request.getSession(true);
 
-        if (ObjectUtils.isEmpty(userService.findAdmins())) {
+        Long adminNum = userRepository.countByRoleContaining(UserEntity.ROLE_ADMIN);
+        if (null == adminNum || adminNum.longValue() < 1) {
             // 还没有管理员用户，重定向到初始化
             mv.setViewName("redirect:/init");
             return mv;
         }
 
-        if (!isAnonymous()) {
+        if (!userInfo.isAnonymous()) {
             // 已经登录
             mv.setViewName("redirect:/");
             return mv;
@@ -94,5 +101,35 @@ public class LoginController extends ControllerBase {
         }
 
         return mv;
+    }
+
+    /**
+     * <pre>
+     * 获取公钥
+     * </pre>
+     *
+     * @return
+     */
+    @RequestMapping("/publickey")
+    @ResponseBody
+    public Object publicKey(HttpServletRequest request) {
+        Map<String, Object> data = makeAjaxData();
+
+        // 获取rsa密钥
+        KeyPair keyPair = rsaService.getKeyPair();
+        if (null != keyPair) {
+            // 将rsa公钥传给页面
+            RSAPublicKey pk = (RSAPublicKey) keyPair.getPublic();
+            data.put("exponent", pk.getPublicExponent().toString(16));
+            data.put("modulus", pk.getModulus().toString(16));
+
+            // 将rsa私钥放入缓存
+            String id = request.getSession(true).getId();
+            rsaService.putPrivateKey(id, (RSAPrivateKey) keyPair.getPrivate());
+        } else {
+            data.put(ERRMSG, "生成公钥失败");
+        }
+
+        return data;
     }
 }

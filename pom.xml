@@ -37,6 +37,12 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
 		<dependency><!-- jetty -->
 			<groupId>org.eclipse.jetty.aggregate</groupId>
 			<artifactId>jetty-all</artifactId>
@@ -230,6 +236,12 @@
 		<dependency><!-- 压缩 -->
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-compress</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.manerfan.common.utils</groupId>
+    		<artifactId>manerfan-common-utils-http</artifactId>
+    		<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 

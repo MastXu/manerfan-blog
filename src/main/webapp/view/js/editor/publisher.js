@@ -10,7 +10,6 @@ define([
     "js/editor/fileMgr",
     "js/editor/classes/Provider",
     "js/editor/classes/AsyncTask",
-    "js/editor/providers/downloadProvider",
     "js/editor/providers/githubProvider",
 ], function ($, _, constants, utils, storage, settings, eventMgr, fileSystem, fileMgr, Provider, AsyncTask) {
 
@@ -205,6 +204,7 @@ define([
         utils.setInputValue('#textarea-publish-custom-template', settings.template);
 
         // Load preferences
+        // 偏好设置
         var publishPreferences = utils.retrieveIgnoreError(provider.providerId + ".publishPreferences");
         if (publishPreferences) {
             _.each(provider.publishPreferencesInputIds, function (inputId) {
@@ -245,6 +245,7 @@ define([
             }
         });
 
+        // 保存偏好设置
         // Store input values as preferences for next time we open the publish
         // dialog
         var publishPreferences = {};
@@ -294,6 +295,9 @@ define([
             });
         }
 
+        /**
+         * 点击发布时触发
+         */
         $(".action-process-publish").click(performNewLocation);
 
         var $customTmplCollapseElt = $('.publish-custom-template-collapse').collapse({

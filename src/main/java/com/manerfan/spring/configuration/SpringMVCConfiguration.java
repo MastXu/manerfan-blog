@@ -43,6 +43,7 @@ import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.interceptor.VersionInterceptorHandler;
 
 /**
@@ -104,11 +105,14 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         int cachePeriod = 31556926; /* 1年 */
         registry.addResourceHandler("/tags/**").addResourceLocations("/tags/")
-                .setCachePeriod(cachePeriod);
+                .setCachePeriod(cachePeriod).resourceChain(false)
+                .addTransformer(cachingResourceTrasnformer())
+                .addResolver(cachingResourceResolver());
         registry.addResourceHandler("/view/**").addResourceLocations("/view/")
                 .setCachePeriod(cachePeriod).resourceChain(false)
-                .addTransformer(cachingResourceTrasnformer()).addResolver(cachingResourceResolver())
-                .addResolver(gzipResourceResolver());
+                .addTransformer(cachingResourceTrasnformer())
+                .addResolver(cachingResourceResolver());
+        /*.addResolver(gzipResourceResolver())*/
         registry.addResourceHandler("/*.*").addResourceLocations("/").setCachePeriod(cachePeriod);
     }
 
@@ -216,7 +220,9 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     @Bean
     @Override
     public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-        return super.requestMappingHandlerMapping();
+        RequestMappingHandlerMapping mapping = super.requestMappingHandlerMapping();
+        mapping.setAlwaysUseFullPath(true);
+        return mapping;
     }
 
     @Bean
@@ -237,6 +243,9 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     protected void addInterceptors(InterceptorRegistry registry) {
         /* 版本管理拦截器 */
         registry.addInterceptor(beanFactory.getBean(VersionInterceptorHandler.class));
+
+        /* 用户信息拦截器 */
+        registry.addInterceptor(beanFactory.getBean(UserInfoInterceptorHandler.class));
     }
 
     /**

@@ -11,12 +11,15 @@
 	.navbar-title ul {width:100%;height:100%;padding:4px 30px;position:relative;}
 	.navbar-title ul li {float:left;}
 	.navbar-title .title-inner {position:absolute;width:100%;padding-right:160px;}
+	.tagsinput-add {display:none;}
+	.tagsinput-add-container input {min-width: 60px;}
+	.catalog {cursor:pointer;margin-right: 5px;}
 </style>
 
-<div class="not-print navbar-title navbar-inner">
+<div class="hidden-print navbar-title navbar-inner">
 	<ul class="nav pull-right title-container">
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
-			<li style="float:right;"><button type="button" class="btn btn-danger" style="margin-top:1px;">发表博客</button></li>
+			<li style="float:right;"><button type="button" class="btn btn-danger btn-blog-publish" style="margin-top:1px;">发表博客</button></li>
 		</sec:authorize>
 		<li>
 			<a class="btn btn-success file-title-navbar" href="#" title="Rename document"></a>
@@ -58,14 +61,20 @@
 				</ul>
 				<ul class="nav left-buttons">
 					<li class="wmd-button-group5 btn-group">
-						<a class="btn btn-success btn-blog-save" title="保存到草稿箱  Ctrl/Cmd+S">
-							<i class="csdn-icon-disk"></i>
+						<a class="btn btn-success action-create-file" title="新文章">
+							<i class="csdn-icon-pencil"></i>
 						</a>
-						<a class="btn btn-success btn-blog-setting" title="文章设置">
-							<i class="csdn-icon-doc-setting"></i>
-						</a>
+						<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
+							<a class="btn btn-success btn-blog-save" title="保存到草稿箱  Ctrl/Cmd+S">
+								<i class="csdn-icon-disk"></i>
+							</a>
+							<a class="btn btn-success btn-blog-setting" title="文章设置">
+								<i class="csdn-icon-doc-setting"></i>
+							</a>
+						</sec:authorize>
 					</li>
 				</ul>
+				
 				<ul class="nav left-buttons">
 					<li class="wmd-button-group6 btn-group">
 						<a class="btn btn-success btn-import-online" data-toggle="modal" data-target=".modal-import-url" title="线上导入">
@@ -122,9 +131,8 @@
 	<div id="wmd-button-bar" class="hide"></div>
 
 	<div class="menu-panel">
-		<button class="btn toggle-button" title="Menu">
-			<img
-				data-stackedit-src="menu-icon.png" width="24" height="24" />
+		<button class="btn toggle-button hidden" title="Menu">
+			<img src="<c:url value='/view/images/editor/menu-icon.png'/>" width="24" height="24" />
 		</button>
 		<div class="panel-content">
 			<div class="list-group">
@@ -469,6 +477,41 @@
 				<a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
 				<a href="#" data-dismiss="modal"
 					class="btn btn-primary action-process-publish">OK</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 文章设置 -->
+<div class="modal fade modal-blog-setting">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title">
+					文章设置
+				</h2>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>摘要</label>
+					<textarea class="form-control blog-summary" rows="10" maxlength="210"></textarea>
+				</div>
+				<div class="form-group">
+					<label>分类</label>
+					<div class="form-group rec-categories">
+						<span class="label label-info">常用分类:</span>
+						<span class="catalog-group">
+							<span class="label label-warning catalog" data-name="java">java</span>
+							<span class="label label-warning catalog" data-name="spring">spring</span>
+						</span>
+					</div>
+					<input name="tagsinput" class="tagsinput form-control blog-categories" maxlength="16"/>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+				<a href="#" class="btn btn-primary action-blog-setting">OK</a>
 			</div>
 		</div>
 	</div>
@@ -869,6 +912,20 @@
 				<a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
 				<a href="#" class="btn btn-primary action-import-docs-settings-confirm"
 					data-dismiss="modal">OK</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade modal-publish-success" data-keyboard="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">文章发表成功</h2>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn btn-warning action-view-file" >查看文章</a>
+				<a href="#" class="btn btn-primary action-create-file" data-dismiss="modal">再写一篇</a>
 			</div>
 		</div>
 	</div>

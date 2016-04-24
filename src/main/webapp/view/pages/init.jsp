@@ -15,8 +15,8 @@
     <style>
         h1 {margin: 1em 0 !important;}
         div, span, h1, h2, h3, h4, h5, h6, pre {font-family: 'Hiragino Sans GB', 'Microsoft YaHei', 微软雅黑, tahoma, arial, simsun, 宋体;}
-		div, span, h1, h2, h3, h4, h5, h6 {text-align: center !important;color: #999 !important;}
-		.body {display: none;position: absolute !important;width: 450px !important;top: 50% !important;left: 50% !important;margin-top: -250px;margin-left: -230px;}
+		div, span, h1, h2, h3, h4, h5, h6 {text-align: center !important;color: #404040 !important;}
+		.body {position: absolute !important;width: 450px !important;top: 50% !important;left: 50% !important;margin-top: -250px;margin-left: -230px;}
         .panel {padding: 5px 20px !important;}
         .glyphicon-cloud {top: 10px !important;}
         form div {position: relative !important;height: 42px !important;margin: 5px 0 !important;}
@@ -24,11 +24,16 @@
         form .glyphicon {position: absolute !important;z-index: 99 !important;left: 10px !important;font-size: 20px !important;top: 10px !important;}
         button[type=submit] {margin-top: 10px;}
         .msg-danger {background-color: rgba(232, 76, 61, 0.5) !important;}
+        
+        footer {background-color: transparent;border: none;}
+	    footer * {color:#3f3f3f;}
     </style>
 </head>
-<body class="not-print">
+<body class="hidden-print">
     <c:set var="position" value="fixed" scope="request"></c:set>
     <c:import url="nav/header.jsp" />
+    
+    <c:import url="common/bgfss.jsp" />
     
     <div class="body">
 	    <h1><span class="glyphicon glyphicon-dashboard"></span> 初始化</h1>
@@ -59,7 +64,7 @@
                         <span class="glyphicon glyphicon-envelope"></span>
                         <input class="form-control" type='text' name='email' placeholder="邮箱(可选)">
                     </div>
-	                <button type="submit" class="btn btn-primary btn-lg btn-block">初始化</button>
+	                <button type="submit" class="btn btn-primary btn-lg btn-block" data-loading-text="稍安勿躁<i class='icon-spinner'></i>">初始化</button>
 		        </form>
 			</div>
 		</div>

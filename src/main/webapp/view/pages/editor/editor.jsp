@@ -36,16 +36,22 @@
         
         <style>
         	._loading{position:absolute;top:0;width:100%;height:100%;z-index:999;background-color:#88a825}
+        	._loading_opacity{opacity:0.6;}
         </style>
     </head>
 
     <body>
         <c:set var="position" value="relative" scope="request"></c:set>
         <c:import url="../nav/header.jsp" />
-        <div class="not-print _loading">
+        <div class="hidden-print _loading">
 	        <c:import url="../common/loading.jsp" />
         </div>
+        <input type="hidden" name="fileId" value="<c:out value='${fileId}'/>">
         <c:import url="bodyEditor.jsp" />
+        
+        <sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
+			<script>var hasLogin = true;</script>
+		</sec:authorize>
     </body>
 
 </html>

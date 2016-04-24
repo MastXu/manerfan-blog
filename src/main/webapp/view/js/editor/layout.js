@@ -644,8 +644,6 @@ define([
         document.head.appendChild(style);
 
         resizeAll();
-
-        $("._loading").fadeOut("slow");
     };
 
     eventMgr.addListener('onReady', function () {
@@ -723,6 +721,11 @@ define([
         else {
             previewButtons.adjustPosition();
         }
+    });
+
+    eventMgr.addListener("onPreviewFinished", function () {
+        // 页面加载完成后，隐藏加载遮罩
+        $("._loading").fadeOut("slow").addClass("_loading_opacity");
     });
 
     eventMgr.onLayoutCreated(layout);
