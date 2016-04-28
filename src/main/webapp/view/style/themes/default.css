@@ -6181,7 +6181,7 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 1.5em 0;
+  margin: 1em 0;
   text-align: start;
 }
 pre {
@@ -6458,13 +6458,41 @@ body.rtl .container {
   margin-bottom: 5px;
 }
 .label.has-badge {
-  padding-top: 0.3em;
+  padding: 0.3em .6em 0.1em;
 }
 .label.has-badge .badge {
   color: black;
   background-color: white;
   font-size: 12px;
   margin-left: 5px;
+}
+.panel-body .label {
+  display: block;
+  float: left;
+  margin: 2px;
+}
+.list-badge .has-badge {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 0;
+}
+.list-badge .has-badge:not(:first-child) {
+  border-top: 1px dotted;
+}
+.list-badge .has-badge span {
+  display: inline-block;
+}
+.list-badge .has-badge span:first-child {
+  width: 70%;
+}
+.list-badge .has-badge span:last-child {
+  position: absolute;
+  right: 0;
+}
+.list-badge .has-badge .badge {
+  background-color: #5bc0de;
 }
 /********************
  * highlight
@@ -6558,6 +6586,11 @@ footer h6 {
   .main-content {
     padding: 30px 150px 20px;
   }
+}
+.article-content {
+  display: inline-block;
+  width: 100%;
+  padding: 30px 20px 20px;
 }
 /**
 .col-loop(@counter) when (@counter > 0) {

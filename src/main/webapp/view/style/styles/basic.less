@@ -1,10 +1,42 @@
 .label.has-badge {
-  padding-top: 0.3em;
+  padding: 0.3em .6em 0.1em;
   .badge {
     color: black;
     background-color: white;
     font-size: 12px;
     margin-left: 5px;
+  }
+}
+
+.panel-body .label {
+  display: block;
+  float: left;
+  margin: 2px;
+}
+
+.list-badge {
+  .has-badge {
+    position: relative;
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 0;
+    &:not(:first-child) {
+      border-top: 1px dotted;
+    }
+    span {
+      display: inline-block;
+      &:first-child {
+        width: 70%;
+      }
+      &:last-child {
+        position: absolute;
+        right: 0;
+      }
+    }
+    .badge {
+      background-color: @label-info-bg;
+    }
   }
 }
 
@@ -109,6 +141,12 @@ footer {
   .main-content {
     padding: 30px 150px 20px;
   }
+}
+
+.article-content {
+  display: inline-block;
+  width: 100%;
+  padding: 30px 20px 20px;
 }
 
 /**

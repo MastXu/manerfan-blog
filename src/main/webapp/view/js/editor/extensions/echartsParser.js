@@ -73,7 +73,21 @@ define([
         } else {
             return false;
         }
-    }
+    };
+
+    echartsParser.parseArticle = function (elts) {
+        $.each(elts, function (index, elt) {
+            var $elt = $(elt);
+            var optioneval = Base64.decode($elt.find(".echarts-option").text());
+            $elt.empty();
+            // 执行echarts语句
+            eval(optioneval);
+            // 初始化echarts
+            var chart = echarts.init(elt);
+            // 初始化图表
+            chart.setOption(option);
+        });
+    };
 
     return echartsParser;
 });

@@ -48,6 +48,16 @@ public interface CategoryRepository extends BasicJpaRepository<CategoryEntity, S
 
     /**
      * <pre>
+     * 查找指定分类
+     * </pre>
+     *
+     * @param name
+     * @return
+     */
+    public CategoryEntity findOneByName(String name);
+
+    /**
+     * <pre>
      * 根据分类名查询分类
      * </pre>
      *

@@ -126,7 +126,11 @@ public class CategoryController extends ControllerBase {
         Map<String, Object> data = makeAjaxData();
 
         try {
-            categoryService.updateByName(oldName, newName);
+            if (categoryService.exists(newName)) {
+                data.put(ERRMSG, "分类名 [" + newName + "] 已存在");
+            } else {
+                categoryService.updateByName(oldName, newName);
+            }
         } catch (Exception e) {
             MLogger.ROOT_LOGGER.error("Update Category[{}] to [{}] Error", oldName, newName);
             data.put(ERRMSG, "修改分类失败");

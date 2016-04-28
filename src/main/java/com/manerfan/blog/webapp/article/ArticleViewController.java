@@ -15,6 +15,9 @@
  */
 package com.manerfan.blog.webapp.article;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +29,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.manerfan.blog.dao.entities.article.ArchiveBO;
 import com.manerfan.blog.dao.entities.article.ArticleBO;
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 import com.manerfan.blog.dao.repositories.BOUtils;
-import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.service.article.ArticleService;
+import com.manerfan.blog.service.article.ArticleService.FileType;
 import com.manerfan.blog.webapp.ControllerBase;
+import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>文章浏览</pre>
@@ -43,8 +48,7 @@ import com.manerfan.blog.webapp.ControllerBase;
 @RequestMapping("/article")
 public class ArticleViewController extends ControllerBase {
 
-    @Autowired
-    private UserInfoInterceptorHandler userInfo;
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
     private ArticleService articleService;
@@ -57,20 +61,40 @@ public class ArticleViewController extends ControllerBase {
      * @param mv
      */
     @RequestMapping("/{uid}")
-    public void article(@PathVariable String uid, ModelAndView mv) {
+    public ModelAndView article(@PathVariable String uid) {
+        ModelAndView mv = new ModelAndView("article/article");
+        try {
+            ArticleBO article = articleService.get(uid, FileType.html);
+            if (null == article) {
+                mv.setViewName("redirect:/article");
+            } else {
+                articleService.addArticleHits(uid);
 
+                mv.addObject("title", article.getTitle());
+                mv.addObject("content", article.getContentWithHTML());
+                mv.addObject("uid", uid);
+                mv.addObject("hits", article.getHits());
+                mv.addObject("createTime", sdf.format(article.getCreateTime()));
+            }
+        } catch (IOException e) {
+            MLogger.ROOT_LOGGER.error("Get Article[{}] Error!", uid, e);
+            mv.setViewName("redirect:/article");
+        }
+
+        return mv;
     }
 
     /**
      * <pre>
      * 按创建时间浏览文章列表
      * </pre>
-     *
-     * @param mv
      */
     @RequestMapping
-    public void articleList(ModelAndView mv) {
-
+    public ModelAndView articleList() {
+        ModelAndView mv = new ModelAndView("article/articleList");
+        mv.addObject("funcname", "article");
+        mv.addObject("funcparam", "");
+        return mv;
     }
 
     /**
@@ -79,11 +103,13 @@ public class ArticleViewController extends ControllerBase {
      * </pre>
      *
      * @param name
-     * @param mv
      */
     @RequestMapping("/category/{name}")
-    public void articleCategoryList(@PathVariable String name, ModelAndView mv) {
-
+    public ModelAndView articleCategoryList(@PathVariable String name) {
+        ModelAndView mv = new ModelAndView("article/articleList");
+        mv.addObject("funcname", "category");
+        mv.addObject("funcparam", name);
+        return mv;
     }
 
     /**
@@ -92,11 +118,19 @@ public class ArticleViewController extends ControllerBase {
      * </pre>
      *
      * @param key
-     * @param mv
      */
     @RequestMapping("/search/{key}")
-    public void articleSeartchList(@PathVariable String key, ModelAndView mv) {
+    public ModelAndView articleSeartchList(@PathVariable String key) {
+        ModelAndView mv = new ModelAndView("article/articleList");
+        mv.addObject("funcname", "search");
+        mv.addObject("funcparam", key);
+        return mv;
+    }
 
+    @RequestMapping({ "/archive", "/category" })
+    public ModelAndView articleArchive() {
+        ModelAndView mv = new ModelAndView("article/archive");
+        return mv;
     }
 
     /**
@@ -109,9 +143,59 @@ public class ArticleViewController extends ControllerBase {
      * @param mv
      */
     @RequestMapping("/archive/{year}/{month}")
-    public void articleArchiveList(@PathVariable String year, @PathVariable String month,
-            ModelAndView mv) {
+    public ModelAndView articleArchiveList(@PathVariable String year, @PathVariable String month) {
+        ModelAndView mv = new ModelAndView("article/articleList");
+        mv.addObject("funcname", "archive");
+        mv.addObject("funcparam", year + "/" + month);
+        return mv;
+    }
 
+    @RequestMapping("/archive/hots/{top}")
+    @ResponseBody
+    public Object hotArchives(@PathVariable("top") int top) {
+        Map<String, Object> data = makeAjaxData();
+
+        try {
+            List<ArchiveBO> archives = articleService.hotsArchives(top);
+            data.put("archives", archives);
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Get Hots Archivies Error", e);
+            data.put(ERRMSG, "获取归档失败");
+        }
+
+        return data;
+    }
+
+    @RequestMapping("/hit/hots/{top}")
+    @ResponseBody
+    public Object hotHits(@PathVariable("top") int top) {
+        Map<String, Object> data = makeAjaxData();
+
+        try {
+            List<ArticleBO> articles = articleService.hotsHits(top);
+            data.put("articles", articles);
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Get Hots Articles Error", e);
+            data.put(ERRMSG, "获取文章阅读排行失败");
+        }
+
+        return data;
+    }
+
+    @RequestMapping("/archive/list/all")
+    @ResponseBody
+    public Object archiveList() {
+        Map<String, Object> data = makeAjaxData();
+
+        try {
+            List<ArchiveBO> archives = articleService.findArchiveListAll();
+            data.put("archives", archives);
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Get Archives Error", e);
+            data.put(ERRMSG, "获取归档失败");
+        }
+
+        return data;
     }
 
     /**

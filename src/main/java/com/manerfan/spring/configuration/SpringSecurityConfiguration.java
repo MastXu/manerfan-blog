@@ -122,8 +122,14 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
                 .authorities("ROLE_ANONYMOUS");
 
         http.authorizeRequests().expressionHandler(webSecurityExpressionHandler())
+                /* 登陆后可访问的 */
+                .antMatchers("/article/publish", "/article/content/**", "/article/delete/**",
+                        "/article/update/**")
+                .hasAnyRole("ADMIN", "USER")
                 /* 任意用户可访问的 */
-                .antMatchers("/", "/login", "/editor", "/editor/fileImport").permitAll()
+                .antMatchers("/", "/login", "/editor", "/editor/fileImport", "/article",
+                        "/article/**")
+                .permitAll()
                 /* 只有admin可访问的 */
                 /*.antMatchers("/**").hasAnyRole("ADMIN")*/
                 /* 登陆后可访问的 */

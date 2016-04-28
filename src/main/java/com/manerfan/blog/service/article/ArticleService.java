@@ -38,8 +38,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -293,7 +291,7 @@ public class ArticleService implements InitializingBean {
     }
 
     public static enum FileType {
-        markdown(".md"), html(".html"), txt(".txt");
+                                 markdown(".md"), html(".html"), txt(".txt");
 
         private String type;
 
@@ -356,6 +354,17 @@ public class ArticleService implements InitializingBean {
 
     /**
      * <pre>
+     * 文章阅读树加一
+     * </pre>
+     *
+     * @param uid
+     */
+    public void addArticleHits(String uid) {
+        articleRepository.addArticleHits(uid);
+    }
+
+    /**
+     * <pre>
      * 清除缓存 此处为@CacheEvict的替代方案(@CacheEvict仅能指定一个key)
      * </pre>
      *
@@ -367,30 +376,64 @@ public class ArticleService implements InitializingBean {
                 .forEach(type -> cache.evict("ARTICLE" + uid + type.toString()));
     }
 
-    public Page<ArchiveBO> findArchiveList(int pageNum, int pageSize) {
-        Pageable pageable = new QPageRequest(pageNum, pageSize);
-        StringBuilder hql = new StringBuilder();
-        hql.append("select new ").append(ArchiveBO.class.getName());
-        hql.append(
-                "(date_format(article.createTime,'%Y-%m') as df, count(article.uid)) "); /* 将结果封装成ArchiveBO */
-        hql.append("from Article article "); /* 从文章中查询 */
-        hql.append("where 1=1 ");
-        hql.append("group by df "); /* 按时间段分组 */
-        hql.append("order by df desc"); /* 按时间段排序 */
-        List<ArchiveBO> archives = articleRepository.find(hql.toString(), ArchiveBO.class, pageable,
-                null);
-        long total = countArchive();
+    /**
+     * <pre>
+     * 按月进行文章个数统计，获取最新的top条
+     * 
+     * 这里由于使用H2DB，HQL不太好用，只得直接上原生SQL
+     * </pre>
+     *
+     * @param top
+     * @return
+     */
+    public List<ArchiveBO> hotsArchives(int top) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(
+                "select formatdatetime(article.create_time,'YYYY/MM') as df, count(article.uid) "); /* 将结果封装成ArchiveBO */
+        sql.append("from article "); /* 从文章中查询 */
+        sql.append("where 1=1 ");
+        sql.append("group by df "); /* 按时间段分组 */
+        sql.append("order by df desc "); /* 按时间段排序 */
+        sql.append("limit 0," + top);
+        List<Object> results = articleRepository.findOnSQL(sql.toString(), null, null);
 
-        return new PageImpl<>(archives, pageable, total);
+        List<ArchiveBO> archives = new LinkedList<>();
+        results.forEach(result -> {
+            Object[] rs = (Object[]) result;
+            archives.add(new ArchiveBO((String) rs[0], ((Number) rs[1]).intValue()));
+        });
+        return archives;
     }
 
-    public long countArchive() {
-        StringBuilder hql = new StringBuilder();
-        hql.append("select count(date_format(article.createTime,'%Y-%m')) ");
-        hql.append("from Article article");
-        hql.append("group by date_format(article.createTime,'%Y-%m')");
+    public List<ArchiveBO> findArchiveListAll() {
+        StringBuilder sql = new StringBuilder();
+        sql.append(
+                "select formatdatetime(article.create_time,'YYYY/MM') as df, count(article.uid) "); /* 将结果封装成ArchiveBO */
+        sql.append("from article "); /* 从文章中查询 */
+        sql.append("where 1=1 ");
+        sql.append("group by df "); /* 按时间段分组 */
+        sql.append("order by df desc"); /* 按时间段排序 */
+        List<Object> results = articleRepository.findOnSQL(sql.toString(), null, null);
 
-        return articleRepository.count(hql.toString(), null);
+        List<ArchiveBO> archives = new LinkedList<>();
+        results.forEach(result -> {
+            Object[] rs = (Object[]) result;
+            archives.add(new ArchiveBO((String) rs[0], ((Number) rs[1]).intValue()));
+        });
+        return archives;
+    }
+
+    public List<ArticleBO> hotsHits(int top) {
+        List<ArticleEntity> articleEntities = articleRepository
+                .findAllByOrderByHitsDesc(new QPageRequest(0, top));
+        List<ArticleBO> articles = new LinkedList<>();
+        articleEntities.forEach(articleEntity -> {
+            ArticleBO article = new ArticleBO();
+            BeanUtils.copyProperties(articleEntity, article);
+            articles.add(article);
+        });
+
+        return articles;
     }
 
     @Override

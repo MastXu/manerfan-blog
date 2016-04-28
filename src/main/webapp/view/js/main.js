@@ -94,6 +94,7 @@ requirejs.config({
         waitForImages: 'plugins/waitForImages/dist/jquery.waitforimages',
         MathJax: 'plugins/MathJax/MathJax',
         alertify: 'plugins/alertify.js/lib/alertify',
+        jBox: 'plugins/jbox/Source/jBox.min',
 
         /* 以下为自定义 */
         md5: 'plugins/jquery-md5/jquery.md5',
@@ -212,6 +213,9 @@ requirejs.config({
         Diagram: [
             'raphael',
             'diagram-grammar'
+        ],
+        jBox: [
+            'jquery'
         ],
 
         /* 以下为自定义 */

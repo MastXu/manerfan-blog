@@ -131,4 +131,8 @@ public class CategoryService {
         categoryRepository.updateByName(oldName, newName);
     }
 
+    public boolean exists(String name) {
+        return null != categoryRepository.findOneByName(name);
+    }
+
 }

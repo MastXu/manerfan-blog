@@ -20,7 +20,7 @@
 
 define([
     'jquery',
-    'plugins/jbox/Source/jBox.min'
+    'jBox'
 ], function () {
     var jBoxUtil = {};
 

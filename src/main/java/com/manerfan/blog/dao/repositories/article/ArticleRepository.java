@@ -15,6 +15,8 @@
  */
 package com.manerfan.blog.dao.repositories.article;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -76,5 +78,26 @@ public interface ArticleRepository extends BasicJpaRepository<ArticleEntity, Str
      * @return
      */
     public Page<ArticleEntity> findAllByStateOrderByCreateTimeDesc(State state, Pageable pageable);
+
+    /**
+     * <pre>
+     * 增加文章阅读数
+     * </pre>
+     *
+     * @param uid
+     */
+    @Modifying
+    @Query("update Article article set article.hits = article.hits + 1 where article.uid = ?1")
+    public void addArticleHits(String uid);
+
+    /**
+     * <pre>
+     * 按点击次数排序查找
+     * </pre>
+     *
+     * @param pageable
+     * @return
+     */
+    public List<ArticleEntity> findAllByOrderByHitsDesc(Pageable pageable);
 
 }

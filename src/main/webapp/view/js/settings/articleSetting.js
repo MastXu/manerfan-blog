@@ -27,7 +27,7 @@ require([
     'text!pages/article/html/articleList.html',
     'pagination'
 ], function ($, _, commonutils, jBoxUtil, bootbox, articleListHTML) {
-    var pageSize = 2;
+    var pageSize = 5;
     var currentPage = 0;
     var totalPages = 0;
 
