@@ -29,14 +29,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Store;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -52,8 +46,6 @@ import com.manerfan.common.utils.dao.entities.CommonEntity;
 @Entity(name = "Article")
 @Table(name = "article")
 @EntityListeners({ AuditingEntityListener.class })
-@Indexed(index = "article_index") /* 索引文件 */
-@Analyzer(impl = SmartChineseAnalyzer.class) /* 中文分词器 */
 public class ArticleEntity extends CommonEntity {
 
     /**
@@ -64,14 +56,12 @@ public class ArticleEntity extends CommonEntity {
     /**
      * 标题
      */
-    @Field(store = Store.NO)
     @Column(name = "title", nullable = false)
     private String title;
 
     /**
      * 摘要
      */
-    @Field(store = Store.NO)
     @Column(name = "summary", length = 1024)
     private String summary;
 
@@ -114,7 +104,6 @@ public class ArticleEntity extends CommonEntity {
     /**
      * 作者
      */
-    @IndexedEmbedded(depth = 1)
     @ManyToOne(fetch = FetchType.LAZY)
     @LazyToOne(LazyToOneOption.PROXY)
     @JoinColumn(name = "author", nullable = false/* 不能使用referencedColumnName，否则LAZY就不生效了 */)
@@ -195,7 +184,13 @@ public class ArticleEntity extends CommonEntity {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
+        result = prime * result + ((author == null) ? 0 : author.hashCode());
+        result = prime * result + ((createTime == null) ? 0 : createTime.hashCode());
+        result = prime * result + hits;
+        result = prime * result + ((lastModTime == null) ? 0 : lastModTime.hashCode());
         result = prime * result + ((state == null) ? 0 : state.hashCode());
+        result = prime * result + ((summary == null) ? 0 : summary.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
         result = prime * result + ((uid == null) ? 0 : uid.hashCode());
         return result;
     }
@@ -209,7 +204,34 @@ public class ArticleEntity extends CommonEntity {
         if (getClass() != obj.getClass())
             return false;
         ArticleEntity other = (ArticleEntity) obj;
+        if (author == null) {
+            if (other.author != null)
+                return false;
+        } else if (!author.equals(other.author))
+            return false;
+        if (createTime == null) {
+            if (other.createTime != null)
+                return false;
+        } else if (!createTime.equals(other.createTime))
+            return false;
+        if (hits != other.hits)
+            return false;
+        if (lastModTime == null) {
+            if (other.lastModTime != null)
+                return false;
+        } else if (!lastModTime.equals(other.lastModTime))
+            return false;
         if (state != other.state)
+            return false;
+        if (summary == null) {
+            if (other.summary != null)
+                return false;
+        } else if (!summary.equals(other.summary))
+            return false;
+        if (title == null) {
+            if (other.title != null)
+                return false;
+        } else if (!title.equals(other.title))
             return false;
         if (uid == null) {
             if (other.uid != null)
@@ -226,5 +248,4 @@ public class ArticleEntity extends CommonEntity {
     public void setUid(String uid) {
         this.uid = uid;
     }
-
 }

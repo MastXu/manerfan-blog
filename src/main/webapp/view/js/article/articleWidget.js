@@ -49,15 +49,17 @@ define([
                     return;
                 }
 
-                var categories = [];
-                _.each(data.categories, function (category) {
-                    categories.push(_.template(categoryListHTML)({
-                        categoryName: category.name,
-                        articleNum: category.num
-                    }));
-                });
+                if (_.isArray(data.categories) && data.categories.length > 0) {
+                    var categories = [];
+                    _.each(data.categories, function (category) {
+                        categories.push(_.template(categoryListHTML)({
+                            categoryName: category.name,
+                            articleNum: category.num
+                        }));
+                    });
 
-                $(".widget-category").empty().append(categories.join(''));
+                    $(".widget-category").empty().append(categories.join(''));
+                }
             },
             error: function () {
                 console.error("Get Hots Category Error!");
@@ -87,15 +89,17 @@ define([
                     return;
                 }
 
-                var archives = [];
-                _.each(data.archives, function (archive) {
-                    archives.push(_.template(archiveListHTML)({
-                        archiveDate: archive.date,
-                        articleNum: archive.num
-                    }));
-                });
+                if (_.isArray(data.archives) && data.archives.length > 0) {
+                    var archives = [];
+                    _.each(data.archives, function (archive) {
+                        archives.push(_.template(archiveListHTML)({
+                            archiveDate: archive.date,
+                            articleNum: archive.num
+                        }));
+                    });
 
-                $(".widget-archive").empty().append(archives.join(''));
+                    $(".widget-archive").empty().append(archives.join(''));
+                }
             },
             error: function () {
                 console.error("Get Hots Archive Error!");
@@ -125,17 +129,19 @@ define([
                     return;
                 }
 
-                var articles = [];
-                _.each(data.articles, function (article) {
-                    articles.push(_.template(hitsListHTML)({
-                        articleUid: article.uid,
-                        articleTitle: article.title,
-                        articleSummary: article.summary,
-                        articleHits: article.hits
-                    }));
-                });
+                if (_.isArray(data.articles) && data.articles.length > 0) {
+                    var articles = [];
+                    _.each(data.articles, function (article) {
+                        articles.push(_.template(hitsListHTML)({
+                            articleUid: article.uid,
+                            articleTitle: article.title,
+                            articleSummary: article.summary,
+                            articleHits: article.hits
+                        }));
+                    });
 
-                $(".widget-hits").empty().append(articles.join(''));
+                    $(".widget-hits").empty().append(articles.join(''));
+                }
             },
             error: function () {
                 console.error("Get Hots Archive Error!");

@@ -67,9 +67,27 @@ require([
 
     var searchFuncs = {};
     searchFuncs.article = function (page) {
+        searchArticles("/article/list/", page);
+    };
+    searchFuncs.category = function (page) {
+        searchArticles("/article/category/list/", page);
+    };
+    searchFuncs.archive = function (page) {
+        searchArticles("/article/archive/list/", page);
+    };
+    searchFuncs.search = function (page) {
+
+    };
+
+    var func = searchFuncs[funcname];
+    var searchFunc = typeof func == "function" ? func : function () {
+        console.warn("Cannot Find Any Search Function!");
+    };
+
+    function searchArticles(url, page) {
         $("._loading").show();
         $.ajax({
-            url: "/article/list",
+            url: url + funcparam,
             async: true,
             type: 'post',
             cache: false,
@@ -91,21 +109,7 @@ require([
                 $("._loading").hide();
             }
         });
-    };
-    searchFuncs.category = function (page) {
-
-    };
-    searchFuncs.archive = function (page) {
-
-    };
-    searchFuncs.search = function (page) {
-
-    };
-
-    var func = searchFuncs[funcname];
-    var searchFunc = typeof func == "function" ? func : function () {
-        console.warn("Cannot Find Any Search Function!");
-    };
+    }
 
     function reShowArticleList(_articles, _page, _totalPages) {
         var list = [];
@@ -129,5 +133,5 @@ require([
 
     searchFunc(0);
 
-    articleWidget.init();
+    window.setTimeout(articleWidget.init, 1000);
 });

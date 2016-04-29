@@ -16,6 +16,7 @@
 package com.manerfan.blog.service.article;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
@@ -244,6 +245,25 @@ public class ArticleService implements InitializingBean {
         List<CategoryEntity> categoryEntities = articleCategoryMapRepository.findByArticleUid(uid);
         categoryEntities.forEach(category -> article.getCategories().add(category.getName()));
 
+        String content = getContent(uid, type);
+        switch (type) {
+            case markdown:
+                article.setContentWithMD(content);
+                break;
+            case html:
+                article.setContentWithHTML(content);
+                break;
+            case txt:
+                article.setContentWithTEXT(content);
+                break;
+            default:
+                break;
+        }
+
+        return article;
+    }
+
+    private String getContent(String uid, FileType type) throws IOException, FileNotFoundException {
         /* 读取文章内容 */
         Pattern pattern = Pattern.compile(uid + "\\" + type.type());
         String path = transPath(uid);
@@ -261,21 +281,7 @@ public class ArticleService implements InitializingBean {
         }
 
         String content = FileCopyUtils.copyToString(new FileReader(articleFile));
-        switch (type) {
-            case markdown:
-                article.setContentWithMD(content);
-                break;
-            case html:
-                article.setContentWithHTML(content);
-                break;
-            case txt:
-                article.setContentWithTEXT(content);
-                break;
-            default:
-                break;
-        }
-
-        return article;
+        return content;
     }
 
     /**
@@ -434,6 +440,39 @@ public class ArticleService implements InitializingBean {
         });
 
         return articles;
+    }
+
+    public List<ArticleBO> findByArchive(String year, String month, int pageNum, int pageSize) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select article.* ");
+        sql.append("from article "); /* 从文章中查询 */
+        sql.append("where formatdatetime(article.create_time,'YYYY/MM')=? "); /* 按年月查询 */
+        sql.append("order by article.create_time desc"); /* 按时间排序 */
+        List<Object> articleEntities = articleRepository.findOnSQL(sql.toString(),
+                ArticleEntity.class, query -> {
+                    query.setParameter(1, year + "/" + month);
+                    query.setFirstResult(pageNum * pageSize);
+                    query.setMaxResults(pageSize);
+                });
+
+        List<ArticleBO> articles = new LinkedList<>();
+        articleEntities.forEach(article -> {
+            ArticleBO bo = new ArticleBO();
+            BeanUtils.copyProperties(article, bo);
+            articles.add(bo);
+        });
+
+        return articles;
+    }
+
+    public long countByArchive(String year, String month) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select count(article.uuid) ");
+        sql.append("from article "); /* 从文章中查询 */
+        sql.append("where formatdatetime(article.create_time,'YYYY/MM')=? "); /* 按年月查询 */
+
+        return articleRepository.countOnSQL(sql.toString(),
+                query -> query.setParameter(1, year + "/" + month));
     }
 
     @Override

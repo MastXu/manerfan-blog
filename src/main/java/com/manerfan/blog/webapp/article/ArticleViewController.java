@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ import com.manerfan.blog.dao.entities.article.ArticleBO;
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 import com.manerfan.blog.dao.repositories.BOUtils;
+import com.manerfan.blog.dao.repositories.article.ArticleCategoryMapRepository;
 import com.manerfan.blog.service.article.ArticleService;
 import com.manerfan.blog.service.article.ArticleService.FileType;
 import com.manerfan.blog.webapp.ControllerBase;
@@ -52,6 +54,9 @@ public class ArticleViewController extends ControllerBase {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private ArticleCategoryMapRepository articleCategoryMapRepository;
 
     /**
      * <pre>
@@ -92,6 +97,7 @@ public class ArticleViewController extends ControllerBase {
     @RequestMapping
     public ModelAndView articleList() {
         ModelAndView mv = new ModelAndView("article/articleList");
+        mv.addObject("displayname", "");
         mv.addObject("funcname", "article");
         mv.addObject("funcparam", "");
         return mv;
@@ -107,6 +113,7 @@ public class ArticleViewController extends ControllerBase {
     @RequestMapping("/category/{name}")
     public ModelAndView articleCategoryList(@PathVariable String name) {
         ModelAndView mv = new ModelAndView("article/articleList");
+        mv.addObject("displayname", "文章分类");
         mv.addObject("funcname", "category");
         mv.addObject("funcparam", name);
         return mv;
@@ -122,14 +129,9 @@ public class ArticleViewController extends ControllerBase {
     @RequestMapping("/search/{key}")
     public ModelAndView articleSeartchList(@PathVariable String key) {
         ModelAndView mv = new ModelAndView("article/articleList");
+        mv.addObject("displayname", "全文检索");
         mv.addObject("funcname", "search");
         mv.addObject("funcparam", key);
-        return mv;
-    }
-
-    @RequestMapping({ "/archive", "/category" })
-    public ModelAndView articleArchive() {
-        ModelAndView mv = new ModelAndView("article/archive");
         return mv;
     }
 
@@ -145,8 +147,15 @@ public class ArticleViewController extends ControllerBase {
     @RequestMapping("/archive/{year}/{month}")
     public ModelAndView articleArchiveList(@PathVariable String year, @PathVariable String month) {
         ModelAndView mv = new ModelAndView("article/articleList");
+        mv.addObject("displayname", "归档");
         mv.addObject("funcname", "archive");
         mv.addObject("funcparam", year + "/" + month);
+        return mv;
+    }
+
+    @RequestMapping({ "/archive", "/category" })
+    public ModelAndView articleArchive() {
+        ModelAndView mv = new ModelAndView("article/archive");
         return mv;
     }
 
@@ -214,10 +223,57 @@ public class ArticleViewController extends ControllerBase {
             @RequestParam(required = false, defaultValue = "PUBLISHED") State state,
             @RequestParam int page, @RequestParam int size) {
         Map<String, Object> data = makeAjaxData();
-        Page<ArticleEntity> articles = articleService.findArticleList(state, page, size);
-        data.put("totalPages", articles.getTotalPages());
-        data.put("articles",
-                BOUtils.transFromPOs(articles.getContent(), ArticleBO.class, ArticleEntity.class));
+        try {
+            Page<ArticleEntity> articles = articleService.findArticleList(state, page, size);
+            data.put("totalPages", articles.getTotalPages());
+            data.put("articles", BOUtils.transFromPOs(articles.getContent(), ArticleBO.class,
+                    ArticleEntity.class));
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Get Article List Error", e);
+            data.put(ERRMSG, "获取文章列表失败");
+        }
+        return data;
+    }
+
+    @RequestMapping("/category/list/{name}")
+    @ResponseBody
+    public Object articleListByCategory(@PathVariable String name, @RequestParam int page,
+            @RequestParam int size) {
+        Map<String, Object> data = makeAjaxData();
+
+        try {
+            List<ArticleEntity> articleEntities = articleCategoryMapRepository
+                    .findByCategoryName(name, new QPageRequest(page, size));
+            long totalPages = articleCategoryMapRepository.countByCategorName(name);
+
+            data.put("totalPages", totalPages);
+            data.put("articles",
+                    BOUtils.transFromPOs(articleEntities, ArticleBO.class, ArticleEntity.class));
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Get Article List By Category[{}] Error", name, e);
+            data.put(ERRMSG, "获取文章列表失败");
+        }
+
+        return data;
+    }
+
+    @RequestMapping("/archive/list/{year}/{month}")
+    @ResponseBody
+    public Object articleListByArchive(@PathVariable String year, @PathVariable String month,
+            @RequestParam int page, @RequestParam int size) {
+        Map<String, Object> data = makeAjaxData();
+
+        try {
+            List<ArticleBO> articles = articleService.findByArchive(year, month, page, size);
+            long totalPages = articleService.countByArchive(year, month);
+            data.put("totalPages", totalPages);
+            data.put("articles", articles);
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Get Article List By Archive[{}] Error", year + "/" + month,
+                    e);
+            data.put(ERRMSG, "获取文章列表失败");
+        }
+
         return data;
     }
 }

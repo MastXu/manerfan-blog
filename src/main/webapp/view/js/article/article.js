@@ -25,9 +25,10 @@ require([
 ], function ($, echartsParser, articleWidget) {
     try {
         echartsParser.parseArticle($("code.language-echarts"));
-        articleWidget.init();
     } catch (e) {
         console.error("Pares Echarts Error!");
         console.error(e);
     }
+
+    window.setTimeout(articleWidget.init, 1000);
 });

@@ -1,6 +1,18 @@
 // RequireJS configuration
 /*global requirejs */
 
+if (!console) {
+    var console = {};
+    var func = function () {
+        return false;
+    };
+
+    console.log = func;
+    console.info = func;
+    console.warn = func;
+    console.error = func;
+}
+
 var version = document.getElementById('mainscript').getAttribute('data-version');
 
 requirejs.config({

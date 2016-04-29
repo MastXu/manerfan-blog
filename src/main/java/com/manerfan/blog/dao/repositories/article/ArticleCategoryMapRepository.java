@@ -17,12 +17,14 @@ package com.manerfan.blog.dao.repositories.article;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.manerfan.blog.dao.entities.article.ArticleCategoryMap;
+import com.manerfan.blog.dao.entities.article.ArticleEntity;
 import com.manerfan.blog.dao.entities.article.CategoryEntity;
 import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
 
@@ -46,6 +48,21 @@ public interface ArticleCategoryMapRepository
      */
     @Query("select map.category from ArticleCategoryMap map where map.article.uuid = (select article.uuid from Article article where article.uid = ?1)")
     public List<CategoryEntity> findByArticleUid(String uid);
+
+    /**
+     * <pre>
+     * 分页查询指定分类下的文章
+     * </pre>
+     *
+     * @param name
+     * @param pageable
+     * @return
+     */
+    @Query("select map.article from ArticleCategoryMap map where map.category.uuid = (select category.uuid from Category category where category.name = ?1) order by map.article.createTime desc")
+    public List<ArticleEntity> findByCategoryName(String name, Pageable pageable);
+
+    @Query("select count(map.article) from ArticleCategoryMap map where map.category.uuid = (select category.uuid from Category category where category.name = ?1)")
+    public long countByCategorName(String name);
 
     /**
      * <pre>

@@ -29,7 +29,11 @@
 	    
 	    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
 	    	<div class="panel panel-default">
-				<div class="panel-heading">文章列表</div>
+				<div class="panel-heading">
+					<span>文章列表</span>
+					<span class="pull-right text-warning" style="margin-left: 5px;"><c:out value="${funcparam}" /></span>
+					<span class="pull-right text-success"><c:out value="${displayname}" /></span>
+				</div>
 				<div class="panel-body">
 					<div class="list-group article-list"></div>
 	                <div class="pagination pull-right article-pagination" style="margin-bottom: 0;">

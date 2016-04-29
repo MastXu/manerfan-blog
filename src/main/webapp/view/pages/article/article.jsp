@@ -14,7 +14,7 @@
     <title><c:out value="${fn:substring(title,0,32)}" />·MBLOG</title>
     
     <style>
-    	.panel-heading .btn, .list-group .btn {float: right; margin-right: 5px;}
+    	.panel-heading .btn, .list-group .btn {float: right; margin-right: 5px; padding: 0;}
     	.callout-danger {margin-bottom: 15px;display: inline-block;padding: 2px 12px;border-left: 3px solid #ce4844;}
     	article {padding: 0 35px 40px;}
     	._loading{display:none;position:absolute;top:0;width:100%;height:100%;z-index:999;background-color:#88a825;opacity:0.6;}
