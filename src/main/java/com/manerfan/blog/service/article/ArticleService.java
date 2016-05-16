@@ -411,6 +411,13 @@ public class ArticleService implements InitializingBean {
         return archives;
     }
 
+    /**
+     * <pre>
+     * 按月进行文章个数统计，返回所有统计结果
+     * </pre>
+     *
+     * @return
+     */
     public List<ArchiveBO> findArchiveListAll() {
         StringBuilder sql = new StringBuilder();
         sql.append(
@@ -429,6 +436,14 @@ public class ArticleService implements InitializingBean {
         return archives;
     }
 
+    /**
+     * <pre>
+     * 查询点击最多的top条文章
+     * </pre>
+     *
+     * @param top
+     * @return
+     */
     public List<ArticleBO> hotsHits(int top) {
         List<ArticleEntity> articleEntities = articleRepository
                 .findAllByOrderByHitsDesc(new QPageRequest(0, top));
@@ -442,6 +457,17 @@ public class ArticleService implements InitializingBean {
         return articles;
     }
 
+    /**
+     * <pre>
+     * 按照年月归档查询文章列表
+     * </pre>
+     *
+     * @param year
+     * @param month
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     public List<ArticleBO> findByArchive(String year, String month, int pageNum, int pageSize) {
         StringBuilder sql = new StringBuilder();
         sql.append("select article.* ");
@@ -465,6 +491,15 @@ public class ArticleService implements InitializingBean {
         return articles;
     }
 
+    /**
+     * <pre>
+     * 按照年月归档统计文章数量
+     * </pre>
+     *
+     * @param year
+     * @param month
+     * @return
+     */
     public long countByArchive(String year, String month) {
         StringBuilder sql = new StringBuilder();
         sql.append("select count(article.uuid) ");
@@ -473,6 +508,26 @@ public class ArticleService implements InitializingBean {
 
         return articleRepository.countOnSQL(sql.toString(),
                 query -> query.setParameter(1, year + "/" + month));
+    }
+
+    /**
+     * <pre>
+     * 查找上一篇/下一篇
+     * </pre>
+     *
+     * @param uid   当前文章标识
+     * @param prev  true 上一篇 false 下一篇
+     * @return
+     */
+    public ArticleEntity getNeighbor(final String uid, final boolean prev) {
+        String hql = "select article from Article article where article.createTime "
+                + (prev ? "<" : ">")
+                + " (select art.createTime from Article art where art.uid=?1) order by article.createTime "
+                + (prev ? "desc" : "asc");
+        return articleRepository.findOne(hql, querySet -> {
+            querySet.setParameter(1, uid);
+            querySet.setFirstResult(0).setMaxResults(1);
+        });
     }
 
     @Override

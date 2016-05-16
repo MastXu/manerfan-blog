@@ -123,7 +123,8 @@ requirejs.config({
         'tagsinput': 'plugins/flatui/js/jquery.tagsinput',
         'FSS': 'js/utils/FSS',
         'pagination': 'plugins/jqPagination/js/jquery.jqpagination.min',
-        'bootbox': 'plugins/bootbox.js/bootbox'
+        'bootbox': 'plugins/bootbox.js/bootbox',
+        'smoothscroll': 'plugins/jquery-smooth-scroll/jquery.smooth-scroll.min'
     },
 
     /**
@@ -254,6 +255,9 @@ requirejs.config({
         ],
         'bootbox': [
             'bootstrap'
+        ],
+        'smoothscroll': [
+            'jquery'
         ]
     }
 });

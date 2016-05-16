@@ -128,7 +128,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
                 .hasAnyRole("ADMIN", "USER")
                 /* 任意用户可访问的 */
                 .antMatchers("/", "/login", "/editor", "/editor/fileImport", "/article",
-                        "/article/**")
+                        "/article/**", "/about/**")
                 .permitAll()
                 /* 只有admin可访问的 */
                 /*.antMatchers("/**").hasAnyRole("ADMIN")*/

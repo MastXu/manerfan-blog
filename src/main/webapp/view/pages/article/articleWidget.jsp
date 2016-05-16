@@ -6,12 +6,12 @@
 <%@ taglib prefix="spring" uri="spring_tld" %> <!-- http://www.springframework.org/tags -->
 
 <div class="panel panel-default">
-	<div class="panel-heading">文章分类<a href="<c:url value='/article/archive' />" class="btn btn-sm btn-link">更多</a></div>
+	<div class="panel-heading">文章分类<a href="<c:url value='/article/timeline' />" class="btn btn-sm btn-link">更多</a></div>
 	<div class="panel-body list-badge widget-category">...</div>
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading">文章存档<a href="<c:url value='/article/archive' />" class="btn btn-sm btn-link">更多</a></div>
+	<div class="panel-heading">文章存档<a href="<c:url value='/article/timeline' />" class="btn btn-sm btn-link">更多</a></div>
 	<div class="panel-body list-badge widget-archive">...</div>
 </div>
 

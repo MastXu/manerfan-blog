@@ -33,10 +33,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.manerfan.blog.dao.entities.article.ArchiveBO;
 import com.manerfan.blog.dao.entities.article.ArticleBO;
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
+import com.manerfan.blog.dao.entities.article.CategoryBO;
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 import com.manerfan.blog.dao.repositories.BOUtils;
 import com.manerfan.blog.dao.repositories.article.ArticleCategoryMapRepository;
 import com.manerfan.blog.service.article.ArticleService;
+import com.manerfan.blog.service.article.CategoryService;
 import com.manerfan.blog.service.article.ArticleService.FileType;
 import com.manerfan.blog.webapp.ControllerBase;
 import com.manerfan.common.utils.logger.MLogger;
@@ -54,6 +56,9 @@ public class ArticleViewController extends ControllerBase {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private ArticleCategoryMapRepository articleCategoryMapRepository;
@@ -75,11 +80,19 @@ public class ArticleViewController extends ControllerBase {
             } else {
                 articleService.addArticleHits(uid);
 
+                /* 上一篇 */
+                ArticleEntity articlePrev = articleService.getNeighbor(uid, true);
+                /* 下一篇 */
+                ArticleEntity articleNext = articleService.getNeighbor(uid, false);
+
                 mv.addObject("title", article.getTitle());
                 mv.addObject("content", article.getContentWithHTML());
                 mv.addObject("uid", uid);
                 mv.addObject("hits", article.getHits());
                 mv.addObject("createTime", sdf.format(article.getCreateTime()));
+
+                mv.addObject("articlePrev", (null == articlePrev) ? null : articlePrev);
+                mv.addObject("articleNext", (null == articleNext) ? null : articleNext);
             }
         } catch (IOException e) {
             MLogger.ROOT_LOGGER.error("Get Article[{}] Error!", uid, e);
@@ -153,9 +166,16 @@ public class ArticleViewController extends ControllerBase {
         return mv;
     }
 
-    @RequestMapping({ "/archive", "/category" })
+    @RequestMapping("/timeline")
     public ModelAndView articleArchive() {
-        ModelAndView mv = new ModelAndView("article/archive");
+        ModelAndView mv = new ModelAndView("article/timeline");
+
+        List<ArchiveBO> archives = articleService.findArchiveListAll();
+        List<CategoryBO> categories = categoryService.findCategoryListAll();
+
+        mv.addObject("archives", archives);
+        mv.addObject("categories", categories);
+
         return mv;
     }
 

@@ -26,9 +26,6 @@
 			<ul class="nav navbar-nav">
 				<li><a target="_blank" href="https://github.com/ManerFan/manerfan-blog"><i class="icon-github-circled"></i>GitHub</a></li>
 			</ul>
-			<ul class="nav navbar-nav">
-				<li><a href="#"><i class="icon-user-md"></i>关于作者</a></li>
-			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="hasRole('ROLE_ANONYMOUS')">
 		            <li><a href="<c:url value='/login' />"><span class="glyphicon glyphicon-log-in"></span> 登陆</a></li>

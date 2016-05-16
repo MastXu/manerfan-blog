@@ -52,7 +52,27 @@
 					<article><c:out value="${content}" escapeXml="false"/></article>
 				</div>
 			</div>
-	    </div>
+			<nav>
+				<ul class="pager">
+					<c:choose>
+						<c:when test="${not empty articlePrev}">
+							<li class="previous"><a href="<c:url value='/article/${articlePrev.uid}' />"><span aria-hidden="true">&larr;</span> <c:out value="${fn:substring(articlePrev.title,0,16)}" /></a></li>		
+						</c:when>
+						<c:otherwise>
+							<li class="previous disabled"><a>已是第一篇</a></li>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${not empty articleNext}">
+							<li class="next"><a href="<c:url value='/article/${articleNext.uid}' />"><span aria-hidden="true">&rarr;</span> <c:out value="${fn:substring(articleNext.title,0,16)}" /></a></li>		
+						</c:when>
+						<c:otherwise>
+							<li class="next disabled"><a>已是最后一篇</a></li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</nav>
+		</div>
     </div>
     
     <div class="hidden-print _loading">

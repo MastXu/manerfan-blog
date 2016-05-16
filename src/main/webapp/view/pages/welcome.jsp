@@ -6,6 +6,8 @@
 <%@ taglib prefix="spring" uri="spring_tld" %> <!-- http://www.springframework.org/tags -->
 <%@ taglib prefix="sec" uri="security_tld" %> <!-- http://www.springframework.org/security/tags" --> 
 
+<%-- http://www.blacktie.co/demo/kelvin --%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,79 +16,166 @@
     <title>ManerFan的博客</title>
     
 	<link rel="stylesheet" href="<c:url value='/view/style/themes/default.css?v=${version}'/>" type="text/css">
-	<style>
-		body {position: absolute;width: 100%;height: 100%;}
-		.jumbotron {position: relative;padding-top: 50px;padding-bottom: 85px;margin: -200px auto 0;top: 50%;width: 100%; background-color:transparent;}
-	    .col {width: 126px;float: left;margin: 20px;}
-	    .col.panel a {font-size: 3em;}
-	    .col.panel a:hover, .col.panel a:focus {text-decoration: none;}
-	    .col.panel .panel-footer {text-align: center;}
-	    
-	    footer {background-color: transparent;border: none;}
-	    footer * {color:#3f3f3f;}
-	</style>
+	<link rel="stylesheet" href="<c:url value='/view/css/welcome/welcome.css?v=${version}'/>" type="text/css">
 </head>
 <body class="hidden-print">
-    <c:set var="position" value="fixed" scope="request"></c:set>
+    <c:set var="position" value="relative" scope="request"></c:set>
     <c:import url="nav/header.jsp" />
     
-    <c:import url="common/bgfss.jsp" />
-
-	<div class="jumbotron">
-		<div style="display: table; margin: auto;">
-			<div class="panel panel-default col">
-				<div class="panel-body"><a href="#" class="icon-th-list"></a></div>
-				<div class="panel-footer">进入博客</div>
+    <div class="headerwrap">
+		<div class="container">
+			<div class="row text-center">
+				<div class="col-lg-12">
+					<h1>Maner · Fan</h1>
+					<h3>Java Web 开发 | manerfan@foxmail.com</h3>
+				</div>
+				<div class="col-lg-12" style="margin-top: 60px;">
+					<a href="<c:url value='/article' />" type="button" class="btn btn-info">进入博客</a>
+					<a href="#about-author" type="button" class="btn-scroll btn btn-info">关于作者</a>
+					<a href="#about-mblog" type="button" class="btn-scroll btn btn-info">关于博客</a>
+				</div>
 			</div>
-			<div class="panel panel-default col">
-				<div class="panel-body"><a href="<c:url value='/editor' />" class="icon-pencil-squared"></a></div>
-				<div class="panel-footer">写文章</div>
-			</div>
-			<div class="panel panel-default col">
-				<div class="panel-body"><a target="_blank" href="https://github.com/ManerFan/manerfan-blog" class="icon-github-circled"></a></div>
-				<div class="panel-footer">GitHub</div>
-			</div>
-			<!-- <div class="panel panel-default col">
-				<div class="panel-body"><a target="_blank" href="https://github.com/ManerFan/manerfan-blog/wiki" class="icon-won"></a></div>
-				<div class="panel-footer">Wiki</div>
-			</div> -->
-			<div class="panel panel-default col">
-				<div class="panel-body"><a class="icon-book"></a></div>
-				<div class="panel-footer">JAVADOC</div>
-			</div>
-			<div class="panel panel-default col">
-				<div class="panel-body"><a class="icon-user-md"></a></div>
-				<div class="panel-footer">关于我</div>
-			</div>
-			<!-- <div class="panel panel-default col">
-				<div class="panel-body"><a href="mailto:manerfan@foxmail.com" class="icon-mail-alt"></a></div>
-				<div class="panel-footer">EMAIL</div>
-			</div>
-			<div class="panel panel-default col">
-				<div class="panel-body"><a class="icon-chat-empty" href="#" data-toggle="modal" data-target="#wx-modal"></a></div>
-				<div class="panel-footer">微信</div>
-			</div> -->
 		</div>
+		<a href="#about-author" type="button" class="btn-scroll next btn btn-info"></a>
 	</div>
-
-	<!-- 微信
-	<div class="modal fade bs-example-modal-sm" id="wx-modal" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-sm" role="document">
-			<div class="modal-content">
-				<div class="modal-body" style="margin: auto; display: table;">
-					<img src="<c:url value='/view/images/qt-winxin.png' />"></img>
+	
+	<div id="about-author" class="intro">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-2 col-lg-offset-1">
+					<h5>ABOUT</h5>
+				</div>
+				<div class="col-lg-6">
+					<p>I'm web designer &amp; front-end developer with 7 years of professional experience. I'm interested in all kinds of visual communication, but my major focus is on designing web, mobile &amp; tablet interfaces. I also have skills in other fields like branding, icon design or web development.</p>
+				</div>
+				<div class="col-lg-3">
+					<p><a href="http://www.blacktie.co/demo/kelvin/#"><i class="icon-file"></i></a> <sm>DOWNLOAD PDF</sm></p>
 				</div>
 			</div>
 		</div>
 	</div>
-	 -->
+	
+	<div class="container desc">
+		<div class="row">
+			<div class="col-lg-2 col-lg-offset-1">
+				<h5>EDUCATION</h5>
+			</div>
+			<div class="col-lg-6">
+				<p>
+					<t>西安电子科技大学</t> 硕士<br>
+					电路与系统 <br>
+					<i>2.5 Years Course</i>
+				</p>
+			</div>
+			<div class="col-lg-3">
+				<p><sm>SEPT 2010 - APRIL 2013</sm></p>
+			</div>
 
+			<div class="col-lg-6 col-lg-offset-3">
+				<p>
+					<t>西安电子科技大学</t> 学士<br>
+					电子信息工程 <br>
+					<i>4 Years Course</i>
+				</p>
+			</div>
+			<div class="col-lg-3">
+				<p><sm>SEPT 2006 - SEPT 2010</sm></p>
+			</div>
+		</div>
+		<br>
+		<hr>
+	</div>
+	
+	<div class="container desc">
+		<div class="row">
+			<div class="col-lg-2 col-lg-offset-1">
+				<h5>WORK</h5>
+			</div>
+			<div class="col-lg-6">
+				<p><t>研发工程师</t><br>
+					Sumavision Corp. <br>
+				</p>
+				<p><more>稍后补充</more></p>
+			</div>
+			<div class="col-lg-3">
+				<p><sm>APRIL 2013 - CURRENT</sm></p>
+			</div>
+		</div>
+		<br>
+		<hr>
+	</div>
+	
+	<div class="intro">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-2 col-lg-offset-1">
+					<h5>SKILLS</h5>
+				</div>
+				<div class="col-lg-3">
+					<div id="java" class="skills"></div>
+					<p>Java</p>
+					<br>
+				</div>
+				<div class="col-lg-3">
+					<div id="springframework" class="skills"></div>
+					<p>SpringFramework</p>
+					<br>
+				</div>
+				<div class="col-lg-3">
+					<div id="hibernate" class="skills"></div>
+					<p>Hibernate</p>
+					<br>
+				</div>
+				
+				<div class="col-lg-3 col-lg-offset-3">
+					<div id="mysql" class="skills"></div>
+					<p>Mysql/H2DB</p>
+					<br>
+				</div>
+				
+				<div class="col-lg-3">
+					<div id="html" class="skills"></div>
+					<p>Html/CSS</p>
+					<br>
+				</div>
+				
+				<div class="col-lg-3">
+					<div id="javascript" class="skills"></div>
+					<p>JavaScript</p>
+					<br>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container desc">
+		<div class="row">
+				<div class="col-lg-2 col-lg-offset-1">
+					<h5>PORTFOLIO</h5>
+				</div>
+				<div class="col-lg-6">
+					<p><img class="img-responsive" src="<c:url value='/view/css/welcome/img/protfolio01.jpg' />" alt=""></p>
+				</div>
+				<div class="col-lg-3">
+					<p>M(anerFan)Blog</p>
+				<p>
+					<more>
+						MBLOG是一个主要面向个人网站搭建的博客系统，使用纯JAVA开发。
+						<br><br>
+						<sm><i class="icon-tag"></i> develop</sm>
+					</more>
+				</p>
+				</div>
+		</div>
+		<br>
+		<br>
+		<a href="#about-author" type="button" class="btn-scroll next btn btn-info"></a>
+	</div>
+    
 	<c:import url="nav/footer.jsp" />
 	
 	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
-	<script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>
-	<script>
-		require(["jquery","bootstrap","FSS"], function(){FSS("bg-container", "bg-output");});
-	</script>
+    <script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>
+    <script src="<c:url value="/view/js/welcome.js?v=${version}" />"></script>
 </body>
 </html>

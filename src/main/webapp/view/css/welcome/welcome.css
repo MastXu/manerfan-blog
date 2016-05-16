@@ -1,0 +1,90 @@
+@CHARSET "UTF-8";
+
+.headerwrap {
+	background: url(./img/header-bg.jpg) no-repeat center top;
+	padding-top: 60px;
+	text-align: center;
+	background-attachment: relative;
+	background-position: center center;
+	min-height: 500px;
+	width: 100%;
+	-webkit-background-size: 100%;
+	-moz-background-size: 100%;
+	-o-background-size: 100%;
+	background-size: 100%;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	position: relative;
+}
+
+.headerwrap * {
+	text-align: center;
+	color: white;
+}
+
+.headerwrap h1 {
+	font-size: 4em;
+}
+
+.headerwrap h3 {
+	font-size: 1.5em;
+}
+
+.next {
+	display: block;
+    position: absolute;
+    width: 50px;
+    bottom: 2px;
+    left: 50%;
+    margin-left: -25px;
+}
+
+.next:before {
+	font-family: 'Glyphicons Halflings';
+	font-size: 24px;
+	content: "\e259";
+}
+
+.intro {
+	background: #2c3e50;
+	padding-top: 60px;
+	padding-bottom: 60px;
+	color: white;
+}
+
+.desc {
+	position: relative;
+	padding-top: 50px;
+}
+
+.desc t {
+	color: #34495e;
+	font-weight: 700;
+}
+
+sm {
+	font-size: 12px;
+}
+
+.desc imp {
+	padding: 6px;
+	color: white;
+	background: #34495e;
+}
+
+.desc more {
+	color: #95a5a6;
+}
+
+.skills {
+	margin: auto;
+	width: 130px;
+	height: 130px;
+	width: 130px;
+}
+
+.skills+p {
+	text-align: center;
+}
