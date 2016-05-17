@@ -37,7 +37,7 @@ define([
 
     function initCategory() {
         $.ajax({
-            url: "/category/hots/10",
+            url: "/article/category/hots/10",
             async: true,
             type: 'post',
             cache: false,

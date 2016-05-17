@@ -55,7 +55,7 @@ require([
             if (!!result) {
                 $("._loading").show();
                 $.ajax({
-                    url: "/category/delete/" + name,
+                    url: "/article/category/delete/" + name,
                     async: true,
                     type: 'post',
                     cache: false,
@@ -105,7 +105,7 @@ require([
 
             $("._loading").show();
             $.ajax({
-                url: "/category/rename/" + oldName,
+                url: "/article/category/rename/" + oldName,
                 async: true,
                 type: 'post',
                 cache: false,
@@ -143,7 +143,7 @@ require([
         $("._loading").show();
         $(".category-list").empty();
         $.ajax({
-            url: "/category/list/all",
+            url: "/article/category/list/all",
             async: true,
             type: 'post',
             cache: false,

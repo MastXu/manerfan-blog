@@ -36,7 +36,7 @@ import com.manerfan.common.utils.logger.MLogger;
  * @author ManerFan 2016年4月7日
  */
 @Controller
-@RequestMapping("/category")
+@RequestMapping("/article/category")
 public class CategoryController extends ControllerBase {
 
     @Autowired

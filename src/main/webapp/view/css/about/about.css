@@ -52,6 +52,7 @@
 	padding-top: 60px;
 	padding-bottom: 60px;
 	color: white;
+	position: relative;
 }
 
 .desc {
@@ -74,6 +75,7 @@ sm {
 	background: #34495e;
 }
 
+.intro more,
 .desc more {
 	color: #95a5a6;
 }

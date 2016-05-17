@@ -13,14 +13,14 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="author" content="ManerFan">
-    <title>ManerFan的博客</title>
+    <title>Maner·Fan</title>
     
 	<link rel="stylesheet" href="<c:url value='/view/style/themes/default.css?v=${version}'/>" type="text/css">
 	<link rel="stylesheet" href="<c:url value='/view/css/about/about.css?v=${version}'/>" type="text/css">
 </head>
 <body class="hidden-print">
     <c:set var="position" value="relative" scope="request"></c:set>
-    <c:import url="nav/header.jsp" />
+    <c:import url="../nav/header.jsp" />
     
     <div class="headerwrap">
 		<div class="container">
@@ -31,15 +31,13 @@
 				</div>
 				<div class="col-lg-12" style="margin-top: 60px;">
 					<a href="<c:url value='/article' />" type="button" class="btn btn-info">进入博客</a>
-					<a href="#about-author" type="button" class="btn-scroll btn btn-info">关于作者</a>
-					<a href="#about-mblog" type="button" class="btn-scroll btn btn-info">关于博客</a>
 				</div>
 			</div>
 		</div>
-		<a href="#about-author" type="button" class="btn-scroll next btn btn-info"></a>
+		<a href="#about" type="button" class="btn-scroll next btn btn-info"></a>
 	</div>
 	
-	<div id="about-author" class="intro">
+	<div id="about" class="intro">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-2 col-lg-offset-1">
@@ -53,9 +51,10 @@
 				</div>
 			</div>
 		</div>
+		<a href="#education" type="button" class="btn-scroll next btn btn-info"></a>
 	</div>
 	
-	<div class="container desc">
+	<div id="education" class="container desc">
 		<div class="row">
 			<div class="col-lg-2 col-lg-offset-1">
 				<h5>EDUCATION</h5>
@@ -86,13 +85,14 @@
 		<hr>
 	</div>
 	
-	<div class="container desc">
+	<div id="work" class="container desc">
 		<div class="row">
 			<div class="col-lg-2 col-lg-offset-1">
 				<h5>WORK</h5>
 			</div>
 			<div class="col-lg-6">
-				<p><t>研发工程师</t><br>
+				<p>
+					<t>研发工程师</t><br>
 					Sumavision Corp. <br>
 				</p>
 				<p><more>稍后补充</more></p>
@@ -102,10 +102,11 @@
 			</div>
 		</div>
 		<br>
-		<hr>
+		<br>
+		<a href="#skills" type="button" class="btn-scroll next btn btn-info"></a>
 	</div>
 	
-	<div class="intro">
+	<div id="skills" class="intro">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-2 col-lg-offset-1">
@@ -144,23 +145,31 @@
 					<p>JavaScript</p>
 					<br>
 				</div>
+				
+				<div class="col-lg-9 col-lg-offset-3">
+					<p><more>
+					待补充 ... ... ... ... ... ... ... ...
+					</more></p>
+				</div>
 			</div>
 		</div>
+		<a href="#portfolio" type="button" class="btn-scroll next btn btn-info"></a>
 	</div>
 	
-	<div class="container desc">
+	<div id="portfolio" class="container desc">
 		<div class="row">
 				<div class="col-lg-2 col-lg-offset-1">
 					<h5>PORTFOLIO</h5>
 				</div>
 				<div class="col-lg-6">
-					<p><img class="img-responsive" src="<c:url value='/view/css/welcome/img/protfolio01.jpg' />" alt=""></p>
+					<p><img class="img-responsive" src="<c:url value='/view/css/about/img/protfolio01.jpg' />" alt=""></p>
 				</div>
 				<div class="col-lg-3">
 					<p>M(anerFan)Blog</p>
 				<p>
 					<more>
-						MBLOG是一个主要面向个人网站搭建的博客系统，使用纯JAVA开发。
+						MBLOG是一个主要面向个人网站搭建的博客系统，使用纯JAVA开发。<br>
+						待补充 ... ... ...
 						<br><br>
 						<sm><i class="icon-tag"></i> develop</sm>
 					</more>
@@ -169,13 +178,12 @@
 		</div>
 		<br>
 		<br>
-		<a href="#about-author" type="button" class="btn-scroll next btn btn-info"></a>
 	</div>
     
-	<c:import url="nav/footer.jsp" />
+	<c:import url="../nav/footer.jsp" />
 	
 	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
     <script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>
-    <script src="<c:url value="/view/js/welcome.js?v=${version}" />"></script>
+    <script src="<c:url value="/view/js/about/author.js?v=${version}" />"></script>
 </body>
 </html>

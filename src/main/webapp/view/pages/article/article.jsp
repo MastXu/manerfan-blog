@@ -50,6 +50,7 @@
 					<pre><i class="glyphicon glyphicon-list"></i> <span>分类</span></pre>
 					<span class="callout-danger">版权声明：本文为博主原创文章，未经博主允许不得转载。</span>
 					<article><c:out value="${content}" escapeXml="false"/></article>
+					<c:import url='../share/bdshare.jsp' />
 				</div>
 			</div>
 			<nav>

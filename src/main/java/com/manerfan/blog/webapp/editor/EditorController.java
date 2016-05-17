@@ -37,7 +37,7 @@ import com.manerfan.common.utils.http.HttpClient;
  */
 @Controller
 @RequestMapping("/editor")
-public class Editor extends ControllerBase {
+public class EditorController extends ControllerBase {
 
     @Autowired
     private HttpClient httpClient;

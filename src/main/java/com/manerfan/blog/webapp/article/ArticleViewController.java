@@ -179,6 +179,14 @@ public class ArticleViewController extends ControllerBase {
         return mv;
     }
 
+    /**
+     * <pre>
+     * 获取最近的top个归档数据
+     * </pre>
+     *
+     * @param top
+     * @return
+     */
     @RequestMapping("/archive/hots/{top}")
     @ResponseBody
     public Object hotArchives(@PathVariable("top") int top) {
@@ -195,6 +203,14 @@ public class ArticleViewController extends ControllerBase {
         return data;
     }
 
+    /**
+     * <pre>
+     *  获取浏览次数最多的top个文章列表
+     * </pre>
+     *
+     * @param top
+     * @return
+     */
     @RequestMapping("/hit/hots/{top}")
     @ResponseBody
     public Object hotHits(@PathVariable("top") int top) {
@@ -211,6 +227,13 @@ public class ArticleViewController extends ControllerBase {
         return data;
     }
 
+    /**
+     * <pre>
+     * 获取所有的归档数据
+     * </pre>
+     *
+     * @return
+     */
     @RequestMapping("/archive/list/all")
     @ResponseBody
     public Object archiveList() {
@@ -255,6 +278,16 @@ public class ArticleViewController extends ControllerBase {
         return data;
     }
 
+    /**
+     * <pre>
+     * 根据文章分类，按照创建时间降序排序，分页查询
+     * </pre>
+     *
+     * @param name
+     * @param page
+     * @param size
+     * @return
+     */
     @RequestMapping("/category/list/{name}")
     @ResponseBody
     public Object articleListByCategory(@PathVariable String name, @RequestParam int page,
@@ -277,6 +310,17 @@ public class ArticleViewController extends ControllerBase {
         return data;
     }
 
+    /**
+     * <pre>
+     * 根据归档时间，按照创建时间降序排序，分页查询
+     * </pre>
+     *
+     * @param year
+     * @param month
+     * @param page
+     * @param size
+     * @return
+     */
     @RequestMapping("/archive/list/{year}/{month}")
     @ResponseBody
     public Object articleListByArchive(@PathVariable String year, @PathVariable String month,
