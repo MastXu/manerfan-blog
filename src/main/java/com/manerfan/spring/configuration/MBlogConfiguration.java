@@ -15,9 +15,20 @@
  */
 package com.manerfan.spring.configuration;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
+import org.springframework.util.Assert;
+
+import com.manerfan.common.utils.lucene.LuceneManager;
 
 /**
  * <pre>
@@ -32,7 +43,41 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
         SpringSecurityConfiguration.class /* spring security */
 })
 @EnableSpringConfigured
+@PropertySource("classpath:properties/settings.properties") /* 加载配置 */
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-public class MBlogConfiguration {
+public class MBlogConfiguration implements InitializingBean {
+
+    private @Value("${article.basedir}") String basedir;
+
+    @Bean
+    @Lazy(false)
+    public LuceneManager luceneManager() throws IOException {
+        return LuceneManager.newFSInstance(new File(basedir, "index"));
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Assert.hasText(basedir);
+
+        File baseDir = new File(basedir);
+        if (!baseDir.exists()) {
+            Assert.isTrue(baseDir.mkdirs());
+        }
+
+        File imageDir = new File(baseDir, "image");
+        if (!imageDir.exists()) {
+            Assert.isTrue(imageDir.mkdirs());
+        }
+
+        File articleDir = new File(baseDir, "article");
+        if (!articleDir.exists()) {
+            Assert.isTrue(articleDir.mkdirs());
+        }
+
+        File indexDir = new File(baseDir, "index");
+        if (!indexDir.exists()) {
+            Assert.isTrue(indexDir.mkdirs());
+        }
+    }
 
 }

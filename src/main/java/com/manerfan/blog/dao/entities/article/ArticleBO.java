@@ -20,15 +20,22 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.lucene.index.IndexOptions;
 import org.springframework.beans.BeanUtils;
 
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
+import com.manerfan.common.utils.lucene.annotations.DocumentId;
+import com.manerfan.common.utils.lucene.annotations.LuceneIndexed;
+import com.manerfan.common.utils.lucene.annotations.NumericField;
+import com.manerfan.common.utils.lucene.annotations.StringField;
+import com.manerfan.common.utils.lucene.annotations.TextField;
 
 /**
  * <pre>文章</pre>
  *
  * @author ManerFan 2016年4月1日
  */
+@LuceneIndexed
 public class ArticleBO implements Serializable {
 
     /**
@@ -39,16 +46,19 @@ public class ArticleBO implements Serializable {
     /**
      * 标题
      */
+    @TextField(name = "title", store = true, norms = true, boost = 1.5f)
     private String title;
 
     /**
      * 摘要
      */
+    @TextField(name = "summary", store = true, norms = true, boost = 1.2f)
     private String summary;
 
     /**
      * 文章id
      */
+    @DocumentId(name = "uid")
     private String uid;
 
     /**
@@ -62,21 +72,25 @@ public class ArticleBO implements Serializable {
     /**
      * 纯文字内容
      */
+    @TextField(name = "content", norms = true)
     private String contentWithTEXT;
 
     /**
      * 创建时间
      */
+    @NumericField(name = "createTime", store = true)
     private Date createTime;
 
     /**
      * 最后一次修改时间
      */
+    @NumericField(name = "lastModTime", store = true, indexOptions = IndexOptions.NONE)
     private Date lastModTime;
 
     /**
      * 阅读次数
      */
+    @NumericField(name = "hits", store = true, indexOptions = IndexOptions.NONE)
     private int hits = 0;
 
     /**
@@ -88,6 +102,12 @@ public class ArticleBO implements Serializable {
      * 作者
      */
     private String author;
+
+    /**
+     * 分类
+     */
+    @StringField(name = "category", store = true)
+    private Set<String> categories = new HashSet<>();
 
     public static ArticleBO transFromPO(ArticleEntity articleEntity) {
         if (null == articleEntity) {
@@ -108,11 +128,6 @@ public class ArticleBO implements Serializable {
     public void setAuthor(String author) {
         this.author = author;
     }
-
-    /**
-     * 分类
-     */
-    private Set<String> categories = new HashSet<>();
 
     public String getTitle() {
         return title;
