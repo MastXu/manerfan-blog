@@ -60,6 +60,8 @@ import com.manerfan.blog.dao.repositories.article.ArticleCategoryMapRepository;
 import com.manerfan.blog.dao.repositories.article.ArticleRepository;
 import com.manerfan.blog.dao.repositories.article.CategoryRepository;
 import com.manerfan.common.utils.logger.MLogger;
+import com.manerfan.common.utils.lucene.LuceneManager;
+import com.manerfan.common.utils.lucene.annotations.manager.LuceneCommit;
 
 /**
  * <pre>文章操作</pre>
@@ -96,6 +98,9 @@ public class ArticleService implements InitializingBean {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private LuceneManager luceneManager;
+
     /**
      * <pre>
      * 保存或更新文章,并返回文章ID
@@ -107,6 +112,7 @@ public class ArticleService implements InitializingBean {
      * @throws ParseException 
      */
     /* 这里需要销毁多个缓存，就不使用注解了 @CacheEvict(cacheNames = "resources-cache", beforeInvocation = true, keyGenerator = "ResourceKeyGenerator")*/
+    @LuceneCommit(managerBeanName = "articleLuceneManager")
     public String saveOrUpdate(ArticleBO article) throws IOException, ParseException {
         /* 文章信息 */
 
@@ -292,12 +298,13 @@ public class ArticleService implements InitializingBean {
      * @param   state   文章状态
      * @param   uid     文章标识
      */
+    @LuceneCommit(managerBeanName = "articleLuceneManager")
     public void updateArticleState(State state, String uid) {
         articleRepository.updateArticleState(state, uid);
     }
 
     public static enum FileType {
-                                 markdown(".md"), html(".html"), txt(".txt");
+        markdown(".md"), html(".html"), txt(".txt");
 
         private String type;
 
@@ -331,6 +338,7 @@ public class ArticleService implements InitializingBean {
      *
      * @param   uid 文章标识
      */
+    @LuceneCommit(managerBeanName = "articleLuceneManager")
     public void deleteArticle(String uid) {
         evictArticleCache(uid);
 
@@ -360,7 +368,7 @@ public class ArticleService implements InitializingBean {
 
     /**
      * <pre>
-     * 文章阅读树加一
+     * 文章阅读数量加一
      * </pre>
      *
      * @param uid

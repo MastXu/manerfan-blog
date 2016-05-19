@@ -90,7 +90,6 @@ public class ArticleBO implements Serializable {
     /**
      * 阅读次数
      */
-    @NumericField(name = "hits", store = true, indexOptions = IndexOptions.NONE)
     private int hits = 0;
 
     /**
