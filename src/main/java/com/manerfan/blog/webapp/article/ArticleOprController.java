@@ -123,7 +123,12 @@ public class ArticleOprController extends ControllerBase {
     @ResponseBody
     public Object delete(@PathVariable String uid) {
         Map<String, Object> data = makeAjaxData();
-        articleService.deleteArticle(uid);
+        try {
+            articleService.deleteArticle(uid);
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Delete Article File [{}] Error!", uid, e);
+            data.put(ERRMSG, "删除文章错误");
+        }
         return data;
     }
 

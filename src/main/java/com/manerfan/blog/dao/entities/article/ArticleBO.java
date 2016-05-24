@@ -108,6 +108,11 @@ public class ArticleBO implements Serializable {
     @StringField(name = "category", store = true)
     private Set<String> categories = new HashSet<>();
 
+    /**
+     * lucene评分
+     */
+    private float score;
+
     public static ArticleBO transFromPO(ArticleEntity articleEntity) {
         if (null == articleEntity) {
             return null;
@@ -214,6 +219,14 @@ public class ArticleBO implements Serializable {
 
     public void setContentWithTEXT(String contentWithTEXT) {
         this.contentWithTEXT = contentWithTEXT;
+    }
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
     }
 
 }

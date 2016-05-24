@@ -32,7 +32,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ResourceUtils;
@@ -47,7 +47,7 @@ import com.manerfan.common.utils.logger.MLogger;
  *
  * @author ManerFan 2016年3月15日
  */
-@Component
+@Service
 public class ImageService implements InitializingBean {
 
     private static final SimpleDateFormat NAME_SDF = new SimpleDateFormat("yyyyMMddHHmmssSSS");

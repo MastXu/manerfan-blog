@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -61,6 +62,7 @@ import com.manerfan.blog.dao.repositories.article.ArticleRepository;
 import com.manerfan.blog.dao.repositories.article.CategoryRepository;
 import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.lucene.LuceneManager;
+import com.manerfan.common.utils.lucene.LuceneUtils;
 import com.manerfan.common.utils.lucene.annotations.manager.LuceneCommit;
 
 /**
@@ -110,10 +112,14 @@ public class ArticleService implements InitializingBean {
      * @return  文章标题
      * @throws IOException 
      * @throws ParseException 
+     * @throws InvocationTargetException 
+     * @throws IllegalArgumentException 
+     * @throws IllegalAccessException 
      */
     /* 这里需要销毁多个缓存，就不使用注解了 @CacheEvict(cacheNames = "resources-cache", beforeInvocation = true, keyGenerator = "ResourceKeyGenerator")*/
     @LuceneCommit(managerBeanName = "articleLuceneManager")
-    public String saveOrUpdate(ArticleBO article) throws IOException, ParseException {
+    public String saveOrUpdate(ArticleBO article) throws IOException, ParseException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         /* 文章信息 */
 
         if (!StringUtils.hasText(article.getUid())) {
@@ -170,6 +176,17 @@ public class ArticleService implements InitializingBean {
         // text
         FileCopyUtils.copy(article.getContentWithTEXT(),
                 new FileWriter(new File(dir, articleEntity.getUid() + FileType.txt.type)));
+
+        /* 保存/更新 索引 */
+        if (State.PUBLISHED.equals(articleEntity.getState())) {
+            // 非发布状态，删除索引
+            article.setCreateTime(articleEntity.getCreateTime());
+            article.setLastModTime(articleEntity.getLastModTime());
+            LuceneUtils.addOrUpdateIndex(luceneManager.getIndexWriter(), article);
+        } else {
+            // 发布状态，更新/建立索引
+            LuceneUtils.deleteIndex(luceneManager.getIndexWriter(), "uid", articleEntity.getUid());
+        }
 
         return articleEntity.getUid();
     }
@@ -297,14 +314,49 @@ public class ArticleService implements InitializingBean {
      *
      * @param   state   文章状态
      * @param   uid     文章标识
+     * @throws IOException 
      */
     @LuceneCommit(managerBeanName = "articleLuceneManager")
-    public void updateArticleState(State state, String uid) {
+    public void updateArticleState(State state, String uid) throws IOException {
         articleRepository.updateArticleState(state, uid);
+
+        if (!State.PUBLISHED.equals(state)) {
+            // 非发布状态，将索引删除
+            LuceneUtils.deleteIndex(luceneManager.getIndexWriter(), "uid", uid);
+        } else {
+            // 发布状态，重新建立索引
+            reIndexArticle(articleRepository.findOneByUid(uid),
+                    articleCategoryMapRepository.findByArticleUid(uid));
+        }
+    }
+
+    /**
+     * <pre>
+     * 重新建立索引
+     * </pre>
+     *
+     * @param article
+     * @param categories
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    protected void reIndexArticle(ArticleEntity article, List<CategoryEntity> categories)
+            throws FileNotFoundException, IOException {
+        if (null == article) {
+            return;
+        }
+
+        ArticleBO bo = new ArticleBO();
+        BeanUtils.copyProperties(article, bo);
+        bo.setContentWithTEXT(getContent(article.getUid(), FileType.txt));
+
+        if (!ObjectUtils.isEmpty(categories)) {
+            categories.forEach(category -> bo.getCategories().add(category.getName()));
+        }
     }
 
     public static enum FileType {
-        markdown(".md"), html(".html"), txt(".txt");
+                                 markdown(".md"), html(".html"), txt(".txt");
 
         private String type;
 
@@ -337,9 +389,10 @@ public class ArticleService implements InitializingBean {
      * </pre>
      *
      * @param   uid 文章标识
+     * @throws IOException 
      */
     @LuceneCommit(managerBeanName = "articleLuceneManager")
-    public void deleteArticle(String uid) {
+    public void deleteArticle(String uid) throws IOException {
         evictArticleCache(uid);
 
         articleCategoryMapRepository.deleteByArticleUid(uid);
@@ -364,6 +417,8 @@ public class ArticleService implements InitializingBean {
                 }
             });
         }
+
+        LuceneUtils.deleteIndex(luceneManager.getIndexWriter(), "uid", uid);
     }
 
     /**

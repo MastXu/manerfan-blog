@@ -52,7 +52,8 @@ public class MBlogConfiguration implements InitializingBean {
     @Bean(name = "articleLuceneManager")
     @Lazy(false)
     public LuceneManager luceneManager() throws IOException {
-        return LuceneManager.newFSInstance(new File(basedir, "index"));
+        LuceneManager luceneManager = LuceneManager.newFSInstance(new File(basedir, "index"));
+        return luceneManager;
     }
 
     @Override

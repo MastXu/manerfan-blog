@@ -94,7 +94,14 @@
  * 
  * /article/category/delete/{name}      ajax    删除分类
  * /article/category/rename/{oldName}   ajax    重命名分类
+ * ======================================================
+ * ArticleSearchController
+ * {@link com.manerfan.blog.webapp.article.ArticleSearchController}
  * 
+ * /article/search                      page    搜索页
+ * /article/search/{kw}                 page    搜索列表页
+ * /article/query                       ajax    分页查询
+ * /article/morelike                    ajax    查找相关推荐文章
  * ======================================================
  * ImageController
  * {@link com.manerfan.blog.webapp.article.ImageController}
