@@ -111,25 +111,25 @@ public class ImageController extends ControllerBase {
         return data;
     }
 
-    @RequestMapping("/list")
+    @RequestMapping("/query")
     @ResponseBody
-    public Object list() {
+    public Object query() {
         Map<String, Object> data = makeAjaxData();
         data.put("dirs", imageService.listFiles(null));
         return data;
     }
 
-    @RequestMapping("/list/{year}")
+    @RequestMapping("/query/{year}")
     @ResponseBody
-    public Object list(@PathVariable("year") String year) {
+    public Object query(@PathVariable("year") String year) {
         Map<String, Object> data = makeAjaxData();
         data.put("dirs", imageService.listFiles(year));
         return data;
     }
 
-    @RequestMapping("/list/{year}/{month}")
+    @RequestMapping("/query/{year}/{month}")
     @ResponseBody
-    public Object list(@PathVariable("year") String year, @PathVariable("month") String month) {
+    public Object query(@PathVariable("year") String year, @PathVariable("month") String month) {
         Map<String, Object> data = makeAjaxData();
         data.put("imgs", imageService.listFiles(year, month));
         return data;

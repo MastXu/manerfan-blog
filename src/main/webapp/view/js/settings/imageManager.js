@@ -113,7 +113,7 @@ require([
         var path = !!relative ? relative : "";
         $("._loading").show();
         $.ajax({
-            url: "/article/image/list/" + path,
+            url: "/article/image/query/" + path,
             async: true,
             type: 'post',
             cache: false,

@@ -107,7 +107,7 @@ public class ArticleViewController extends ControllerBase {
      * 按创建时间浏览文章列表
      * </pre>
      */
-    @RequestMapping
+    @RequestMapping()
     public ModelAndView articleList() {
         ModelAndView mv = new ModelAndView("article/articleList");
         mv.addObject("displayname", "");
@@ -234,9 +234,9 @@ public class ArticleViewController extends ControllerBase {
      *
      * @return
      */
-    @RequestMapping("/archive/list/all")
+    @RequestMapping("/archive/query/all")
     @ResponseBody
-    public Object archiveList() {
+    public Object archiveQueryAll() {
         Map<String, Object> data = makeAjaxData();
 
         try {
@@ -260,9 +260,9 @@ public class ArticleViewController extends ControllerBase {
      * @param   size    每页个数
      * @return
      */
-    @RequestMapping("/list")
+    @RequestMapping("/query")
     @ResponseBody
-    public Object articleList(
+    public Object articleQuery(
             @RequestParam(required = false, defaultValue = "PUBLISHED") State state,
             @RequestParam int page, @RequestParam int size) {
         Map<String, Object> data = makeAjaxData();
@@ -288,9 +288,9 @@ public class ArticleViewController extends ControllerBase {
      * @param size
      * @return
      */
-    @RequestMapping("/category/list/{name}")
+    @RequestMapping("/category/query/{name}")
     @ResponseBody
-    public Object articleListByCategory(@PathVariable String name, @RequestParam int page,
+    public Object articleQueryByCategory(@PathVariable String name, @RequestParam int page,
             @RequestParam int size) {
         Map<String, Object> data = makeAjaxData();
 
@@ -321,9 +321,9 @@ public class ArticleViewController extends ControllerBase {
      * @param size
      * @return
      */
-    @RequestMapping("/archive/list/{year}/{month}")
+    @RequestMapping("/archive/query/{year}/{month}")
     @ResponseBody
-    public Object articleListByArchive(@PathVariable String year, @PathVariable String month,
+    public Object articleQueryByArchive(@PathVariable String year, @PathVariable String month,
             @RequestParam int page, @RequestParam int size) {
         Map<String, Object> data = makeAjaxData();
 

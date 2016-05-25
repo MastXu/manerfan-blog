@@ -35,8 +35,8 @@
  * /login/check         ajax    登陆验证
  * /logout              page    登出
  * ======================================================
- * WelcomeController 
- * {@link com.manerfan.blog.webapp.WelcomeController}
+ * HomeController 
+ * {@link com.manerfan.blog.webapp.HomeController}
  * 
  * /                    page    首页
  * ======================================================
@@ -77,12 +77,12 @@
  * /article/archive/{year}/{month}      page    按归档日期浏览文章列表
  * /article/timeline                    page    时间线方式浏览文章列表
  * 
- * /article/list                        ajax    根据文章状态，按照创建时间降序排序，分页查询
- * /article/category/list/{name}        ajax    根据文章分类，按照创建时间降序排序，分页查询
- * /article/archive/list/{year}/{month} ajax    根据归档时间，按照创建时间降序排序，分页查询
+ * /article/query                           ajax    根据文章状态，按照创建时间降序排序，分页查询
+ * /article/category/query/{name}           ajax    根据文章分类，按照创建时间降序排序，分页查询
+ * /article/archive/query/{year}/{month}    ajax    根据归档时间，按照创建时间降序排序，分页查询
  * 
  * /article/archive/hots/{top}          ajax    获取最近的top个归档数据
- * /article/archive/list/all            ajax    获取所有的归档数据
+ * /article/archive/query/all           ajax    获取所有的归档数据
  * 
  * /article/hit/hots/{top}              ajax    获取浏览次数最多的top个文章列表
  * ======================================================
@@ -90,7 +90,7 @@
  * {@link com.manerfan.blog.webapp.article.CategoryController}
  * 
  * /article/category/hots/{top}         ajax    获取使用最多的前top个分类数据
- * /article/category/list/all           ajax    获取所有分类数据
+ * /article/category/query/all          ajax    获取所有分类数据
  * 
  * /article/category/delete/{name}      ajax    删除分类
  * /article/category/rename/{oldName}   ajax    重命名分类
@@ -99,8 +99,7 @@
  * {@link com.manerfan.blog.webapp.article.ArticleSearchController}
  * 
  * /article/search                      page    搜索页
- * /article/search/{kw}                 page    搜索列表页
- * /article/query                       ajax    分页查询
+ * /article/search/query                ajax    分页查询
  * /article/morelike                    ajax    查找相关推荐文章
  * ======================================================
  * ImageController
@@ -109,9 +108,9 @@
  * /article/image/upload                ajax    上传图片
  * /article/image/{dispos}/{name}       ajax    下载/浏览 图片
  * /article/image/delete/{name}         ajax    删除图片
- * /article/image/list                  ajax    浏览图片目录第一层 文件夹(年)
- * /article/image/list/{year}           ajax    浏览图片目录第二层 文件夹(月)
- * /article/image/list/{year}/{month}   ajax    浏览图片目录第三层 图片
+ * /article/image/query                 ajax    浏览图片目录第一层 文件夹(年)
+ * /article/image/query/{year}          ajax    浏览图片目录第二层 文件夹(月)
+ * /article/image/query/{year}/{month}  ajax    浏览图片目录第三层 图片
  * ======================================================
  * AboutController
  * {@link com.manerfan.blog.webapp.about.AboutController}

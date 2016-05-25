@@ -13,24 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.manerfan.blog.webapp;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
- * <pre>首页</pre>
- *
- * @author ManerFan 2016年3月20日
+ * 文章浏览
+ * Created by ManerFan on 2016/4/26 0026.
  */
-@Controller
-@RequestMapping("/")
-public class WelcomeController {
-
-    @RequestMapping
-    public ModelAndView welcome() {
-        return new ModelAndView("welcome");
-    }
-
-}
+require([
+    "jquery",
+    "bootstrap"
+], function ($) {
+    $("input[name='kw']").focus();
+});

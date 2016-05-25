@@ -22,8 +22,8 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.TopDocs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +32,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.manerfan.blog.service.article.LuceneService;
 import com.manerfan.blog.webapp.ControllerBase;
 import com.manerfan.common.utils.logger.MLogger;
+
+import net.sf.ehcache.search.parser.MValue;
 
 /**
  * <pre>
@@ -48,15 +50,13 @@ public class ArticleSearchController extends ControllerBase {
     private LuceneService luceneService;
 
     @RequestMapping
-    public ModelAndView search() {
+    public ModelAndView search(@RequestParam("kw") String keywords) {
         ModelAndView mv = new ModelAndView("article/search");
-        return mv;
-    }
-
-    @RequestMapping("/{kw}")
-    public ModelAndView search(@PathVariable("kw") String keywords) {
-        ModelAndView mv = new ModelAndView("article/searchlist");
-        mv.addObject("keywords", keywords);
+        if (!StringUtils.hasText(keywords)) {
+            mv = new ModelAndView("redirect:/article");
+        } else {
+            mv.addObject("keywords", keywords);
+        }
         return mv;
     }
 

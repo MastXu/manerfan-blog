@@ -127,7 +127,7 @@ require([
         $("._loading").show();
         $(".drafts-box-list").empty();
         $.ajax({
-            url: "/article/list",
+            url: "/article/query",
             async: true,
             type: 'post',
             cache: false,

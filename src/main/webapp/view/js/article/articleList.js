@@ -67,13 +67,13 @@ require([
 
     var searchFuncs = {};
     searchFuncs.article = function (page) {
-        searchArticles("/article/list/", page);
+        searchArticles("/article/query/", page);
     };
     searchFuncs.category = function (page) {
-        searchArticles("/article/category/list/", page);
+        searchArticles("/article/category/query/", page);
     };
     searchFuncs.archive = function (page) {
-        searchArticles("/article/archive/list/", page);
+        searchArticles("/article/archive/query/", page);
     };
     searchFuncs.search = function (page) {
 

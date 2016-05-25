@@ -21,6 +21,7 @@
 require([
     "jquery",
     "echarts",
+    "bootstrap",
     "smoothscroll"
 ], function ($, echarts) {
 

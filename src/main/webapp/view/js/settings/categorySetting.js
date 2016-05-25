@@ -143,7 +143,7 @@ require([
         $("._loading").show();
         $(".category-list").empty();
         $.ajax({
-            url: "/article/category/list/all",
+            url: "/article/category/query/all",
             async: true,
             type: 'post',
             cache: false,

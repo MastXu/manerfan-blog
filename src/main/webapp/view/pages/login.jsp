@@ -21,12 +21,14 @@
         .body {position: absolute !important;width: 450px !important;top: 50% !important;left: 50% !important;margin-top: -235px;margin-left: -230px;}
         .panel {padding: 5px 20px !important;}
         .glyphicon-cloud {top: 10px !important;}
-        form div {position: relative !important;height: 42px !important;margin: 5px 0 !important;}
-        form .form-control {position: absolute !important;top: 0 !important;padding-left: 50px !important;color: #333333;}
-        form .glyphicon {position: absolute !important;z-index: 99 !important;left: 5px !important;font-size: 20px !important;top: 5px !important;}
+        form[name=loginForm] div {position: relative !important;height: 42px !important;margin: 5px 0 !important;}
+        form[name=loginForm] .form-control {position: absolute !important;top: 0 !important;padding-left: 50px !important;color: #333333;}
+        form[name=loginForm] .glyphicon {position: absolute !important;z-index: 99 !important;left: 5px !important;font-size: 20px !important;top: 5px !important;}
         button[type=submit] {margin-top: 10px;}
 		.msg-danger {background-color: rgba(232, 76, 61, 0.5) !important;}
 		.msg-info {background-color: rgba(217, 237, 247, 0.5) !important;}
+		
+		li.login{display: none !important;}
 		
 		footer {background-color: transparent;border: none;}
 	    footer * {color:#3f3f3f;}

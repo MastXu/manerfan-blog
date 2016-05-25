@@ -72,9 +72,9 @@ public class CategoryController extends ControllerBase {
      *
      * @return
      */
-    @RequestMapping("/list/all")
+    @RequestMapping("/query/all")
     @ResponseBody
-    public Object categoryList() {
+    public Object categoryQueryAll() {
         Map<String, Object> data = makeAjaxData();
 
         try {
