@@ -17,6 +17,7 @@
     	.navbar .form-search {display: none !important;}
     	.search-crumb {padding-top: 20px;}
     	.quick-access {margin-top: 10px;}
+    	.pager {text-align: left;}
     </style>
 </head>
 <body>
@@ -53,7 +54,11 @@
     <div class="article-content">
 	    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
 	    	<div class="list-group article-list"></div>
-	    </div>
+			<ul class="pager">
+				<li><a href="#"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+				<li><a href="#">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+			</ul>
+		</div>
 	    
 	    <div class="hidden-xs hidden-sm col-md-2 col-lg-2">
 	    	<c:import url="articleWidget.jsp" />

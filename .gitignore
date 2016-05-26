@@ -5,4 +5,5 @@
 .crunch
 target
 home
+data
 src/main/webapp/view/plugins/
