@@ -16,6 +16,7 @@
 package com.manerfan.blog.service.article;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -59,41 +60,84 @@ public class LuceneService {
      * </pre>
      */
     @Async
-    @Scheduled(cron = "0 0 3 * * SAT") /* 0秒 0分 3时 每天 每月 周六 */
+    @Scheduled(cron = "0 0 3 * * SAT") /* [0秒 0分 3时 每天 每月 周六] 每个周六凌晨三点执行 */
     public void periodicMerge() {
         MLogger.ROOT_LOGGER.info("Start Merge Lucene Index!");
         try {
             /* 如果段数量大于5，则强制合并段，直到至多5个 */
+            luceneManager.forceCommit();
             luceneManager.getIndexWriter().forceMerge(5, false);
+            luceneManager.forceCommit();
         } catch (IOException e) {
             MLogger.ROOT_LOGGER.error("Error! When forceMerge Lucene Index!", e);
         }
     }
 
-    public List<ArticleBO> morelike(String uid, int numHits) throws IOException {
-        TopDocs topDocs = luceneManager.getIndexSearcher()
-                .search(new TermQuery(new Term("uid", uid)), 1);
-        if (null == topDocs) {
+    /**
+     * <pre>
+     * 查找相似文章，并返回至多前numHits条记录
+     * </pre>
+     *
+     * @param uid
+     * @param numHits
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
+    public List<ArticleBO> morelike(String uid, int numHits) throws IOException, ParseException {
+        TopDocs docs = luceneManager.getIndexSearcher().search(new TermQuery(new Term("uid", uid)),
+                1);
+        if (null == docs) {
             return null;
         }
 
-        if (topDocs.totalHits > 1) {
+        if (docs.totalHits > 1) {
             throw new IllegalStateException(
                     "More than one results found by Article Uid [" + uid + "]");
         }
 
-        return parseArticles(topDocs);
+        TopDocs topDocs = LuceneUtils.moreLikeThis(luceneManager.getIndexSearcher(),
+                docs.scoreDocs[0].doc, numHits + 1, "title", "summary", "content");
+
+        return parseArticles(topDocs, uid);
     }
 
+    /**
+     * <pre>
+     * 根据关键词，分页全文检索文章
+     * </pre>
+     *
+     * @param keywords
+     * @param after
+     * @param numHits
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     public TopDocs search(String keywords, ScoreDoc after, int numHits)
             throws IOException, ParseException {
         return LuceneUtils.searchAfter(luceneManager.getIndexSearcher(), after, numHits, keywords,
-                "title", "summury", "content");
+                "title", "summary", "content");
     }
 
-    public List<ArticleBO> parseArticles(TopDocs docs) throws IOException {
+    /**
+     * <pre>
+     * 将TopDocs解析为ArticleBOs，并排除uid在uidExclusions中的文章
+     * </pre>
+     *
+     * @param docs
+     * @param uidExclusions
+     * @return
+     * @throws IOException
+     */
+    public List<ArticleBO> parseArticles(TopDocs docs, String... uidExclusions) throws IOException {
         if (null == docs || ObjectUtils.isEmpty(docs.scoreDocs)) {
             return null;
+        }
+
+        Set<String> exclusions = new HashSet<>();
+        if (!ObjectUtils.isEmpty(uidExclusions)) {
+            exclusions.addAll(Arrays.asList(uidExclusions));
         }
 
         List<ArticleBO> articles = new LinkedList<>();
@@ -101,7 +145,7 @@ public class LuceneService {
         for (ScoreDoc doc : docs.scoreDocs) {
             Document document = luceneManager.getIndexSearcher().doc(doc.doc);
             ArticleBO article = parseDocument(document);
-            if (null != article) {
+            if (null != article && !exclusions.contains(article.getUid())) {
                 article.setScore(doc.score);
                 articles.add(article);
             }
@@ -110,6 +154,14 @@ public class LuceneService {
         return articles;
     }
 
+    /**
+     * <pre>
+     * 将Document解析为ArticleBO
+     * </pre>
+     *
+     * @param doc
+     * @return
+     */
     private ArticleBO parseDocument(Document doc) {
         if (null == doc) {
             return null;
@@ -129,7 +181,7 @@ public class LuceneService {
 
         IndexableField summaryField = doc.getField("summary");
         if (null != summaryField) {
-            article.setTitle(summaryField.stringValue());
+            article.setSummary(summaryField.stringValue());
         }
 
         IndexableField createTimeField = doc.getField("createTime");

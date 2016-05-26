@@ -128,13 +128,21 @@ public class MainEntry {
 
             server.setHandler(context);
 
-            /* 启动web & spring */
-            server.start();
+            /* 
+             * 向JVM注册一个HOOK
+             * listener由server管理清理
+             * spring bean由spring管理清理
+             * 其他由shutdownhook管理清理
+             */
+            Runtime.getRuntime().addShutdownHook(new ShutdownHook(server));
 
+            /* 启动web & spring */
+            server.start(); // 阻塞
         } catch (ParseException e) {
             hf.printHelp(cmdstr, opts, true);
         } catch (Exception e) {
             MLogger.ROOT_LOGGER.error("Start Server Error.", e);
+            System.exit(1);
         }
     }
 

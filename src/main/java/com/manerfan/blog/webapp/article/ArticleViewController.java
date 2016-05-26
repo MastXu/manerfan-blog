@@ -15,8 +15,6 @@
  */
 package com.manerfan.blog.webapp.article;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -33,13 +31,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.manerfan.blog.dao.entities.article.ArchiveBO;
 import com.manerfan.blog.dao.entities.article.ArticleBO;
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
-import com.manerfan.blog.dao.entities.article.CategoryBO;
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
+import com.manerfan.blog.dao.entities.article.CategoryBO;
+import com.manerfan.blog.dao.entities.article.CategoryEntity;
 import com.manerfan.blog.dao.repositories.BOUtils;
 import com.manerfan.blog.dao.repositories.article.ArticleCategoryMapRepository;
 import com.manerfan.blog.service.article.ArticleService;
-import com.manerfan.blog.service.article.CategoryService;
 import com.manerfan.blog.service.article.ArticleService.FileType;
+import com.manerfan.blog.service.article.CategoryService;
+import com.manerfan.blog.service.article.LuceneService;
 import com.manerfan.blog.webapp.ControllerBase;
 import com.manerfan.common.utils.logger.MLogger;
 
@@ -52,10 +52,11 @@ import com.manerfan.common.utils.logger.MLogger;
 @RequestMapping("/article")
 public class ArticleViewController extends ControllerBase {
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private LuceneService luceneService;
 
     @Autowired
     private CategoryService categoryService;
@@ -69,9 +70,10 @@ public class ArticleViewController extends ControllerBase {
      * </pre>
      *
      * @param mv
+     * @throws Exception 
      */
     @RequestMapping("/{uid}")
-    public ModelAndView article(@PathVariable String uid) {
+    public ModelAndView article(@PathVariable String uid) throws Exception {
         ModelAndView mv = new ModelAndView("article/article");
         try {
             ArticleBO article = articleService.get(uid, FileType.html);
@@ -85,18 +87,28 @@ public class ArticleViewController extends ControllerBase {
                 /* 下一篇 */
                 ArticleEntity articleNext = articleService.getNeighbor(uid, false);
 
+                /* 推荐文章 */
+                List<ArticleBO> morelikes = luceneService.morelike(uid, 5);
+
+                /* 分类 */
+                List<CategoryEntity> caegories = articleCategoryMapRepository.findByArticleUid(uid);
+
                 mv.addObject("title", article.getTitle());
+                mv.addObject("summary", article.getSummary());
                 mv.addObject("content", article.getContentWithHTML());
                 mv.addObject("uid", uid);
                 mv.addObject("hits", article.getHits());
-                mv.addObject("createTime", sdf.format(article.getCreateTime()));
+                mv.addObject("createTime", article.getCreateTime());
+
+                mv.addObject("morelikes", morelikes);
+                mv.addObject("categories", caegories);
 
                 mv.addObject("articlePrev", (null == articlePrev) ? null : articlePrev);
                 mv.addObject("articleNext", (null == articleNext) ? null : articleNext);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             MLogger.ROOT_LOGGER.error("Get Article[{}] Error!", uid, e);
-            mv.setViewName("redirect:/article");
+            throw e;
         }
 
         return mv;

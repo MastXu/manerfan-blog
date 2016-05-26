@@ -49,7 +49,7 @@ public class MBlogConfiguration implements InitializingBean {
 
     private @Value("${article.basedir}") String basedir;
 
-    @Bean(name = "articleLuceneManager")
+    @Bean(name = "articleLuceneManager", destroyMethod = "shutdown")
     @Lazy(false)
     public LuceneManager luceneManager() throws IOException {
         LuceneManager luceneManager = LuceneManager.newFSInstance(new File(basedir, "index"));

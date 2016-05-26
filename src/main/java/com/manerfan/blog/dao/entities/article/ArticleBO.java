@@ -72,7 +72,7 @@ public class ArticleBO implements Serializable {
     /**
      * 纯文字内容
      */
-    @TextField(name = "content", norms = true)
+    @TextField(name = "content", norms = true, boost = 1.0f)
     private String contentWithTEXT;
 
     /**

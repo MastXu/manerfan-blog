@@ -6885,15 +6885,23 @@ article.list-group-item > h4 {
   margin: 0.5em 0;
 }
 article.list-group-item > section {
-  max-height: 65px;
+  max-height: 68px;
   margin: 5px 0 10px;
   border-bottom: 1px dotted #BDBDBD;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 article.list-group-item > div {
   height: 25px;
 }
 article.list-group-item a {
   width: auto !important;
+}
+article.list-group-item small {
+  color: #999999;
+}
+.article-panel small {
+  color: #999999;
 }
 .text-overflow {
   white-space: nowrap;
@@ -6907,6 +6915,54 @@ article.list-group-item a {
 .pagination input {
   height: 26px;
   line-height: 26px;
+}
+/********************
+ * search
+ ********************/
+.search-crumb {
+  padding-top: 100px;
+  padding-left: 50px;
+  min-width: 640px;
+}
+.search-logo {
+  width: 120px;
+  display: table;
+  float: left;
+}
+.search-logo div {
+  float: left;
+}
+.search-logo div:first-child {
+  font-size: 64px;
+  line-height: 64px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+.search-logo div:nth-child(2) span {
+  display: block;
+  width: 54px;
+  text-align: center;
+}
+.search-logo div:nth-child(2) span:nth-child(1) {
+  font-size: 24px;
+  line-height: 40px;
+}
+.search-logo div:nth-child(2) span:nth-child(2) {
+  font-size: 12px;
+}
+.search-input.input-group {
+  width: 480px;
+  margin-top: 10px;
+}
+.search-input .form-control,
+.search-input .input-group-btn .btn {
+  height: 48px;
+}
+.search-input .input-group-btn .btn {
+  margin: 0 !important;
+}
+.quick-access {
+  margin: 20px 0 0 160px;
 }
 .alertify,
 .alertify-show,

@@ -33,10 +33,12 @@ require([
 
     var articleListHTML = '<article class="list-group-item" data-uid="<%= articleUid %>">' +
         '<h4><a class="text-info" href="/article/<%= articleUid %>"><%= articleTitle %></a></h4>' +
-        '<section class="text-overflow"><%= articleSummary %></section>' +
+        '<section title="<%= articleSummary %>"><%= articleSummary %></section>' +
         '<div>' +
-        '<span class="label label-info has-badge">阅读<span class="badge"><%= articleHits %></span></span>' +
-        '<span class="label label-info"><i class="icon-calendar"><%= articleCreateTime %></i></span>' +
+        '<small>' +
+        '<%= articleHits %>人阅读&nbsp;' +
+        '<i class="icon-calendar"></i><%= articleCreateTime %>' +
+        '</small>' +
         '<button data-uid="<%= articleUid %>" type="button" class="btn btn-danger btn-xs btn-list-article-recycle"><i class="glyphicon glyphicon-trash"></i>删除</button>' +
         '<button data-uid="<%= articleUid %>" type="button" class="btn btn-warning btn-xs btn-list-article-withdraw"><i class="glyphicon glyphicon-share"></i>撤回</button>' +
         '<a href="/editor/<%= articleUid %>" type="button" class="btn btn-primary btn-xs btn-article-edit"><i class="glyphicon glyphicon-edit"></i>编辑</a>' +
@@ -45,10 +47,12 @@ require([
 
     var articleListAnonymousHTML = '<article class="list-group-item" data-uid="<%= articleUid %>">' +
         '<h4><a class="text-info" href="/article/<%= articleUid %>"><%= articleTitle %></a></h4>' +
-        '<section class="text-overflow"><%= articleSummary %></section>' +
+        '<section title="<%= articleSummary %>"><%= articleSummary %></section>' +
         '<div>' +
-        '<span class="label label-info has-badge">阅读<span class="badge"><%= articleHits %></span></span>' +
-        '<span class="label label-info"><i class="icon-calendar"><%= articleCreateTime %></i></span>' +
+        '<small>' +
+        '<%= articleHits %>人阅读&nbsp;' +
+        '<i class="icon-calendar"><%= articleCreateTime %></i>' +
+        '</small>' +
         '</div>' +
         '</article>';
 
@@ -123,7 +127,7 @@ require([
             }));
         });
 
-        $(".article-list").append(list.join(""));
+        $(".article-list").empty().append(list.join(""));
 
         currentPage = _page;
         totalPages = _totalPages < 1 ? 1 : _totalPages;

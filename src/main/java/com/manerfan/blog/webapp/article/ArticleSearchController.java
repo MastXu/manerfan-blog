@@ -33,8 +33,6 @@ import com.manerfan.blog.service.article.LuceneService;
 import com.manerfan.blog.webapp.ControllerBase;
 import com.manerfan.common.utils.logger.MLogger;
 
-import net.sf.ehcache.search.parser.MValue;
-
 /**
  * <pre>
  * 文章搜索
@@ -51,7 +49,7 @@ public class ArticleSearchController extends ControllerBase {
 
     @RequestMapping
     public ModelAndView search(@RequestParam("kw") String keywords) {
-        ModelAndView mv = new ModelAndView("article/search");
+        ModelAndView mv = new ModelAndView("article/searchList");
         if (!StringUtils.hasText(keywords)) {
             mv = new ModelAndView("redirect:/article");
         } else {

@@ -11,20 +11,17 @@
 <head>
 	<link rel="stylesheet" href="<c:url value='/view/style/themes/default.css?v=${version}'/>" type="text/css">
 
-    <title>ManerFan的博客</title>
+    <title><c:out value="${keywords}"/>·MBLOG</title>
     
     <style>
-    	.search-bg{background: url(<c:url value='/view/images/search-bg.jpg' />) no-repeat center center;position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: -1;}
     	.navbar .form-search {display: none !important;}
-    	footer {background-color: transparent;border: none;}
-	    footer * {color:#3f3f3f;}
+    	.search-crumb {padding-top: 20px;}
+    	.quick-access {margin-top: 10px;}
     </style>
 </head>
 <body>
-    <c:set var="position" value="fixed" scope="request"></c:set>
-    <c:import url="./nav/header.jsp" />
-    
-    <div class="search-bg"></div>
+    <c:set var="position" value="relative" scope="request"></c:set>
+    <c:import url="../nav/header.jsp" />
     
     <div class="search-crumb">
     	<div class="search-logo">
@@ -32,7 +29,7 @@
     		<div><span>BLOG</span><span>全文检索</span></div>
     	</div>
 		<form class="search-input input-group" action="<c:url value='/article/search' />" method='GET'>
-			<input type="text" name="kw" class="form-control">
+			<input id="keywords" type="text" name="kw" value="<c:out value='${keywords}' />" class="form-control">
 			<span class="input-group-btn">
 				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span> 咻一下</button>
 			</span>
@@ -52,16 +49,21 @@
 		</a>
 		<a type="button" class="btn btn-link" target="_blank" href="https://github.com/ManerFan/manerfan-blog"><i class="icon-github-circled"></i>GitHub</a>
 	</div>
-	
-	<%-- <div class="quick-access">
-		<a type="button" class="btn btn-link"  target="_blank" href="<c:url value='/about/author' />"><i class="icon-user-md"></i>关于作者</a>
-		<a type="button" class="btn btn-link"  target="_blank" href="<c:url value='/about/mblog' />"><i class="icon-user-md"></i>关于博客</a>
-	</div> --%>
     
-	<c:import url="./nav/footer.jsp" />
+    <div class="article-content">
+	    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+	    	<div class="list-group article-list"></div>
+	    </div>
+	    
+	    <div class="hidden-xs hidden-sm col-md-2 col-lg-2">
+	    	<c:import url="articleWidget.jsp" />
+	    </div>
+    </div>
+    
+	<c:import url="../nav/footer.jsp" />
 	
 	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
     <script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>
-    <script src="<c:url value="/view/js/home.js?v=${version}" />"></script>
+    <script src="<c:url value="/view/js/article/searchList.js?v=${version}" />"></script>
 </body>
 </html>
