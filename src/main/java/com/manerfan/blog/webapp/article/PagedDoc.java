@@ -38,4 +38,16 @@ public class PagedDoc extends ScoreDoc {
         super(doc, score, shardIndex);
     }
 
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    public void setDoc(int doc) {
+        this.doc = doc;
+    }
+
+    public void setShardIndex(int shardIndex) {
+        this.shardIndex = shardIndex;
+    }
+
 }

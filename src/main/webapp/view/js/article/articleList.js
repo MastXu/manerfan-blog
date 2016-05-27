@@ -21,12 +21,13 @@
 require([
     "jquery",
     'underscore',
+    'nprogress',
     "jBoxUtil",
     "commonutils",
     "js/article/articleWidget",
     "bootstrap",
     'pagination'
-], function ($, _, jBoxUtil, commonutils, articleWidget) {
+], function ($, _, NProgress, jBoxUtil, commonutils, articleWidget) {
     var pageSize = 2;
     var currentPage = 0;
     var totalPages = 0;
@@ -89,7 +90,7 @@ require([
     };
 
     function searchArticles(url, page) {
-        $("._loading").show();
+        NProgress.start();
         $.ajax({
             url: url + funcparam,
             async: true,
@@ -110,7 +111,7 @@ require([
                 jBoxUtil.noticeError({content: "未知错误"});
             },
             complete: function () {
-                $("._loading").hide();
+                NProgress.done();
             }
         });
     }

@@ -29,6 +29,7 @@
 		.msg-info {background-color: rgba(217, 237, 247, 0.5) !important;}
 		
 		li.login{display: none !important;}
+		.navbar .form-search {display: none !important;}
 		
 		footer {background-color: transparent;border: none;}
 	    footer * {color:#3f3f3f;}

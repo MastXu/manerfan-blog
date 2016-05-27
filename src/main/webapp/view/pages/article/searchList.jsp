@@ -55,8 +55,8 @@
 	    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
 	    	<div class="list-group article-list"></div>
 			<ul class="pager">
-				<li><a href="#"><span aria-hidden="true">&larr;</span> 上一页</a></li>
-				<li><a href="#">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+				<li class="prev-page"><a href="#"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+				<li class="next-page"><a href="#">下一页 <span aria-hidden="true">&rarr;</span></a></li>
 			</ul>
 		</div>
 	    

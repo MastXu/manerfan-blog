@@ -19,11 +19,13 @@
 		.body {position: absolute !important;width: 450px !important;top: 50% !important;left: 50% !important;margin-top: -250px;margin-left: -230px;}
         .panel {padding: 5px 20px !important;}
         .glyphicon-cloud {top: 10px !important;}
-        form div {position: relative !important;height: 42px !important;margin: 5px 0 !important;}
-        form .form-control {position: absolute !important;top: 0 !important;padding-left: 50px !important;color: #333333;}
-        form .glyphicon {position: absolute !important;z-index: 99 !important;left: 10px !important;font-size: 20px !important;top: 10px !important;}
+        form[name=initForm] div {position: relative !important;height: 42px !important;margin: 5px 0 !important;}
+        form[name=initForm] .form-control {position: absolute !important;top: 0 !important;padding-left: 50px !important;color: #333333;}
+        form[name=initForm] .glyphicon {position: absolute !important;z-index: 99 !important;left: 10px !important;font-size: 20px !important;top: 10px !important;}
         button[type=submit] {margin-top: 10px;}
         .msg-danger {background-color: rgba(232, 76, 61, 0.5) !important;}
+        
+        .navbar .form-search {display: none !important;}
         
         footer {background-color: transparent;border: none;}
 	    footer * {color:#3f3f3f;}
@@ -48,7 +50,7 @@
 	    </c:choose>
 	    <div class="panel panel-default">
 	        <div class="panel-body">
-				<form name="loginForm" action="<c:url value='/init/check' />" method='POST'>
+				<form name="initForm" action="<c:url value='/init/check' />" method='POST'>
 		            <div>
 			            <span class="glyphicon glyphicon-user"></span>
 			            <input class="form-control" type='text' name='name' placeholder="用户名">

@@ -5,6 +5,7 @@
 @import "../../plugins/jgrowl/jquery.jgrowl.css";
 @import "../../plugins/jbox/Source/jBox.css";
 @import "../../plugins/animate.css/animate.css";
+@import "../../plugins/nprogress/nprogress.css";
 article,
 aside,
 details,

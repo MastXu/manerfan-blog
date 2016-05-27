@@ -48,10 +48,6 @@
 	    </div>
     </div>
     
-    <div class="hidden-print _loading">
-	    <c:import url="../common/loading.jsp" />
-    </div>
-    
 	<c:import url="../nav/footer.jsp" />
 	
 	<script>

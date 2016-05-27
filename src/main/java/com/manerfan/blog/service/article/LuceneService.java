@@ -96,6 +96,10 @@ public class LuceneService {
                     "More than one results found by Article Uid [" + uid + "]");
         }
 
+        if (ObjectUtils.isEmpty(docs.scoreDocs)) {
+            return null;
+        }
+
         TopDocs topDocs = LuceneUtils.moreLikeThis(luceneManager.getIndexSearcher(),
                 docs.scoreDocs[0].doc, numHits + 1, "title", "summary", "content");
 

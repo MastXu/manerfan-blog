@@ -22,6 +22,7 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.TopDocs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,13 +71,14 @@ public class ArticleSearchController extends ControllerBase {
             }
 
             TopDocs topDocs = luceneService.search(keywords, after, numHits);
-            if (null == topDocs) {
+            if (null == topDocs || ObjectUtils.isEmpty(topDocs.scoreDocs)) {
                 data.put("total", 0);
                 return data;
             }
 
             data.put("total", topDocs.totalHits);
             data.put("articles", luceneService.parseArticles(topDocs));
+            data.put("after", topDocs.scoreDocs[topDocs.scoreDocs.length - 1]);
         } catch (IOException | ParseException e) {
             data.put(ERRMSG, "Internal Error!");
             MLogger.ROOT_LOGGER.error("Some Error Occured when Search Lucene Index!", e);

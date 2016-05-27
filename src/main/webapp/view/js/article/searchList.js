@@ -21,11 +21,12 @@
 require([
     "jquery",
     'underscore',
+    'nprogress',
     "jBoxUtil",
     "commonutils",
     "js/article/articleWidget",
     "bootstrap"
-], function ($, _, jBoxUtil, commonutils, articleWidget) {
+], function ($, _, NProgress, jBoxUtil, commonutils, articleWidget) {
     var articleListHTML = '<article class="list-group-item">' +
         '<h4><a class="text-info" target="_blank" href="/article/<%= articleUid %>"><%= articleTitle %></a></h4>' +
         '<section title="<%= articleSummary %>"><%= articleSummary %></section>' +
@@ -35,33 +36,68 @@ require([
         '</small>' +
         '</article>';
 
-    $.ajax({
-        url: "/article/search/query",
-        async: true,
-        type: 'post',
-        cache: false,
-        dataType: 'json',
-        data: {
-            kw: $("#keywords").val(),
-            numHits: 8
-        },
-        success: function (data, textStatus, XMLHttpRequest) {
-            if (null != data.errmsg) {
-                // 出现错误
-                jBoxUtil.noticeError({content: data.errmsg});
-                return;
-            }
+    var afterDocs = [];
+    afterDocs[0] = null;
 
-            reShowArticleList(data.articles, data.total);
-        },
-        error: function () {
-            jBoxUtil.noticeError({content: "未知错误"});
-        },
-        complete: function () {
+    var pageSize = 2;
+    var currentPage = 0;
+    var totalPages = 0;
+
+    $(".next-page").click(function () {
+        if (currentPage >= totalPages) {
+            return;
         }
+
+        querySearch(currentPage + 1);
     });
 
-    function reShowArticleList(_articles, _total) {
+    $(".prev-page").click(function () {
+        if (currentPage <= 1) {
+            return;
+        }
+
+        querySearch(currentPage - 1);
+    });
+
+
+    function querySearch(page) {
+        NProgress.start();
+        $.ajax({
+            url: "/article/search/query",
+            async: true,
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            data: $.extend({
+                kw: $("#keywords").val(),
+                numHits: pageSize
+            }, afterDocs[page - 1]),
+            success: function (data, textStatus, XMLHttpRequest) {
+                if (null != data.errmsg) {
+                    // 出现错误
+                    jBoxUtil.noticeError({content: data.errmsg});
+                    return;
+                }
+
+                if (data.total < 1) {
+                    $(".article-content>div:first-child").empty().append("<h1 style='color: lightgray;'>→_→ 无内容</h1>");
+                } else {
+                    afterDocs[page] = data.after;
+                    currentPage = page;
+                    totalPages = Math.ceil(data.total / pageSize);
+                    reShowArticleList(data.articles);
+                }
+            },
+            error: function () {
+                jBoxUtil.noticeError({content: "未知错误"});
+            },
+            complete: function () {
+                NProgress.done();
+            }
+        });
+    }
+
+    function reShowArticleList(_articles) {
         var list = [];
         _.each(_articles, function (article) {
             list.push(_.template(articleListHTML)({
@@ -74,7 +110,17 @@ require([
         });
 
         $(".article-list").empty().append(list.join(""));
+
+        $("ul.pager li").removeClass("disabled");
+        if (currentPage <= 1) {
+            $(".prev-page").addClass("disabled");
+        }
+        if (currentPage >= totalPages) {
+            $(".next-page").addClass("disabled");
+        }
     }
+
+    querySearch(1);
 
     window.setTimeout(articleWidget.init, 1000);
 });

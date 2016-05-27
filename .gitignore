@@ -3,7 +3,13 @@
 .settings
 .idea
 .crunch
+*.db
+*.cfe
+*.cfs
+*.si
+*.liv
+*.lock
+segments_*
+*.log
 target
-home
-data
 src/main/webapp/view/plugins/

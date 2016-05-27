@@ -12,7 +12,7 @@
 	.form-search{width: 240px;margin-top: 4px;}
 	.form-search input, .form-search .btn{height: 32px;}
 	.form-search .btn{margin: 0 !important;}
-	[class^="icon-"], [class*=" icon-"] {position:relative; top: -2px;}
+	[class^="icon-"], [class*=" icon-"] {position:relative; top: -1px;}
 </style>
 
 <nav id="header" class="hidden-print navbar navbar-default" style="position: <c:out value='${position}' default='relative' />;">
@@ -40,7 +40,7 @@
 				<li><a target="_blank" href="https://github.com/ManerFan/manerfan-blog"><i class="icon-github-circled"></i>GitHub</a></li>
 				<li><a target="_blank" href="<c:url value='/about/author' />"><i class="icon-user-md"></i>关于作者</a></li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav navbar-right" style="margin-right: 15px !important;">
 				<li>
 					<form class="form-search" action="<c:url value='/article/search' />" method='GET' target="_blank">
 						<div class="form-group input-group">
