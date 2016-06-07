@@ -10,9 +10,10 @@ define([
     "js/editor/eventMgr",
     "js/editor/helpers/mblogHelper",
     "js/editor/fileMgr",
+    "mousetrap",
     "jBoxUtil",
     "tagsinput"
-], function (utils, Provider, settings, core, eventMgr, mblogHelper, fileMgr, jBoxUtil) {
+], function (utils, Provider, settings, core, eventMgr, mblogHelper, fileMgr, mousetrap, jBoxUtil) {
     var mblogProvider = new Provider("mblog", "ManerFanBlog");
 
     var catalogLimit = 5;
@@ -133,6 +134,27 @@ define([
         blogPublish(true);
     });
 
+    mousetrap.bind('mod+s', function (e) {
+        $(".btn-blog-save").trigger("click");
+        e.preventDefault();
+    });
+
+    var createBtnCliked = false;
+    $('.action-create-file').click(function () {
+        createBtnCliked = true;
+    });
+
+    $('.modal-publish-success').on('hide.bs.modal', function (e) {
+        if (!!createBtnCliked) {
+            createBtnCliked = false;
+            return true;
+        } else {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    });
+
     /**
      * 发布文章
      */
@@ -147,6 +169,11 @@ define([
                 $(".modal-publish-success").modal("show");
             });
         };
+    });
+
+    mousetrap.bind('mod+p', function (e) {
+        $(".btn-blog-publish").trigger("click");
+        e.preventDefault();
     });
 
     /**

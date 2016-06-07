@@ -27,32 +27,14 @@
 	    	<c:import url="articleWidget.jsp" />
 	    </div>
 	    
-	    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
-	    	<div class="panel panel-default">
-				<div class="panel-heading">
-					<span>文章列表</span>
-					<span class="pull-right text-warning" style="margin-left: 5px;"><c:out value="${funcparam}" /></span>
-					<span class="pull-right text-success"><c:out value="${displayname}" /></span>
-				</div>
-				<div class="panel-body">
-					<div class="list-group article-list"></div>
-	                <div class="pagination pull-right article-pagination" style="margin-bottom: 0;">
-					    <a href="#" class="first" data-action="first">&laquo;</a>
-					    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
-					    <input type="text" />
-					    <a href="#" class="next" data-action="next">&rsaquo;</a>
-					    <a href="#" class="last" data-action="last">&raquo;</a>
-					</div>
-				</div>
-			</div>
+	    <div class="pjax-content col-xs-12 col-sm-12 col-md-10 col-lg-10">
+	    	<c:import url="articleListPjax.jsp"></c:import>
 	    </div>
     </div>
     
 	<c:import url="../nav/footer.jsp" />
 	
 	<script>
-		var funcname = '<c:out value="${funcname}" />';
-		var funcparam = '<c:out value="${funcparam}" />';
 		var logined = false;
 	</script>
 	<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">

@@ -25,6 +25,7 @@ require([
     "jBoxUtil",
     "commonutils",
     "js/article/articleWidget",
+    "js/article/article",
     "bootstrap",
     'pagination'
 ], function ($, _, NProgress, jBoxUtil, commonutils, articleWidget) {
@@ -33,7 +34,7 @@ require([
     var totalPages = 0;
 
     var articleListHTML = '<article class="list-group-item" data-uid="<%= articleUid %>">' +
-        '<h4><a class="text-info" href="/article/<%= articleUid %>"><%= articleTitle %></a></h4>' +
+        '<h4><a class="article-pjax-href text-info" href="/article/<%= articleUid %>"><%= articleTitle %></a></h4>' +
         '<section title="<%= articleSummary %>"><%= articleSummary %></section>' +
         '<div>' +
         '<small>' +
@@ -47,7 +48,7 @@ require([
         '</article>';
 
     var articleListAnonymousHTML = '<article class="list-group-item" data-uid="<%= articleUid %>">' +
-        '<h4><a class="text-info" href="/article/<%= articleUid %>"><%= articleTitle %></a></h4>' +
+        '<h4><a class="article-pjax-href text-info" href="/article/<%= articleUid %>"><%= articleTitle %></a></h4>' +
         '<section title="<%= articleSummary %>"><%= articleSummary %></section>' +
         '<div>' +
         '<small>' +
@@ -83,6 +84,9 @@ require([
     searchFuncs.search = function (page) {
 
     };
+
+    var funcname = $("#funcname").val();
+    var funcparam = $("#funcparam").val();
 
     var func = searchFuncs[funcname];
     var searchFunc = typeof func == "function" ? func : function () {
@@ -137,6 +141,4 @@ require([
     }
 
     searchFunc(0);
-
-    window.setTimeout(articleWidget.init, 1000);
 });

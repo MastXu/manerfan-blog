@@ -33,7 +33,7 @@ define([
      *********************/
     var categoryListHTML = '<a href="/article/category/<%= categoryName %>" class="has-badge"><span class="text-overflow"><i class="glyphicon glyphicon-tags"></i> <%= categoryName %></span><span class="badge"><%= articleNum %></span></a>';
     var archiveListHTML = '<a href="/article/archive/<%= archiveDate %>" class="has-badge"><span class="text-overflow"><i class="glyphicon glyphicon-calendar"></i> <%= archiveDate %></span><span class="badge"><%= articleNum %></span></a>';
-    var hitsListHTML = '<a href="/article/<%= articleUid %>" class="has-badge" title="[<%= articleTitle %>]\n<%= articleSummary %>"><span class="text-overflow"><i class="glyphicon glyphicon-calendar"></i> <%= articleTitle %></span><span class="badge"><%= articleHits %></span></a>';
+    var hitsListHTML = '<a href="/article/<%= articleUid %>" class="article-pjax-href has-badge" title="[<%= articleTitle %>]\n<%= articleSummary %>"><span class="text-overflow"><i class="glyphicon glyphicon-calendar"></i> <%= articleTitle %></span><span class="badge"><%= articleHits %></span></a>';
 
     function initCategory() {
         $.ajax({

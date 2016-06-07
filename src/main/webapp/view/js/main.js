@@ -125,7 +125,8 @@ requirejs.config({
         'pagination': 'plugins/jqPagination/js/jquery.jqpagination.min',
         'bootbox': 'plugins/bootbox.js/bootbox',
         'smoothscroll': 'plugins/jquery-smooth-scroll/jquery.smooth-scroll.min',
-        'nprogress': 'plugins/nprogress/nprogress'
+        'nprogress': 'plugins/nprogress/nprogress',
+        'pjax': 'plugins/jquery-pjax/jquery.pjax'
     },
 
     /**
@@ -258,6 +259,9 @@ requirejs.config({
             'bootstrap'
         ],
         'smoothscroll': [
+            'jquery'
+        ],
+        'pjax': [
             'jquery'
         ]
     }

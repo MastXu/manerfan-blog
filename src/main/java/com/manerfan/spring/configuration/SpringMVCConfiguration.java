@@ -43,6 +43,7 @@ import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import com.manerfan.blog.interceptor.PjaxInterceptorHandler;
 import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.interceptor.VersionInterceptorHandler;
 
@@ -246,6 +247,9 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
 
         /* 用户信息拦截器 */
         registry.addInterceptor(beanFactory.getBean(UserInfoInterceptorHandler.class));
+
+        /* pjax拦截器 */
+        registry.addInterceptor(beanFactory.getBean(PjaxInterceptorHandler.class)).addPathPatterns("/article/*");
     }
 
     /**

@@ -8,7 +8,7 @@
         doc = window.document,
         re = window.RegExp,
         nav = window.navigator,
-        SETTINGS = { lineLength: 72 },
+        SETTINGS = {lineLength: 72},
 
     // Used to work around some browser bugs where we can't use feature testing.
         uaSniffed = {
@@ -93,26 +93,31 @@
         options = options || {};
 
         if (typeof options.handler === "function") { //backwards compatible behavior
-            options = { helpButton: options };
+            options = {helpButton: options};
         }
         options.strings = options.strings || {};
         if (options.helpButton) {
             options.strings.help = options.strings.help || options.helpButton.title;
         }
-        var getString = function (identifier) { return options.strings[identifier] || defaultsStrings[identifier]; }
+        var getString = function (identifier) {
+            return options.strings[identifier] || defaultsStrings[identifier];
+        }
 
         idPostfix = idPostfix || "";
 
         var hooks = this.hooks = new Markdown.HookCollection();
         hooks.addNoop("onPreviewRefresh");       // called with no arguments after the preview has been refreshed
         hooks.addNoop("postBlockquoteCreation"); // called with the user's selection *after* the blockquote was created; should return the actual to-be-inserted text
-        hooks.addFalse("insertImageDialog");     /* called with one parameter: a callback to be called with the URL of the image. If the application creates
-                                                  * its own image insertion dialog, this hook should return true, and the callback should be called with the chosen
-                                                  * image url (or null if the user cancelled). If this hook returns false, the default dialog will be used.
-                                                  */
+        hooks.addFalse("insertImageDialog");
+        /* called with one parameter: a callback to be called with the URL of the image. If the application creates
+         * its own image insertion dialog, this hook should return true, and the callback should be called with the chosen
+         * image url (or null if the user cancelled). If this hook returns false, the default dialog will be used.
+         */
         hooks.addFalse("insertLinkDialog");
 
-        this.getConverter = function () { return markdownConverter; }
+        this.getConverter = function () {
+            return markdownConverter;
+        }
 
         var that = this,
             panels;
@@ -124,12 +129,14 @@
 
             panels = new PanelCollection(idPostfix);
             var commandManager = new CommandManager(hooks, getString);
-            var previewManager = new PreviewManager(markdownConverter, panels, function () { hooks.onPreviewRefresh(); });
+            var previewManager = new PreviewManager(markdownConverter, panels, function () {
+                hooks.onPreviewRefresh();
+            });
             var uiManager;
 
-            if(options.undoManager) {
+            if (options.undoManager) {
                 undoManager = options.undoManager;
-                undoManager.onButtonStateChange = function() {
+                undoManager.onButtonStateChange = function () {
                     uiManager.setUndoRedoButtonStates();
                 };
                 if (uiManager) // not available on the first call
@@ -151,7 +158,9 @@
             uiManager = new UIManager(idPostfix, panels, undoManager, previewManager, commandManager, options.helpButton, getString);
             uiManager.setUndoRedoButtonStates();
 
-            var forceRefresh = that.refreshPreview = function () { previewManager.refresh(true); };
+            var forceRefresh = that.refreshPreview = function () {
+                previewManager.refresh(true);
+            };
 
             //Not necessary
             //forceRefresh();
@@ -163,7 +172,8 @@
 
     // before: contains all the text in the input box BEFORE the selection.
     // after: contains all the text in the input box AFTER the selection.
-    function Chunks() { }
+    function Chunks() {
+    }
 
     // startRegex: a regular expression to find the start tag
     // endRegex: a regular expresssion to find the end tag
@@ -220,8 +230,14 @@
         if (remove) {
             beforeReplacer = afterReplacer = "";
         } else {
-            beforeReplacer = function (s) { that.before += s; return ""; }
-            afterReplacer = function (s) { that.after = s + that.after; return ""; }
+            beforeReplacer = function (s) {
+                that.before += s;
+                return "";
+            }
+            afterReplacer = function (s) {
+                that.after = s + that.after;
+                return "";
+            }
         }
 
         this.selection = this.selection.replace(/^(\s*)/, beforeReplacer).replace(/(\s*)$/, afterReplacer);
@@ -688,7 +704,7 @@
             //saveState();
         };
 
-        this.reinit = function(content, start, end, scrollTop) {
+        this.reinit = function (content, start, end, scrollTop) {
             undoStack = [];
             stackPtr = 0;
             mode = "none";
@@ -739,74 +755,74 @@
 
             //if (inputArea.selectionStart !== undefined && !uaSniffed.isOpera) {
 
-                inputArea.focus();
-                inputArea.selectionStart = stateObj.start;
-                inputArea.selectionEnd = stateObj.end;
-	        /*
-                inputArea.scrollTop = stateObj.scrollTop;
+            inputArea.focus();
+            inputArea.selectionStart = stateObj.start;
+            inputArea.selectionEnd = stateObj.end;
+            /*
+             inputArea.scrollTop = stateObj.scrollTop;
 
-            }
-            else if (doc.selection) {
+             }
+             else if (doc.selection) {
 
-                inputArea.focus();
-                var range = inputArea.createTextRange();
-                range.moveStart("character", -inputArea.value.length);
-                range.moveEnd("character", -inputArea.value.length);
-                range.moveEnd("character", stateObj.end);
-                range.moveStart("character", stateObj.start);
-                range.select();
-            }
-            */
+             inputArea.focus();
+             var range = inputArea.createTextRange();
+             range.moveStart("character", -inputArea.value.length);
+             range.moveEnd("character", -inputArea.value.length);
+             range.moveEnd("character", stateObj.end);
+             range.moveStart("character", stateObj.start);
+             range.select();
+             }
+             */
         };
 
         this.setInputAreaSelectionStartEnd = function () {
 
             //if (!panels.ieCachedRange && (inputArea.selectionStart || inputArea.selectionStart === 0)) {
 
-                stateObj.start = inputArea.selectionStart;
-                stateObj.end = inputArea.selectionEnd;
-                /*
-            }
-            else if (doc.selection) {
+            stateObj.start = inputArea.selectionStart;
+            stateObj.end = inputArea.selectionEnd;
+            /*
+             }
+             else if (doc.selection) {
 
-                stateObj.text = util.fixEolChars(inputArea.value);
+             stateObj.text = util.fixEolChars(inputArea.value);
 
-                // IE loses the selection in the textarea when buttons are
-                // clicked.  On IE we cache the selection. Here, if something is cached,
-                // we take it.
-                var range = panels.ieCachedRange || doc.selection.createRange();
+             // IE loses the selection in the textarea when buttons are
+             // clicked.  On IE we cache the selection. Here, if something is cached,
+             // we take it.
+             var range = panels.ieCachedRange || doc.selection.createRange();
 
-                var fixedRange = util.fixEolChars(range.text);
-                var marker = "\x07";
-                var markedRange = marker + fixedRange + marker;
-                range.text = markedRange;
-                var inputText = util.fixEolChars(inputArea.value);
+             var fixedRange = util.fixEolChars(range.text);
+             var marker = "\x07";
+             var markedRange = marker + fixedRange + marker;
+             range.text = markedRange;
+             var inputText = util.fixEolChars(inputArea.value);
 
-                range.moveStart("character", -markedRange.length);
-                range.text = fixedRange;
+             range.moveStart("character", -markedRange.length);
+             range.text = fixedRange;
 
-                stateObj.start = inputText.indexOf(marker);
-                stateObj.end = inputText.lastIndexOf(marker) - marker.length;
+             stateObj.start = inputText.indexOf(marker);
+             stateObj.end = inputText.lastIndexOf(marker) - marker.length;
 
-                var len = stateObj.text.length - util.fixEolChars(inputArea.value).length;
+             var len = stateObj.text.length - util.fixEolChars(inputArea.value).length;
 
-                if (len) {
-                    range.moveStart("character", -fixedRange.length);
-                    while (len--) {
-                        fixedRange += "\n";
-                        stateObj.end += 1;
-                    }
-                    range.text = fixedRange;
-                }
+             if (len) {
+             range.moveStart("character", -fixedRange.length);
+             while (len--) {
+             fixedRange += "\n";
+             stateObj.end += 1;
+             }
+             range.text = fixedRange;
+             }
 
-                if (panels.ieCachedRange)
-                    stateObj.scrollTop = panels.ieCachedScrollTop; // this is set alongside with ieCachedRange
+             if (panels.ieCachedRange)
+             stateObj.scrollTop = panels.ieCachedScrollTop; // this is set alongside with ieCachedRange
 
-                panels.ieCachedRange = null;
+             panels.ieCachedRange = null;
 
-                this.setInputAreaSelection();
-            }
-            */
+             this.setInputAreaSelection();
+             }
+             */
         };
 
         // Restore this state into the input area.
@@ -816,11 +832,11 @@
                 inputArea.value = stateObj.text;
             }
             this.setInputAreaSelection();
-	        /*
-            setTimeout(function() {
-                inputArea.scrollTop = stateObj.scrollTop;
-            }, 0);
-            */
+            /*
+             setTimeout(function() {
+             inputArea.scrollTop = stateObj.scrollTop;
+             }, 0);
+             */
         };
 
         // Gets a collection of HTML chunks from the inptut textarea.
@@ -878,14 +894,12 @@
             if (window.innerHeight) {
                 result = window.pageYOffset;
             }
-            else
-                if (doc.documentElement && doc.documentElement.scrollTop) {
-                    result = doc.documentElement.scrollTop;
-                }
-                else
-                    if (doc.body) {
-                        result = doc.body.scrollTop;
-                    }
+            else if (doc.documentElement && doc.documentElement.scrollTop) {
+                result = doc.documentElement.scrollTop;
+            }
+            else if (doc.body) {
+                result = doc.body.scrollTop;
+            }
 
             return result;
         };
@@ -1015,24 +1029,24 @@
             }
             /*
 
-            setPanelScrollTops();
+             setPanelScrollTops();
 
-            if (isFirstTimeFilled) {
-                isFirstTimeFilled = false;
-                return;
-            }
+             if (isFirstTimeFilled) {
+             isFirstTimeFilled = false;
+             return;
+             }
 
-            var fullTop = position.getTop(panels.input) - getDocScrollTop();
+             var fullTop = position.getTop(panels.input) - getDocScrollTop();
 
-            if (uaSniffed.isIE) {
-                setTimeout(function () {
-                    window.scrollBy(0, fullTop - emptyTop);
-                }, 0);
-            }
-            else {
-                window.scrollBy(0, fullTop - emptyTop);
-            }
-            */
+             if (uaSniffed.isIE) {
+             setTimeout(function () {
+             window.scrollBy(0, fullTop - emptyTop);
+             }, 0);
+             }
+             else {
+             window.scrollBy(0, fullTop - emptyTop);
+             }
+             */
         };
 
         var init = function () {
@@ -1141,7 +1155,6 @@
         };
 
 
-
         // Create the text input box form/window.
         var createDialog = function () {
 
@@ -1162,7 +1175,9 @@
             // The web form container for the text box and buttons.
             var form = doc.createElement("form"),
                 style = form.style;
-            form.onsubmit = function () { return close(false); };
+            form.onsubmit = function () {
+                return close(false);
+            };
             style.padding = "0";
             style.margin = "0";
             style.cssFloat = "left";
@@ -1184,7 +1199,9 @@
             // The ok button
             var okButton = doc.createElement("input");
             okButton.type = "button";
-            okButton.onclick = function () { return close(false); };
+            okButton.onclick = function () {
+                return close(false);
+            };
             okButton.value = "OK";
             style = okButton.style;
             style.margin = "10px";
@@ -1195,7 +1212,9 @@
             // The cancel button
             var cancelButton = doc.createElement("input");
             cancelButton.type = "button";
-            cancelButton.onclick = function () { return close(true); };
+            cancelButton.onclick = function () {
+                return close(true);
+            };
             cancelButton.value = "Cancel";
             style = cancelButton.style;
             style.margin = "10px";
@@ -1259,100 +1278,100 @@
         }
 
         /*
-        util.addEvent(inputBox, keyEvent, function (key) {
+         util.addEvent(inputBox, keyEvent, function (key) {
 
-            // Check to see if we have a button key and, if so execute the callback.
-            if ((key.ctrlKey || key.metaKey) && !key.altKey) {
+         // Check to see if we have a button key and, if so execute the callback.
+         if ((key.ctrlKey || key.metaKey) && !key.altKey) {
 
-                var keyCode = key.charCode || key.keyCode;
-                var keyCodeStr = String.fromCharCode(keyCode).toLowerCase();
+         var keyCode = key.charCode || key.keyCode;
+         var keyCodeStr = String.fromCharCode(keyCode).toLowerCase();
 
-                switch (keyCodeStr) {
-                    case "b":
-                        doClick(buttons.bold);
-                        break;
-                    case "i":
-                        doClick(buttons.italic);
-                        break;
-                    case "l":
-                        doClick(buttons.link);
-                        break;
-                    case "q":
-                        doClick(buttons.quote);
-                        break;
-                    case "k":
-                        doClick(buttons.code);
-                        break;
-                    case "g":
-                        doClick(buttons.image);
-                        break;
-                    case "o":
-                        doClick(buttons.olist);
-                        break;
-                    case "u":
-                        doClick(buttons.ulist);
-                        break;
-                    case "h":
-                        doClick(buttons.heading);
-                        break;
-                    case "r":
-                        doClick(buttons.hr);
-                        break;
-                    case "y":
-                        doClick(buttons.redo);
-                        break;
-                    case "z":
-                        if (key.shiftKey) {
-                            doClick(buttons.redo);
-                        }
-                        else {
-                            doClick(buttons.undo);
-                        }
-                        break;
-                    case "v":
-                        undoManager.setMode("typing");
-                        return;
-                    case "x":
-                        undoManager.setMode("deleting");
-                        return;
-                    default:
-                        return;
-                }
+         switch (keyCodeStr) {
+         case "b":
+         doClick(buttons.bold);
+         break;
+         case "i":
+         doClick(buttons.italic);
+         break;
+         case "l":
+         doClick(buttons.link);
+         break;
+         case "q":
+         doClick(buttons.quote);
+         break;
+         case "k":
+         doClick(buttons.code);
+         break;
+         case "g":
+         doClick(buttons.image);
+         break;
+         case "o":
+         doClick(buttons.olist);
+         break;
+         case "u":
+         doClick(buttons.ulist);
+         break;
+         case "h":
+         doClick(buttons.heading);
+         break;
+         case "r":
+         doClick(buttons.hr);
+         break;
+         case "y":
+         doClick(buttons.redo);
+         break;
+         case "z":
+         if (key.shiftKey) {
+         doClick(buttons.redo);
+         }
+         else {
+         doClick(buttons.undo);
+         }
+         break;
+         case "v":
+         undoManager.setMode("typing");
+         return;
+         case "x":
+         undoManager.setMode("deleting");
+         return;
+         default:
+         return;
+         }
 
 
-                if (key.preventDefault) {
-                    key.preventDefault();
-                }
+         if (key.preventDefault) {
+         key.preventDefault();
+         }
 
-                if (window.event) {
-                    window.event.returnValue = false;
-                }
-            }
-        });
+         if (window.event) {
+         window.event.returnValue = false;
+         }
+         }
+         });
 
-        // Auto-indent on shift-enter
-        util.addEvent(inputBox, "keyup", function (key) {
-            if (key.shiftKey && !key.ctrlKey && !key.metaKey) {
-                var keyCode = key.charCode || key.keyCode;
-                // Character 13 is Enter
-                if (keyCode === 13) {
-                    var fakeButton = {};
-                    fakeButton.textOp = bindCommand("doAutoindent");
-                    doClick(fakeButton);
-                }
-            }
-        });
+         // Auto-indent on shift-enter
+         util.addEvent(inputBox, "keyup", function (key) {
+         if (key.shiftKey && !key.ctrlKey && !key.metaKey) {
+         var keyCode = key.charCode || key.keyCode;
+         // Character 13 is Enter
+         if (keyCode === 13) {
+         var fakeButton = {};
+         fakeButton.textOp = bindCommand("doAutoindent");
+         doClick(fakeButton);
+         }
+         }
+         });
 
-        // special handler because IE clears the context of the textbox on ESC
-        if (uaSniffed.isIE) {
-            util.addEvent(inputBox, "keydown", function (key) {
-                var code = key.keyCode;
-                if (code === 27) {
-                    return false;
-                }
-            });
-        }
-        */
+         // special handler because IE clears the context of the textbox on ESC
+         if (uaSniffed.isIE) {
+         util.addEvent(inputBox, "keydown", function (key) {
+         var code = key.keyCode;
+         if (code === 27) {
+         return false;
+         }
+         });
+         }
+         */
 
 
         // Perform the button's action.
@@ -1408,9 +1427,9 @@
 
                 if (!noCleanup) {
                     fixupInputArea();
-                    if(!linkOrImage) {
-	                    inputBox.adjustCursorPosition();
-	                    //inputBox.dispatchEvent(new Event('keydown'));
+                    if (!linkOrImage) {
+                        inputBox.adjustCursorPosition();
+                        //inputBox.dispatchEvent(new Event('keydown'));
                     }
                 }
 
@@ -1460,7 +1479,8 @@
             }
             else {
                 image.style.backgroundPosition = button.XShift + " " + disabledYShift;
-                button.onmouseover = button.onmouseout = button.onclick = function () { };
+                button.onmouseover = button.onmouseout = button.onclick = function () {
+                };
                 button.className += " disabled";
             }
         }
@@ -1468,7 +1488,9 @@
         function bindCommand(method) {
             if (typeof method === "string")
                 method = commandManager[method];
-            return function () { method.apply(commandManager, arguments); }
+            return function () {
+                method.apply(commandManager, arguments);
+            }
         }
 
         function makeSpritedButtonRow() {
@@ -1530,10 +1552,14 @@
             buttons.hr = makeButton("wmd-hr-button", getString("hr"), "-180px", bindCommand("doHorizontalRule"));
             makeSpacer(3);
             buttons.undo = makeButton("wmd-undo-button", getString("undo"), "-200px", null);
-            buttons.undo.execute = function (manager) { if (manager) manager.undo(); };
+            buttons.undo.execute = function (manager) {
+                if (manager) manager.undo();
+            };
 
             buttons.redo = makeButton("wmd-redo-button", getString("redo"), "-220px", null);
-            buttons.redo.execute = function (manager) { if (manager) manager.redo(); };
+            buttons.redo.execute = function (manager) {
+                if (manager) manager.redo();
+            };
 
             if (helpOptions) {
                 var helpButton = document.createElement("li");
@@ -1802,10 +1828,10 @@
                     chunk.selection = (" " + chunk.selection).replace(/([^\\](?:\\\\)*)(?=[[\]])/g, "$1\\").substr(1);
 
                     /*
-                    var linkDef = " [999]: " + properlyEncoded(link);
+                     var linkDef = " [999]: " + properlyEncoded(link);
 
-                    var num = that.addLinkDef(chunk, linkDef);
-                    */
+                     var num = that.addLinkDef(chunk, linkDef);
+                     */
                     chunk.startTag = isImage ? "![" : "[";
                     //chunk.endTag = "][" + num + "]";
                     chunk.endTag = "](" + properlyEncoded(link) + ")";
@@ -1830,7 +1856,7 @@
             }
             else {
                 if (!this.hooks.insertLinkDialog(linkEnteredCallback))
-                	ui.prompt(this.getString("linkdialog"), linkDefaultText, linkEnteredCallback);
+                    ui.prompt(this.getString("linkdialog"), linkDefaultText, linkEnteredCallback);
             }
             return true;
         }
@@ -1903,15 +1929,15 @@
         // text *directly before* the selection already was a blockquote:
 
         /*
-        if (chunk.before) {
-        chunk.before = chunk.before.replace(/\n?$/, "\n");
-        }
-        chunk.before = chunk.before.replace(/(((\n|^)(\n[ \t]*)*>(.+\n)*.*)+(\n[ \t]*)*$)/,
-        function (totalMatch) {
-        chunk.startTag = totalMatch;
-        return "";
-        });
-        */
+         if (chunk.before) {
+         chunk.before = chunk.before.replace(/\n?$/, "\n");
+         }
+         chunk.before = chunk.before.replace(/(((\n|^)(\n[ \t]*)*>(.+\n)*.*)+(\n[ \t]*)*$)/,
+         function (totalMatch) {
+         chunk.startTag = totalMatch;
+         return "";
+         });
+         */
 
         // This comes down to:
         // Go backwards as many lines a possible, such that each line
@@ -2018,10 +2044,10 @@
 
         if (!/\n/.test(chunk.selection)) {
             chunk.selection = chunk.selection.replace(/^(> *)/,
-            function (wholeMatch, blanks) {
-                chunk.startTag += blanks;
-                return "";
-            });
+                function (wholeMatch, blanks) {
+                    chunk.startTag += blanks;
+                    return "";
+                });
         }
     };
 
@@ -2052,11 +2078,16 @@
 
             chunk.skipLines(nLinesBack, nLinesForward);
 
+            /* 当在独立的一行或多行，则在前后插入 ``` 符号 */
+            chunk.startTag = "```\n";
+            chunk.endTag = "\n```";
+
             if (!chunk.selection) {
-                chunk.startTag = "    ";
+                /*chunk.startTag = "    ";*/
                 chunk.selection = this.getString("codeexample");
             }
-            else {
+            /**
+             else {
                 if (/^[ ]{0,3}\S/m.test(chunk.selection)) {
                     if (/\n/.test(chunk.selection))
                         chunk.selection = chunk.selection.replace(/^/gm, "    ");
@@ -2066,7 +2097,8 @@
                 else {
                     chunk.selection = chunk.selection.replace(/^(?:[ ]{4}|[ ]{0,3}\t)/gm, "");
                 }
-            }
+             }
+             */
         }
         else {
             // Use backticks (`) to delimit the code block.
