@@ -14,16 +14,15 @@
 	</div>
 	<div class="panel-body">
 		<div class="list-group article-list"></div>
-	        <div class="pagination pull-right article-pagination" style="margin-bottom: 0;">
-			    <a href="#" class="first" data-action="first">&laquo;</a>
-			    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
-			    <input type="text" />
-			    <a href="#" class="next" data-action="next">&rsaquo;</a>
-			    <a href="#" class="last" data-action="last">&raquo;</a>
+		<div class="pagination pull-right article-pagination" style="margin-bottom: 0;">
+		    <a href="#" class="first" data-action="first">&laquo;</a>
+		    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
+		    <input type="text" />
+		    <a href="#" class="next" data-action="next">&rsaquo;</a>
+		    <a href="#" class="last" data-action="last">&raquo;</a>
 		</div>
 	</div>
 </div>
 
-<input id="ispjax" type="hidden" value="<c:out value='${pjax}' />" >
 <input id="funcname" type="hidden" value='<c:out value="${funcname}" />'>
 <input id="funcparam" type="hidden" value='<c:out value="${funcparam}" />'>

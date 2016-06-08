@@ -27,6 +27,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -249,7 +250,8 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
         registry.addInterceptor(beanFactory.getBean(UserInfoInterceptorHandler.class));
 
         /* pjax拦截器 */
-        registry.addInterceptor(beanFactory.getBean(PjaxInterceptorHandler.class)).addPathPatterns("/article/*");
+        registry.addInterceptor(beanFactory.getBean(PjaxInterceptorHandler.class))
+                .pathMatcher(new AntPathMatcher()).addPathPatterns("/article/**");
     }
 
     /**

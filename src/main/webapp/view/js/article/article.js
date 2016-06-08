@@ -20,32 +20,17 @@
  */
 require([
     "jquery",
-    'nprogress',
-    "js/editor/extensions/echartsParser",
+    "js/article/providers/articleContentProvider",
     "js/article/articleWidget",
-    "pjax"
-], function ($, NProgress, echartsParser, articleWidget) {
-
-    var article = {};
-
-    $(document).on('pjax:start', function () {
-        NProgress.start();
+    'js/article/providers/articlePjaxProvider',
+    'goup'
+], function ($, articleContent, articleWidget) {
+    $.goup({
+        containerRadius: 0,
+        locationOffset: 20,
+        bottomOffset: 20,
+        zIndex: 999
     });
-
-    $(document).on('pjax:end', function () {
-        NProgress.done();
-    });
-
-    /*$(document).pjax('a.article-pjax-href', '.pjax-content');*/
-
-    try {
-        echartsParser.parseArticle($("code.language-echarts"));
-    } catch (e) {
-        console.error("Pares Echarts Error!");
-        console.error(e);
-    }
-
+    articleContent.initArticleContent();
     window.setTimeout(articleWidget.init, 1000);
-
-    return article;
 });

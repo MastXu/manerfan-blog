@@ -10,13 +10,8 @@
 <html>
 <head>
 	<link rel="stylesheet" href="<c:url value='/view/style/themes/default.css?v=${version}'/>" type="text/css">
-
+	<link rel="stylesheet" href="<c:url value='/view/css/article/article.css?v=${version}'/>" type="text/css">
     <title>MBLOG</title>
-    
-    <style>
-    	.panel-heading .btn, .list-group .btn {float: right; margin-right: 5px; padding: 0;}
-    	._loading{display:none;position:absolute;top:0;width:100%;height:100%;z-index:999;background-color:#88a825;opacity:0.6;}
-    </style>
 </head>
 <body>
     <c:set var="position" value="relative" scope="request"></c:set>
@@ -36,10 +31,10 @@
 	
 	<script>
 		var logined = false;
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
+			logined = true;
+		</sec:authorize>
 	</script>
-	<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
-		<script>logined = true;	</script>
-	</sec:authorize>
 	
 	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
     <script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>

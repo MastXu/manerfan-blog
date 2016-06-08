@@ -126,7 +126,8 @@ requirejs.config({
         'bootbox': 'plugins/bootbox.js/bootbox',
         'smoothscroll': 'plugins/jquery-smooth-scroll/jquery.smooth-scroll.min',
         'nprogress': 'plugins/nprogress/nprogress',
-        'pjax': 'plugins/jquery-pjax/jquery.pjax'
+        'pjax': 'plugins/jquery-pjax/jquery.pjax',
+        'goup': 'plugins/jquery-goup/jquery.goup.min'
     },
 
     /**
@@ -262,6 +263,9 @@ requirejs.config({
             'jquery'
         ],
         'pjax': [
+            'jquery'
+        ],
+        'goup': [
             'jquery'
         ]
     }

@@ -311,7 +311,7 @@ public class ArticleViewController extends ControllerBase {
                     .findByCategoryName(name, new QPageRequest(page, size));
             long totalPages = articleCategoryMapRepository.countByCategorName(name);
 
-            data.put("totalPages", totalPages);
+            data.put("totalPages", Math.ceil(1.0 * totalPages / size));
             data.put("articles",
                     BOUtils.transFromPOs(articleEntities, ArticleBO.class, ArticleEntity.class));
         } catch (Exception e) {
@@ -342,7 +342,7 @@ public class ArticleViewController extends ControllerBase {
         try {
             List<ArticleBO> articles = articleService.findByArchive(year, month, page, size);
             long totalPages = articleService.countByArchive(year, month);
-            data.put("totalPages", totalPages);
+            data.put("totalPages", Math.ceil(1.0 * totalPages / size));
             data.put("articles", articles);
         } catch (Exception e) {
             MLogger.ROOT_LOGGER.error("Get Article List By Archive[{}] Error", year + "/" + month,

@@ -6965,6 +6965,15 @@ article.list-group-item small {
 .quick-access {
   margin: 20px 0 0 160px;
 }
+/********************
+ * goup
+ ********************/
+.goup-container {
+  opacity: 0.5;
+}
+.goup-container:hover {
+  opacity: 1;
+}
 .alertify,
 .alertify-show,
 .alertify-log {

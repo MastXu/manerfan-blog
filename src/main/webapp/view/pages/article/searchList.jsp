@@ -29,10 +29,10 @@
     		<div>M</div>
     		<div><span>BLOG</span><span>全文检索</span></div>
     	</div>
-		<form class="search-input input-group" action="<c:url value='/article/search' />" method='GET'>
+		<form class="article-search-pjax-submit search-input input-group" action="<c:url value='/article/search' />" method='GET'>
 			<input id="keywords" type="text" name="kw" value="<c:out value='${keywords}' />" class="form-control">
 			<span class="input-group-btn">
-				<button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span> 咻一下</button>
+				<button class="article-search-pjax-submit btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span> 咻一下</button>
 			</span>
 		</form>
 	</div>
@@ -53,10 +53,12 @@
     
     <div class="article-content">
 	    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
-	    	<div class="list-group article-list"></div>
+	    	<div class="pjax-content">
+	    		<c:import url="searchListPjax.jsp"></c:import>
+	    	</div>
 			<ul class="pager">
-				<li class="prev-page"><a href="#"><span aria-hidden="true">&larr;</span> 上一页</a></li>
-				<li class="next-page"><a href="#">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+				<li class="disabled prev-page"><a href="#"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+				<li class="disabled next-page"><a href="#">下一页 <span aria-hidden="true">&rarr;</span></a></li>
 			</ul>
 		</div>
 	    

@@ -9,8 +9,6 @@
 <c:if test="${pjax}" >
 	<title><c:out value="${fn:substring(title,0,32)}" />·MBLOG</title>
 </c:if>
-  
-<input id="ispjax" type="hidden" value="<c:out value='${pjax}' />" >  
 
 <div class="panel panel-default article-panel">
 	<div class="panel-heading text-overflow">
@@ -33,7 +31,7 @@
 			<i class="glyphicon glyphicon-list"></i> <span>分类</span>
 			<c:if test="${not empty categories}">
 				<c:forEach var="category" items="${categories}">
-					<a target="_blank" href="<c:url value='/article/category/${category.name}' />"><c:out value="${category.name}"/></a>
+					<a class="article-list-pjax-href" href="<c:url value='/article/category/${category.name}' />"><c:out value="${category.name}"/></a>
 				</c:forEach>
 			</c:if>	
 		</category>
@@ -47,7 +45,7 @@
 	<ul class="pager">
 		<c:choose>
 			<c:when test="${not empty articlePrev}">
-				<li class="previous"><a class="article-pjax-href" href="<c:url value='/article/${articlePrev.uid}' />"><span aria-hidden="true">&larr;</span> <c:out value="${fn:substring(articlePrev.title,0,16)}" /></a></li>		
+				<li class="previous"><a class="article-content-pjax-href" href="<c:url value='/article/${articlePrev.uid}' />"><span aria-hidden="true">&larr;</span> <c:out value="${fn:substring(articlePrev.title,0,16)}" /></a></li>		
 			</c:when>
 			<c:otherwise>
 				<li class="previous disabled"><a>已是第一篇</a></li>
@@ -55,7 +53,7 @@
 		</c:choose>
 		<c:choose>
 			<c:when test="${not empty articleNext}">
-				<li class="next"><a class="article-pjax-href" href="<c:url value='/article/${articleNext.uid}' />"><c:out value="${fn:substring(articleNext.title,0,16)}" /> <span aria-hidden="true">&rarr;</span></a></li>		
+				<li class="next"><a class="article-content-pjax-href" href="<c:url value='/article/${articleNext.uid}' />"><c:out value="${fn:substring(articleNext.title,0,16)}" /> <span aria-hidden="true">&rarr;</span></a></li>		
 			</c:when>
 			<c:otherwise>
 				<li class="next disabled"><a>已是最后一篇</a></li>

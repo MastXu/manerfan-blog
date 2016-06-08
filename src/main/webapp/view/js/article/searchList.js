@@ -25,6 +25,7 @@ require([
     "jBoxUtil",
     "commonutils",
     "js/article/articleWidget",
+    'pjax',
     "bootstrap"
 ], function ($, _, NProgress, jBoxUtil, commonutils, articleWidget) {
     var articleListHTML = '<article class="list-group-item">' +
@@ -59,7 +60,6 @@ require([
         querySearch(currentPage - 1);
     });
 
-
     function querySearch(page) {
         NProgress.start();
         $.ajax({
@@ -80,7 +80,9 @@ require([
                 }
 
                 if (data.total < 1) {
-                    $(".article-content>div:first-child").empty().append("<h1 style='color: lightgray;'>→_→ 无内容</h1>");
+                    $(".pjax-content").empty().append("<h1 style='color: lightgray;margin: 40px 0 20px;'>→_→ 无搜索结果</h1><h4 style='color: lightgray;margin: 20px 0 40px;'>请尝试其他关键词</h4>");
+                    $(".prev-page").addClass("disabled");
+                    $(".next-page").addClass("disabled");
                 } else {
                     afterDocs[page] = data.after;
                     currentPage = page;
@@ -121,6 +123,32 @@ require([
     }
 
     querySearch(1);
+
+    if ($.support.pjax) {
+        $(document).on('pjax:start', function () {
+            NProgress.start();
+        });
+
+        $(document).on('pjax:end', function () {
+            NProgress.done();
+
+            afterDocs = [];
+            afterDocs[0] = null;
+            currentPage = 0;
+            totalPages = 0;
+
+            $(".prev-page").addClass("disabled");
+            $(".next-page").addClass("disabled");
+
+            querySearch(1);
+        });
+
+        $(document).on('submit', 'form.article-search-pjax-submit', function (event) {
+            $.pjax.submit(event, '.pjax-content');
+            event.preventDefault();
+            event.stopPropagation();
+        });
+    }
 
     window.setTimeout(articleWidget.init, 1000);
 });
