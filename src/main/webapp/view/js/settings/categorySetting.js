@@ -21,12 +21,13 @@
 require([
     "jquery",
     'underscore',
+    'nprogress',
     "commonutils",
     "jBoxUtil",
     'bootbox',
     'text!pages/article/html/categoryList.html',
     'pagination'
-], function ($, _, commonutils, jBoxUtil, bootbox, categoryListHTML) {
+], function ($, _, NProgress, commonutils, jBoxUtil, bootbox, categoryListHTML) {
 
     /**
      * 恢复数据
@@ -140,7 +141,7 @@ require([
      * @param size
      */
     function findCategoryListAll() {
-        $("._loading").show();
+    	NProgress.start();
         $(".category-list").empty();
         $.ajax({
             url: "/article/category/query/all",
@@ -169,7 +170,7 @@ require([
                 jBoxUtil.noticeError({content: "未知错误"});
             },
             complete: function () {
-                $("._loading").hide();
+            	NProgress.done();
             }
         });
     }

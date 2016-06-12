@@ -21,12 +21,13 @@
 require([
     "jquery",
     'underscore',
+    'nprogress',
     "commonutils",
     "jBoxUtil",
     'bootbox',
     'text!pages/article/html/draftList.html',
     'pagination'
-], function ($, _, commonutils, jBoxUtil, bootbox, draftListHTML) {
+], function ($, _, NProgress, commonutils, jBoxUtil, bootbox, draftListHTML) {
     var pageSize = 5;
     var currentPage = 0;
     var totalPages = 0;
@@ -124,7 +125,7 @@ require([
     }
 
     function findDraftList(page, size) {
-        $("._loading").show();
+    	NProgress.start();
         $(".drafts-box-list").empty();
         $.ajax({
             url: "/article/query",
@@ -162,7 +163,7 @@ require([
                 jBoxUtil.noticeError({content: "未知错误"});
             },
             complete: function () {
-                $("._loading").hide();
+            	NProgress.done();
             }
         });
     }

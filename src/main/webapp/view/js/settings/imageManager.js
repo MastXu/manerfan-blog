@@ -24,9 +24,10 @@
 require([
     "jquery",
     'underscore',
+    'nprogress',
     "jBoxUtil",
     'bootbox'
-], function ($, _, jBoxUtil, bootbox) {
+], function ($, _, NProgress, jBoxUtil, bootbox) {
     var dirTemplate = "<article class='list-group-item dir-item'>" +
         "<a href='#' data-path='<%= imagePath %>' class='glyphicon glyphicon-folder-close'></a>" +
         "<span><%= pathName %></span>" +
@@ -111,7 +112,8 @@ require([
      */
     function findImageList(relative) {
         var path = !!relative ? relative : "";
-        $("._loading").show();
+        
+        NProgress.start();
         $.ajax({
             url: "/article/image/query/" + path,
             async: true,
@@ -170,7 +172,7 @@ require([
                 jBoxUtil.noticeError({content: "未知错误"});
             },
             complete: function () {
-                $("._loading").hide();
+            	NProgress.done();
             }
         });
     }

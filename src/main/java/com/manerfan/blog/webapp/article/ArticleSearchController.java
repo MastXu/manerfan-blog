@@ -52,7 +52,7 @@ public class ArticleSearchController extends ControllerBase {
     public ModelAndView search(@RequestParam("kw") String keywords) {
         ModelAndView mv = new ModelAndView("article/searchList");
         if (!StringUtils.hasText(keywords)) {
-            mv = new ModelAndView("redirect:/article");
+            mv.setViewName("article/search");
         } else {
             mv.addObject("keywords", keywords);
         }

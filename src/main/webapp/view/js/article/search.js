@@ -15,23 +15,12 @@
  */
 
 /**
- * 文章列表
+ * 文章浏览
  * Created by ManerFan on 2016/4/26 0026.
  */
 require([
     "jquery",
-    "js/article/providers/articleListProvider",
-    "js/article/articleWidget",
-    'js/article/providers/articlePjaxProvider',
-    "bootstrap",
-    'goup'
-], function ($, articleList, articleWidget) {
-	$.goup({
-        containerRadius: 0,
-        locationOffset: 20,
-        bottomOffset: 20,
-        zIndex: 999
-    });
-    articleList.initArticleList();
-    window.setTimeout(articleWidget.init, 1000);
+    "bootstrap"
+], function ($) {
+    $("input[name='kw']").focus();
 });

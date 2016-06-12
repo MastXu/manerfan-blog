@@ -21,12 +21,13 @@
 require([
     "jquery",
     'underscore',
+    'nprogress',
     "commonutils",
     "jBoxUtil",
     'bootbox',
     'text!pages/article/html/recycleList.html',
     'pagination'
-], function ($, _, commonutils, jBoxUtil, bootbox, recycleListHTML) {
+], function ($, _, NProgress, commonutils, jBoxUtil, bootbox, recycleListHTML) {
     var pageSize = 5;
     var currentPage = 0;
     var totalPages = 0;
@@ -159,7 +160,7 @@ require([
     }
 
     function findRecycleList(page, size) {
-        $("._loading").show();
+    	NProgress.start();
         $(".recycle-bin-list").empty();
         $.ajax({
             url: "/article/query",
@@ -197,7 +198,7 @@ require([
                 jBoxUtil.noticeError({content: "未知错误"});
             },
             complete: function () {
-                $("._loading").hide();
+            	NProgress.done();
             }
         });
     }
