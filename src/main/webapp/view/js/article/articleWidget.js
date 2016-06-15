@@ -132,11 +132,15 @@ define([
                 if (_.isArray(data.articles) && data.articles.length > 0) {
                     var articles = [];
                     _.each(data.articles, function (article) {
+                    	var hits = article.hits;
+                    	if (hits > 9999) {
+                    		hits = (hits / 10000.0).toFixed(1) + '万';
+                    	}
                         articles.push(_.template(hitsListHTML)({
                             articleUid: article.uid,
                             articleTitle: article.title,
                             articleSummary: article.summary,
-                            articleHits: article.hits
+                            articleHits: hits
                         }));
                     });
 

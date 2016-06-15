@@ -40,7 +40,6 @@
 		</sec:authorize>
 	</script>
 	
-	<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
     <script id="mainscript" data-version="<c:out value='${version}' />" src="<c:url value="/view/js/main.js?v=${version}" />"></script>
     <script src="<c:url value="/view/js/article/article.js?v=${version}" />"></script>

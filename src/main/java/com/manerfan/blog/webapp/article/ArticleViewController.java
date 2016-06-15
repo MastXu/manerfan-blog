@@ -308,8 +308,9 @@ public class ArticleViewController extends ControllerBase {
 
         try {
             List<ArticleEntity> articleEntities = articleCategoryMapRepository
-                    .findByCategoryName(name, new QPageRequest(page, size));
-            long totalPages = articleCategoryMapRepository.countByCategorName(name);
+                    .findByCategoryName(name, State.PUBLISHED, new QPageRequest(page, size));
+            long totalPages = articleCategoryMapRepository.countByCategorName(name,
+                    State.PUBLISHED);
 
             data.put("totalPages", Math.ceil(1.0 * totalPages / size));
             data.put("articles",
@@ -340,8 +341,9 @@ public class ArticleViewController extends ControllerBase {
         Map<String, Object> data = makeAjaxData();
 
         try {
-            List<ArticleBO> articles = articleService.findByArchive(year, month, page, size);
-            long totalPages = articleService.countByArchive(year, month);
+            List<ArticleBO> articles = articleService.findByArchive(year, month, State.PUBLISHED,
+                    page, size);
+            long totalPages = articleService.countByArchive(year, month, State.PUBLISHED);
             data.put("totalPages", Math.ceil(1.0 * totalPages / size));
             data.put("articles", articles);
         } catch (Exception e) {

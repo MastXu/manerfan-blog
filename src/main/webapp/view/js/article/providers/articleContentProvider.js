@@ -5,11 +5,19 @@
 define([
     "jquery",
     "js/editor/extensions/echartsParser",
-    "js/editor/extensions/mathJax"
-], function ($, echartsParser, mathJax) {
+    "js/editor/extensions/mathJax",
+    "js/article/providers/duoshuoProvider"
+], function ($, echartsParser, mathJax, duoshuo) {
     var articleContent = {};
 
     articleContent.initArticleContent = function () {
+        try {
+            duoshuo.initDuoshuo();
+        } catch (e) {
+            console.error("Init Duoshuo Error!");
+            console.error(e);
+        }
+
         mathJax.onAsyncPreview(function () {
             try {
                 echartsParser.parseArticle($("code.language-echarts"));

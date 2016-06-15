@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.manerfan.blog.dao.entities.article.ArticleCategoryMap;
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
+import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 import com.manerfan.blog.dao.entities.article.CategoryEntity;
 import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
 
@@ -58,11 +59,11 @@ public interface ArticleCategoryMapRepository
      * @param pageable
      * @return
      */
-    @Query("select map.article from ArticleCategoryMap map where map.category.uuid = (select category.uuid from Category category where category.name = ?1) order by map.article.createTime desc")
-    public List<ArticleEntity> findByCategoryName(String name, Pageable pageable);
+    @Query("select map.article from ArticleCategoryMap map where map.article.state=?2 and map.category.uuid = (select category.uuid from Category category where category.name = ?1) order by map.article.createTime desc")
+    public List<ArticleEntity> findByCategoryName(String name, State state, Pageable pageable);
 
-    @Query("select count(map.article) from ArticleCategoryMap map where map.category.uuid = (select category.uuid from Category category where category.name = ?1)")
-    public long countByCategorName(String name);
+    @Query("select count(map.article) from ArticleCategoryMap map where map.article.state=?2 and map.category.uuid = (select category.uuid from Category category where category.name = ?1)")
+    public long countByCategorName(String name, State state);
 
     /**
      * <pre>

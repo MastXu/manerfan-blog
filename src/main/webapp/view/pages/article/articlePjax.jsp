@@ -23,7 +23,14 @@
 	<div class="panel-body">
 		<span style="margin: 0 0 5px 10px;display: block;">
 			<small>
-				<c:out value="${hits}" />人阅读
+				<c:choose>
+					<c:when test="${hits<10000}">
+						<c:out value="${hits}" />人阅读	
+					</c:when>
+					<c:otherwise>
+						<fmt:formatNumber value="${hits/10000.0}" pattern="##.##" minFractionDigits="2" ></fmt:formatNumber>万人阅读	
+					</c:otherwise>
+				</c:choose>
 				<i class="icon-calendar"></i><fmt:formatDate value="${createTime}" pattern="yyyy-MM-dd HH:mm" />
 			</small>
 		</span>
@@ -38,8 +45,12 @@
 		<span class="callout-danger">版权声明：本文为博主原创文章，未经博主允许不得转载。</span>
 		<summary><pre><b>摘要: </b><c:out value="${summary}" escapeXml="false"/></pre></summary>
 		<article><c:out value="${content}" escapeXml="false"/></article>
-		<c:import url='../share/bdshare.jsp' />
 	</div>
+	<div class="panel-footer">
+		<!-- 多说分享 start -->
+		<c:import url='../share/dsshare.jsp' />
+		<!-- 多说分享 end -->
+	</div>	
 </div>
 <nav>
 	<ul class="pager">
@@ -81,3 +92,32 @@
 		</div>
 	</div>
 </c:if>
+
+<!-- 多说评论框 start -->
+<style>
+	.ds-sync{display: none !important;}
+	#ds-smilies-tooltip ul.ds-smilies-tabs {height: 140px !important;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">评论 (Powered By <a href="http://duoshuo.com" target="_blank">DuoShuo</a>)</div>
+	<div class="panel-body">
+		<div class="ds-thread" data-thread-key="<c:out value="${uid}" />" data-title="<c:out value="${title}" />" data-url="http://www.manerfan.com/article/<c:out value="${uid}" />"></div>
+	</div>
+</div>
+<!-- 多说评论框 end -->
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次)
+<script type="text/javascript">
+	var duoshuoQuery = {
+		short_name : "manerfan"
+	};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';
+		ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+多说公共JS代码 end -->

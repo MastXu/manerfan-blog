@@ -28,7 +28,7 @@
 		</div>
 		<div class="collapse navbar-collapse" id="header-collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="<c:url value='/article' />"><i class="icon-th-list"></i>博文列表</a></li>
+				<li><a href="<c:url value='/article' />" class="article-list-pjax-href"><i class="icon-th-list"></i>博文列表</a></li>
 				<li><a href="<c:url value='/editor' />">
 					<sec:authorize access="hasRole('ROLE_ANONYMOUS')">
 						<i class="icon-pencil-squared"></i>编辑器
@@ -52,7 +52,7 @@
 					</form>
 				</li>
 				<sec:authorize access="hasRole('ROLE_ANONYMOUS')">
-		            <li class="login"><a href="<c:url value='/login' />"><i class="glyphicon glyphicon-log-in"></i> 登陆</a></li>
+		            <li class="login"><a href="<c:url value='/login' />"><i class="glyphicon glyphicon-log-in"></i> 后台管理</a></li>
 		        </sec:authorize>
 		        <sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
 					<li class="dropdown">

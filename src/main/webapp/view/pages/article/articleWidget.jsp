@@ -5,17 +5,21 @@
 <%@ taglib prefix="fn" uri="fn_tld" %><!-- http://java.sun.com/jsp/jstl/fmt -->
 <%@ taglib prefix="spring" uri="spring_tld" %> <!-- http://www.springframework.org/tags -->
 
+<style>
+	.widget a span {font-size: 0.5em;}
+</style>
+
 <div class="panel panel-default">
 	<div class="panel-heading">文章分类<a href="<c:url value='/article/timeline' />" class="btn btn-sm btn-link">更多</a></div>
-	<div class="panel-body list-badge widget-category">...</div>
+	<div class="widget panel-body list-badge widget-category">...</div>
 </div>
 
 <div class="panel panel-default">
 	<div class="panel-heading">文章存档<a href="<c:url value='/article/timeline' />" class="btn btn-sm btn-link">更多</a></div>
-	<div class="panel-body list-badge widget-archive">...</div>
+	<div class="widget panel-body list-badge widget-archive">...</div>
 </div>
 
 <div class="panel panel-default">
 	<div class="panel-heading">阅读排行</div>
-	<div class="panel-body list-badge widget-hits">...</div>
+	<div class="widget panel-body list-badge widget-hits">...</div>
 </div>

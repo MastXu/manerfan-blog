@@ -531,15 +531,18 @@ public class ArticleService implements InitializingBean {
      * @param pageSize
      * @return
      */
-    public List<ArticleBO> findByArchive(String year, String month, int pageNum, int pageSize) {
+    public List<ArticleBO> findByArchive(String year, String month, State state, int pageNum,
+            int pageSize) {
         StringBuilder sql = new StringBuilder();
         sql.append("select article.* ");
         sql.append("from article "); /* 从文章中查询 */
-        sql.append("where formatdatetime(article.create_time,'YYYY/MM')=? "); /* 按年月查询 */
+        sql.append(
+                "where article.state=? and formatdatetime(article.create_time,'YYYY/MM')=? "); /* 按年月查询 */
         sql.append("order by article.create_time desc"); /* 按时间排序 */
         List<Object> articleEntities = articleRepository.findOnSQL(sql.toString(),
                 ArticleEntity.class, query -> {
-                    query.setParameter(1, year + "/" + month);
+                    query.setParameter(1, state.name());
+                    query.setParameter(2, year + "/" + month);
                     query.setFirstResult(pageNum * pageSize);
                     query.setMaxResults(pageSize);
                 });
@@ -563,14 +566,17 @@ public class ArticleService implements InitializingBean {
      * @param month
      * @return
      */
-    public long countByArchive(String year, String month) {
+    public long countByArchive(String year, String month, State state) {
         StringBuilder sql = new StringBuilder();
         sql.append("select count(article.uuid) ");
         sql.append("from article "); /* 从文章中查询 */
-        sql.append("where formatdatetime(article.create_time,'YYYY/MM')=? "); /* 按年月查询 */
+        sql.append(
+                "where article.state=? and formatdatetime(article.create_time,'YYYY/MM')=? "); /* 按年月查询 */
 
-        return articleRepository.countOnSQL(sql.toString(),
-                query -> query.setParameter(1, year + "/" + month));
+        return articleRepository.countOnSQL(sql.toString(), query -> {
+            query.setParameter(1, state.name());
+            query.setParameter(2, year + "/" + month);
+        });
     }
 
     /**
