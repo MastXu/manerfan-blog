@@ -6,7 +6,9 @@
 <%@ taglib prefix="spring" uri="spring_tld" %> <!-- http://www.springframework.org/tags -->
 
 <style>
-	.widget a span {font-size: 0.5em;}
+	.widget a {height: 36px;}
+	.widget a span {font-size: 0.5em; height: 18px;}
+	.widget a span:first-child {line-height: 18px;}
 </style>
 
 <div class="panel panel-default">
