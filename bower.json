@@ -57,6 +57,7 @@
     "jquery-smooth-scroll": "^1.7.2",
     "nprogress": "^0.2.0",
     "jquery-pjax": "^1.9.6",
-    "jquery-goup": "^1.1.0"
+    "jquery-goup": "^1.1.0",
+    "plax": "^1.5.0"
   }
 }

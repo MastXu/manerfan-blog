@@ -86,7 +86,7 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
      */
     @Bean
     public InternalResourceViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        InternalResourceViewResolver viewResolver = new CustomSuffixResourceViewResolver();
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/view/pages/");
         viewResolver.setSuffix(".jsp");

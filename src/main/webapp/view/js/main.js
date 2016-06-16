@@ -127,7 +127,8 @@ requirejs.config({
         'smoothscroll': 'plugins/jquery-smooth-scroll/jquery.smooth-scroll.min',
         'nprogress': 'plugins/nprogress/nprogress',
         'pjax': 'plugins/jquery-pjax/jquery.pjax',
-        'goup': 'plugins/jquery-goup/jquery.goup.min'
+        'goup': 'plugins/jquery-goup/jquery.goup.min',
+        'plax': 'plugins/plax/js/plax'
     },
 
     /**
@@ -266,6 +267,9 @@ requirejs.config({
             'jquery'
         ],
         'goup': [
+            'jquery'
+        ],
+        'plax': [
             'jquery'
         ]
     }

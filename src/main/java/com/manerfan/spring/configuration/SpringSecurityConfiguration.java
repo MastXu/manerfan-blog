@@ -68,8 +68,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/*.*", "/init/**", "/view/**", "/article/image/inline/**",
-                "/article/list", "/category/hots/*", "/tags/**");
+        web.ignoring().antMatchers("/*.*", "/error/**", "/view/**", "/tags/**");
     }
 
     /**
@@ -127,7 +126,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
                         "/article/update/**")
                 .hasAnyRole("ADMIN", "USER")
                 /* 任意用户可访问的 */
-                .antMatchers("/", "/login", "/editor", "/editor/fileImport", "/article",
+                .antMatchers("/", "/init/**", "/login", "/editor", "/editor/fileImport", "/article",
                         "/article/**", "/about/**")
                 .permitAll()
                 /* 只有admin可访问的 */

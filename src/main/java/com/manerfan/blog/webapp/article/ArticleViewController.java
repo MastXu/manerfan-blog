@@ -77,8 +77,8 @@ public class ArticleViewController extends ControllerBase {
         ModelAndView mv = new ModelAndView("article/article");
         try {
             ArticleBO article = articleService.get(uid, FileType.html);
-            if (null == article) {
-                mv.setViewName("redirect:/article");
+            if (null == article || !State.PUBLISHED.equals(article.getState())) {
+                mv.setViewName("redirect:/error/404");
             } else {
                 articleService.addArticleHits(uid);
 

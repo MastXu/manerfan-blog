@@ -589,12 +589,13 @@ public class ArticleService implements InitializingBean {
      * @return
      */
     public ArticleEntity getNeighbor(final String uid, final boolean prev) {
-        String hql = "select article from Article article where article.createTime "
+        String hql = "select article from Article article where article.state=?1 and article.createTime "
                 + (prev ? "<" : ">")
-                + " (select art.createTime from Article art where art.uid=?1) order by article.createTime "
+                + " (select art.createTime from Article art where art.uid=?2) order by article.createTime "
                 + (prev ? "desc" : "asc");
         return articleRepository.findOne(hql, querySet -> {
-            querySet.setParameter(1, uid);
+            querySet.setParameter(1, State.PUBLISHED.name());
+            querySet.setParameter(2, uid);
             querySet.setFirstResult(0).setMaxResults(1);
         });
     }
