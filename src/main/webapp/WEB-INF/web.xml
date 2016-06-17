@@ -75,6 +75,22 @@
 		<filter-name>AntiTheftLinkFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping> -->
+	
+	<!-- 移动设备访问 -->
+	<filter>
+		<filter-name>MobileDeviceFilter</filter-name>
+		<filter-class>com.manerfan.blog.filter.MobileDeviceFilter</filter-class>
+		<init-param> <!-- 白名单 -->
+			<param-name>whiteList</param-name>
+			<param-value>
+                /about/**, /view/**
+            </param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>MobileDeviceFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>

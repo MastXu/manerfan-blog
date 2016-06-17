@@ -7,7 +7,7 @@ define([], function () {
 
     duoshuo.initDuoshuo = function () {
         window.duoshuoQuery = {
-            short_name: "manerfan"
+            short_name: dsshortname
         };
         window.DUOSHUO = undefined;
 

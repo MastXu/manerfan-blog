@@ -101,7 +101,7 @@
 <div class="panel panel-default">
 	<div class="panel-heading">评论 (Powered By <a href="http://duoshuo.com" target="_blank">DuoShuo</a>)</div>
 	<div class="panel-body">
-		<div class="ds-thread" data-thread-key="<c:out value="${uid}" />" data-title="<c:out value="${title}" />" data-url="http://www.manerfan.com/article/<c:out value="${uid}" />"></div>
+		<div class="ds-thread" data-thread-key="<c:out value='${uid}' />" data-title="<c:out value='${title}' />" data-url="<c:out value='${dsurl}' />/article/<c:out value='${uid}' />"></div>
 	</div>
 </div>
 <!-- 多说评论框 end -->
@@ -109,7 +109,7 @@
 <!-- 多说公共JS代码 start (一个网页只需插入一次)
 <script type="text/javascript">
 	var duoshuoQuery = {
-		short_name : "manerfan"
+		short_name : "<c:out value='${dsshortname}' />"
 	};
 	(function() {
 		var ds = document.createElement('script');

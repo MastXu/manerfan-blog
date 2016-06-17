@@ -509,7 +509,7 @@ public class ArticleService implements InitializingBean {
      */
     public List<ArticleBO> hotsHits(int top) {
         List<ArticleEntity> articleEntities = articleRepository
-                .findAllByOrderByHitsDesc(new QPageRequest(0, top));
+                .findAllByStateOrderByHitsDesc(State.PUBLISHED, new QPageRequest(0, top));
         List<ArticleBO> articles = new LinkedList<>();
         articleEntities.forEach(articleEntity -> {
             ArticleBO article = new ArticleBO();
@@ -594,7 +594,7 @@ public class ArticleService implements InitializingBean {
                 + " (select art.createTime from Article art where art.uid=?2) order by article.createTime "
                 + (prev ? "desc" : "asc");
         return articleRepository.findOne(hql, querySet -> {
-            querySet.setParameter(1, State.PUBLISHED.name());
+            querySet.setParameter(1, State.PUBLISHED);
             querySet.setParameter(2, uid);
             querySet.setFirstResult(0).setMaxResults(1);
         });

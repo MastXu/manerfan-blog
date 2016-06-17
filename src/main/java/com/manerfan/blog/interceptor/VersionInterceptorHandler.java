@@ -34,6 +34,12 @@ public class VersionInterceptorHandler extends HandlerInterceptorAdapter {
     @Value("${mblog.version}")
     private String version;
 
+    @Value("${duoshuo.shortname}")
+    private String dsshortname;
+
+    @Value("${duoshuo.url}")
+    private String dsurl;
+
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
@@ -42,6 +48,9 @@ public class VersionInterceptorHandler extends HandlerInterceptorAdapter {
         }
 
         modelAndView.addObject("version", version);
+
+        modelAndView.addObject("dsshortname", dsshortname);
+        modelAndView.addObject("dsurl", dsurl);
     }
 
 }

@@ -15,8 +15,6 @@
  */
 package com.manerfan.blog.filter;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,7 +47,7 @@ import com.manerfan.common.utils.mather.OrPathMatcher;
  */
 public class AntiTheftLinkFilter extends OncePerRequestFilter {
 
-    private static File antiTheftImage;
+    private static byte[] antiTheftImageBytes;
 
     private static final String SPLITER = "[ ,\t\n]+";
 
@@ -110,10 +108,11 @@ public class AntiTheftLinkFilter extends OncePerRequestFilter {
         }
 
         try {
-            antiTheftImage = ResourceUtils.getFile("classpath:antitheft.jpg");
-        } catch (FileNotFoundException e) {
-            MLogger.ROOT_LOGGER.error("Cannot Found AntiThelft Image");
-            throw new ServletException("Cannot Found AntiThelft Image");
+            antiTheftImageBytes = FileUtils
+                    .readFileToByteArray(ResourceUtils.getFile("classpath:antitheft.jpg"));
+        } catch (IOException e) {
+            MLogger.ROOT_LOGGER.error("Cannot Found or Read AntiThelft Image");
+            throw new ServletException("Cannot Found or Read AntiThelft Image");
         }
     }
 
@@ -151,7 +150,7 @@ public class AntiTheftLinkFilter extends OncePerRequestFilter {
         response.setStatus(201);
 
         ServletOutputStream os = response.getOutputStream();
-        os.write(FileUtils.readFileToByteArray(antiTheftImage));
+        os.write(antiTheftImageBytes);
         os.flush();
         response.flushBuffer();
     }

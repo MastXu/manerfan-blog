@@ -98,6 +98,6 @@ public interface ArticleRepository extends BasicJpaRepository<ArticleEntity, Str
      * @param pageable
      * @return
      */
-    public List<ArticleEntity> findAllByOrderByHitsDesc(Pageable pageable);
+    public List<ArticleEntity> findAllByStateOrderByHitsDesc(State state, Pageable pageable);
 
 }

@@ -34,6 +34,8 @@
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
 			logined = true;
 		</sec:authorize>
+
+		var dsshortname = "<c:out value='${dsshortname}' />";
 	</script>
 	
 	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>
