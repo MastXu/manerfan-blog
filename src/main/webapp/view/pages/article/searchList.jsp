@@ -18,6 +18,7 @@
     	.search-crumb {padding-top: 20px;}
     	.quick-access {margin-top: 10px;}
     	.pager {text-align: left;}
+		.searchtotal {color: #999999;padding: 15px;}    	
     </style>
 </head>
 <body>
@@ -53,6 +54,7 @@
     
     <div class="article-content">
 	    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+	    	<small class="searchtotal">小M共为您找到<span></span>篇相关文章</small>
 	    	<div class="pjax-content">
 	    		<c:import url="searchListPjax.jsp"></c:import>
 	    	</div>

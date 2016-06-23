@@ -18,6 +18,8 @@ package com.manerfan.blog.webapp.article;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.querydsl.QPageRequest;
@@ -73,12 +75,15 @@ public class ArticleViewController extends ControllerBase {
      * @throws Exception 
      */
     @RequestMapping("/{uid}")
-    public ModelAndView article(@PathVariable String uid) throws Exception {
+    public ModelAndView article(@PathVariable String uid, HttpServletResponse response)
+            throws Exception {
         ModelAndView mv = new ModelAndView("article/article");
         try {
             ArticleBO article = articleService.get(uid, FileType.html);
             if (null == article || !State.PUBLISHED.equals(article.getState())) {
-                mv.setViewName("redirect:/error/404");
+                /* 目前只能使用这种办法强制设置Content-Type */
+                response.setContentType("text/html;charset=UTF-8");
+                mv.setViewName("error/404.html");
             } else {
                 articleService.addArticleHits(uid);
 

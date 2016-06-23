@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -64,6 +63,7 @@ import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.lucene.LuceneManager;
 import com.manerfan.common.utils.lucene.LuceneUtils;
 import com.manerfan.common.utils.lucene.annotations.manager.LuceneCommit;
+import com.manerfan.spring.configuration.ResourceLocation;
 
 /**
  * <pre>文章操作</pre>
@@ -77,10 +77,8 @@ public class ArticleService implements InitializingBean {
     private static final SimpleDateFormat NAME_SDF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     private static final SimpleDateFormat PATH_SDF = new SimpleDateFormat("/yyyy/MM/");
 
-    @Value("${article.basedir}")
-    private String baseDir;
-
-    private File articleDir;
+    @Autowired
+    private ResourceLocation resourceLocation;
 
     private File defaultArticle;
 
@@ -162,7 +160,7 @@ public class ArticleService implements InitializingBean {
                 articleEntity);
 
         // 保存文件 
-        File dir = new File(articleDir, transPath(articleEntity.getUid()));
+        File dir = new File(resourceLocation.getArticleDir(), transPath(articleEntity.getUid()));
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -290,7 +288,7 @@ public class ArticleService implements InitializingBean {
         /* 读取文章内容 */
         Pattern pattern = Pattern.compile(uid + "\\" + type.type());
         String path = transPath(uid);
-        File searchDir = new File(articleDir, path);
+        File searchDir = new File(resourceLocation.getArticleDir(), path);
         File[] files = searchDir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -319,6 +317,7 @@ public class ArticleService implements InitializingBean {
     @LuceneCommit(managerBeanName = "articleLuceneManager")
     public void updateArticleState(State state, String uid) throws IOException {
         articleRepository.updateArticleState(state, uid);
+        evictArticleCache(uid);
 
         if (!State.PUBLISHED.equals(state)) {
             // 非发布状态，将索引删除
@@ -400,7 +399,7 @@ public class ArticleService implements InitializingBean {
 
         Pattern pattern = Pattern.compile(uid + "\\.\\w+");
         String path = transPath(uid);
-        File searchDir = new File(articleDir, path);
+        File searchDir = new File(resourceLocation.getArticleDir(), path);
         File[] files = searchDir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -602,15 +601,6 @@ public class ArticleService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.hasText(baseDir);
-
-        articleDir = new File(baseDir, "article");
-        if (!articleDir.exists()) {
-            Assert.isTrue(articleDir.mkdirs());
-        }
-
-        Assert.isTrue(articleDir.isDirectory());
-
         defaultArticle = ResourceUtils.getFile("classpath:article.md");
         Assert.isTrue(defaultArticle.exists());
 

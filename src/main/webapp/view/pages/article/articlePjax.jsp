@@ -16,6 +16,7 @@
 		<div class="pull-right">
 			<sec:authorize access="hasAnyRole('ROLE_ADMIN,ROLE_USER')">
 				<button data-uid="<c:out value='${uid}' />" type="button" class="btn btn-danger btn-xs btn-article-recycle"><i class="glyphicon glyphicon-trash"></i>删除</button>
+				<button data-uid="<c:out value='${uid}' />" type="button" class="btn btn-warning btn-xs btn-article-withdraw"><i class="glyphicon glyphicon-share"></i>撤回</button>
 				<a href="/editor/<c:out value='${uid}' />" type="button" class="btn btn-primary btn-xs btn-article-edit"><i class="glyphicon glyphicon-edit"></i>编辑</a>
 			</sec:authorize>
 		</div>

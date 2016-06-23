@@ -18,7 +18,6 @@ package com.manerfan.spring.configuration;
 import java.io.File;
 import java.io.IOException;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -45,20 +44,19 @@ import com.manerfan.common.utils.lucene.LuceneManager;
 @EnableSpringConfigured
 @PropertySource("classpath:properties/settings.properties") /* 加载配置 */
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-public class MBlogConfiguration implements InitializingBean {
+public class MBlogConfiguration {
 
     private @Value("${article.basedir}") String basedir;
 
-    @Bean(name = "articleLuceneManager", destroyMethod = "shutdown")
-    @Lazy(false)
-    public LuceneManager luceneManager() throws IOException {
-        LuceneManager luceneManager = LuceneManager.newFSInstance(new File(basedir, "index"));
-        return luceneManager;
-    }
+    private @Value("${jdbc.host}") String jdbchost;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    @Bean
+    @Lazy(false)
+    public ResourceLocation resourceLocation() {
         Assert.hasText(basedir);
+        Assert.hasText(jdbchost);
+
+        ResourceLocation location = new ResourceLocation();
 
         File baseDir = new File(basedir);
         if (!baseDir.exists()) {
@@ -69,16 +67,31 @@ public class MBlogConfiguration implements InitializingBean {
         if (!imageDir.exists()) {
             Assert.isTrue(imageDir.mkdirs());
         }
+        location.imageDir = imageDir;
 
         File articleDir = new File(baseDir, "article");
         if (!articleDir.exists()) {
             Assert.isTrue(articleDir.mkdirs());
         }
+        location.articleDir = articleDir;
 
         File indexDir = new File(baseDir, "index");
         if (!indexDir.exists()) {
             Assert.isTrue(indexDir.mkdirs());
         }
-    }
+        location.indexDir = indexDir;
 
+        if (jdbchost.startsWith("jdbc:h2:")) {
+            location.dbDir = new File(jdbchost.substring(8).split(";")[0]).getParentFile();
+        }
+        
+        return location;
+    }
+    
+    @Bean(name = "articleLuceneManager", destroyMethod = "shutdown")
+    @Lazy(false)
+    public LuceneManager luceneManager() throws IOException {
+        LuceneManager luceneManager = LuceneManager.newFSInstance(resourceLocation().indexDir);
+        return luceneManager;
+    }
 }

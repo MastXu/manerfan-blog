@@ -83,12 +83,15 @@ require([
                     $(".pjax-content").empty().append("<h1 style='color: lightgray;margin: 40px 0 20px;'>→_→ 无搜索结果</h1><h4 style='color: lightgray;margin: 20px 0 40px;'>请尝试其他关键词</h4>");
                     $(".prev-page").addClass("disabled");
                     $(".next-page").addClass("disabled");
-                    
+
+                    $(".searchtotal span").text(0);
                     $("input[name='kw']").select().focus();
                 } else {
                     afterDocs[page] = data.after;
                     currentPage = page;
                     totalPages = Math.ceil(data.total / pageSize);
+
+                    $(".searchtotal span").text(totalPages);
                     reShowArticleList(data.articles);
                 }
             },

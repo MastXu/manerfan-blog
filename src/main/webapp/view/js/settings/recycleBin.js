@@ -28,7 +28,7 @@ require([
     'text!pages/article/html/recycleList.html',
     'pagination'
 ], function ($, _, NProgress, commonutils, jBoxUtil, bootbox, recycleListHTML) {
-    var pageSize = 5;
+    var pageSize = 2;
     var currentPage = 0;
     var totalPages = 0;
 
@@ -144,23 +144,19 @@ require([
     }
 
     function resetArticleList(uid) {
-        var currPageNum = totalPages - currentPage * pageSize; // （包括）当前页之后还有多少条
-        if (currPageNum <= 1) { // 删完之后这页就没有了，需要回退一页
-            currentPage--;
-        }
+        var remain = $(".recycle-bin-list article[data-uid]").length - 1;
 
-        if (currentPage >= 0) {
+        if (totalPages > 1 && totalPages == (currentPage + 1) && remain < 1) {
+            // 最后一页，并且没有内容了，回退一页
+            $('.pagination.recycle-bin-pagination').jqPagination('option', 'current_page', currentPage);
+        } else {
+            // 刷新当前页
             findRecycleList(currentPage, pageSize);
-        } else { // 已经没有
-            $("article[data-uid='" + uid + "']").remove();
-
-            $('.pagination.recycle-bin-pagination').jqPagination('option', 'max_page', 1);
-            $('.pagination.recycle-bin-pagination').jqPagination('option', 'current_page', 1);
         }
     }
 
     function findRecycleList(page, size) {
-    	NProgress.start();
+        NProgress.start();
         $(".recycle-bin-list").empty();
         $.ajax({
             url: "/article/query",
@@ -198,7 +194,7 @@ require([
                 jBoxUtil.noticeError({content: "未知错误"});
             },
             complete: function () {
-            	NProgress.done();
+                NProgress.done();
             }
         });
     }

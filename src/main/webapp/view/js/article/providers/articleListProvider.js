@@ -23,10 +23,11 @@ define([
     'underscore',
     'nprogress',
     "jBoxUtil",
+    'bootbox',
     "commonutils",
     "bootstrap",
     'pagination'
-], function ($, _, NProgress, jBoxUtil, commonutils) {
+], function ($, _, NProgress, jBoxUtil, bootbox, commonutils) {
     var articleList = {};
 
     var pageSize = 2;
@@ -122,6 +123,7 @@ define([
         $('.pagination.article-pagination').jqPagination("option", "max_page", totalPages);
     }
 
+    var searchFunc = searchFuncs.none;
     articleList.initArticleList = function () {
         currentPage = 0;
         totalPages = 0;
@@ -130,7 +132,7 @@ define([
         funcparam = $("#funcparam").val();
 
         var func = searchFuncs[funcname];
-        var searchFunc = typeof func == "function" ? func : searchFuncs.none;
+        searchFunc = typeof func == "function" ? func : searchFuncs.none;
 
         $('.pagination.article-pagination').jqPagination({
             page_string: '第{current_page}页, 共{max_page}页',
@@ -147,6 +149,74 @@ define([
 
         searchFunc(0);
     };
+
+    /**
+     * 撤回到草稿箱
+     */
+    $(document).on("click", ".btn-list-article-withdraw", function () {
+        var uid = $(this).data("uid");
+        bootbox.confirm("此操作将该文章撤回到草稿箱", function (result) {
+            if (!!result) {
+                updateArticleState(uid, "DRAFT");
+            }
+        });
+    });
+
+    /**
+     * 将文章移动到回收站
+     */
+    $(document).on("click", ".btn-list-article-recycle", function () {
+        var uid = $(this).data("uid");
+        bootbox.confirm("此操作将该文章放入回收站", function (result) {
+            if (!!result) {
+                updateArticleState(uid, "DELETED");
+            }
+        });
+    });
+
+    /**
+     * 修改文章状态
+     * @param uid
+     * @param state
+     */
+    function updateArticleState(uid, state) {
+        $("._loading").show();
+        $.ajax({
+            url: "/article/update/state",
+            async: true,
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {state: state, uid: uid},
+            success: function (data, textStatus, XMLHttpRequest) {
+                if (null != data.errmsg) {
+                    // 出现错误
+                    jBoxUtil.noticeError({content: data.errmsg});
+                    return;
+                }
+
+                resetArticleList(uid);
+            },
+            error: function () {
+                jBoxUtil.noticeError({content: "未知错误"});
+            },
+            complete: function () {
+                $("._loading").hide();
+            }
+        });
+    }
+
+    function resetArticleList(uid) {
+        var remain = $("article[data-uid]").length - 1;
+
+        if (totalPages > 1 && totalPages == (currentPage + 1) && remain < 1) {
+            // 最后一页，并且没有内容了，回退一页
+            $('.pagination.article-pagination').jqPagination('option', 'current_page', currentPage);
+        } else {
+            // 刷新当前页
+            searchFunc(currentPage);
+        }
+    }
 
     return articleList;
 });
