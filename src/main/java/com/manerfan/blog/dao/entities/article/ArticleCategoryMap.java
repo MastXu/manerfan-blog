@@ -18,6 +18,7 @@ package com.manerfan.blog.dao.entities.article;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -30,7 +31,9 @@ import com.manerfan.common.utils.dao.entities.CommonEntity;
  * @author ManerFan 2016年2月24日
  */
 @Entity(name = "ArticleCategoryMap")
-@Table(name = "article_category_map")
+@Table(name = "article_category_map", indexes = {
+        @Index(name = "article_category_map_category_index", columnList = "category", unique = true),
+        @Index(name = "article_category_map_article_index", columnList = "article", unique = true) })
 /* 双主键必须设置复合主键 */
 /* 复合主键不一定是自身，复合主键中需要且仅需要包含所有主键字段 */
 public class ArticleCategoryMap extends CommonEntity {

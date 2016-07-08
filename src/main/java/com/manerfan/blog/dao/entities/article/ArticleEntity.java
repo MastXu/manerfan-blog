@@ -23,6 +23,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -44,7 +45,12 @@ import com.manerfan.common.utils.dao.entities.CommonEntity;
  * @author ManerFan 2016年2月24日
  */
 @Entity(name = "Article")
-@Table(name = "article")
+@Table(name = "article", indexes = {
+        @Index(name = "article_uid_index", columnList = "index", unique = true),
+        @Index(name = "article_create_time_index", columnList = "create_time"),
+        @Index(name = "article_last_mod_time_index", columnList = "last_mod_time"),
+        @Index(name = "article_hits_index", columnList = "hits"),
+        @Index(name = "article_state_index", columnList = "state") })
 @EntityListeners({ AuditingEntityListener.class })
 public class ArticleEntity extends CommonEntity {
 

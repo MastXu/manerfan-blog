@@ -17,6 +17,7 @@ package com.manerfan.blog.dao.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import com.manerfan.common.utils.dao.entities.CommonEntity;
@@ -27,7 +28,7 @@ import com.manerfan.common.utils.dao.entities.CommonEntity;
  * @author ManerFan 2016年6月23日
  */
 @Entity(name = "SysConf")
-@Table(name = "sysconf")
+@Table(name = "sysconf", indexes = @Index(name = "sysconf_key_index", columnList = "key", unique = true))
 public class SysConfEntity extends CommonEntity {
 
     /**
