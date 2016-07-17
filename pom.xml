@@ -261,7 +261,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.manerfan.blog.MainEntry</mainClass>
+							<mainClass>com.manerfan.blog.Launcher</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Built-By>ManerFan</Built-By>

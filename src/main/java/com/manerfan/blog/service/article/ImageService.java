@@ -193,7 +193,7 @@ public class ImageService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        defaultImage = ResourceUtils.getFile("classpath:antitheft.jpg");
+        defaultImage = ResourceUtils.getFile("classpath:webapp/view/images/antitheft.jpg");
         Assert.isTrue(defaultImage.exists());
     }
 

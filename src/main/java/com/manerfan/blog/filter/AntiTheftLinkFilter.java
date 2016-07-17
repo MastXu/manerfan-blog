@@ -108,8 +108,8 @@ public class AntiTheftLinkFilter extends OncePerRequestFilter {
         }
 
         try {
-            antiTheftImageBytes = FileUtils
-                    .readFileToByteArray(ResourceUtils.getFile("classpath:antitheft.jpg"));
+            antiTheftImageBytes = FileUtils.readFileToByteArray(
+                    ResourceUtils.getFile("classpath:webapp/view/images/antitheft.jpg"));
         } catch (IOException e) {
             MLogger.ROOT_LOGGER.error("Cannot Found or Read AntiThelft Image");
             throw new ServletException("Cannot Found or Read AntiThelft Image");

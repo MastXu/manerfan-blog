@@ -601,7 +601,7 @@ public class ArticleService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        defaultArticle = ResourceUtils.getFile("classpath:article.md");
+        defaultArticle = ResourceUtils.getFile("classpath:webapp/view/pages/editor/WELCOME.md");
         Assert.isTrue(defaultArticle.exists());
 
         Assert.notNull(cacheCacheManager);

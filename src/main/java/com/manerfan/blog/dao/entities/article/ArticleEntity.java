@@ -46,7 +46,7 @@ import com.manerfan.common.utils.dao.entities.CommonEntity;
  */
 @Entity(name = "Article")
 @Table(name = "article", indexes = {
-        @Index(name = "article_uid_index", columnList = "index", unique = true),
+        @Index(name = "article_uid_index", columnList = "uid", unique = true),
         @Index(name = "article_create_time_index", columnList = "create_time"),
         @Index(name = "article_last_mod_time_index", columnList = "last_mod_time"),
         @Index(name = "article_hits_index", columnList = "hits"),

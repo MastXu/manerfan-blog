@@ -15,6 +15,7 @@
  */
 package com.manerfan.blog.filter;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,11 +28,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.manerfan.common.utils.CommonUtils;
 import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.mather.NonePathMatcher;
 import com.manerfan.common.utils.mather.OrPathMatcher;
@@ -112,8 +115,10 @@ public class MobileDeviceFilter extends OncePerRequestFilter {
         }
 
         try {
-            notSupportedPageBytes = FileUtils
-                    .readFileToByteArray(ResourceUtils.getFile("classpath:notSupported.html"));
+            File ns = CommonUtils
+                    .getFirstResourceFile("classpath*:webapp/view/pages/notSupported.html");
+            Assert.isTrue(ns.exists());
+            notSupportedPageBytes = FileUtils.readFileToByteArray(ns);
         } catch (IOException e) {
             MLogger.ROOT_LOGGER.error("Cannot Found or Read NotSupported Html");
             throw new ServletException("Cannot Found or Read NotSupported Html");
