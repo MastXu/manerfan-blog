@@ -47,9 +47,9 @@ import com.manerfan.common.utils.lucene.LuceneManager;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class MBlogConfiguration {
 
-    private @Value("${article.basedir}") String basedir;
+    private @Value("${mblog.basedir}") String basedir;
 
-    private @Value("${article.h2dbdir}") String jdbcDir;
+    private @Value("${mblog.h2dbdir}") String jdbcDir;
 
     @Bean
     @Lazy(false)
