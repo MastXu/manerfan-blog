@@ -23,7 +23,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.util.Assert;
 
@@ -36,25 +35,27 @@ import com.manerfan.common.utils.lucene.LuceneManager;
  *
  * @author ManerFan 2016年3月24日
  */
-@Import({ DataJpaRepositoryConfiguration.class, /* 数据库 */
+@Import({ ComponentConfiguration.class, /* bean扫描 */
+        PropertyPlaceholderConfiguration.class, /* properties */
+        TaskConfiguration.class, /* 定时任务 */
+        DataJpaRepositoryConfiguration.class, /* 数据库 */
         CacheConfiguration.class, /* 缓存 */
         SpringMVCConfiguration.class, /* spring mvc */
         SpringSecurityConfiguration.class /* spring security */
 })
 @EnableSpringConfigured
-@PropertySource("classpath:properties/settings.properties") /* 加载配置 */
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class MBlogConfiguration {
 
     private @Value("${article.basedir}") String basedir;
 
-    private @Value("${jdbc.host}") String jdbchost;
+    private @Value("${article.h2dbdir}") String jdbcDir;
 
     @Bean
     @Lazy(false)
     public ResourceLocation resourceLocation() {
         Assert.hasText(basedir);
-        Assert.hasText(jdbchost);
+        Assert.hasText(jdbcDir);
 
         ResourceLocation location = new ResourceLocation();
 
@@ -81,13 +82,15 @@ public class MBlogConfiguration {
         }
         location.indexDir = indexDir;
 
-        if (jdbchost.startsWith("jdbc:h2:")) {
-            location.dbDir = new File(jdbchost.substring(8).split(";")[0]).getParentFile();
+        File dbDir = new File(jdbcDir);
+        if (!dbDir.exists()) {
+            Assert.isTrue(dbDir.mkdirs());
         }
-        
+        location.dbDir = dbDir;
+
         return location;
     }
-    
+
     @Bean(name = "articleLuceneManager", destroyMethod = "shutdown")
     @Lazy(false)
     public LuceneManager luceneManager() throws IOException {
