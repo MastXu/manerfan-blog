@@ -222,11 +222,6 @@
 			<artifactId>ehcache</artifactId>
 		</dependency>
 		
-		<dependency><!-- 压缩 -->
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-compress</artifactId>
-		</dependency>
-		
 		<!-- lucene -->
 		<dependency>
 			<groupId>com.manerfan.common.utils</groupId>

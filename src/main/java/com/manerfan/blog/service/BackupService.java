@@ -15,9 +15,16 @@
  */
 package com.manerfan.blog.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+
+import org.h2.tools.Backup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
+import com.manerfan.blog.service.article.LuceneService;
 import com.manerfan.spring.configuration.ResourceLocation;
 
 /**
@@ -35,20 +42,52 @@ public class BackupService {
     @Autowired
     private ResourceLocation resourceLocation;
 
-    protected void articleBackup() {
+    @Autowired
+    private LuceneService luceneService;
+
+    /**
+     * 文章备份文件名
+     */
+    private static final String ARTICLE_BAK_NAME = "article.bak.zip";
+
+    /**
+     * 图片备份文件名
+     */
+    private static final String IMAGE_BAK_NAME = "image.bak.zip";
+
+    /**
+     * Lucene索引本分文件名
+     */
+    private static final String LUCENE_BAK_NAME = "lucene.bak.zip";
+
+    /**
+     * 数据库备份文件名
+     */
+    private static final String DB_BAK_NAME = "db.bak.zip";
+
+    protected void articleBackup(File store) {
 
     }
 
-    protected void imageBackup() {
+    protected void imageBackup(File store) {
 
     }
 
-    protected void luceneBackup() {
+    protected void luceneBackup(File store) throws IOException {
+        luceneService.backup(snapshots -> {
+            if (ObjectUtils.isEmpty(snapshots)) {
+                return;
+            }
 
+            snapshots.forEach(snapshot -> {
+
+            });
+        });
     }
 
-    protected void dbBackup() {
-
+    protected void dbBackup(File store) throws SQLException {
+        Backup.execute(new File(store, DB_BAK_NAME).getAbsolutePath(),
+                resourceLocation.getDbDir().getAbsolutePath(), null, false);
     }
 
 }

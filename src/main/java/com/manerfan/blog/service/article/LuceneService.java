@@ -15,6 +15,7 @@
  */
 package com.manerfan.blog.service.article;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -38,6 +39,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.manerfan.blog.dao.entities.article.ArticleBO;
 import com.manerfan.common.utils.logger.MLogger;
+import com.manerfan.common.utils.lucene.LuceneIndexSnapshot;
 import com.manerfan.common.utils.lucene.LuceneManager;
 import com.manerfan.common.utils.lucene.LuceneUtils;
 
@@ -208,5 +210,9 @@ public class LuceneService {
         }
 
         return article;
+    }
+
+    public void backup(LuceneIndexSnapshot<Set<File>> snapshots) throws IOException {
+        luceneManager.snapshot(snapshots);
     }
 }
