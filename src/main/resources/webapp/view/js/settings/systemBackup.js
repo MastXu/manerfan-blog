@@ -15,22 +15,25 @@
  */
 
 /**
- * 设置
- * Created by ManerFan on 2016/1/29.
+ * Created by ManerFan on 2016/7/21 0022.
+ */
+
+/**
+ * 系统备份
  */
 require([
     "jquery",
-    "bootstrap",
-    "js/settings/accountSetting",
-    "js/settings/articleSetting",
-    "js/settings/draftsBox",
-    "js/settings/recycleBin",
-    "js/settings/categorySetting",
-    "js/settings/imageManager",
-    "js/settings/systemBackup"
-], function ($) {
-    $(".list-nav .list-group-item").click(function () {
-        $(".list-group-item").removeClass("active");
-        $(this).addClass("active");
+    'underscore',
+    "jBoxUtil",
+    'bootbox'
+], function ($, _, jBoxUtil, bootbox) {
+    /**
+     * 恢复数据
+     */
+    $(".list-group-item[data-action='system-backup']").click(function () {
+        $("#panel-settings").children("div").hide();
+        $(".panel[data-action='system-backup']").show();
     });
+
+    $(".list-group-item[data-action='system-backup']").css("visibility", "visible");
 });

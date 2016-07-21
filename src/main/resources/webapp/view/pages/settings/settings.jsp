@@ -41,6 +41,7 @@
 				    <li class="list-group-item" data-action="recycle-bin"><a href="#panel-settings">回收站</a></li>
 				    <li class="list-group-item" data-action="category-settings"><a href="#panel-settings">分类管理</a></li>
 				    <li class="list-group-item" data-action="image-manager"><a href="#panel-settings">图片管理</a></li>
+				    <li class="list-group-item" data-action="system-backup"><a href="#panel-settings">系统备份</a></li>
 				</ul>
 			</div>
 		</div>
@@ -154,6 +155,13 @@
 	            </div>
 	            <div class="panel-body">
 	                <div class="list-group image-manager-list"></div>
+	            </div>
+	        </div>
+	        <div data-action="system-backup" class="panel panel-default">
+	            <div class="panel-heading">
+	            	<span>系统备份</span>
+	            </div>
+	            <div class="panel-body">
 	            </div>
 	        </div>
         </div>
