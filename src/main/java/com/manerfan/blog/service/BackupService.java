@@ -19,12 +19,14 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.annotation.PreDestroy;
+
 import org.h2.tools.Backup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import com.manerfan.blog.service.article.LuceneService;
+import com.manerfan.common.utils.tools.ZipCompressUtil;
 import com.manerfan.spring.configuration.ResourceLocation;
 
 /**
@@ -44,6 +46,15 @@ public class BackupService {
 
     @Autowired
     private LuceneService luceneService;
+
+    public static void start() {
+        // TODO
+    }
+
+    @PreDestroy
+    public static void shutdown() {
+        // TODO
+    }
 
     /**
      * 文章备份文件名
@@ -65,23 +76,19 @@ public class BackupService {
      */
     private static final String DB_BAK_NAME = "db.bak.zip";
 
-    protected void articleBackup(File store) {
-
+    protected void articleBackup(File store) throws IOException {
+        ZipCompressUtil.compress(resourceLocation.getArticleDir().listFiles(),
+                new File(store, ARTICLE_BAK_NAME));
     }
 
-    protected void imageBackup(File store) {
-
+    protected void imageBackup(File store) throws IOException {
+        ZipCompressUtil.compress(resourceLocation.getImageDir().listFiles(),
+                new File(store, IMAGE_BAK_NAME));
     }
 
     protected void luceneBackup(File store) throws IOException {
         luceneService.backup(snapshots -> {
-            if (ObjectUtils.isEmpty(snapshots)) {
-                return;
-            }
-
-            snapshots.forEach(snapshot -> {
-
-            });
+            ZipCompressUtil.compress(snapshots, new File(store, LUCENE_BAK_NAME));
         });
     }
 
