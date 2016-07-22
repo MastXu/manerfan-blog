@@ -15,23 +15,25 @@
  */
 
 /**
- * 设置
- * Created by ManerFan on 2016/1/29.
+ * Created by ManerFan on 2016/7/22 0022.
+ */
+
+/**
+ * 系统设置
  */
 require([
     "jquery",
-    "bootstrap",
-    "js/settings/accountSetting",
-    "js/settings/articleSetting",
-    "js/settings/draftsBox",
-    "js/settings/recycleBin",
-    "js/settings/categorySetting",
-    "js/settings/imageManager",
-    "js/settings/systemBackup",
-    "js/settings/sysconfig"
-], function ($) {
-    $(".list-nav .list-group-item").click(function () {
-        $(".list-group-item").removeClass("active");
-        $(this).addClass("active");
+    'underscore',
+    "jBoxUtil",
+    'bootbox'
+], function ($, _, jBoxUtil, bootbox) {
+    /**
+     * 恢复数据
+     */
+    $(".list-group-item[data-action='sysconfig']").click(function () {
+        $("#panel-settings").children("div").hide();
+        $(".panel[data-action='sysconfig']").show();
     });
+
+    $(".list-group-item[data-action='sysconfig']").css("visibility", "visible");
 });

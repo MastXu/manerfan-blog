@@ -46,6 +46,9 @@ public class BackupService {
 
     @Autowired
     private LuceneService luceneService;
+    
+    @Autowired
+    private SysConfService sysConfService;
 
     public static void start() {
         // TODO

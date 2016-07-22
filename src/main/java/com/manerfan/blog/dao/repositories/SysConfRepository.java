@@ -18,6 +18,8 @@ package com.manerfan.blog.dao.repositories;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,4 +54,12 @@ public interface SysConfRepository extends BasicJpaRepository<SysConfEntity, Str
      * @return
      */
     public List<SysConfEntity> findByKeyIn(Collection<String> keys);
+
+    @Modifying
+    @Query("delete SysConf sysconf where sysconf.key=?1")
+    public void deleteByKey(String key);
+
+    @Modifying
+    @Query("delete SysConf sysconf where sysconf.key in(?1)")
+    public void deleteByKeys(Collection<String> keys);
 }

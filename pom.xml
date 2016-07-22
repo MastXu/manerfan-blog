@@ -235,6 +235,12 @@
     		<artifactId>manerfan-common-utils-http</artifactId>
     		<version>1.0.0</version>
 		</dependency>
+		
+		<!-- 邮件 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-email</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

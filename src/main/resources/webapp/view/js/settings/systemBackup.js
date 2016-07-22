@@ -35,5 +35,9 @@ require([
         $(".panel[data-action='system-backup']").show();
     });
 
+    $("#backup-immediately").click(function () {
+        
+    });
+
     $(".list-group-item[data-action='system-backup']").css("visibility", "visible");
 });

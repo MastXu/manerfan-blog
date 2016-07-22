@@ -62,10 +62,12 @@
                         <input type='hidden' id='exponent' value='<c:out value="${exponent}" />'>
                         <input type='hidden' id='modulus' value='<c:out value="${modulus}" />'>
 	                </div>
-	                <div>
+	                <!--
+ 	                <div>
                         <span class="glyphicon glyphicon-envelope"></span>
                         <input class="form-control" type='text' name='email' placeholder="邮箱(可选)">
                     </div>
+                    -->
 	                <button type="submit" class="btn btn-primary btn-lg btn-block" data-loading-text="稍安勿躁<i class='icon-spinner'></i>">初始化</button>
 		        </form>
 			</div>
