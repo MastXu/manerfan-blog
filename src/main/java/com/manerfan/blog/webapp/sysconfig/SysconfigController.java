@@ -58,7 +58,7 @@ public class SysconfigController extends ControllerBase {
         return data;
     }
 
-    @RequestMapping("/email/clear")
+    @RequestMapping("/email/clean")
     @ResponseBody
     public Object clearEmailConf() {
         Map<String, Object> data = makeAjaxData();
@@ -100,7 +100,7 @@ public class SysconfigController extends ControllerBase {
         return data;
     }
 
-    @RequestMapping("/duoshuo/clear")
+    @RequestMapping("/duoshuo/clean")
     @ResponseBody
     public Object clearDuoshuoConf() {
         Map<String, Object> data = makeAjaxData();

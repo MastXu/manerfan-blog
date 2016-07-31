@@ -24,7 +24,7 @@
         .image-manager-list .list-group-item.img-item img {max-width:150px;max-height:120px;display:block;margin:auto;cursor: pointer;}
         .image-manager-list .list-group-item.img-item pre {width: 100%;display: block;margin-bottom: 3px;padding: 0;}
         .img-dialog img {display:block;margin:auto;max-width:100%;}
-        ._loading{display:none;position:absolute;top:0;width:100%;height:100%;z-index:999;background-color:#88a825;opacity:0.6;}
+        ._loading{display:none;position:fixed;top:0;width:100%;height:100%;z-index:999;background-color:#88a825;opacity:0.6;}
     </style>
 </head>
 <body>
@@ -221,11 +221,11 @@
 	            	<span>系统设置</span>
 	            </div>
 	            <div class="panel-body">
-	            	<div class="panel panel-default">
+	            	<div class="panel panel-default email-config">
 			            <div class="panel-heading">
 			            	<span>邮箱设置</span>
 			            	<a href="#" target="_blank" style="display:none;"></a>
-			            	<span style="float: right;">
+			            	<span class="pull-right">
 				            	<label for="email-sslenable">开启SSL</label>
 				            	<input type="checkbox" id="email-sslenable" style="cursor: pointer;">
 			            	</span>
@@ -241,20 +241,21 @@
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon">登陆名&nbsp;&nbsp;</span>
-								<input type="email" maxlength="128" class="form-control" id="email-namename" placeholder="example@email.com">
+								<input type="email" maxlength="128" class="form-control" id="email-name" placeholder="example@foxmail.com">
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon">登陆密码</span>
-								<input type="password" maxlength="32" class="form-control" id="email-password">
+								<input type="password" maxlength="32" class="form-control" id="email-password" placeholder="email password here">
 							</div>
 			            	<button id="btn-email-test" type="button" class="btn btn-warning btn-block" >验证</button>
 			            	<button id="btn-email-config" type="button" class="btn btn-primary btn-block" >确认</button>
 			            </div>
 			        </div>
-			        <div class="panel panel-default">
+			        <div class="panel panel-default duoshuo-config">
 			            <div class="panel-heading">
 			            	<span>多说设置</span>
 			            	<a href="http://duoshuo.com/" target="_blank" class="glyphicon glyphicon-question-sign"></a>
+			            	<button id="btn-duoshuo-clear" type="button" class="btn btn-link pull-right" style="padding: 0;">清除</button>
 			            </div>
 			            <div class="panel-body">
 			            	<div class="input-group">
@@ -265,7 +266,7 @@
 								<span class="input-group-addon">url</span>
 								<input type="text" maxlength="128" class="form-control" id="duoshuo-url" placeholder="data-url">
 							</div>
-							<button id="btn-duoshuo-config" type="button" class="btn btn-primary btn-block" >确认</button>			            
+							<button id="btn-duoshuo-config" type="button" class="btn btn-primary btn-block" data-loading-text="保存中<i class='icon-spinner'></i>"">确认</button>
 			            </div>
 			        </div>
 	            </div>

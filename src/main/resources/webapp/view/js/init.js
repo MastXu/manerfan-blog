@@ -47,7 +47,7 @@ require([
             return false;
         }
 
-        if (!_.isEmpty($email.val()) && !commonutils.isEmial($email.val())) {
+        if (!_.isEmpty($email.val()) && !commonutils.isEmail($email.val())) {
             hasError($email, event);
             return false;
         }

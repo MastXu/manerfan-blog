@@ -35,7 +35,7 @@
 			logined = true;
 		</sec:authorize>
 
-		var dsshortname = "<c:out value='${dsshortname}' />";
+		var dsshortname = "<c:out value='${duoshuo_key}' />";
 	</script>
 	
 	<script src="<c:url value="/view/plugins/requirejs/require.js?v=${version}" />"></script>

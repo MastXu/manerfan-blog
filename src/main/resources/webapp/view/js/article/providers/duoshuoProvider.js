@@ -2,10 +2,14 @@
  * Created by ManerFan on 2016/6/15 0031.
  */
 
-define([], function () {
+define(['commonutils'], function (commonutils) {
     var duoshuo = {};
 
     duoshuo.initDuoshuo = function () {
+        if (!commonutils.hasText(dsshortname)) {
+            return;
+        }
+
         window.duoshuoQuery = {
             short_name: dsshortname
         };

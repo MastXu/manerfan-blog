@@ -41,7 +41,7 @@ require([
 
     $("#btn-account-info").click(function () {
         var email = $.trim($("#account-email").val());
-        if (email.length > 0 && !commonutils.isEmial(email)) {
+        if (email.length > 0 && !commonutils.isEmail(email)) {
             jBoxUtil.noticeError({content: "请填写正确的邮箱地址"});
             $("#account-email").focus();
             return;

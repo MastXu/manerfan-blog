@@ -24,9 +24,10 @@
 require([
     "jquery",
     'underscore',
+    'nprogress',
     "jBoxUtil",
     'bootbox'
-], function ($, _, jBoxUtil, bootbox) {
+], function ($, _, NProgress, jBoxUtil, bootbox) {
     /**
      * 恢复数据
      */
@@ -36,7 +37,7 @@ require([
     });
 
     $("#backup-immediately").click(function () {
-        
+
     });
 
     $(".list-group-item[data-action='system-backup']").css("visibility", "visible");

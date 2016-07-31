@@ -38,6 +38,7 @@ import com.manerfan.blog.dao.entities.article.CategoryBO;
 import com.manerfan.blog.dao.entities.article.CategoryEntity;
 import com.manerfan.blog.dao.repositories.BOUtils;
 import com.manerfan.blog.dao.repositories.article.ArticleCategoryMapRepository;
+import com.manerfan.blog.service.SysConfService;
 import com.manerfan.blog.service.article.ArticleService;
 import com.manerfan.blog.service.article.ArticleService.FileType;
 import com.manerfan.blog.service.article.CategoryService;
@@ -65,6 +66,9 @@ public class ArticleViewController extends ControllerBase {
 
     @Autowired
     private ArticleCategoryMapRepository articleCategoryMapRepository;
+
+    @Autowired
+    private SysConfService sysConfService;
 
     /**
      * <pre>
@@ -110,6 +114,8 @@ public class ArticleViewController extends ControllerBase {
 
                 mv.addObject("articlePrev", (null == articlePrev) ? null : articlePrev);
                 mv.addObject("articleNext", (null == articleNext) ? null : articleNext);
+
+                mv.addAllObjects(sysConfService.getMap("duoshuo_key", "duoshuo_url"));
             }
         } catch (Exception e) {
             MLogger.ROOT_LOGGER.error("Get Article[{}] Error!", uid, e);
@@ -130,6 +136,8 @@ public class ArticleViewController extends ControllerBase {
         mv.addObject("displayname", "");
         mv.addObject("funcname", "article");
         mv.addObject("funcparam", "");
+        
+        mv.addAllObjects(sysConfService.getMap("duoshuo_key", "duoshuo_url"));
         return mv;
     }
 
@@ -146,6 +154,8 @@ public class ArticleViewController extends ControllerBase {
         mv.addObject("displayname", "文章分类");
         mv.addObject("funcname", "category");
         mv.addObject("funcparam", name);
+        
+        mv.addAllObjects(sysConfService.getMap("duoshuo_key", "duoshuo_url"));
         return mv;
     }
 
@@ -162,6 +172,8 @@ public class ArticleViewController extends ControllerBase {
         mv.addObject("displayname", "全文检索");
         mv.addObject("funcname", "search");
         mv.addObject("funcparam", key);
+        
+        mv.addAllObjects(sysConfService.getMap("duoshuo_key", "duoshuo_url"));
         return mv;
     }
 
@@ -180,6 +192,8 @@ public class ArticleViewController extends ControllerBase {
         mv.addObject("displayname", "归档");
         mv.addObject("funcname", "archive");
         mv.addObject("funcparam", year + "/" + month);
+        
+        mv.addAllObjects(sysConfService.getMap("duoshuo_key", "duoshuo_url"));
         return mv;
     }
 

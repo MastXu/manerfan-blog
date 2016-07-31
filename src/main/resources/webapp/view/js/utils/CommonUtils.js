@@ -112,10 +112,10 @@ define([
         }
 
         return true;
-    }
+    };
 
     /** 校验邮箱格式 */
-    commonutils.isEmial = function (_email) {
+    commonutils.isEmail = function (_email) {
         if (!_.isString(_email)) {
             return false;
         }
@@ -125,7 +125,19 @@ define([
         }
 
         return true;
-    }
+    };
+
+    commonutils.hasText = function (_text) {
+        if (!_.isString(_text)) {
+            return false;
+        }
+
+        if ($.trim(_text).length < 1) {
+            return false;
+        }
+
+        return true;
+    };
 
     return commonutils;
 });

@@ -10,6 +10,10 @@
 	<title><c:out value="${fn:substring(title,0,32)}" />·MBLOG</title>
 </c:if>
 
+<c:if test="${not empty duoshuo_key && not empty duoshuo_key}">
+	<c:set var="duoshuo" value="true" scope="request"></c:set>
+</c:if>
+
 <div class="panel panel-default article-panel">
 	<div class="panel-heading text-overflow">
 		<span><c:out value="${title}" /></span>
@@ -47,11 +51,14 @@
 		<summary><pre><b>摘要: </b><c:out value="${summary}" escapeXml="false"/></pre></summary>
 		<article><c:out value="${content}" escapeXml="false"/></article>
 	</div>
-	<div class="panel-footer">
-		<!-- 多说分享 start -->
-		<c:import url='../share/dsshare.jsp' />
-		<!-- 多说分享 end -->
-	</div>	
+	
+	<c:if test="${duoshuo}">
+		<div class="panel-footer">
+			<!-- 多说分享 start -->
+			<c:import url='../share/dsshare.jsp' />
+			<!-- 多说分享 end -->
+		</div>	
+	</c:if>
 </div>
 <nav>
 	<ul class="pager">
@@ -94,17 +101,19 @@
 	</div>
 </c:if>
 
-<!-- 多说评论框 start -->
-<style>
-	.ds-sync{display: none !important;}
-	#ds-smilies-tooltip ul.ds-smilies-tabs {height: 140px !important;}
-</style>
-<div class="panel panel-default">
-	<div class="panel-heading">评论 (Powered By <a href="http://duoshuo.com" target="_blank">DuoShuo</a>)</div>
-	<div class="panel-body">
-		<div class="ds-thread" data-thread-key="<c:out value='${uid}' />" data-title="<c:out value='${title}' />" data-url="<c:out value='${dsurl}' />/article/<c:out value='${uid}' />"></div>
+<c:if test="${duoshuo}">
+	<!-- 多说评论框 start -->
+	<style>
+		.ds-sync{display: none !important;}
+		#ds-smilies-tooltip ul.ds-smilies-tabs {height: 140px !important;}
+	</style>
+	<div class="panel panel-default">
+		<div class="panel-heading">评论 (Powered By <a href="http://duoshuo.com" target="_blank">DuoShuo</a>)</div>
+		<div class="panel-body">
+			<div class="ds-thread" data-thread-key="<c:out value='${uid}' />" data-title="<c:out value='${title}' />" data-url="<c:out value='${duoshuo_url}' />/article/<c:out value='${uid}' />"></div>
+		</div>
 	</div>
-</div>
+</c:if>
 <!-- 多说评论框 end -->
 
 <!-- 多说公共JS代码 start (一个网页只需插入一次)
