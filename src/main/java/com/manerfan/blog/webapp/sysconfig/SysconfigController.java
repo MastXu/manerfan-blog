@@ -15,9 +15,13 @@
  */
 package com.manerfan.blog.webapp.sysconfig;
 
+import java.security.interfaces.RSAPrivateKey;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -25,9 +29,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.manerfan.blog.service.RSAService;
 import com.manerfan.blog.service.SysConfService;
+import com.manerfan.blog.utils.EmailUtils;
 import com.manerfan.blog.webapp.ControllerBase;
 import com.manerfan.common.utils.logger.MLogger;
+import com.manerfan.common.utils.tools.EncryptBean;
 
 /**
  * <pre>
@@ -39,6 +46,12 @@ import com.manerfan.common.utils.logger.MLogger;
 @Controller
 @RequestMapping("/sysconfig")
 public class SysconfigController extends ControllerBase {
+    
+    @Autowired
+    private EncryptBean encrypt;
+
+    @Autowired
+    private RSAService rsaService;
 
     @Autowired
     private SysConfService sysConfService;
@@ -71,6 +84,81 @@ public class SysconfigController extends ControllerBase {
             MLogger.ROOT_LOGGER.error("Some Error Occured when clear DuoShuoConfig", e);
             data.put(ERRMSG, "内部错误");
             return data;
+        }
+
+        return data;
+    }
+
+    @RequestMapping("/email/test")
+    @ResponseBody
+    public Object testEmailConf(@RequestParam String host, @RequestParam int port,
+            @RequestParam boolean sslEnable, @RequestParam String username,
+            @RequestParam String password, HttpServletRequest request) {
+        Map<String, Object> data = makeAjaxData();
+
+        if (!StringUtils.hasText(host) || !StringUtils.hasText(username)
+                || !StringUtils.hasText(password)) {
+            data.put(ERRMSG, "数据不完整");
+            return data;
+        }
+
+        // 从缓存中获取rsa私钥
+        RSAPrivateKey key = rsaService.getPrivateKey(request.getSession(true).getId());
+        if (null == key) {
+            // 页面停留时间过长导致key过期
+            data.put(ERRMSG, "页面停留时间过长，请重新操作");
+            return data;
+        }
+
+        try {
+            String uname = rsaService.decode(key, username);
+            String passw = rsaService.decode(key, password);
+
+            EmailUtils.test(host, port, sslEnable, uname, passw);
+        } catch (EmailException e) {
+            MLogger.ROOT_LOGGER.error("Some Error Occured when Test Email Sysconfig.", e);
+            data.put(ERRMSG, "测试失败");
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Some Error Occured when update Email Sysconfig.", e);
+            data.put(ERRMSG, "内部错误");
+        }
+
+        return data;
+    }
+
+    @RequestMapping("/email/update")
+    @ResponseBody
+    public Object updateEmailConf(@RequestParam String host, @RequestParam int port,
+            @RequestParam boolean sslEnable, @RequestParam String username,
+            @RequestParam String password, HttpServletRequest request) {
+        Map<String, Object> data = makeAjaxData();
+
+        if (!StringUtils.hasText(host) || !StringUtils.hasText(username)
+                || !StringUtils.hasText(password)) {
+            data.put(ERRMSG, "数据不完整");
+            return data;
+        }
+
+        // 从缓存中获取rsa私钥
+        RSAPrivateKey key = rsaService.getPrivateKey(request.getSession(true).getId());
+        if (null == key) {
+            // 页面停留时间过长导致key过期
+            data.put(ERRMSG, "页面停留时间过长，请重新操作");
+            return data;
+        }
+
+        try {
+            String uname = rsaService.decode(key, username);
+            String passw = rsaService.decode(key, password);
+
+            sysConfService.updateOrSave(SysConfService.EMAIL_STMP_HOST, host);
+            sysConfService.updateOrSave(SysConfService.EMAIL_STMP_PORT, port);
+            sysConfService.updateOrSave(SysConfService.EMAIL_SSL_ENABLE, sslEnable);
+            sysConfService.updateOrSave(SysConfService.EMAIL_USERNAME, uname);
+            sysConfService.updateOrSave(SysConfService.EMAIL_PASSWORD, encrypt.encryptString(passw));
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("Some Error Occured when update Email Sysconfig.", e);
+            data.put(ERRMSG, "内部错误");
         }
 
         return data;

@@ -15,15 +15,11 @@
  */
 package com.manerfan.blog.service;
 
-import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 
-import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
@@ -201,12 +197,12 @@ public class RSAService implements InitializingBean {
         cipherPool.preparePool();
     }
 
-    public String decode(RSAPrivateKey key, String passwordrsa) {
+    public String decode(RSAPrivateKey key, String passwordrsa) throws Exception {
         // 取出一个Cipher
         Cipher c = borrowCipher();
         if (null == c) {
             MLogger.ROOT_LOGGER.warn("Borrow RSA Cipher Failed.");
-            throw new InternalAuthenticationServiceException("登录失败，请联系管理员或重新登陆");
+            throw new InternalError("Borrow RSA Cipher Failed.");
         }
 
         try {
@@ -217,16 +213,23 @@ public class RSAService implements InitializingBean {
             c.init(Cipher.DECRYPT_MODE, key);
 
             // 加盐
-            return addSalt(new String(c.doFinal(bytersa)));
-        } catch (DecoderException | IllegalBlockSizeException | BadPaddingException
-                | InvalidKeyException e) {
-            MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);
-            throw new InternalAuthenticationServiceException("登录失败，请联系管理员或重新登陆", e);
+            return new String(c.doFinal(bytersa));
         } finally {
             if (null != c) {
                 // 最后无论如何都要把Cipher还回去
                 returnCipher(c);
             }
+        }
+
+    }
+
+    public String decodeAddSalt(RSAPrivateKey key, String passwordrsa) {
+        try {
+            // 加盐
+            return addSalt(decode(key, passwordrsa));
+        } catch (Exception e) {
+            MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);
+            throw new InternalAuthenticationServiceException("登录失败，请联系管理员或重新登陆", e);
         }
     }
 

@@ -209,7 +209,36 @@
 							<div id="sysbackup-setting" class="panel-collapse collapse"
 								role="tabpanel" aria-labelledby="hadding-sysbackup-setting">
 								<div class="panel-body">
-									<button id="backup-immediately" type="button" class="btn btn-link btn-block" data-loading-text="正在备份<i class='icon-spinner'></i>">立即备份</button>
+									<div class="input-group pull-left col-xs-12 col-sm-12 col-md-5 col-lg-5">
+										<span class="input-group-addon">每周</span>
+										<select class="form-control">
+											<option value="SUN" selected>周日</option>
+											<option value="MON">周一</option>
+											<option value="TUE">周二</option>
+											<option value="WED">周三</option>
+											<option value="THU">周四</option>
+											<option value="FRI">周五</option>
+											<option value="SAT">周六</option>
+										</select>
+									</div>
+									<div class="input-group pull-right col-xs-12 col-sm-12 col-md-5 col-lg-5">
+										<span class="input-group-addon">时间点</span>
+										<select class="form-control">
+											<option value="0" >00:00</option>
+											<option value="1" >01:00</option>
+											<option value="2" >02:00</option>
+											<option value="3" selected>03:00</option>
+											<option value="4" >04:00</option>
+											<option value="5" >05:00</option>
+										</select>
+									</div>
+									
+									<div class="input-group pull-left col-xs-12 col-sm-12 col-md-5 col-lg-5">
+										<span class="input-group-addon">保留个数</span>
+										<input type="number" maxlength="2" class="form-control" min="1" max="60" placeholder="12">
+									</div>
+									<button id="backup-immediately" type="button" class="btn btn-warning pull-right col-xs-12 col-sm-12 col-md-5 col-lg-5" data-loading-text="正在备份<i class='icon-spinner'></i>">立即备份</button>
+									<button id="btn-backup-config" type="button" class="btn btn-primary btn-block" data-loading-text="保存中<i class='icon-spinner'></i>">确认</button>
 								</div>
 							</div>
 						</div>
@@ -224,31 +253,32 @@
 	            	<div class="panel panel-default email-config">
 			            <div class="panel-heading">
 			            	<span>邮箱设置</span>
-			            	<a href="#" target="_blank" style="display:none;"></a>
+			            	<a href="#" target="_blank" style="display:none;" id="email-login"></a>
 			            	<span class="pull-right">
 				            	<label for="email-sslenable">开启SSL</label>
 				            	<input type="checkbox" id="email-sslenable" style="cursor: pointer;">
 			            	</span>
+			            	<button id="btn-email-clear" type="button" class="btn btn-link pull-right" style="padding: 0;">清除</button>
 			            </div>
 			            <div class="panel-body">
 			            	<div class="input-group">
 								<span class="input-group-addon">smtp地址</span>
-								<input type="text" maxlength="16" class="form-control" id="email-hostname" placeholder="smtp.qq.com">
+								<input type="text" maxlength="64" class="form-control" id="email-host" placeholder="smtp.163.com">
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon">smtp端口</span>
-								<input type="number" maxlength="5" class="form-control" id="email-port" min="1" max="65535" placeholder="587">
+								<input type="number" maxlength="5" class="form-control" id="email-port" min="1" max="65535" placeholder="25">
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon">登陆名&nbsp;&nbsp;</span>
-								<input type="email" maxlength="128" class="form-control" id="email-name" placeholder="example@foxmail.com">
+								<input type="email" maxlength="32" class="form-control" id="email-name" placeholder="example@163.com">
 							</div>
 							<div class="input-group">
 								<span class="input-group-addon">登陆密码</span>
 								<input type="password" maxlength="32" class="form-control" id="email-password" placeholder="email password here">
 							</div>
-			            	<button id="btn-email-test" type="button" class="btn btn-warning btn-block" >验证</button>
-			            	<button id="btn-email-config" type="button" class="btn btn-primary btn-block" >确认</button>
+			            	<button id="btn-email-test" type="button" class="btn btn-warning btn-block" data-loading-text="正在验证<i class='icon-spinner'></i>">验证</button>
+			            	<button id="btn-email-config" type="button" class="btn btn-primary btn-block" data-loading-text="保存中<i class='icon-spinner'></i>">确认</button>
 			            </div>
 			        </div>
 			        <div class="panel panel-default duoshuo-config">
@@ -266,7 +296,7 @@
 								<span class="input-group-addon">url</span>
 								<input type="text" maxlength="128" class="form-control" id="duoshuo-url" placeholder="data-url">
 							</div>
-							<button id="btn-duoshuo-config" type="button" class="btn btn-primary btn-block" data-loading-text="保存中<i class='icon-spinner'></i>"">确认</button>
+							<button id="btn-duoshuo-config" type="button" class="btn btn-primary btn-block" data-loading-text="保存中<i class='icon-spinner'></i>">确认</button>
 			            </div>
 			        </div>
 	            </div>

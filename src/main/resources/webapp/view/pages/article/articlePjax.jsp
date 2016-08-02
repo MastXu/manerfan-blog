@@ -10,7 +10,7 @@
 	<title><c:out value="${fn:substring(title,0,32)}" />·MBLOG</title>
 </c:if>
 
-<c:if test="${not empty duoshuo_key && not empty duoshuo_key}">
+<c:if test="${not empty duoshuo_key && not empty duoshuo_url}">
 	<c:set var="duoshuo" value="true" scope="request"></c:set>
 </c:if>
 

@@ -262,7 +262,7 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     @Bean
     public SimpleMappingExceptionResolver exceptionResolver() {
         SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
-        exceptionResolver.setDefaultErrorView("error");
+        exceptionResolver.setDefaultErrorView("error/500.html");
         exceptionResolver.setDefaultStatusCode(500);
         return exceptionResolver;
     }

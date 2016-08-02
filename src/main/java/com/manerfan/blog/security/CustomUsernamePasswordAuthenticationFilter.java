@@ -85,7 +85,7 @@ public class CustomUsernamePasswordAuthenticationFilter
         }
 
         try {
-            return rsaService.decode(key, passwordrsa);
+            return rsaService.decodeAddSalt(key, passwordrsa);
         } catch (InternalAuthenticationServiceException e) {
             session.setAttribute(LoginController.ERR_MSG, "登录失败，请联系管理员或重新登陆");
             throw e;

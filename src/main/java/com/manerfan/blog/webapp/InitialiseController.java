@@ -95,7 +95,7 @@ public class InitialiseController extends ControllerBase {
         }
 
         try {
-            user.setPassword(rsaService.decode(key, user.getPassword()));
+            user.setPassword(rsaService.decodeAddSalt(key, user.getPassword()));
         } catch (InternalAuthenticationServiceException e) {
             mv.setViewName("redirect:/init");
             session.setAttribute(LoginController.ERR_MSG, "初始化失败，请联系管理员或重新初始化");

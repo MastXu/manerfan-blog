@@ -60,10 +60,10 @@ require([
                     return;
                 }
 
-                configInput($("#email-hostname"), data.email_stmp_host);
+                configInput($("#email-host"), data.email_stmp_host);
                 configInput($("#email-port"), data.email_stmp_port);
                 configInput($("#email-name"), data.email_username);
-                configCheckbox($("#email-sslenable"), data.duoshuo_key);
+                configCheckbox($("#email-sslenable"), data.email_ssl_enable);
 
                 configInput($("#duoshuo-key"), data.duoshuo_key);
                 configInput($("#duoshuo-url"), data.duoshuo_url);
@@ -94,14 +94,176 @@ require([
             return;
         }
 
-        $cb.prop("checked", "TRUE" == value);
+        $cb.prop("checked", "true" == value);
     }
 
     /***************************
      * 邮箱
      ***************************/
+    $("#btn-email-clear").click(function () {
+        $("._loading").show();
+        $.ajax({
+            url: "/sysconfig/email/clean",
+            async: true,
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            success: function (data, textStatus, XMLHttpRequest) {
+                if (null != data.errmsg) {
+                    // 出现错误
+                    jBoxUtil.noticeError({content: data.errmsg});
+                    return;
+                }
+
+                $(".email-config input").val("");
+                $(".email-config input:checkbox").prop("checked", false);
+                jBoxUtil.noticeInfo({content: '已保存'});
+            },
+            error: function () {
+                jBoxUtil.noticeError({content: '通信错误'});
+            },
+            complete: function () {
+                $("._loading").hide();
+            }
+        });
+    });
+
+    $("#btn-email-config").click(function () {
+        var config = makeEmailData();
+        if (!validateEmail(config)) {
+            jBoxUtil.noticeWarning({content: '请填写完整参数'});
+            return;
+        }
+
+        $("#btn-email-config").button('loading');
+        emailOpration(config, function (config) {
+            $.ajax({
+                url: "/sysconfig/email/update",
+                async: true,
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                data: config,
+                success: function (data, textStatus, XMLHttpRequest) {
+                    if (null != data.errmsg) {
+                        // 出现错误
+                        jBoxUtil.noticeError({content: data.errmsg});
+                        return;
+                    }
+
+                    jBoxUtil.noticeInfo({content: '已保存'});
+                },
+                error: function () {
+                    jBoxUtil.noticeError({content: '通信错误'});
+                },
+                complete: function () {
+                    NProgress.done();
+                    $("#btn-email-config").button('reset');
+                }
+            });
+        });
+    });
+
+    $("#btn-email-test").click(function () {
+        var config = makeEmailData();
+        if (!validateEmail(config)) {
+            jBoxUtil.noticeWarning({content: '请填写完整参数'});
+            return;
+        }
+
+        $("#btn-email-test").button('loading');
+        emailOpration(config, function (config) {
+            $.ajax({
+                url: "/sysconfig/email/test",
+                async: true,
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                data: config,
+                success: function (data, textStatus, XMLHttpRequest) {
+                    if (null != data.errmsg) {
+                        // 出现错误
+                        jBoxUtil.noticeError({content: data.errmsg});
+                        return;
+                    }
+
+                    jBoxUtil.noticeInfo({content: '验证成功，请登录邮箱查看'});
+                },
+                error: function () {
+                    jBoxUtil.noticeError({content: '通信错误'});
+                },
+                complete: function () {
+                    NProgress.done();
+                    $("#btn-email-test").button('reset');
+                }
+            });
+        });
+    });
+
+    function emailOpration(config, call) {
+        NProgress.start();
+        $.ajax({
+            url: "/login/publickey",
+            async: true,
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            success: function (data, textStatus, XMLHttpRequest) {
+                if (null != data.errmsg) {
+                    // 出现错误
+                    jBoxUtil.noticeError({content: data.errmsg});
+                    NProgress.done();
+                    return;
+                }
+
+                $.jCryption.crypt.setKey({e: data.exponent, n: data.modulus});
+                config.username = $.jCryption.crypt.encrypt(config.username);
+                config.password = $.jCryption.crypt.encrypt(config.password);
+
+                if (typeof call == "function") {
+                    call(config);
+                }
+            },
+            error: function () {
+                jBoxUtil.noticeError({content: '通信错误'});
+                NProgress.done();
+            },
+            complete: function () {
+            }
+        });
+    }
+
     function makeEmailData() {
         var data = {}
+        data.host = $("#email-host").val();
+        data.port = $("#email-port").val();
+        data.sslEnable = $("#email-sslenable").prop("checked");
+        data.username = $("#email-name").val();
+        data.password = $("#email-password").val();
+
+        return data;
+    }
+
+    function validateEmail(data) {
+        if (!data || !data.host || !data.port || !data.username || !data.password) {
+            return false;
+        }
+
+        if (!commonutils.isHost(data.host)) {
+            return false;
+        }
+
+        try {
+            data.port = parseInt(data.port);
+        } catch (e) {
+            return false;
+        }
+
+        if (!_.isNumber(data.port) || NaN == data.port) {
+            return false;
+        }
+
+        return commonutils.isEmail(data.username) && commonutils.hasText(data.password);
     }
 
     /***************************
@@ -182,7 +344,7 @@ require([
             return false;
         }
 
-        return commonutils.hasText(data.key) && commonutils.hasText(data.url);
+        return commonutils.hasText(data.key) && commonutils.isHost(data.url);
     }
 
     $(".list-group-item[data-action='sysconfig']").css("visibility", "visible");

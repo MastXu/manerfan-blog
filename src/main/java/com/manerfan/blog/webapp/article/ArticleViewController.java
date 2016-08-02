@@ -20,6 +20,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.querydsl.QPageRequest;
@@ -87,6 +88,7 @@ public class ArticleViewController extends ControllerBase {
             if (null == article || !State.PUBLISHED.equals(article.getState())) {
                 /* 目前只能使用这种办法强制设置Content-Type */
                 response.setContentType("text/html;charset=UTF-8");
+                response.setStatus(HttpStatus.MOVED_TEMPORARILY_302);
                 mv.setViewName("error/404.html");
             } else {
                 articleService.addArticleHits(uid);
@@ -136,7 +138,7 @@ public class ArticleViewController extends ControllerBase {
         mv.addObject("displayname", "");
         mv.addObject("funcname", "article");
         mv.addObject("funcparam", "");
-        
+
         mv.addAllObjects(sysConfService.getMap("duoshuo_key", "duoshuo_url"));
         return mv;
     }
@@ -154,7 +156,7 @@ public class ArticleViewController extends ControllerBase {
         mv.addObject("displayname", "文章分类");
         mv.addObject("funcname", "category");
         mv.addObject("funcparam", name);
-        
+
         mv.addAllObjects(sysConfService.getMap("duoshuo_key", "duoshuo_url"));
         return mv;
     }
@@ -172,7 +174,7 @@ public class ArticleViewController extends ControllerBase {
         mv.addObject("displayname", "全文检索");
         mv.addObject("funcname", "search");
         mv.addObject("funcparam", key);
-        
+
         mv.addAllObjects(sysConfService.getMap("duoshuo_key", "duoshuo_url"));
         return mv;
     }
@@ -192,7 +194,7 @@ public class ArticleViewController extends ControllerBase {
         mv.addObject("displayname", "归档");
         mv.addObject("funcname", "archive");
         mv.addObject("funcparam", year + "/" + month);
-        
+
         mv.addAllObjects(sysConfService.getMap("duoshuo_key", "duoshuo_url"));
         return mv;
     }

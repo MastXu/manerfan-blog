@@ -108,8 +108,8 @@ public class UserController extends ControllerBase {
         }
 
         try {
-            orgPasswd = rsaService.decode(key, orgPasswd);
-            newPasswd = rsaService.decode(key, newPasswd);
+            orgPasswd = rsaService.decodeAddSalt(key, orgPasswd);
+            newPasswd = rsaService.decodeAddSalt(key, newPasswd);
 
             String passwd = userRepository.findPasswordByName(userInfo.userName());
             if (!ObjectUtils.nullSafeEquals(orgPasswd, passwd)) {
