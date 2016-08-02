@@ -230,6 +230,8 @@
 											<option value="3" selected>03:00</option>
 											<option value="4" >04:00</option>
 											<option value="5" >05:00</option>
+											<option value="6" >06:00</option>
+											<option value="7" >07:00</option>
 										</select>
 									</div>
 									

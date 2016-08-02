@@ -32,7 +32,7 @@
 	</listener>
 
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>com.manerfan.blog.listener.MBlogContextLoaderListener</listener-class>
 	</listener>
 
 	<!-- 页面均使用UTF-8编码 -->

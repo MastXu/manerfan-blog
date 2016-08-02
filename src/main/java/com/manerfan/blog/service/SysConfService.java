@@ -54,6 +54,11 @@ public class SysConfService {
     public static final String DUOSHUO_KEY = "duoshuo_key";
     public static final String DUOSHUO_URL = "duoshuo_url";
 
+    /** 系统备份相关 */
+    public static final String BACKUP_WEEK = "backup_week";
+    public static final String BACKUP_HOUR = "backup_hour";
+    public static final String BACKUP_KEEP = "backup_keep";
+
     @Autowired
     private SysConfRepository sysConfRepository;
 
