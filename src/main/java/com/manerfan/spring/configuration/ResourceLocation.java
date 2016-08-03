@@ -23,7 +23,7 @@ import java.io.File;
  * @author ManerFan 2016年6月23日
  */
 public class ResourceLocation {
-    
+
     /**
      * 资源目录
      */
@@ -49,6 +49,11 @@ public class ResourceLocation {
      */
     protected File dbDir;
 
+    /**
+     * 存在备份的目录
+     */
+    protected File backupDir;
+
     public File getImageDir() {
         return imageDir;
     }
@@ -63,6 +68,10 @@ public class ResourceLocation {
 
     public File getDbDir() {
         return dbDir;
+    }
+
+    public File getBackupDir() {
+        return backupDir;
     }
 
     public File getBaseDir() {

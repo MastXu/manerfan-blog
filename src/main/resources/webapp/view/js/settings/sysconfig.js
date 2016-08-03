@@ -131,7 +131,6 @@ require([
     $("#btn-email-config").click(function () {
         var config = makeEmailData();
         if (!validateEmail(config)) {
-            jBoxUtil.noticeWarning({content: '请填写完整参数'});
             return;
         }
 
@@ -167,7 +166,6 @@ require([
     $("#btn-email-test").click(function () {
         var config = makeEmailData();
         if (!validateEmail(config)) {
-            jBoxUtil.noticeWarning({content: '请填写完整参数'});
             return;
         }
 
@@ -234,7 +232,7 @@ require([
     }
 
     function makeEmailData() {
-        var data = {}
+        var data = {};
         data.host = $("#email-host").val();
         data.port = $("#email-port").val();
         data.sslEnable = $("#email-sslenable").prop("checked");
@@ -246,24 +244,38 @@ require([
 
     function validateEmail(data) {
         if (!data || !data.host || !data.port || !data.username || !data.password) {
+            jBoxUtil.noticeWarning({content: '请填写完整参数'});
             return false;
         }
 
         if (!commonutils.isHost(data.host)) {
+            jBoxUtil.noticeWarning({content: '请正确填写邮箱smtp地址'});
             return false;
         }
 
         try {
             data.port = parseInt(data.port);
         } catch (e) {
+            jBoxUtil.noticeWarning({content: '请正确填写邮箱smtp端口'});
             return false;
         }
 
         if (!_.isNumber(data.port) || NaN == data.port) {
+            jBoxUtil.noticeWarning({content: '请正确填写邮箱smtp端口'});
             return false;
         }
 
-        return commonutils.isEmail(data.username) && commonutils.hasText(data.password);
+        if (!commonutils.isEmail(data.username)) {
+            jBoxUtil.noticeWarning({content: '请正确填写邮箱登陆用户'});
+            return false;
+        }
+
+        if (!commonutils.hasText(data.password)) {
+            jBoxUtil.noticeWarning({content: '请填写邮箱登陆密码'});
+            return false;
+        }
+
+        return true;
     }
 
     /***************************
@@ -299,7 +311,6 @@ require([
     $("#btn-duoshuo-config").click(function () {
         var config = makeDuoshuoData();
         if (!validateDuoshuo(config)) {
-            jBoxUtil.noticeWarning({content: '请填写完整参数'});
             return;
         }
 
@@ -341,10 +352,21 @@ require([
 
     function validateDuoshuo(data) {
         if (!data || !data.key || !data.url) {
+            jBoxUtil.noticeWarning({content: '请填写完整参数'});
             return false;
         }
 
-        return commonutils.hasText(data.key) && commonutils.isHost(data.url);
+        if (!commonutils.hasText(data.key)) {
+            jBoxUtil.noticeWarning({content: '请正确填写多说short-name'});
+            return false;
+        }
+
+        if (!commonutils.isHost(data.url)) {
+            jBoxUtil.noticeWarning({content: '请正确填写多说short-name'});
+            return false;
+        }
+
+        return true;
     }
 
     $(".list-group-item[data-action='sysconfig']").css("visibility", "visible");

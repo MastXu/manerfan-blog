@@ -88,6 +88,12 @@ public class MBlogConfiguration {
         }
         location.dbDir = dbDir;
 
+        File backupDir = new File(baseDir, "backup");
+        if (!backupDir.exists()) {
+            Assert.isTrue(backupDir.mkdirs());
+        }
+        location.backupDir = backupDir;
+
         return location;
     }
 

@@ -28,8 +28,8 @@ require([
     "jBoxUtil",
     'bootbox'
 ], function ($, _, NProgress, jBoxUtil, bootbox) {
-    var dirTemplate = "<article class='list-group-item dir-item'>" +
-        "<a href='#' data-path='<%= imagePath %>' class='glyphicon glyphicon-folder-close'></a>" +
+    var dirTemplate = "<article class='list-group-item dir-item img-dir'>" +
+        "<a href='#' data-path='<%= imagePath %>' class='icon-folder-open'></a>" +
         "<span><%= pathName %></span>" +
         "</article>";
 
@@ -55,7 +55,7 @@ require([
     /**
      * 点击文件夹
      */
-    $(document).on("click", ".list-group-item.dir-item a, .image-breadcrumb a", function (e) {
+    $(document).on("click", ".list-group-item.img-dir a, .image-breadcrumb a", function (e) {
         e.stopPropagation();
         e.preventDefault();
         findImageList($(this).data("path"));

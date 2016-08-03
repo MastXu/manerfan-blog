@@ -187,7 +187,7 @@ public class SysconfigController extends ControllerBase {
 
         return data;
     }
-
+    
     @RequestMapping("/duoshuo/clean")
     @ResponseBody
     public Object clearDuoshuoConf() {

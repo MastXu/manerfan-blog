@@ -17,11 +17,15 @@ package com.manerfan.blog.listener;
 
 import javax.servlet.ServletContextEvent;
 
+import org.quartz.SchedulerException;
 import org.springframework.web.context.ContextLoaderListener;
 
 import com.manerfan.blog.dao.entities.SysConfEntity;
+import com.manerfan.blog.service.BackupService;
 import com.manerfan.blog.service.SysConfService;
 import com.manerfan.common.utils.beans.SpringBeanFactory;
+import com.manerfan.common.utils.logger.MLogger;
+import com.manerfan.common.utils.tools.QuartzManager;
 
 /**
  * <pre>
@@ -36,12 +40,28 @@ public class MBlogContextLoaderListener extends ContextLoaderListener {
     public void contextInitialized(ServletContextEvent event) {
         super.contextInitialized(event);
 
+        // 初始化系统参数
         initSysConf();
+
+        // 启动系统备份quartz任务
+        BackupService backupService = SpringBeanFactory.getBean(BackupService.class);
+        try {
+            backupService.start();
+        } catch (SchedulerException e) {
+            MLogger.ROOT_LOGGER.error("Cannot Start Quartz Task", e);
+            System.exit(1);
+        }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
         super.contextDestroyed(event);
+
+        try {
+            QuartzManager.shutdown();
+        } catch (SchedulerException e) {
+            MLogger.ROOT_LOGGER.error("Cannot shutdown Quartz Task", e);
+        }
     }
 
     private void initSysConf() {

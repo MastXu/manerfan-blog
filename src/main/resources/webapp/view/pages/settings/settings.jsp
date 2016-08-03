@@ -16,13 +16,16 @@
         .panel-heading .btn, .list-group .btn {float: right; margin-right: 5px;}
         .list-nav .list-group-item {visibility:hidden;}
         .list-group-item.list-category-item {width:250px;float:left;margin:5px;}
-        .image-breadcrumb {float:right;margin:0;padding:0;}
-        .image-manager-list .list-group-item {width:180px; height:180px; float:left; margin:5px;}
-        .image-manager-list .list-group-item * {text-align: center;}
-        .image-manager-list .list-group-item.dir-item a {font-size: 8em;text-decoration:none;}
-        .image-manager-list .list-group-item.dir-item span {width: 100%;display: block;margin-top: 10px;}
-        .image-manager-list .list-group-item.img-item img {max-width:150px;max-height:120px;display:block;margin:auto;cursor: pointer;}
-        .image-manager-list .list-group-item.img-item pre {width: 100%;display: block;margin-bottom: 3px;padding: 0;}
+        .breadcrumb {float:right;margin:0;padding:0;}
+        .manager-list .list-group-item {width:180px; height:180px; float:left; margin:5px;}
+        .manager-list .list-group-item * {text-align: center;}
+        .manager-list .list-group-item.dir-item a:not(.btn) {font-size: 5em;text-decoration:none;}
+        .manager-list .list-group-item.dir-item span {width: 100%;display: block;margin-top: 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .manager-list .list-group-item.img-item img {max-width:150px;max-height:120px;display:block;margin:auto;cursor: pointer;}
+        .manager-list .list-group-item.img-item pre {width: 100%;display: block;margin-bottom: 3px;padding: 0;}
+        .manager-list-lg .list-group-item {height:210px;}
+        .manager-list-lg .btn {margin:0;}
+        .icon-archive:before {margin-right: 0.4em;}
         .img-dialog img {display:block;margin:auto;max-width:100%;}
         ._loading{display:none;position:fixed;top:0;width:100%;height:100%;z-index:999;background-color:#88a825;opacity:0.6;}
     </style>
@@ -170,7 +173,7 @@
 	            	<ol class="breadcrumb image-breadcrumb"></ol>
 	            </div>
 	            <div class="panel-body">
-	                <div class="list-group image-manager-list"></div>
+	                <div class="list-group manager-list image-manager-list"></div>
 	            </div>
 	        </div>
 	        <div data-action="system-backup" class="panel panel-default">
@@ -192,7 +195,8 @@
 							<div id="sysbackup-download" class="panel-collapse collapse in"
 								role="tabpanel" aria-labelledby="hadding-sysbackup-download">
 								<div class="panel-body">
-									
+									<ol class="breadcrumb backup-breadcrumb" style="width:100%;margin-bottom:5px;"></ol>
+									<div class="list-group manager-list manager-list-lg backup-manager-list"></div>
 								</div>
 							</div>
 						</div>
@@ -211,7 +215,7 @@
 								<div class="panel-body">
 									<div class="input-group pull-left col-xs-12 col-sm-12 col-md-5 col-lg-5">
 										<span class="input-group-addon">每周</span>
-										<select class="form-control">
+										<select id="backup-week" class="form-control" style="cursor: pointer;">
 											<option value="SUN" selected>周日</option>
 											<option value="MON">周一</option>
 											<option value="TUE">周二</option>
@@ -223,7 +227,7 @@
 									</div>
 									<div class="input-group pull-right col-xs-12 col-sm-12 col-md-5 col-lg-5">
 										<span class="input-group-addon">时间点</span>
-										<select class="form-control">
+										<select id="backup-hour" class="form-control" style="cursor: pointer;">
 											<option value="0" >00:00</option>
 											<option value="1" >01:00</option>
 											<option value="2" >02:00</option>
@@ -237,7 +241,7 @@
 									
 									<div class="input-group pull-left col-xs-12 col-sm-12 col-md-5 col-lg-5">
 										<span class="input-group-addon">保留个数</span>
-										<input type="number" maxlength="2" class="form-control" min="1" max="60" placeholder="12">
+										<input type="number" id="backup-keep" maxlength="2" class="form-control" min="1" max="60" placeholder="12">
 									</div>
 									<button id="backup-immediately" type="button" class="btn btn-warning pull-right col-xs-12 col-sm-12 col-md-5 col-lg-5" data-loading-text="正在备份<i class='icon-spinner'></i>">立即备份</button>
 									<button id="btn-backup-config" type="button" class="btn btn-primary btn-block" data-loading-text="保存中<i class='icon-spinner'></i>">确认</button>
