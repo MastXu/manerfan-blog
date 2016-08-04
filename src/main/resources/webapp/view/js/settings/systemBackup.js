@@ -189,8 +189,9 @@ require([
                 jBoxUtil.noticeError({content: "未知错误"});
             },
             complete: function () {
+            	NProgress.done();
+            	findBackupList();
                 $("#backup-immediately").button('reset');
-                NProgress.done();
             }
         });
     });

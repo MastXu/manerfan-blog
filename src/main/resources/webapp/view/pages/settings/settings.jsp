@@ -305,6 +305,27 @@
 							<button id="btn-duoshuo-config" type="button" class="btn btn-primary btn-block" data-loading-text="保存中<i class='icon-spinner'></i>">确认</button>
 			            </div>
 			        </div>
+			        <div class="panel panel-default baidu-config">
+			            <div class="panel-heading">
+			            	<span>百度站长</span>
+			            	<a href="http://zhanzhang.baidu.com/" target="_blank" class="glyphicon glyphicon-question-sign"></a>
+			            </div>
+			            <div class="panel-body">
+			            	<div class="input-group">
+								<span class="input-group-addon">站点</span>
+								<input type="text" maxlength="32" class="form-control" id="baidu-site" placeholder="baidu-site">
+							</div>
+			            	<div class="input-group">
+								<span class="input-group-addon">HTML标签验证</span>
+								<input type="text" maxlength="32" class="form-control" id="baidu-site-verification" placeholder="baidu-site-verification">
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon">准入密钥</span>
+								<input type="text" maxlength="32" class="form-control" id="baidu-token" placeholder="baidu-token">
+							</div>
+							<button id="btn-baidu-config" type="button" class="btn btn-primary btn-block" data-loading-text="保存中<i class='icon-spinner'></i>">确认</button>
+			            </div>
+			        </div>
 	            </div>
 	        </div>
         </div>

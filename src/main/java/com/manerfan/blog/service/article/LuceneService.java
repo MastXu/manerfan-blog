@@ -62,7 +62,7 @@ public class LuceneService {
      * </pre>
      */
     @Async
-    @Scheduled(cron = "0 0 3 * * SAT") /* [0秒 0分 3时 每天 每月 周六] 每个周六凌晨三点执行 */
+    @Scheduled(cron = "0 0 3 ? * SAT") /* [0秒 0分 3时 每天 每月 周六] 每个周六凌晨三点执行 */
     public void periodicMerge() {
         MLogger.ROOT_LOGGER.info("Start Merge Lucene Index!");
         try {

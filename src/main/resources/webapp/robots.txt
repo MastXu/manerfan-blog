@@ -1,0 +1,13 @@
+# robots for mblog
+User-Agent: * 
+Disallow: /init
+Disallow: /login
+Disallow: /logout
+Disallow: /editor
+Disallow: /article/publish
+Disallow: /article/content
+Disallow: /article/delete
+Disallow: /article/update
+Allow: /article
+Allow: /about
+Disallow: /

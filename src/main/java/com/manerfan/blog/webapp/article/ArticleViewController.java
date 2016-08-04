@@ -88,6 +88,10 @@ public class ArticleViewController extends ControllerBase {
             if (null == article || !State.PUBLISHED.equals(article.getState())) {
                 /* 目前只能使用这种办法强制设置Content-Type */
                 response.setContentType("text/html;charset=UTF-8");
+                response.setStatus(HttpStatus.NOT_FOUND_404);
+                mv.setViewName("error/404.html");
+            } else if (!State.PUBLISHED.equals(article.getState())) {
+                response.setContentType("text/html;charset=UTF-8");
                 response.setStatus(HttpStatus.MOVED_TEMPORARILY_302);
                 mv.setViewName("error/404.html");
             } else {

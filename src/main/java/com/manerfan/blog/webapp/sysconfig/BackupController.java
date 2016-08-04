@@ -98,6 +98,10 @@ public class BackupController extends ControllerBase {
         Map<String, Object> data = makeAjaxData();
 
         try {
+            if (backupService.isBackupRunning()) {
+                data.put(ERRMSG, "备份进程正在运行");
+                return data;
+            }
             backupService.backup();
         } catch (Exception e) {
             MLogger.ROOT_LOGGER.error("Some Error Occured when Backup SysData immediately.", e);
