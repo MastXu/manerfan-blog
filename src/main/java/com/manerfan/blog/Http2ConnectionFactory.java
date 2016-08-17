@@ -15,6 +15,7 @@
  */
 package com.manerfan.blog;
 
+import org.eclipse.jetty.http.HttpCompliance;
 import org.eclipse.jetty.http.HttpVersion;
 import org.eclipse.jetty.io.Connection;
 import org.eclipse.jetty.io.EndPoint;
@@ -32,14 +33,22 @@ import org.eclipse.jetty.util.annotation.Name;
 public class Http2ConnectionFactory extends AbstractConnectionFactory
         implements HttpConfiguration.ConnectionFactory {
     private final HttpConfiguration _config;
+    private HttpCompliance _httpCompliance;
+    private boolean _recordHttpComplianceViolations = false;
 
     public Http2ConnectionFactory() {
         this(new HttpConfiguration());
     }
 
     public Http2ConnectionFactory(@Name("config") HttpConfiguration config) {
+        this(config, null);
+    }
+
+    public Http2ConnectionFactory(@Name("config") HttpConfiguration config,
+            @Name("compliance") HttpCompliance compliance) {
         super(HttpVersion.HTTP_2.asString());
         _config = config;
+        _httpCompliance = compliance == null ? HttpCompliance.RFC7230 : compliance;
         if (config == null)
             throw new IllegalArgumentException("Null HttpConfiguration");
         addBean(_config);
@@ -50,8 +59,29 @@ public class Http2ConnectionFactory extends AbstractConnectionFactory
         return _config;
     }
 
+    public HttpCompliance getHttpCompliance() {
+        return _httpCompliance;
+    }
+
+    public boolean isRecordHttpComplianceViolations() {
+        return _recordHttpComplianceViolations;
+    }
+
+    /**
+     * @param httpCompliance String value of {@link HttpCompliance}
+     */
+    public void setHttpCompliance(HttpCompliance httpCompliance) {
+        _httpCompliance = httpCompliance;
+    }
+
     @Override
     public Connection newConnection(Connector connector, EndPoint endPoint) {
-        return configure(new HttpConnection(_config, connector, endPoint), connector, endPoint);
+        HttpConnection conn = new HttpConnection(_config, connector, endPoint, _httpCompliance,
+                isRecordHttpComplianceViolations());
+        return configure(conn, connector, endPoint);
+    }
+
+    public void setRecordHttpComplianceViolations(boolean recordHttpComplianceViolations) {
+        this._recordHttpComplianceViolations = recordHttpComplianceViolations;
     }
 }
