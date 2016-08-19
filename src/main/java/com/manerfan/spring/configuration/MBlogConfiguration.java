@@ -19,7 +19,9 @@ import java.io.File;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Lazy;
@@ -35,11 +37,14 @@ import com.manerfan.common.utils.lucene.LuceneManager;
  *
  * @author ManerFan 2016年3月24日
  */
+@SpringBootApplication
+@Configuration
 @Import({ ComponentConfiguration.class, /* bean扫描 */
         PropertyPlaceholderConfiguration.class, /* properties */
         TaskConfiguration.class, /* 定时任务 */
         DataJpaRepositoryConfiguration.class, /* 数据库 */
         CacheConfiguration.class, /* 缓存 */
+        EmbeddedJettyConfiguration.class, /* jetty */
         SpringMVCConfiguration.class, /* spring mvc */
         SpringSecurityConfiguration.class /* spring security */
 })
@@ -103,4 +108,5 @@ public class MBlogConfiguration {
         LuceneManager luceneManager = LuceneManager.newFSInstance(resourceLocation().indexDir);
         return luceneManager;
     }
+
 }

@@ -15,6 +15,10 @@
  */
 package com.manerfan.blog;
 
+import org.springframework.boot.SpringApplication;
+
+import com.manerfan.spring.configuration.MBlogConfiguration;
+
 /**
  * <pre>
  * 主入口
@@ -26,6 +30,7 @@ package com.manerfan.blog;
 public class BootLauncher {
 
     public static void main(String[] args) {
+        SpringApplication.run(MBlogConfiguration.class, args);
     }
 
 }
