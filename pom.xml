@@ -55,6 +55,12 @@
 		    </exclusions>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.manerfan.springboot</groupId>
+			<artifactId>manerfan-springboot-starter-jetty</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>

@@ -56,6 +56,8 @@ public class PjaxInterceptorHandler extends HandlerInterceptorAdapter {
             /* 如果是pjax请求，则返回对应的Pjax页面  xxxPjax.jsp  */
             modelAndView.setViewName(modelAndView.getViewName() + "Pjax");
             modelAndView.addObject("pjax", true);
+        } else {
+            modelAndView.addObject("pjax", false);
         }
     }
 

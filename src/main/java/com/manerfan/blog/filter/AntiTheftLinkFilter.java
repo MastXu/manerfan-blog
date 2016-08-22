@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
@@ -45,6 +46,7 @@ import com.manerfan.common.utils.mather.OrPathMatcher;
  *
  * @author ManerFan 2016年1月24日
  */
+@ConfigurationProperties(prefix = "server", ignoreUnknownFields = true)
 public class AntiTheftLinkFilter extends OncePerRequestFilter {
 
     private static byte[] antiTheftImageBytes;
@@ -69,6 +71,12 @@ public class AntiTheftLinkFilter extends OncePerRequestFilter {
     private OrPathMatcher whiteListMatcher;
 
     private OrRequestMatcher resourcesMatcher;
+
+    private String webapp;
+
+    public void setWebapp(String webapp) {
+        this.webapp = webapp;
+    }
 
     @Override
     protected void initFilterBean() throws ServletException {
@@ -109,7 +117,7 @@ public class AntiTheftLinkFilter extends OncePerRequestFilter {
 
         try {
             antiTheftImageBytes = FileUtils.readFileToByteArray(
-                    ResourceUtils.getFile("classpath:webapp/view/images/antitheft.jpg"));
+                    ResourceUtils.getFile(webapp + "/view/images/antitheft.jpg"));
         } catch (IOException e) {
             MLogger.ROOT_LOGGER.error("Cannot Found or Read AntiThelft Image");
             throw new ServletException("Cannot Found or Read AntiThelft Image");

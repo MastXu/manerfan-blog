@@ -32,9 +32,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -76,6 +79,10 @@ import com.manerfan.spring.configuration.ResourceLocation;
 public class ArticleService implements InitializingBean {
     private static final SimpleDateFormat NAME_SDF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     private static final SimpleDateFormat PATH_SDF = new SimpleDateFormat("/yyyy/MM/");
+
+    @NotNull
+    @Value("${server.base-resource}")
+    private String webapp;
 
     @Autowired
     private ResourceLocation resourceLocation;
@@ -601,7 +608,7 @@ public class ArticleService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        defaultArticle = ResourceUtils.getFile("classpath:webapp/view/pages/editor/WELCOME.md");
+        defaultArticle = ResourceUtils.getFile(webapp + "/view/pages/editor/WELCOME.md");
         Assert.isTrue(defaultArticle.exists());
 
         Assert.notNull(cacheCacheManager);

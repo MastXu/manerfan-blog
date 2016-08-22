@@ -34,6 +34,7 @@ import org.springframework.util.ResourceUtils;
 
 import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.tools.ShutdownHook;
+import com.manerfan.spring.autoconfigure.Http2ConnectionFactory;
 
 /**
  * <pre>
