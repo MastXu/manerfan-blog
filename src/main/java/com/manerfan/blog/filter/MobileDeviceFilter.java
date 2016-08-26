@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -45,6 +46,7 @@ import com.manerfan.common.utils.mather.OrPathMatcher;
  *
  * @author ManerFan 2016年6月17日
  */
+@ConfigurationProperties(prefix = "server", ignoreUnknownFields = true)
 public class MobileDeviceFilter extends OncePerRequestFilter {
 
     // \b 是单词边界(连着的两个(字母字符 与 非字母字符) 之间的逻辑上的间隔),    

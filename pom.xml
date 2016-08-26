@@ -73,6 +73,13 @@
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- ehcache -->
+		<dependency>
+			<groupId>com.manerfan.springboot</groupId>
+			<artifactId>manerfan-springboot-starter-ehcache</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
 		<!-- 加解密、编解码 -->
 		<dependency><!-- RSA的provider -->
@@ -171,12 +178,6 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 
-		<!-- ehcache -->
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache</artifactId>
-		</dependency>
-		
 		<!-- lucene -->
 		<dependency>
 			<groupId>com.manerfan.common.utils</groupId>
