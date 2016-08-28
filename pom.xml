@@ -80,6 +80,20 @@
 			<artifactId>manerfan-springboot-starter-ehcache</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		
+		<!-- property placeholder -->
+		<dependency>
+			<groupId>com.manerfan.springboot</groupId>
+			<artifactId>manerfan-springboot-starter-property-placeholder</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		
+		<!-- task schedule -->
+		<dependency>
+			<groupId>com.manerfan.springboot</groupId>
+			<artifactId>manerfan-springboot-starter-schedule</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
 		<!-- 加解密、编解码 -->
 		<dependency><!-- RSA的provider -->

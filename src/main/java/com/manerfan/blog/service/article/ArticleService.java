@@ -32,12 +32,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
@@ -66,7 +63,7 @@ import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.lucene.LuceneManager;
 import com.manerfan.common.utils.lucene.LuceneUtils;
 import com.manerfan.common.utils.lucene.annotations.manager.LuceneCommit;
-import com.manerfan.spring.configuration.ResourceLocation;
+import com.manerfan.spring.configuration.MblogProperties;
 
 /**
  * <pre>文章操作</pre>
@@ -80,12 +77,8 @@ public class ArticleService implements InitializingBean {
     private static final SimpleDateFormat NAME_SDF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     private static final SimpleDateFormat PATH_SDF = new SimpleDateFormat("/yyyy/MM/");
 
-    @NotNull
-    @Value("${server.base-resource}")
-    private String webapp;
-
     @Autowired
-    private ResourceLocation resourceLocation;
+    private MblogProperties mblogProperties;
 
     private File defaultArticle;
 
@@ -167,7 +160,7 @@ public class ArticleService implements InitializingBean {
                 articleEntity);
 
         // 保存文件 
-        File dir = new File(resourceLocation.getArticleDir(), transPath(articleEntity.getUid()));
+        File dir = new File(mblogProperties.getArticleDir(), transPath(articleEntity.getUid()));
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -295,7 +288,7 @@ public class ArticleService implements InitializingBean {
         /* 读取文章内容 */
         Pattern pattern = Pattern.compile(uid + "\\" + type.type());
         String path = transPath(uid);
-        File searchDir = new File(resourceLocation.getArticleDir(), path);
+        File searchDir = new File(mblogProperties.getArticleDir(), path);
         File[] files = searchDir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -406,7 +399,7 @@ public class ArticleService implements InitializingBean {
 
         Pattern pattern = Pattern.compile(uid + "\\.\\w+");
         String path = transPath(uid);
-        File searchDir = new File(resourceLocation.getArticleDir(), path);
+        File searchDir = new File(mblogProperties.getArticleDir(), path);
         File[] files = searchDir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -608,7 +601,8 @@ public class ArticleService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        defaultArticle = ResourceUtils.getFile(webapp + "/view/pages/editor/WELCOME.md");
+        defaultArticle = ResourceUtils
+                .getFile(mblogProperties.getWebappDir() + "/view/pages/editor/WELCOME.md");
         Assert.isTrue(defaultArticle.exists());
 
         Assert.notNull(cacheCacheManager);

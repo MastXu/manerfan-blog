@@ -39,7 +39,7 @@ import com.manerfan.blog.service.article.LuceneService;
 import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.tools.QuartzManager;
 import com.manerfan.common.utils.tools.ZipCompressUtil;
-import com.manerfan.spring.configuration.ResourceLocation;
+import com.manerfan.spring.configuration.MblogProperties;
 
 /**
  * <pre>
@@ -57,7 +57,7 @@ public class BackupService {
     private ArticleRepository articleRepository;
 
     @Autowired
-    private ResourceLocation resourceLocation;
+    private MblogProperties mblogProperties;
 
     @Autowired
     private LuceneService luceneService;
@@ -109,7 +109,7 @@ public class BackupService {
         MLogger.ROOT_LOGGER.info("=== Start SysData Backup!");
         try {
             // 计算需要备份到的目录
-            File bakFile = new File(resourceLocation.getBackupDir(),
+            File bakFile = new File(mblogProperties.getBackupDir(),
                     sdf.format(Calendar.getInstance().getTime()));
             if (bakFile.exists()) {
                 // 如果存在，则清空
@@ -184,7 +184,7 @@ public class BackupService {
      */
     private List<File> listBakFiles() {
         List<File> bakFiles = new LinkedList<>();
-        Arrays.stream(resourceLocation.getBackupDir().listFiles()).forEach(ymonth -> {
+        Arrays.stream(mblogProperties.getBackupDir().listFiles()).forEach(ymonth -> {
             // 这里拿到年月文件夹
             Arrays.stream(ymonth.listFiles()).forEach(day -> {
                 // 这里拿到日文件夹
@@ -219,7 +219,7 @@ public class BackupService {
      * 备份文章
      */
     protected void articleBackup(File store) throws IOException {
-        ZipCompressUtil.compress(resourceLocation.getArticleDir().listFiles(),
+        ZipCompressUtil.compress(mblogProperties.getArticleDir().listFiles(),
                 new File(store, ARTICLE_BAK_NAME));
     }
 
@@ -227,7 +227,7 @@ public class BackupService {
      * 备份图片
      */
     protected void imageBackup(File store) throws IOException {
-        ZipCompressUtil.compress(resourceLocation.getImageDir().listFiles(),
+        ZipCompressUtil.compress(mblogProperties.getImageDir().listFiles(),
                 new File(store, IMAGE_BAK_NAME));
     }
 
@@ -261,8 +261,8 @@ public class BackupService {
      * @return
      */
     public List<BackupFile> listFiles(String rd) {
-        File searchDir = StringUtils.hasText(rd) ? new File(resourceLocation.getBackupDir(), rd)
-                : resourceLocation.getBackupDir();
+        File searchDir = StringUtils.hasText(rd) ? new File(mblogProperties.getBackupDir(), rd)
+                : mblogProperties.getBackupDir();
         List<File> files = Arrays.asList(searchDir.listFiles());
         files.sort((a, b) -> {
             if (null == a) {

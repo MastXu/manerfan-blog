@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
@@ -46,7 +45,6 @@ import com.manerfan.common.utils.mather.OrPathMatcher;
  *
  * @author ManerFan 2016年1月24日
  */
-@ConfigurationProperties(prefix = "server", ignoreUnknownFields = true)
 public class AntiTheftLinkFilter extends OncePerRequestFilter {
 
     private static byte[] antiTheftImageBytes;

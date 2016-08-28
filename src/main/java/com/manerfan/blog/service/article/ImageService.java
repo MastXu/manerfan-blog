@@ -27,12 +27,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -44,7 +41,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.manerfan.blog.service.article.resource.ImageCachingFile;
 import com.manerfan.common.utils.logger.MLogger;
-import com.manerfan.spring.configuration.ResourceLocation;
+import com.manerfan.spring.configuration.MblogProperties;
 
 /**
  * <pre>图片相关</pre>
@@ -59,12 +56,8 @@ public class ImageService implements InitializingBean {
     private static final String suffix = "\\.(jpe?g|png|gif)";
     private static final Pattern pattern = Pattern.compile(".+" + suffix);
 
-    @NotNull
-    @Value("${server.base-resource}")
-    private String webapp;
-
     @Autowired
-    private ResourceLocation resourceLocation;
+    private MblogProperties mblogProperties;
 
     private File defaultImage;
 
@@ -83,7 +76,7 @@ public class ImageService implements InitializingBean {
 
         String name = NAME_SDF.format(Calendar.getInstance().getTime());
         try {
-            File dir = new File(resourceLocation.getImageDir(), transPath(name));
+            File dir = new File(mblogProperties.getImageDir(), transPath(name));
             if (!dir.exists()) {
                 dir.mkdirs();
             }
@@ -123,7 +116,7 @@ public class ImageService implements InitializingBean {
         Pattern pattern = Pattern.compile(name + suffix);
 
         String path = transPath(name);
-        File searchDir = new File(resourceLocation.getImageDir(), path);
+        File searchDir = new File(mblogProperties.getImageDir(), path);
         File[] files = searchDir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -164,8 +157,8 @@ public class ImageService implements InitializingBean {
      * @return
      */
     public List<String> listFiles(String rd) {
-        File searchDir = StringUtils.hasText(rd) ? new File(resourceLocation.getImageDir(), rd)
-                : resourceLocation.getImageDir();
+        File searchDir = StringUtils.hasText(rd) ? new File(mblogProperties.getImageDir(), rd)
+                : mblogProperties.getImageDir();
         List<String> files = Arrays.asList(searchDir.list());
         Collections.sort(files);
         return files;
@@ -200,7 +193,8 @@ public class ImageService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        defaultImage = ResourceUtils.getFile(webapp + "/view/images/antitheft.jpg");
+        defaultImage = ResourceUtils
+                .getFile(mblogProperties.getWebappDir() + "/view/images/antitheft.jpg");
         Assert.isTrue(defaultImage.exists());
     }
 

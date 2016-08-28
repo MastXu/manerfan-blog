@@ -18,10 +18,8 @@ package com.manerfan.spring.configuration.web;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -37,9 +35,7 @@ import com.manerfan.blog.filter.MobileDeviceFilter;
  */
 @Configuration
 @ConfigurationProperties(prefix = "mblog.filter", ignoreUnknownFields = true)
-public class FilterConfiguration implements EnvironmentAware {
-
-    private Environment environment;
+public class FilterConfiguration {
 
     @NestedConfigurationProperty
     private AntiTheftLinkFilter antiTheftLinkFilter = new AntiTheftLinkFilter();
@@ -67,7 +63,6 @@ public class FilterConfiguration implements EnvironmentAware {
     public FilterRegistrationBean antiTheftLinkFilterBean() {
         FilterRegistrationBean antiTheftLinkFilterBean = new FilterRegistrationBean();
 
-        antiTheftLinkFilter.setWebapp(environment.getProperty("server.base-resource"));
         antiTheftLinkFilterBean.addServletNames("AntiTheftLinkFilter");
         antiTheftLinkFilterBean.addUrlPatterns("/*");
         antiTheftLinkFilterBean.setFilter(antiTheftLinkFilter);
@@ -175,11 +170,6 @@ public class FilterConfiguration implements EnvironmentAware {
         openEntityManagerInViewFilterBean.setOrder(openEntityManagerInViewFilterOrder);
 
         return openEntityManagerInViewFilterBean;
-    }
-
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
     }
 
 }

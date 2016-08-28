@@ -15,7 +15,6 @@
  */
 package com.manerfan.blog.filter;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,14 +26,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.manerfan.common.utils.CommonUtils;
 import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.mather.NonePathMatcher;
 import com.manerfan.common.utils.mather.OrPathMatcher;
@@ -46,7 +43,6 @@ import com.manerfan.common.utils.mather.OrPathMatcher;
  *
  * @author ManerFan 2016年6月17日
  */
-@ConfigurationProperties(prefix = "server", ignoreUnknownFields = true)
 public class MobileDeviceFilter extends OncePerRequestFilter {
 
     // \b 是单词边界(连着的两个(字母字符 与 非字母字符) 之间的逻辑上的间隔),    
@@ -97,6 +93,12 @@ public class MobileDeviceFilter extends OncePerRequestFilter {
 
     private static byte[] notSupportedPageBytes;
 
+    private String webapp;
+
+    public void setWebapp(String webapp) {
+        this.webapp = webapp;
+    }
+
     @Override
     protected void initFilterBean() throws ServletException {
         super.initFilterBean();
@@ -116,10 +118,8 @@ public class MobileDeviceFilter extends OncePerRequestFilter {
         }
 
         try {
-            File ns = CommonUtils
-                    .getFirstResourceFile("classpath*:webapp/view/pages/notSupported.html");
-            Assert.isTrue(ns.exists());
-            notSupportedPageBytes = FileUtils.readFileToByteArray(ns);
+            notSupportedPageBytes = FileUtils.readFileToByteArray(
+                    ResourceUtils.getFile(webapp + "/view/pages/notSupported.html"));
         } catch (IOException e) {
             MLogger.ROOT_LOGGER.error("Cannot Found or Read NotSupported Html");
             throw new ServletException("Cannot Found or Read NotSupported Html");

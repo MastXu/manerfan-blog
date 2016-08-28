@@ -37,7 +37,7 @@ import com.manerfan.blog.service.SysConfService;
 import com.manerfan.blog.webapp.ControllerBase;
 import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.tools.ZipCompressUtil;
-import com.manerfan.spring.configuration.ResourceLocation;
+import com.manerfan.spring.configuration.MblogProperties;
 
 /**
  * <pre>
@@ -57,7 +57,7 @@ public class BackupController extends ControllerBase {
     private BackupService backupService;
 
     @Autowired
-    private ResourceLocation resourceLocation;
+    private MblogProperties mblogProperties;
 
     @RequestMapping("/update")
     @ResponseBody
@@ -146,7 +146,7 @@ public class BackupController extends ControllerBase {
             response.setHeader("Content-Disposition", "attachment;filename=" + name);
             os = response.getOutputStream();
 
-            ZipCompressUtil.compress(Arrays.asList(new File(resourceLocation.getBackupDir(), path)),
+            ZipCompressUtil.compress(Arrays.asList(new File(mblogProperties.getBackupDir(), path)),
                     os);
         } finally {
             if (null != os) {

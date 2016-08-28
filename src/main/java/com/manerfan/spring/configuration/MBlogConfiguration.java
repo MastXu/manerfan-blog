@@ -15,17 +15,21 @@
  */
 package com.manerfan.spring.configuration;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
-import org.springframework.util.Assert;
+import org.springframework.stereotype.Controller;
 
 import com.manerfan.blog.listener.H2DBServerListener;
 import com.manerfan.common.utils.lucene.LuceneManager;
@@ -39,11 +43,13 @@ import com.manerfan.spring.configuration.web.FilterConfiguration;
  * @author ManerFan 2016年3月24日
  */
 @Configuration
-@Import({ ComponentConfiguration.class, /* bean扫描 */
-        PropertyPlaceholderConfiguration.class, /* properties */
-        TaskConfiguration.class, /* 定时任务 */
-        FilterConfiguration.class, DataJpaRepositoryConfiguration.class, /* 数据库 */
-        H2DBServerListener.class, CacheConfiguration.class, /* 缓存 */
+@EnableConfigurationProperties(MblogProperties.class)
+@ImportResource("classpath*:spring/*.xml") /* 支持传统xml配置 */
+@ComponentScan(basePackages = "com.manerfan", excludeFilters = {
+        @Filter(type = FilterType.ANNOTATION, value = Controller.class), /* 不扫描sping mvc相关 */
+        @Filter(type = FilterType.REGEX, pattern = "com\\.manerfan\\.spring\\..*") }) /* 不扫描spring javaconfig相关 */
+@Import({ FilterConfiguration.class, DataJpaRepositoryConfiguration.class, /* 数据库 */
+        H2DBServerListener.class, /* 数据库 */
         SpringMVCConfiguration.class, /* spring mvc */
         SpringSecurityConfiguration.class /* spring security */
 })
@@ -55,56 +61,10 @@ public class MBlogConfiguration {
 
     private @Value("${mblog.h2dbdir}") String jdbcDir;
 
-    @Bean
-    @Lazy(false)
-    public ResourceLocation resourceLocation() {
-        Assert.hasText(basedir);
-        Assert.hasText(jdbcDir);
-
-        ResourceLocation location = new ResourceLocation();
-
-        File baseDir = new File(basedir);
-        if (!baseDir.exists()) {
-            Assert.isTrue(baseDir.mkdirs());
-        }
-
-        File imageDir = new File(baseDir, "image");
-        if (!imageDir.exists()) {
-            Assert.isTrue(imageDir.mkdirs());
-        }
-        location.imageDir = imageDir;
-
-        File articleDir = new File(baseDir, "article");
-        if (!articleDir.exists()) {
-            Assert.isTrue(articleDir.mkdirs());
-        }
-        location.articleDir = articleDir;
-
-        File indexDir = new File(baseDir, "index");
-        if (!indexDir.exists()) {
-            Assert.isTrue(indexDir.mkdirs());
-        }
-        location.indexDir = indexDir;
-
-        File dbDir = new File(jdbcDir);
-        if (!dbDir.exists()) {
-            Assert.isTrue(dbDir.mkdirs());
-        }
-        location.dbDir = dbDir;
-
-        File backupDir = new File(baseDir, "backup");
-        if (!backupDir.exists()) {
-            Assert.isTrue(backupDir.mkdirs());
-        }
-        location.backupDir = backupDir;
-
-        return location;
-    }
-
     @Bean(name = "articleLuceneManager", destroyMethod = "shutdown")
     @Lazy(false)
-    public LuceneManager luceneManager() throws IOException {
-        LuceneManager luceneManager = LuceneManager.newFSInstance(resourceLocation().indexDir);
+    public LuceneManager luceneManager(MblogProperties mblogProperties) throws IOException {
+        LuceneManager luceneManager = LuceneManager.newFSInstance(mblogProperties.getIndexDir());
         return luceneManager;
     }
 
