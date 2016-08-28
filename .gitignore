@@ -12,4 +12,5 @@
 segments_*
 *.log
 target
+data
 src/main/webapp/view/plugins/
