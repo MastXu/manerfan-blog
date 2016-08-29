@@ -20,7 +20,8 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
-import com.manerfan.common.utils.dao.entities.CommonEntity;
+import com.manerfan.jpa.entities.CommonEntity;
+
 
 /**
  * <pre>用户</pre>

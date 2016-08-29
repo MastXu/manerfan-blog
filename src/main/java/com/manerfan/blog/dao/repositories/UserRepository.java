@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.manerfan.blog.dao.entities.UserEntity;
-import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
+import com.manerfan.jpa.repositories.BasicJpaRepository;
 
 /**
  * <pre>用户操作接口</pre>

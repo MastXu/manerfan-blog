@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.manerfan.blog.dao.entities.article.CategoryEntity;
-import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
+import com.manerfan.jpa.repositories.BasicJpaRepository;
 
 /**
  * <pre>分类操作类接口</pre>

@@ -21,6 +21,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.querydsl.QPageRequest;
@@ -45,7 +47,6 @@ import com.manerfan.blog.service.article.ArticleService.FileType;
 import com.manerfan.blog.service.article.CategoryService;
 import com.manerfan.blog.service.article.LuceneService;
 import com.manerfan.blog.webapp.ControllerBase;
-import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>文章浏览</pre>
@@ -55,6 +56,8 @@ import com.manerfan.common.utils.logger.MLogger;
 @Controller
 @RequestMapping("/article")
 public class ArticleViewController extends ControllerBase {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArticleViewController.class);
 
     @Autowired
     private ArticleService articleService;
@@ -124,7 +127,7 @@ public class ArticleViewController extends ControllerBase {
                 mv.addAllObjects(sysConfService.getMap("duoshuo_key", "duoshuo_url"));
             }
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Get Article[{}] Error!", uid, e);
+            LOGGER.error("Get Article[{}] Error!", uid, e);
             throw e;
         }
 
@@ -233,7 +236,7 @@ public class ArticleViewController extends ControllerBase {
             List<ArchiveBO> archives = articleService.hotsArchives(top);
             data.put("archives", archives);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Get Hots Archivies Error", e);
+            LOGGER.error("Get Hots Archivies Error", e);
             data.put(ERRMSG, "获取归档失败");
         }
 
@@ -257,7 +260,7 @@ public class ArticleViewController extends ControllerBase {
             List<ArticleBO> articles = articleService.hotsHits(top);
             data.put("articles", articles);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Get Hots Articles Error", e);
+            LOGGER.error("Get Hots Articles Error", e);
             data.put(ERRMSG, "获取文章阅读排行失败");
         }
 
@@ -280,7 +283,7 @@ public class ArticleViewController extends ControllerBase {
             List<ArchiveBO> archives = articleService.findArchiveListAll();
             data.put("archives", archives);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Get Archives Error", e);
+            LOGGER.error("Get Archives Error", e);
             data.put(ERRMSG, "获取归档失败");
         }
 
@@ -309,7 +312,7 @@ public class ArticleViewController extends ControllerBase {
             data.put("articles", BOUtils.transFromPOs(articles.getContent(), ArticleBO.class,
                     ArticleEntity.class));
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Get Article List Error", e);
+            LOGGER.error("Get Article List Error", e);
             data.put(ERRMSG, "获取文章列表失败");
         }
         return data;
@@ -341,7 +344,7 @@ public class ArticleViewController extends ControllerBase {
             data.put("articles",
                     BOUtils.transFromPOs(articleEntities, ArticleBO.class, ArticleEntity.class));
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Get Article List By Category[{}] Error", name, e);
+            LOGGER.error("Get Article List By Category[{}] Error", name, e);
             data.put(ERRMSG, "获取文章列表失败");
         }
 
@@ -372,8 +375,7 @@ public class ArticleViewController extends ControllerBase {
             data.put("totalPages", Math.ceil(1.0 * totalPages / size));
             data.put("articles", articles);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Get Article List By Archive[{}] Error", year + "/" + month,
-                    e);
+            LOGGER.error("Get Article List By Archive[{}] Error", year + "/" + month, e);
             data.put(ERRMSG, "获取文章列表失败");
         }
 

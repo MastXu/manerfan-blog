@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.manerfan.blog.security;
+package com.manerfan.spring.configuration.web.security;
 
 import java.io.IOException;
 

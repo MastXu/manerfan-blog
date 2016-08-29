@@ -29,6 +29,8 @@ import javax.annotation.PreDestroy;
 
 import org.apache.commons.io.FileUtils;
 import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -36,9 +38,8 @@ import org.springframework.util.StringUtils;
 
 import com.manerfan.blog.dao.repositories.article.ArticleRepository;
 import com.manerfan.blog.service.article.LuceneService;
-import com.manerfan.common.utils.logger.MLogger;
-import com.manerfan.common.utils.tools.QuartzManager;
-import com.manerfan.common.utils.tools.ZipCompressUtil;
+import com.manerfan.common.utils.QuartzManager;
+import com.manerfan.common.utils.ZipCompressUtil;
 import com.manerfan.spring.configuration.MblogProperties;
 
 /**
@@ -52,6 +53,8 @@ import com.manerfan.spring.configuration.MblogProperties;
  */
 @Service
 public class BackupService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BackupService.class);
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -92,10 +95,10 @@ public class BackupService {
                 + params.get(SysConfService.BACKUP_WEEK);
 
         if (QuartzManager.checkExist(QUARTZ_JOB_NAME)) {
-            MLogger.ROOT_LOGGER.info("Update SysBackup Quartz Task on cron {}", cron);
+            LOGGER.info("Update SysBackup Quartz Task on cron {}", cron);
             QuartzManager.rescheduleJob(QUARTZ_JOB_NAME, cron);
         } else {
-            MLogger.ROOT_LOGGER.info("Create SysBackup Quartz Task on cron {}", cron);
+            LOGGER.info("Create SysBackup Quartz Task on cron {}", cron);
             QuartzManager.scheduleJob(QUARTZ_JOB_NAME, BackupJob.class, cron);
         }
     }
@@ -106,7 +109,7 @@ public class BackupService {
 
     public synchronized void backup() throws Exception {
         backupRunning = true;
-        MLogger.ROOT_LOGGER.info("=== Start SysData Backup!");
+        LOGGER.info("=== Start SysData Backup!");
         try {
             // 计算需要备份到的目录
             File bakFile = new File(mblogProperties.getBackupDir(),
@@ -132,7 +135,7 @@ public class BackupService {
             dbBackup(bakFile);
         } finally {
             backupRunning = false;
-            MLogger.ROOT_LOGGER.info("Finish SysData Backup! ===");
+            LOGGER.info("Finish SysData Backup! ===");
         }
     }
 

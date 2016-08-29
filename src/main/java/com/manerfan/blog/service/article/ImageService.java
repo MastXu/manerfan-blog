@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -40,7 +42,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.manerfan.blog.service.article.resource.ImageCachingFile;
-import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.spring.configuration.MblogProperties;
 
 /**
@@ -50,6 +51,8 @@ import com.manerfan.spring.configuration.MblogProperties;
  */
 @Service
 public class ImageService implements InitializingBean {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     private static final SimpleDateFormat NAME_SDF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     private static final SimpleDateFormat PATH_SDF = new SimpleDateFormat("/yyyy/MM/");
@@ -83,7 +86,7 @@ public class ImageService implements InitializingBean {
             image.transferTo(new File(dir, name + getSuffix(imageName)));
             return name;
         } catch (IllegalStateException | IOException e) {
-            MLogger.ROOT_LOGGER.error("Save Image File Error.", e);
+            LOGGER.error("Save Image File Error.", e);
             throw new IllegalArgumentException("保存图片错误");
         }
     }
@@ -173,7 +176,7 @@ public class ImageService implements InitializingBean {
             Date storeDate = NAME_SDF.parse(name);
             return PATH_SDF.format(storeDate);
         } catch (ParseException e) {
-            MLogger.ROOT_LOGGER.error("", e);
+            LOGGER.error("", e);
             return "/";
         }
     }

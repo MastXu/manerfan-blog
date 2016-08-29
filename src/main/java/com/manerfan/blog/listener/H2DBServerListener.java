@@ -19,8 +19,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.h2.tools.Server;
-
-import com.manerfan.common.utils.logger.MLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <pre>随系统启停H2DB</pre>
@@ -29,6 +29,8 @@ import com.manerfan.common.utils.logger.MLogger;
  */
 public class H2DBServerListener implements ServletContextListener {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(H2DBServerListener.class);
+
     /*private Server tcpServer;*/
 
     private Server webServer;
@@ -36,14 +38,14 @@ public class H2DBServerListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
         try {
-            /*Logger.LOGGER.info("Start H2DB TCP Server!");
+            /*LOGGER.info("Start H2DB TCP Server!");
             tcpServer = Server.createTcpServer("-tcpPort", "9092").start();*/
 
-            MLogger.ROOT_LOGGER.info("Start H2DB Web Server!");
+            LOGGER.info("Start H2DB Web Server!");
             webServer = Server.createWebServer("-webPort", "8082").start();
         } catch (Exception e) {
             e.printStackTrace();
-            MLogger.ROOT_LOGGER.error("H2DB Error!", e);
+            LOGGER.error("H2DB Error!", e);
             System.exit(1);
         }
     }
@@ -54,7 +56,7 @@ public class H2DBServerListener implements ServletContextListener {
         /*Logger.LOGGER.warn("Stop H2DB TCP Server!");*/
 
         webServer.stop();
-        MLogger.ROOT_LOGGER.warn("Stop H2DB Web Server!");
+        LOGGER.warn("Stop H2DB Web Server!");
     }
 
 }

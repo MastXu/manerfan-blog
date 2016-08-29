@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.manerfan.spring.configuration;
+package com.manerfan.spring.configuration.web.security;
 
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
@@ -35,9 +33,6 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
-import com.manerfan.blog.security.CustomLogoutFilter;
-import com.manerfan.blog.security.CustomUserDetailsService;
-import com.manerfan.blog.security.CustomUsernamePasswordAuthenticationFilter;
 import com.manerfan.blog.service.RSAService;
 
 /**
@@ -50,15 +45,7 @@ import com.manerfan.blog.service.RSAService;
 @Configuration
 @EnableSpringConfigured
 @EnableWebSecurity
-public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
-        implements BeanFactoryAware {
-
-    private BeanFactory beanFactory;
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
-    }
+public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     /**
      * <pre>
@@ -183,13 +170,18 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider
-                .setUserDetailsService(beanFactory.getBean(CustomUserDetailsService.class));
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
     }
+
+    @Autowired
+    private RSAService rsaService;
 
     /**
      * <pre>
@@ -219,7 +211,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter
         customLoginFilter.setPasswordParameter("password");
         customLoginFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
         customLoginFilter.setAuthenticationFailureHandler(loginFailureHandler());
-        customLoginFilter.setRsaService(beanFactory.getBean(RSAService.class));
+        customLoginFilter.setRsaService(rsaService);
 
         return customLoginFilter;
     }

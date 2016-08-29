@@ -22,6 +22,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.mail.EmailException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -33,8 +35,7 @@ import com.manerfan.blog.service.RSAService;
 import com.manerfan.blog.service.SysConfService;
 import com.manerfan.blog.utils.EmailUtils;
 import com.manerfan.blog.webapp.ControllerBase;
-import com.manerfan.common.utils.logger.MLogger;
-import com.manerfan.common.utils.tools.EncryptBean;
+import com.manerfan.common.utils.SimpleEncrypt;
 
 /**
  * <pre>
@@ -46,9 +47,11 @@ import com.manerfan.common.utils.tools.EncryptBean;
 @Controller
 @RequestMapping("/sysconfig")
 public class SysconfigController extends ControllerBase {
-    
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SysconfigController.class);
+
     @Autowired
-    private EncryptBean encrypt;
+    private SimpleEncrypt encrypt;
 
     @Autowired
     private RSAService rsaService;
@@ -64,7 +67,7 @@ public class SysconfigController extends ControllerBase {
         try {
             data.putAll(sysConfService.getMap(keys));
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Some Error Occured when query {}", keys, e);
+            LOGGER.error("Some Error Occured when query {}", keys, e);
             data.put(ERRMSG, "内部错误");
         }
 
@@ -81,7 +84,7 @@ public class SysconfigController extends ControllerBase {
                     SysConfService.EMAIL_SSL_ENABLE, SysConfService.EMAIL_USERNAME,
                     SysConfService.EMAIL_PASSWORD);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Some Error Occured when clear DuoShuoConfig", e);
+            LOGGER.error("Some Error Occured when clear DuoShuoConfig", e);
             data.put(ERRMSG, "内部错误");
             return data;
         }
@@ -116,10 +119,10 @@ public class SysconfigController extends ControllerBase {
 
             EmailUtils.test(host, port, sslEnable, uname, passw);
         } catch (EmailException e) {
-            MLogger.ROOT_LOGGER.error("Some Error Occured when Test Email Sysconfig.", e);
+            LOGGER.error("Some Error Occured when Test Email Sysconfig.", e);
             data.put(ERRMSG, "测试失败");
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Some Error Occured when update Email Sysconfig.", e);
+            LOGGER.error("Some Error Occured when update Email Sysconfig.", e);
             data.put(ERRMSG, "内部错误");
         }
 
@@ -155,9 +158,10 @@ public class SysconfigController extends ControllerBase {
             sysConfService.updateOrSave(SysConfService.EMAIL_STMP_PORT, port);
             sysConfService.updateOrSave(SysConfService.EMAIL_SSL_ENABLE, sslEnable);
             sysConfService.updateOrSave(SysConfService.EMAIL_USERNAME, uname);
-            sysConfService.updateOrSave(SysConfService.EMAIL_PASSWORD, encrypt.encryptString(passw));
+            sysConfService.updateOrSave(SysConfService.EMAIL_PASSWORD,
+                    encrypt.encryptString(passw));
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Some Error Occured when update Email Sysconfig.", e);
+            LOGGER.error("Some Error Occured when update Email Sysconfig.", e);
             data.put(ERRMSG, "内部错误");
         }
 
@@ -178,16 +182,16 @@ public class SysconfigController extends ControllerBase {
             sysConfService.updateOrSave(SysConfService.DUOSHUO_KEY, key);
             sysConfService.updateOrSave(SysConfService.DUOSHUO_URL, url);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error(
-                    "Some Error Occured when update Sysconfig [{}: {}] or [{}: {}].", new Object[] {
-                            SysConfService.DUOSHUO_KEY, key, SysConfService.DUOSHUO_URL, url, e });
+            LOGGER.error("Some Error Occured when update Sysconfig [{}: {}] or [{}: {}].",
+                    new Object[] { SysConfService.DUOSHUO_KEY, key, SysConfService.DUOSHUO_URL, url,
+                            e });
             data.put(ERRMSG, "内部错误");
             return data;
         }
 
         return data;
     }
-    
+
     @RequestMapping("/duoshuo/clean")
     @ResponseBody
     public Object clearDuoshuoConf() {
@@ -196,7 +200,7 @@ public class SysconfigController extends ControllerBase {
         try {
             sysConfService.removes(SysConfService.DUOSHUO_KEY, SysConfService.DUOSHUO_URL);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Some Error Occured when clear DuoShuoConfig", e);
+            LOGGER.error("Some Error Occured when clear DuoShuoConfig", e);
             data.put(ERRMSG, "内部错误");
             return data;
         }

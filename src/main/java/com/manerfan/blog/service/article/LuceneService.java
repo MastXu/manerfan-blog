@@ -31,6 +31,8 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -38,7 +40,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import com.manerfan.blog.dao.entities.article.ArticleBO;
-import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.lucene.LuceneIndexSnapshot;
 import com.manerfan.common.utils.lucene.LuceneManager;
 import com.manerfan.common.utils.lucene.LuceneUtils;
@@ -53,6 +54,8 @@ import com.manerfan.common.utils.lucene.LuceneUtils;
 @Service
 public class LuceneService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LuceneService.class);
+
     @Autowired
     private LuceneManager luceneManager;
 
@@ -64,14 +67,14 @@ public class LuceneService {
     @Async
     @Scheduled(cron = "0 0 3 ? * SAT") /* [0秒 0分 3时 每天 每月 周六] 每个周六凌晨三点执行 */
     public void periodicMerge() {
-        MLogger.ROOT_LOGGER.info("Start Merge Lucene Index!");
+        LOGGER.info("Start Merge Lucene Index!");
         try {
             /* 如果段数量大于5，则强制合并段，直到至多5个 */
             luceneManager.forceCommit();
             luceneManager.getIndexWriter().forceMerge(5, false);
             luceneManager.forceCommit();
         } catch (IOException e) {
-            MLogger.ROOT_LOGGER.error("Error! When forceMerge Lucene Index!", e);
+            LOGGER.error("Error! When forceMerge Lucene Index!", e);
         }
     }
 

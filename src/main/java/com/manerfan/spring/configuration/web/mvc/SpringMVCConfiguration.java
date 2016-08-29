@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.manerfan.spring.configuration;
+package com.manerfan.spring.configuration.web.mvc;
 
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,7 +38,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.resource.CachingResourceResolver;
 import org.springframework.web.servlet.resource.CachingResourceTransformer;
-import org.springframework.web.servlet.resource.GzipResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -63,14 +60,7 @@ import com.manerfan.blog.interceptor.VersionInterceptorHandler;
 @EnableSpringConfigured
 @EnableWebMvc
 @ComponentScan(basePackages = "com.manerfan.blog.webapp", useDefaultFilters = false, includeFilters = @Filter(type = FilterType.ANNOTATION, classes = Controller.class))
-public class SpringMVCConfiguration extends WebMvcConfigurationSupport implements BeanFactoryAware {
-
-    private BeanFactory beanFactory;
-
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
-    }
+public class SpringMVCConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * <pre>
@@ -106,26 +96,11 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         int cachePeriod = 31556926; /* 1年 */
-        registry.addResourceHandler("/tags/**").addResourceLocations("/tags/")
-                .setCachePeriod(cachePeriod).resourceChain(false)
-                .addTransformer(cachingResourceTrasnformer())
-                .addResolver(cachingResourceResolver());
         registry.addResourceHandler("/view/**").addResourceLocations("/view/")
                 .setCachePeriod(cachePeriod).resourceChain(false)
                 .addTransformer(cachingResourceTrasnformer())
                 .addResolver(cachingResourceResolver());
-        /*.addResolver(gzipResourceResolver())*/
         registry.addResourceHandler("/*.*").addResourceLocations("/").setCachePeriod(cachePeriod);
-    }
-
-    /**
-     * <pre>
-     * 资源压缩
-     * </pre>
-     */
-    @Bean
-    public GzipResourceResolver gzipResourceResolver() {
-        return new CustomGzipResourceResolver();
     }
 
     /**
@@ -233,6 +208,15 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
         return super.resourceHandlerMapping();
     }
 
+    @Autowired
+    private VersionInterceptorHandler versionInterceptorHandler;
+
+    @Autowired
+    private UserInfoInterceptorHandler userInfoInterceptorHandler;
+
+    @Autowired
+    private PjaxInterceptorHandler pjaxInterceptorHandler;
+
     /**
      * <pre>
      * 拦截器
@@ -244,14 +228,14 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         /* 版本管理拦截器 */
-        registry.addInterceptor(beanFactory.getBean(VersionInterceptorHandler.class));
+        registry.addInterceptor(versionInterceptorHandler);
 
         /* 用户信息拦截器 */
-        registry.addInterceptor(beanFactory.getBean(UserInfoInterceptorHandler.class));
+        registry.addInterceptor(userInfoInterceptorHandler);
 
         /* pjax拦截器 */
-        registry.addInterceptor(beanFactory.getBean(PjaxInterceptorHandler.class))
-                .pathMatcher(new AntPathMatcher()).addPathPatterns("/article/**");
+        registry.addInterceptor(pjaxInterceptorHandler).pathMatcher(new AntPathMatcher())
+                .addPathPatterns("/article/**");
     }
 
     /**
@@ -264,6 +248,19 @@ public class SpringMVCConfiguration extends WebMvcConfigurationSupport implement
         SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
         exceptionResolver.setDefaultErrorView("error/500.html");
         exceptionResolver.setDefaultStatusCode(500);
+        return exceptionResolver;
+    }
+
+    /**
+     * <pre>
+     * 404处理
+     * </pre>
+     */
+    @Bean
+    public SimpleMappingExceptionResolver notfoundResolver() {
+        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+        exceptionResolver.setDefaultErrorView("error/404.html");
+        exceptionResolver.setDefaultStatusCode(404);
         return exceptionResolver;
     }
 

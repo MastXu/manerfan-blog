@@ -18,8 +18,13 @@ package com.manerfan.blog;
 import java.io.IOException;
 
 import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Import;
@@ -28,9 +33,8 @@ import org.springframework.context.event.ContextClosedEvent;
 import com.manerfan.blog.dao.entities.SysConfEntity;
 import com.manerfan.blog.service.BackupService;
 import com.manerfan.blog.service.SysConfService;
+import com.manerfan.common.utils.QuartzManager;
 import com.manerfan.common.utils.beans.SpringBeanFactory;
-import com.manerfan.common.utils.logger.MLogger;
-import com.manerfan.common.utils.tools.QuartzManager;
 import com.manerfan.spring.configuration.MBlogConfiguration;
 
 /**
@@ -41,9 +45,12 @@ import com.manerfan.spring.configuration.MBlogConfiguration;
  *
  * @author ManerFan 2016年2月24日
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class,
+        DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
 @Import(MBlogConfiguration.class)
 public class BootLauncher {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BootLauncher.class);
 
     public static void main(String[] args) {
         new Thread() {
@@ -78,7 +85,7 @@ public class BootLauncher {
                 try {
                     QuartzManager.shutdown();
                 } catch (SchedulerException e) {
-                    MLogger.ROOT_LOGGER.error("Cannot shutdown Quartz Task", e);
+                    LOGGER.error("Cannot shutdown Quartz Task", e);
                 }
             }
         });
@@ -109,7 +116,7 @@ public class BootLauncher {
         try {
             backupService.start();
         } catch (SchedulerException e) {
-            MLogger.ROOT_LOGGER.error("Cannot Start Quartz Task", e);
+            LOGGER.error("Cannot Start Quartz Task", e);
             System.exit(1);
         }
     }

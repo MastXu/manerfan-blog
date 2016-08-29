@@ -37,7 +37,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.manerfan.blog.dao.entities.UserEntity;
-import com.manerfan.common.utils.dao.entities.CommonEntity;
+import com.manerfan.jpa.entities.CommonEntity;
 
 /**
  * <pre>文章</pre>

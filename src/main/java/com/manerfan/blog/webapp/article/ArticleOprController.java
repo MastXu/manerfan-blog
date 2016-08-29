@@ -18,6 +18,8 @@ package com.manerfan.blog.webapp.article;
 import java.io.IOException;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
@@ -34,7 +36,6 @@ import com.manerfan.blog.interceptor.UserInfoInterceptorHandler;
 import com.manerfan.blog.service.article.ArticleService;
 import com.manerfan.blog.service.article.ArticleService.FileType;
 import com.manerfan.blog.webapp.ControllerBase;
-import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>文章操作</pre>
@@ -44,6 +45,8 @@ import com.manerfan.common.utils.logger.MLogger;
 @Controller
 @RequestMapping("/article")
 public class ArticleOprController extends ControllerBase {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArticleOprController.class);
 
     @Autowired
     private UserInfoInterceptorHandler userInfo;
@@ -79,7 +82,7 @@ public class ArticleOprController extends ControllerBase {
 
             data.put("uid", articleService.saveOrUpdate(article));
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Save Article Error!", e);
+            LOGGER.error("Save Article Error!", e);
             data.put(ERRMSG, "写文章错误");
         }
 
@@ -104,7 +107,7 @@ public class ArticleOprController extends ControllerBase {
             ArticleBO article = articleService.get(uid, type);
             data.put("article", article);
         } catch (IOException e) {
-            MLogger.ROOT_LOGGER.error("Read Article File [{}] Error!", uid, e);
+            LOGGER.error("Read Article File [{}] Error!", uid, e);
             data.put(ERRMSG, "读取文章错误");
         }
 
@@ -126,7 +129,7 @@ public class ArticleOprController extends ControllerBase {
         try {
             articleService.deleteArticle(uid);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Delete Article File [{}] Error!", uid, e);
+            LOGGER.error("Delete Article File [{}] Error!", uid, e);
             data.put(ERRMSG, "删除文章错误");
         }
         return data;
@@ -149,7 +152,7 @@ public class ArticleOprController extends ControllerBase {
         try {
             articleService.updateArticleState(state, uid);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Cannot Update the state of Article {} to {}.",
+            LOGGER.error("Cannot Update the state of Article {} to {}.",
                     new Object[] { uid, state, e });
             data.put(ERRMSG, "数据库错误");
         }

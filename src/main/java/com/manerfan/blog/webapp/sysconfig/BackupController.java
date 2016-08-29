@@ -23,6 +23,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -35,8 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.manerfan.blog.service.BackupService;
 import com.manerfan.blog.service.SysConfService;
 import com.manerfan.blog.webapp.ControllerBase;
-import com.manerfan.common.utils.logger.MLogger;
-import com.manerfan.common.utils.tools.ZipCompressUtil;
+import com.manerfan.common.utils.ZipCompressUtil;
 import com.manerfan.spring.configuration.MblogProperties;
 
 /**
@@ -49,6 +50,8 @@ import com.manerfan.spring.configuration.MblogProperties;
 @Controller
 @RequestMapping("/sysconfig/backup")
 public class BackupController extends ControllerBase {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BackupController.class);
 
     @Autowired
     private SysConfService sysConfService;
@@ -84,7 +87,7 @@ public class BackupController extends ControllerBase {
             // 更新quartz任务
             backupService.update();
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Some Error Occured when update Backup Sysconfig", e);
+            LOGGER.error("Some Error Occured when update Backup Sysconfig", e);
             data.put(ERRMSG, "内部错误");
             return data;
         }
@@ -104,7 +107,7 @@ public class BackupController extends ControllerBase {
             }
             backupService.backup();
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Some Error Occured when Backup SysData immediately.", e);
+            LOGGER.error("Some Error Occured when Backup SysData immediately.", e);
             data.put(ERRMSG, "内部错误");
             return data;
         }

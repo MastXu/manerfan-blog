@@ -24,6 +24,8 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -35,7 +37,6 @@ import org.springframework.util.StringUtils;
 
 import com.manerfan.blog.service.rsapool.CipherPoolFactory;
 import com.manerfan.blog.service.rsapool.KeyPairPoolFactory;
-import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>rsa密钥缓存</pre>
@@ -44,6 +45,8 @@ import com.manerfan.common.utils.logger.MLogger;
  */
 @Component
 public class RSAService implements InitializingBean {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RSAService.class);
 
     @Autowired
     private CacheManager cacheManager;
@@ -106,7 +109,7 @@ public class RSAService implements InitializingBean {
 
             return keyPair;
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Borrow KeyPair Error!", e);
+            LOGGER.error("Borrow KeyPair Error!", e);
             return null;
         }
 
@@ -121,7 +124,7 @@ public class RSAService implements InitializingBean {
         try {
             return cipherPool.borrowObject();
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Borrow Cipher Error!", e);
+            LOGGER.error("Borrow Cipher Error!", e);
             return null;
         }
     }
@@ -201,7 +204,7 @@ public class RSAService implements InitializingBean {
         // 取出一个Cipher
         Cipher c = borrowCipher();
         if (null == c) {
-            MLogger.ROOT_LOGGER.warn("Borrow RSA Cipher Failed.");
+            LOGGER.warn("Borrow RSA Cipher Failed.");
             throw new InternalError("Borrow RSA Cipher Failed.");
         }
 
@@ -228,7 +231,7 @@ public class RSAService implements InitializingBean {
             // 加盐
             return addSalt(decode(key, passwordrsa));
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("DecoderOrEncryptException!", e);
+            LOGGER.error("DecoderOrEncryptException!", e);
             throw new InternalAuthenticationServiceException("登录失败，请联系管理员或重新登陆", e);
         }
     }

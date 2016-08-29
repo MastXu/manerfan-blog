@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
@@ -36,9 +38,8 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.manerfan.common.utils.logger.MLogger;
-import com.manerfan.common.utils.mather.AnyPathMatcher;
-import com.manerfan.common.utils.mather.OrPathMatcher;
+import com.manerfan.common.utils.matcher.AnyPathMatcher;
+import com.manerfan.common.utils.matcher.OrPathMatcher;
 
 /**
  * <pre>防盗链</pre>
@@ -46,6 +47,8 @@ import com.manerfan.common.utils.mather.OrPathMatcher;
  * @author ManerFan 2016年1月24日
  */
 public class AntiTheftLinkFilter extends OncePerRequestFilter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AntiTheftLinkFilter.class);
 
     private static byte[] antiTheftImageBytes;
 
@@ -117,7 +120,7 @@ public class AntiTheftLinkFilter extends OncePerRequestFilter {
             antiTheftImageBytes = FileUtils.readFileToByteArray(
                     ResourceUtils.getFile(webapp + "/view/images/antitheft.jpg"));
         } catch (IOException e) {
-            MLogger.ROOT_LOGGER.error("Cannot Found or Read AntiThelft Image");
+            LOGGER.error("Cannot Found or Read AntiThelft Image");
             throw new ServletException("Cannot Found or Read AntiThelft Image");
         }
     }

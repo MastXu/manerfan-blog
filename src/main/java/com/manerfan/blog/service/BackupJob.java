@@ -18,9 +18,10 @@ package com.manerfan.blog.service;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.manerfan.common.utils.beans.SpringBeanFactory;
-import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>
@@ -31,6 +32,8 @@ import com.manerfan.common.utils.logger.MLogger;
  */
 public class BackupJob implements Job {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BackupJob.class);
+
     private BackupService backupService;
 
     public BackupJob() {
@@ -39,11 +42,11 @@ public class BackupJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        MLogger.ROOT_LOGGER.info(context.toString());
+        LOGGER.info(context.toString());
         try {
             backupService.backup();
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("System Backup Failed!", e);
+            LOGGER.error("System Backup Failed!", e);
         }
     }
 

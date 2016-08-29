@@ -30,10 +30,11 @@ import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
 
-import com.manerfan.common.utils.logger.MLogger;
-import com.manerfan.common.utils.tools.ShutdownHook;
+import com.manerfan.common.utils.ShutdownHook;
 import com.manerfan.spring.autoconfigure.Http2ConnectionFactory;
 
 /**
@@ -45,6 +46,8 @@ import com.manerfan.spring.autoconfigure.Http2ConnectionFactory;
  * @author ManerFan 2016年2月24日
  */
 public class Launcher {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Launcher.class);
 
     private static Options opts;
 
@@ -126,29 +129,29 @@ public class Launcher {
             if (params.containsKey(PORT)) {
                 try {
                     port = Integer.parseInt(params.getProperty(PORT));
-                    MLogger.ROOT_LOGGER.info("设置发布端口为 {}", port);
+                    LOGGER.info("设置发布端口为 {}", port);
                 } catch (NumberFormatException e) {
                     port = 80;
-                    MLogger.ROOT_LOGGER.error("{} 不是一个有效的数字，使用默认端口80", params.getProperty(PORT));
+                    LOGGER.error("{} 不是一个有效的数字，使用默认端口80", params.getProperty(PORT));
                 }
             } else {
-                MLogger.ROOT_LOGGER.warn("未指定发布端口，使用默认值80");
+                LOGGER.warn("未指定发布端口，使用默认值80");
             }
 
             // 解析发布路径
             String contextpath = "/";
             if (params.containsKey(CONTENTPATH)) {
                 contextpath = params.getProperty(CONTENTPATH);
-                MLogger.ROOT_LOGGER.info("设置发布路径为 {}", contextpath);
+                LOGGER.info("设置发布路径为 {}", contextpath);
             } else {
-                MLogger.ROOT_LOGGER.warn("未指定发布路径，使用默认值/");
+                LOGGER.warn("未指定发布路径，使用默认值/");
             }
 
             // 使用-Xbootclasspath/a将WEBCONTENT目录加入classpath，或使用java service wrapper之类的工具
             // 设置webcontent
             File content = ResourceUtils.getFile("classpath:" + WEBCONTENT);
             if (null == content || !content.exists()) {
-                MLogger.ROOT_LOGGER.error("{} 缺失", WEBCONTENT);
+                LOGGER.error("{} 缺失", WEBCONTENT);
                 System.err.println(WEBCONTENT + "缺失");
                 System.exit(1);
             }
@@ -200,7 +203,7 @@ public class Launcher {
         } catch (ParseException e) {
             hf.printHelp(cmdstr, opts, true);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Start Server Error.", e);
+            LOGGER.error("Start Server Error.", e);
             System.exit(1);
         }
     }

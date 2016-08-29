@@ -20,6 +20,8 @@ import java.util.Map;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.TopDocs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
@@ -32,7 +34,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.manerfan.blog.service.article.LuceneService;
 import com.manerfan.blog.webapp.ControllerBase;
-import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>
@@ -44,6 +45,8 @@ import com.manerfan.common.utils.logger.MLogger;
 @Controller
 @RequestMapping("/article/search")
 public class ArticleSearchController extends ControllerBase {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArticleSearchController.class);
 
     @Autowired
     private LuceneService luceneService;
@@ -81,7 +84,7 @@ public class ArticleSearchController extends ControllerBase {
             data.put("after", topDocs.scoreDocs[topDocs.scoreDocs.length - 1]);
         } catch (IOException | ParseException e) {
             data.put(ERRMSG, "Internal Error!");
-            MLogger.ROOT_LOGGER.error("Some Error Occured when Search Lucene Index!", e);
+            LOGGER.error("Some Error Occured when Search Lucene Index!", e);
         }
 
         return data;
@@ -96,7 +99,7 @@ public class ArticleSearchController extends ControllerBase {
             data.put("articles", luceneService.morelike(uid, numHits));
         } catch (Exception e) {
             data.put(ERRMSG, "Internal Error!");
-            MLogger.ROOT_LOGGER.error("Some Error Occured when find MoreLike Articles", e);
+            LOGGER.error("Some Error Occured when find MoreLike Articles", e);
         }
 
         return data;

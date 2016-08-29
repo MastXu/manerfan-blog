@@ -18,6 +18,8 @@ package com.manerfan.blog.webapp.article;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.manerfan.blog.dao.entities.article.CategoryBO;
 import com.manerfan.blog.service.article.CategoryService;
 import com.manerfan.blog.webapp.ControllerBase;
-import com.manerfan.common.utils.logger.MLogger;
 
 /**
  * <pre>文章分类</pre>
@@ -38,6 +39,8 @@ import com.manerfan.common.utils.logger.MLogger;
 @Controller
 @RequestMapping("/article/category")
 public class CategoryController extends ControllerBase {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);
 
     @Autowired
     private CategoryService categoryService;
@@ -58,7 +61,7 @@ public class CategoryController extends ControllerBase {
         try {
             data.put("categories", categoryService.hotCategories(top));
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Get Hot Categories Error", e);
+            LOGGER.error("Get Hot Categories Error", e);
             data.put(ERRMSG, "获取常用分类失败");
         }
 
@@ -81,7 +84,7 @@ public class CategoryController extends ControllerBase {
             List<CategoryBO> categories = categoryService.findCategoryListAll();
             data.put("categories", categories);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Get Categories Error", e);
+            LOGGER.error("Get Categories Error", e);
             data.put(ERRMSG, "获取分类失败");
         }
 
@@ -104,7 +107,7 @@ public class CategoryController extends ControllerBase {
         try {
             categoryService.deleteByName(name);
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Delete Category[{}] Error", name, e);
+            LOGGER.error("Delete Category[{}] Error", name, e);
             data.put(ERRMSG, "删除分类失败");
         }
 
@@ -132,7 +135,7 @@ public class CategoryController extends ControllerBase {
                 categoryService.updateByName(oldName, newName);
             }
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Update Category[{}] to [{}] Error", oldName, newName);
+            LOGGER.error("Update Category[{}] to [{}] Error", oldName, newName);
             data.put(ERRMSG, "修改分类失败");
         }
 

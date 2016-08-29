@@ -23,7 +23,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.manerfan.common.utils.dao.entities.CommonEntity;
+import com.manerfan.jpa.entities.CommonEntity;
+
 
 /**
  * <pre>文章-分类 映射</pre>

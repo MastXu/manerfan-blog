@@ -26,15 +26,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.manerfan.common.utils.logger.MLogger;
-import com.manerfan.common.utils.mather.NonePathMatcher;
-import com.manerfan.common.utils.mather.OrPathMatcher;
+import com.manerfan.common.utils.matcher.NonePathMatcher;
+import com.manerfan.common.utils.matcher.OrPathMatcher;
 
 /**
  * <pre>
@@ -44,6 +45,8 @@ import com.manerfan.common.utils.mather.OrPathMatcher;
  * @author ManerFan 2016年6月17日
  */
 public class MobileDeviceFilter extends OncePerRequestFilter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MobileDeviceFilter.class);
 
     // \b 是单词边界(连着的两个(字母字符 与 非字母字符) 之间的逻辑上的间隔),    
     // 字符串在编译时会被转码一次,所以是 "\\b"    
@@ -121,7 +124,7 @@ public class MobileDeviceFilter extends OncePerRequestFilter {
             notSupportedPageBytes = FileUtils.readFileToByteArray(
                     ResourceUtils.getFile(webapp + "/view/pages/notSupported.html"));
         } catch (IOException e) {
-            MLogger.ROOT_LOGGER.error("Cannot Found or Read NotSupported Html");
+            LOGGER.error("Cannot Found or Read NotSupported Html");
             throw new ServletException("Cannot Found or Read NotSupported Html");
         }
     }

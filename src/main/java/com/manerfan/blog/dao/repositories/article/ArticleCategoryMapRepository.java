@@ -27,7 +27,7 @@ import com.manerfan.blog.dao.entities.article.ArticleCategoryMap;
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
 import com.manerfan.blog.dao.entities.article.CategoryEntity;
-import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
+import com.manerfan.jpa.repositories.BasicJpaRepository;
 
 /**
  * <pre>文章-分类映射操作接口</pre>

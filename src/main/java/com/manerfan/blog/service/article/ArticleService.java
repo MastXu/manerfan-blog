@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +61,6 @@ import com.manerfan.blog.dao.repositories.UserRepository;
 import com.manerfan.blog.dao.repositories.article.ArticleCategoryMapRepository;
 import com.manerfan.blog.dao.repositories.article.ArticleRepository;
 import com.manerfan.blog.dao.repositories.article.CategoryRepository;
-import com.manerfan.common.utils.logger.MLogger;
 import com.manerfan.common.utils.lucene.LuceneManager;
 import com.manerfan.common.utils.lucene.LuceneUtils;
 import com.manerfan.common.utils.lucene.annotations.manager.LuceneCommit;
@@ -74,6 +75,8 @@ import com.manerfan.spring.configuration.MblogProperties;
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class,
         RuntimeException.class })
 public class ArticleService implements InitializingBean {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ArticleService.class);
+
     private static final SimpleDateFormat NAME_SDF = new SimpleDateFormat("yyyyMMddHHmmssSSS");
     private static final SimpleDateFormat PATH_SDF = new SimpleDateFormat("/yyyy/MM/");
 
@@ -237,7 +240,7 @@ public class ArticleService implements InitializingBean {
             Date storeDate = NAME_SDF.parse(name);
             return PATH_SDF.format(storeDate);
         } catch (ParseException e) {
-            MLogger.ROOT_LOGGER.error("", e);
+            LOGGER.error("", e);
             return "/";
         }
     }

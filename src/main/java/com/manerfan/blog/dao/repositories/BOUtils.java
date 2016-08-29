@@ -20,7 +20,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.manerfan.common.utils.logger.MLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -31,6 +32,8 @@ import com.manerfan.common.utils.logger.MLogger;
  * @author ManerFan 2015年1月22日
  */
 public class BOUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BOUtils.class);
 
     /**
      * <p>
@@ -50,7 +53,7 @@ public class BOUtils {
         }
 
         if (null == clazzbo || null == clazzpo) {
-            MLogger.ROOT_LOGGER.warn("clazzbo or clazzpo is null.");
+            LOGGER.warn("clazzbo or clazzpo is null.");
             return null;
         }
 
@@ -66,8 +69,7 @@ public class BOUtils {
 
             return vos;
         } catch (Exception e) {
-            MLogger.ROOT_LOGGER.error("Cannot Find Method [transFromPO] in class {}",
-                    clazzbo.getName(), e);
+            LOGGER.error("Cannot Find Method [transFromPO] in class {}", clazzbo.getName(), e);
             return null;
         }
 

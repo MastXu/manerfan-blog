@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.manerfan.blog.dao.entities.article.ArticleEntity;
 import com.manerfan.blog.dao.entities.article.ArticleEntity.State;
-import com.manerfan.common.utils.dao.repositories.BasicJpaRepository;
+import com.manerfan.jpa.repositories.BasicJpaRepository;
 
 /**
  * <pre>文章操作接口</pre>
